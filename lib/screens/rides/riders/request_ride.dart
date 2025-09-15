@@ -12,6 +12,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/ic.dart';
+import 'package:kipgo/screens/rides/riders/rating_dialog.dart';
 import 'package:location/location.dart' as loc;
 import 'package:provider/provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
@@ -582,62 +583,66 @@ class _RequestRideState extends State<RequestRide> {
           cleanupRideResources();
 
           if (mounted) {
-            await showDialog(
-              context: context,
-              barrierDismissible: false, // user must tap the button
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  backgroundColor: Theme.of(
-                    context,
-                  ).scaffoldBackgroundColor, // custom color
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  title: Text(
-                    AppLocalizations.of(context)!.rideCompleted,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      // color: AppColors.primary,
-                    ),
-                  ),
-                  content: Text(
-                    AppLocalizations.of(context)!.yourRideHasEnded,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context); // close dialog
-                      },
-                      child: Text(
-                        AppLocalizations.of(context)!.stay,
-                        style: TextStyle(color: AppColors.tertiary),
-                      ),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (c) => const CustomerHome(),
-                          ),
-                          (route) => false,
-                        );
-                      },
-                      child: Text(AppLocalizations.of(context)!.goHome),
-                    ),
-                  ],
-                );
-              },
-            );
+            String assignedDriverId =
+                (eventSnap.snapshot.value as Map)['driverId'].toString();
+            print("Assigned Driver Id: $assignedDriverId");
+            _endRide(context, assignedDriverId);
+            // await showDialog(
+            //   context: context,
+            //   barrierDismissible: false, // user must tap the button
+            //   builder: (BuildContext context) {
+            //     return AlertDialog(
+            //       backgroundColor: Theme.of(
+            //         context,
+            //       ).scaffoldBackgroundColor, // custom color
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(20),
+            //       ),
+            //       title: Text(
+            //         AppLocalizations.of(context)!.rideCompleted,
+            //         style: TextStyle(
+            //           fontWeight: FontWeight.bold,
+            //           // color: AppColors.primary,
+            //         ),
+            //       ),
+            //       content: Text(
+            //         AppLocalizations.of(context)!.yourRideHasEnded,
+            //         style: TextStyle(fontSize: 16),
+            //       ),
+            //       actions: [
+            //         TextButton(
+            //           onPressed: () {
+            //             Navigator.pop(context); // close dialog
+            //           },
+            //           child: Text(
+            //             AppLocalizations.of(context)!.stay,
+            //             style: TextStyle(color: AppColors.tertiary),
+            //           ),
+            //         ),
+            //         ElevatedButton(
+            //           style: ElevatedButton.styleFrom(
+            //             backgroundColor: AppColors.primary,
+            //             foregroundColor: Colors.white,
+            //             shape: RoundedRectangleBorder(
+            //               borderRadius: BorderRadius.circular(12),
+            //             ),
+            //           ),
+            //           onPressed: () {
+            //             Navigator.pop(context);
+            //             Navigator.pushAndRemoveUntil(
+            //               context,
+            //               MaterialPageRoute(
+            //                 builder: (c) => const CustomerHome(),
+            //               ),
+            //               (route) => false,
+            //             );
+            //           },
+            //           child: Text(AppLocalizations.of(context)!.goHome),
+            //         ),
+            //       ],
+            //     );
+            //   },
+            // );
           }
         }
       }
@@ -652,6 +657,40 @@ class _RequestRideState extends State<RequestRide> {
     setState(() {
       searchingForDriversContainerHeight = 200;
     });
+  }
+
+  void _endRide(BuildContext context, String driverId) {
+    // 🔹 Show rating dialog when ride ends
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => RatingDialog(
+        onSubmit: (rating, reviews) async {
+          final userP = Provider.of<ProfileProvider>(
+            context,
+            listen: false,
+          ).profile;
+
+          final review = Review(
+            rating: rating,
+            details: reviews,
+            reviewerId: userP!.id,
+            reviewerName: userP.username,
+            reviewerPhotoUrl: userP.personal.photoUrl,
+            createdAt: DateTime.now(),
+          );
+
+          // Update driver profile
+          final docRef = FirebaseFirestore.instance
+              .collection("profiles")
+              .doc(driverId);
+          await docRef.update({
+            "personal.reviews": FieldValue.arrayUnion([review.toMap()]),
+          });
+          print("User rated: $rating, review: $review");
+        },
+      ),
+    );
   }
 
   Future<void> updateArrivalTimeToUserPickupLocation(
