@@ -1,0 +1,796 @@
+{
+  "language": "English",
+  "@language": {
+    "description": "The Current Language"
+  },
+  "hi": "Hi",
+  "@hi": {
+    "description": "Greeting for the landing page"
+  },
+  "whatWouldYouLikeToDoToday": "What would you like to do today?",
+  "@whatWouldYouLikeToDoToday": {
+    "description": "Message asking users what they want"
+  },
+  "requestRide": "Request Ride",
+  "@requestRide": {
+    "description": "Menu Item to request a ride"
+  },
+  "rideHistory": "Ride History",
+  "@rideHistory": {
+    "description": "Menu Item to view rides history"
+  },
+  "myProfile": "My Profile",
+  "@myProfile": {
+    "description": "Menu Item to view profile"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Menu Item to view settings"
+  },
+  "test": "Test",
+  "@test": {
+    "description": "Menu Item to test widgets"
+  },
+  "englishEnglish": "English",
+  "@englishEnglish": {
+    "description": "English translation in English"
+  },
+  "englishTurkish": "Turkish",
+  "@englishTurkish": {
+    "description": "Turkish translation in English"
+  },
+  "englishRussian": "Russian",
+  "@englishRussian": {
+    "description": "Russian translation in English"
+  },
+  "changePassword": "Change Password",
+  "@changePassword": {
+    "description": "Menu item to Change Password"
+  },
+  "deleteAccount": "Delete Account",
+  "@deleteAccount": {
+    "description": "Menu item to Delete Account"
+  },
+  "changeLanguage": "Change Language",
+  "@changeLanguage": {
+    "description": "Menu item to Change Language"
+  },
+  "enableDarkMode": "Enable Dark Mode",
+  "@enableDarkMode": {
+    "description": "Menu item to Enable Dark Mode"
+  },
+  "enableNotifications": "Enable Notifications",
+  "@enableNotifications": {
+    "description": "Menu item to Change Password"
+  },
+  "contactUs": "Contact Us",
+  "@contactUs": {
+    "description": "Menu item to Contact Us"
+  },
+  "termsAndConditions": "Terms & Conditions",
+  "@termsAndConditions": {
+    "description": "Menu item to Terms & Conditions"
+  },
+  "logOut": "Log Out",
+  "@logOut": {
+    "description": "Menu item to Log Out"
+  },
+  "appTitle": "App",
+  "@appTitle": {
+    "description": "Menu item to App"
+  },
+  "accountTitle": "Account",
+  "@accountTitle": {
+    "description": "Menu item to Account"
+  },
+  "supportTitle": "Support",
+  "@supportTitle": {
+    "description": "Menu item to Support"
+  },
+  "vehicleDetails": "Vehicle Details",
+  "@vehicleDetails": {
+    "description": "Menu item to Vehicle Details"
+  },
+  "usePromoCode": "Use promo code {promoCode} to get {percentage}% off your next ride!",
+  "@usePromoCode": {
+    "description": "Promo code when available",
+    "placeholders": {
+      "promoCode": {
+        "type": "String"
+      },
+      "percentage": {
+        "type": "int"
+      }
+    }
+  },
+  "noRideFound": "Looks like you have no rides yet.",
+  "@noRideFound": {
+    "description": "Message to display when user has no ride history"
+  },
+  "rideAccepted": "Accepted",
+  "@rideAccepted": {
+    "description": "A ride status message"
+  },
+  "rideArrived": "Driver has arrived",
+  "@rideArrived": {
+    "description": "A ride status message"
+  },
+  "rideOnTrip": "In Transit",
+  "@rideOnTrip": {
+    "description": "A ride status message"
+  },
+  "rideEnded": "Completed",
+  "@rideEnded": {
+    "description": "A ride status message"
+  },
+  "rideUnknown": "Status unknown",
+  "@rideUnknown": {
+    "description": "A ride status message"
+  },
+  "callUsername": "Call {username}",
+  "@callUsername": {
+    "description": "Message to prompt user to call the other party",
+    "placeholders": {
+      "username": {
+        "type": "String"
+      }
+    }
+  },
+  "rideDetails": "Ride Details",
+  "@rideDetails": {
+    "description": "Title showing ride details"
+  },
+  "personalDetails": "Personal Details",
+  "@personalDetails": {
+    "description": "Sub-menu title"
+  },
+  "username": "Username",
+  "@username": {
+    "description": "Username item title"
+  },
+  "email": "Email",
+  "@email": {
+    "description": "Email item title"
+  },
+  "firstName": "First Name",
+  "@firstName": {
+    "description": "First Name item title"
+  },
+  "surname": "Surname",
+  "@surname": {
+    "description": "Surname item title"
+  },
+  "phone": "Phone",
+  "@phone": {
+    "description": "Phone item title"
+  },
+  "totalRidesTaken": "Total Rides Taken",
+  "@totalRidesTaken": {
+    "description": "Total Rides Taken item title"
+  },
+  "carModel": "Car Model",
+  "@carModel": {
+    "description": "Car Model item title"
+  },
+  "colour": "Colour",
+  "@colour": {
+    "description": "Colour item title"
+  },
+  "registrationNumber": "Registration Number",
+  "@registrationNumber": {
+    "description": "Registration Number item title"
+  },
+  "totalRidesDriven": "Total Rides Driven",
+  "@totalRidesDriven": {
+    "description": "Total Rides Driven item title"
+  },
+  "editProfile": "Edit Profile",
+  "@editProfile": {
+    "description": "Edit Profile Page Title"
+  },
+  "updateProfile": "Update Profile",
+  "@updateProfile": {
+    "description": "Update Profile action button"
+  },
+  "firstNameRequiredError": "Please enter your first name",
+  "@firstNameRequiredError": {
+    "description": "First name required error message"
+  },
+  "lastNameRequiredError": "Please enter your surname",
+  "@lastNameRequiredError": {
+    "description": "Surname required error message"
+  },
+  "firstNameLengthError": "Your first name needs at least 2 letters",
+  "@firstNameLengthError": {
+    "description": "First name length error message"
+  },
+  "lastNameLengthError": "Your surname needs at least 2 letters",
+  "@lastNameLengthError": {
+    "description": "Surname length error message"
+  },
+  "phoneNumberRequiredError": "Please enter your phone number",
+  "@phoneNumberRequiredError": {
+    "description": "Phone number required error message"
+  },
+  "phoneNumberInvalidError": "Please enter a valid phone number",
+  "@phoneNumberInvalidError": {
+    "description": "Invalid phone number error message"
+  },
+  "profileUpdateSuccess": "Your profile has been updated successfully",
+  "@profileUpdateSuccess": {
+    "description": "Profile update success message"
+  },
+  "profileUpdateFailure": "There was an error updating your profile: ",
+  "@profileUpdateFailure": {
+    "description": "Profile update failure message"
+  },
+  "from": "From",
+  "@from": {
+    "description": "Shows the pickup location"
+  },
+  "to": "To",
+  "@to": {
+    "description": "Shows the dropoff location"
+  },
+  "enterDestination": "Enter Destination",
+  "@enterDestination": {
+    "description": "Shows the dropoff location"
+  },
+  "changePickup": "Change Pickup",
+  "@changePickup": {
+    "description": "Change pickup location action button label"
+  },
+  "requestARide": "Request a Ride",
+  "@requestARide": {
+    "description": "Request a ride action button label"
+  },
+  "setCurrentLocation": "Set Current Location",
+  "@setCurrentLocation": {
+    "description": "Set current location action button label"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel request ride action button label"
+  },
+  "pleaseWait": "Please wait...",
+  "@pleaseWait": {
+    "description": "Loading screen message"
+  },
+  "searchingForDriver": "Searching for driver...",
+  "@searchingForDriver": {
+    "description": "Loading screen message"
+  },
+  "callDriver": "Call Driver",
+  "@callDriver": {
+    "description": "Action prompt for rider to call assigned driver"
+  },
+  "pleaseEnterDestination": "Please enter destination",
+  "@pleaseEnterDestination": {
+    "description": "Prompt rider to enter destination"
+  },
+  "pleaseEnterPickupAddress": "Please enter pickup address",
+  "@pleaseEnterPickupAddress": {
+    "description": "Prompt rider to enter pickup address"
+  },
+  "unknownAddress": "Unknown Address",
+  "@unknownAddress": {
+    "description": "Display address error"
+  },
+  "driverIsComing": "Driver is coming",
+  "@driverIsComing": {
+    "description": "Promtp user of driver status"
+  },
+  "driverHasArrived": "Driver has arrived",
+  "@driverHasArrived": {
+    "description": "Promtp user of driver status"
+  },
+  "goingTowardsDestination": "Going towards destination",
+  "@goingTowardsDestination": {
+    "description": "Promtp user of driver status"
+  },
+  "noAvailableDriverNearby": "No available driver nearby",
+  "@noAvailableDriverNearby": {
+    "description": "Prompt user of driver availability in the area"
+  },
+  "goHome": "Go Home",
+  "@goHome": {
+    "description": "Prompts the user to go to main screen"
+  },
+  "stay": "Stay",
+  "@stay": {
+    "description": "Prompts the user to remain on current screen"
+  },
+  "rideCompleted": "Ride Completed",
+  "@rideCompleted": {
+    "description": "Prompts the user to about the end of the ride"
+  },
+  "yourRideHasEnded": "Your ride has ended successfully.\n\nDo you want to return to the home screen?",
+  "@yourRideHasEnded": {
+    "description": "Prompts the user about the final status of the ride"
+  },
+  "couldNotCallDriver": "Could not call driver",
+  "@couldNotCallDriver": {
+    "description": "Error message if calling driver fails"
+  },
+  "availableRides": "Available Rides",
+  "@availableRides": {
+    "description": "Menu item for available rides"
+  },
+  "myDrives": "My Drives",
+  "@myDrives": {
+    "description": "Menu item for my drives"
+  },
+  "currentlyOffline": "Currently Offline",
+  "@currentlyOffline": {
+    "description": "Online status for driver"
+  },
+  "youAreCurrentlyOffline": "You are currently offline",
+  "@youAreCurrentlyOffline": {
+    "description": "Current status for driver"
+  },
+  "drive": "Drive",
+  "@drive": {
+    "description": "Drive number label"
+  },
+  "driveDetails": "Drive Details",
+  "@driveDetails": {
+    "description": "Drive details page title"
+  },
+  "noDrivesYet": "Looks like you haven’t completed any drives yet",
+  "@noDrivesYet": {
+    "description": "Message prompting the drive on lack of drives"
+  },
+  "profileNotFound": "Profile Not Found",
+  "@profileNotFound": {
+    "description": "No profile found error message"
+  },
+  "vehicleDetailsUpdateSuccess": "Vehicle details updated successfully",
+  "@vehicleDetailsUpdateSuccess": {
+    "description": "Success message after updating vehicle details"
+  },
+  "vehicleDetailsUpdateFailure": "Error updating vehicle details",
+  "@vehicleDetailsUpdateFailure": {
+    "description": "Error message after updating vehicle details"
+  },
+  "documentStatus": "Documents Status",
+  "@documentStatus": {
+    "description": "Status of documents submitted"
+  },
+  "notSubmitted": "Not Submitted",
+  "@notSubmitted": {
+    "description": "Document status: Not Submitted"
+  },
+  "approved": "Approved",
+  "@approved": {
+    "description": "Document status: Approved"
+  },
+  "pending": "Pending",
+  "@pending": {
+    "description": "Document status: Pending"
+  },
+  "modelHint": "Car Model (e.g. Mercedes C180)",
+  "@modelHint": {
+    "description": "Car Model hint message"
+  },
+  "carModelRequired": "Car model is required",
+  "@carModelRequired": {
+    "description": "Error showing car model is required"
+  },
+  "carModelLengthError": "Car model must be at least 6 characters",
+  "@carModelLengthError": {
+    "description": "Error showing car model length is too short"
+  },
+  "carColourRequired": "Car colour is required",
+  "@carColourRequired": {
+    "description": "Error showing car colour is required"
+  },
+  "carColourLengthError": "Car colour must be at least 3 characters",
+  "@carColourLengthError": {
+    "description": "Error showing car colour length is too short"
+  },
+  "licenceNumber": "Licence Number",
+  "@licenceNumber": {
+    "description": "Licence Number hint text"
+  },
+  "licenceNumberRequired": "Licence number is required",
+  "@licenceNumberRequired": {
+    "description": "Error showing licence number is required"
+  },
+  "licenceNumberLengthError": "Licence number must be at least 5 characters",
+  "@licenceNumberLengthError": {
+    "description": "Error showing licence number length is too short"
+  },
+  "carRegistrationNumberHint": "Car Registration Number (e.g AB 123)",
+  "@carRegistrationNumberHint": {
+    "description": "Hint for car registration number"
+  },
+  "carRegistrationNumberRequired": "Registration number is required",
+  "@carRegistrationNumberRequired": {
+    "description": "Error showing Registration number is required"
+  },
+  "carRegistrationNumberLengthError": "Registration number must be at least 5 characters",
+  "@carRegistrationNumberLengthError": {
+    "description": "Error showing Registration number length is too short"
+  },
+  "submitVehicleDetails": "Submit Vehicle Details",
+  "@submitVehicleDetails": {
+    "description": "Action button message for submitting vehicle details"
+  },
+  "yourStatusStaysPending": "*Your status will stay pending until your vehicle documents are verified.",
+  "@yourStatusStaysPending": {
+    "description": "Message showing how vehicle submissions work"
+  },
+  "ifYouUpdateDocument": "*If you update any documents, your status will return to pending until re-verified.",
+  "@ifYouUpdateDocument": {
+    "description": "Message showing how vehicle submissions work"
+  },
+  "thisRideHasBeenAccepted": "This ride was already accepted by another driver.",
+  "@thisRideHasBeenAccepted": {
+    "description": "Message to prompt driver the ride has been accepted by another driver"
+  },
+  "yourCurrentLocation": "Your location",
+  "@yourCurrentLocation": {
+    "description": "Message to show driver current location"
+  },
+  "toPickup": "To Pickup",
+  "@toPickup": {
+    "description": "Text to show distance to pickup"
+  },
+  "startTrip": "Start Trip",
+  "@startTrip": {
+    "description": "Action button to start trip"
+  },
+  "endTrip": "End Trip",
+  "@endTrip": {
+    "description": "Action button to end trip"
+  },
+  "arrived": "Arrived",
+  "@arrived": {
+    "description": "Action button to active arrived status"
+  },
+  "welcomeBack": "Welcome Back",
+  "@welcomeBack": {
+    "description": "A welcome back message on the login screen"
+  },
+  "forgotPassword": "Forgot Password?",
+  "@forgotPassword": {
+    "description": "Forgot password action button"
+  },
+  "forgotPasswordTitle": "Forgot Password",
+  "@forgotPasswordTitle": {
+    "description": "Forgot password title label"
+  },
+  "login": "Login",
+  "@login": {
+    "description": "Login action button"
+  },
+  "signUp": "Sign Up",
+  "@signUp": {
+    "description": "Sign Up action button"
+  },
+  "dontHaveAnAccount": "Don't have an account? Sign Up",
+  "@dontHaveAnAccount": {
+    "description": "Dont have an account action label"
+  },
+  "alreadyHaveAnAccount": "Already have an account? Sign in",
+  "@alreadyHaveAnAccount": {
+    "description": "Already have an account action label"
+  },
+  "orLoginWith": "Or login with",
+  "@orLoginWith": {
+    "description": "Messaging giving users alternative authentication options"
+  },
+  "signInWithGoogle": "Sign in with Google",
+  "@signInWithGoogle": {
+    "description": "Sign in with Google action button"
+  },
+  "signInWithApple": "Sign in with Apple",
+  "@signInWithApple": {
+    "description": "Sign in with Apple action button"
+  },
+  "useAppAs": "Use App as",
+  "@useAppAs": {
+    "description": "Use App As label"
+  },
+  "rider": "Rider",
+  "@rider": {
+    "description": "App usage option as Rider"
+  },
+  "driver": "Driver",
+  "@driver": {
+    "description": "App usage option as Driver"
+  },
+  "enterAValidEmail": "Please enter a valid email",
+  "@enterAValidEmail": {
+    "description": "Enter a valid email error"
+  },
+  "enterMinCharacters": "Enter at least 8 characters",
+  "@enterMinCharacters": {
+    "description": "Password length error"
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Password Label"
+  },
+  "register": "Register",
+  "@register": {
+    "description": "Register page title"
+  },
+  "usernameCannotBeEmpty": "Username cannot be empty",
+  "@usernameCannotBeEmpty": {
+    "description": "Empty username error"
+  },
+  "usernameLength": "Username must be at least 3 characters",
+  "@usernameLength": {
+    "description": "Username length error"
+  },
+  "enterEmail": "Enter your email",
+  "@enterEmail": {
+    "description": "Enter Email error"
+  },
+  "confirmPassword": "Confirm Password",
+  "@confirmPassword": {
+    "description": "Confirm Password hint text"
+  },
+  "passwordLength": "Password must be at least 8 characters",
+  "@passwordLength": {
+    "description": "Password length error message"
+  },
+  "passwordsDoNotMatch": "Passwords do not match",
+  "@passwordsDoNotMatch": {
+    "description": "Ummatched passwords"
+  },
+  "sendResetLink": "Send Reset Link",
+  "@sendResetLink": {
+    "description": "Send reset link action label"
+  },
+  "resetPasswordTitle": "Reset Password",
+  "@resetPasswordTitle": {
+    "description": "Page title for reseting password"
+  },
+  "resetPasswordSuccess": "Password reset email has been sent to {email}.",
+  "@resetPasswordSuccess": {
+    "description": "Reset password success message",
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "resetPasswordInvalidEmail": "The email address is not valid.",
+  "@resetPasswordInvalidEmail": {
+    "description": "Reset password invalid email error"
+  },
+  "resetPasswordUserNotFound": "No user found with this email.",
+  "@resetPasswordUserNotFound": {
+    "description": "Reset password no user found error"
+  },
+  "resetPasswordMissingEmail": "Please enter your email address.",
+  "@resetPasswordMissingEmail": {
+    "description": "Reset password missing email error"
+  },
+  "resetPasswordGenericError": "Something went wrong. Please try again.",
+  "@resetPasswordGenericError": {
+    "description": "Reset password generic error"
+  },
+  "changePasswordTitle": "Change Password",
+  "@changePasswordTitle": {
+    "description": "Change password title"
+  },
+  "currentPassword": "Current Password",
+  "@currentPassword": {
+    "description": "Current Password label"
+  },
+  "newPassword": "New Password",
+  "@newPassword": {
+    "description": "New Password"
+  },
+  "updatePassword": "Update Password",
+  "@updatePassword": {
+    "description": "Update Password action button label"
+  },
+  "passwordChangeSuccess": "Your password has been updated successfully.",
+  "@passwordChangeSuccess": {
+    "description": "Update password success message"
+  },
+  "incorrectCurrentPassword": "The current password you entered is incorrect.",
+  "@incorrectCurrentPassword": {
+    "description": "Incorrect current password error"
+  },
+  "weakPassword": "Your new password is too weak.",
+  "@weakPassword": {
+    "description": "New password too weak error message"
+  },
+  "genericError": "Something went wrong. Please try again.",
+  "@genericError": {
+    "description": "Generic change password error message"
+  },
+  "enterCurrentPassword": "Please enter your current password.",
+  "@enterCurrentPassword": {
+    "description": "Current password empty error"
+  },
+  "enterNewPassword": "Please enter a new password.",
+  "@enterNewPassword": {
+    "description": "New password empty error"
+  },
+  "enterConfirmPassword": "Please confirm your password.",
+  "@enterConfirmPassword": {
+    "description": "Confirm password empty error"
+  },
+  "edit": "Edit",
+  "@edit": {
+    "description": "Edit action button label"
+  },
+  "deleteAccountTitle": "Delete Account",
+  "@deleteAccountTitle": {
+    "description": "Delete account page title"
+  },
+  "deleteWarning": "⚠️ Deleting your account is permanent and cannot be undone.",
+  "@deleteWarning": {
+    "description": "Account deletion warning message"
+  },
+  "enterPassword": "Enter your password",
+  "@enterPassword": {
+    "description": "Enter password error message"
+  },
+  "confirmDelete": "Delete Account",
+  "@confirmDelete": {
+    "description": "Account deletion confirmation action button label"
+  },
+  "deleteSuccess": "Your account has been deleted successfully.",
+  "@deleteSuccess": {
+    "description": "Success message for account deletion"
+  },
+  "incorrectPassword": "Incorrect password.",
+  "@incorrectPassword": {
+    "description": "Incorrect password alert for account deletion"
+  },
+  "requiresRecentLogin": "Please log out and log in again before deleting your account.",
+  "@requiresRecentLogin": {
+    "description": "Login requirement message for account deletion"
+  },
+  "confirmDeleteTitle": "Confirm Deletion",
+  "@confirmDeleteTitle": {
+    "description": "Confirm deletion title"
+  },
+  "confirmDeleteMessage": "Are you sure you want to permanently delete your account? This action cannot be undone.",
+  "@confirmDeleteMessage": {
+    "description": "Account deletion final warning message"
+  },
+  "confirm": "Yes, Delete",
+  "@confirm": {
+    "description": "Final deletion confirmation message"
+  },
+  "profileImageUploadSuccess": "Profile image uploaded successfully.",
+  "@profileImageUploadSuccess": {
+    "description": "Success message after uploading profile image"
+  },
+  "profileImageUploadError": "Error uploading profile image. Please try again.",
+  "@profileImageUploadError": {
+    "description": "Failure message after uploading profile image"
+  },
+  "profileImageRemoveSuccess": "Profile image removed successfully.",
+  "@profileImageRemoveSuccess": {
+    "description": "Success message after removing profile image"
+  },
+  "profileImageRemoveError": "Error removing profile image. Please try again.",
+  "@profileImageRemoveError": {
+    "description": "Failure message after removing profile image"
+  },
+  "noFileSelected": "No file selected.",
+  "@noFileSelected": {
+    "description": "Error message when no file is selected for upload"
+  },
+  "imageUploadedSuccessfully": "Image uploaded successfully.",
+  "@imageUploadedSuccessfully": {
+    "description": "Generic succees message for image upload"
+  },
+  "uploadFailed": "File upload failed. Please try again.",
+  "@uploadFailed": {
+    "description": "Generic failure message for image upload"
+  },
+  "selectFile": "Select File",
+  "@selectFile": {
+    "description": "Select file action button text"
+  },
+  "uploadFile": "Upload File",
+  "@uploadFile": {
+    "description": "Upload file action button text"
+  },
+  "deleteFile": "Delete File",
+  "@deleteFile": {
+    "description": "Delete file action button text"
+  },
+  "preview": "Preview",
+  "@preview": {
+    "description": "Preview action button text"
+  },
+  "driverLicencePicture": "Driver's Licence Picture",
+  "@driverLicencePicture": {
+    "description": "Driver licence picture title"
+  },
+  "carWithRegistrationNumberPicture": "Car with Registration Number Picture",
+  "@carWithRegistrationNumberPicture": {
+    "description": "Car with registration number picture title"
+  },
+  "selfieWithLicence": "Selfie with Licence",
+  "@selfieWithLicence": {
+    "description": "Selfie with licence picture title"
+  },
+  "pleaseUploadTheRequired": "Please upload the required documents to complete your registration:",
+  "@pleaseUploadTheRequired": {
+    "description": "Required documents title"
+  },
+  "sendUsAMessage": "Send us a message and we'll get back to you soon.",
+  "@sendUsAMessage": {
+    "description": "Contact us purpose message"
+  },
+  "send": "Send",
+  "@send": {
+    "description": "Send message action button text"
+  },
+  "message": "Message",
+  "@message": {
+    "description": "Message text"
+  },
+  "messageCannotBeLessThan": "Message cannot be less than 3 words",
+  "@messageCannotBeLessThan": {
+    "description": "Error message"
+  },
+  "typeYourMessage": "Type your message...",
+  "@typeYourMessage": {
+    "description": "Type your message hint text"
+  },
+  "pleaseEnterMessage": "Please enter a message.",
+  "@pleaseEnterMessage": {
+    "description": "Please enter a message error text"
+  },
+  "chatWithUs": "Chat With Us",
+  "@chatWithUs": {
+    "description": "Chat with us settings title"
+  },
+  "supportChat": "Support Chat",
+  "@supportChat": {
+    "description": "Support Chat title text"
+  },
+  "messageSent": "Message sent successfully.",
+  "@messageSent": {
+    "description": "Message sent successfully toast"
+  },
+  "messageFailed": "Failed to send message. Please try again.",
+  "@messageFailed": {
+    "description": "Message failure toast"
+  },
+  "rateDriver": "Rate Driver",
+  "@rateDriver": {
+    "description": "Rate driver title"
+  },
+  "tapToRate": "Tap to rate",
+  "@tapToRate": {
+    "description": "Tap to rate star ratings"
+  },
+  "tellUsMore": "Tell us more (optional)",
+  "@tellUsMore": {
+    "description": "Tell us more label (Optional)"
+  },
+  "enterComment": "Enter comment",
+  "@enterComment": {
+    "description": "Enter comment helper text"
+  },
+  "submit": "Submit",
+  "@submit": {
+    "description": "Submit action button text"
+  },
+  "skip": "Skip for now",
+  "@skip": {
+    "description": "Message for rider to skip rating"
+  },
+  "ratingSuccess": "Rating submitted successfully.",
+  "@ratingSuccess": {
+    "description": "Rating success submission message"
+  },
+  "ratingError": "Failed to submit rating. Please try again.",
+  "@ratingError": {
+    "description": "Rating error submission message"
+  }
+}
