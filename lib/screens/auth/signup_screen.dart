@@ -204,6 +204,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         const SizedBox(height: 12),
                         TextFormField(
                           controller: emailController,
+                          keyboardType: TextInputType.emailAddress,
                           style: TextStyle(
                             color: Colors.black87, // Text color
                             fontSize: 14, // Font size

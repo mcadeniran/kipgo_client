@@ -18,6 +18,7 @@ class RideHistory {
   final String status;
   final DateTime time;
   final double fare;
+  final bool isRated;
 
   RideHistory({
     required this.id,
@@ -37,6 +38,7 @@ class RideHistory {
     required this.status,
     required this.time,
     required this.fare,
+    required this.isRated,
   });
 
   /// Convert Firestore doc to RideHistory
@@ -65,6 +67,7 @@ class RideHistory {
                       ? DateTime.parse(data['time'].toString())
                       : DateTime.now())),
       fare: (data['fare'] ?? 0).toDouble(),
+      isRated: data['isRated'] ?? false,
     );
   }
 
@@ -103,6 +106,7 @@ class RideHistory {
       time: parseDate(data['time']),
       // time: DateTime.fromMillisecondsSinceEpoch(data['time'] ?? 0),
       fare: (data['fare'] ?? 0).toDouble(),
+      isRated: data['isRated'] ?? false,
     );
   }
 
@@ -125,6 +129,7 @@ class RideHistory {
       'status': status,
       'time': time,
       'fare': fare,
+      'isRated': isRated,
     };
   }
 }

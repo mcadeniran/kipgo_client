@@ -7,6 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geocoder2/geocoder2.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:kipgo/utils/methods.dart';
 import 'package:location/location.dart' as loc;
 import 'package:provider/provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
@@ -14,7 +15,6 @@ import 'package:kipgo/infoHandler/app_info.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/models/direction.dart';
 import 'package:kipgo/utils/colors.dart';
-import 'package:kipgo/utils/methods.dart';
 
 class PrecisePickupLocationScreen extends StatefulWidget {
   const PrecisePickupLocationScreen({super.key});
@@ -34,7 +34,7 @@ class _PrecisePickupLocationScreenState
   GoogleMapController? newGoogleMapController;
 
   static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+    target: LatLng(35.133428350758344, 33.923606022529256),
     zoom: 14.4746,
   );
 
@@ -105,11 +105,10 @@ class _PrecisePickupLocationScreenState
     );
 
     if (!mounted) return;
-    String humanReadableAddress =
-        await AppMethods.searchAddressFromGeographicalCoordinates(
-          userCurrentPosition!,
-          context,
-        );
+    await AppMethods.searchAddressFromGeographicalCoordinates(
+      userCurrentPosition!,
+      context,
+    );
   }
 
   Future<void> getAddressFromLatLng() async {
@@ -133,7 +132,7 @@ class _PrecisePickupLocationScreenState
         ).updatePickUpLocationAddress(userPickupAddress);
       });
     } catch (e) {
-      print(e);
+      // print(e);
     }
   }
 

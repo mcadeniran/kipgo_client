@@ -428,7 +428,7 @@
   "@thisRideHasBeenAccepted": {
     "description": "Message to prompt driver the ride has been accepted by another driver"
   },
-  "yourCurrentLocation": "Your location",
+  "yourCurrentLocation": "Current Position",
   "@yourCurrentLocation": {
     "description": "Message to show driver current location"
   },
@@ -792,5 +792,293 @@
   "ratingError": "Failed to submit rating. Please try again.",
   "@ratingError": {
     "description": "Rating error submission message"
+  },
+  "nowOnline": "Now Online",
+  "@nowOnline": {
+    "description": "Now online message"
+  },
+  "deleteRide": "Delete Ride",
+  "@deleteRide": {
+    "description": "Delete Ride alert dialog title"
+  },
+  "delete": "Delete",
+  "@delete": {
+    "description": "Delete action button label"
+  },
+  "areYouSureRide": "Are you sure you want to delete this ride?",
+  "@areYouSureRide": {
+    "description": "Ride deletion warning"
+  },
+  "rideDeletedSuccessfully": "Ride deleted successfully",
+  "@rideDeletedSuccessfully": {
+    "description": "Ride deleted successfully message"
+  },
+  "errorDeletingRide": "Error deleting ride: ",
+  "@errorDeletingRide": {
+    "description": "Ride deletion failure message"
+  },
+  "rideNotFound": "Ride not found",
+  "@rideNotFound": {
+    "description": "Ride not found error message"
+  },
+  "completeProfilePrompt": "Please complete your profile to start driving.",
+  "@completeProfilePrompt": {
+    "description": "Message to prompt profile completion"
+  },
+  "submitDocumentsPrompt": "Please submit the required documents to continue.",
+  "@submitDocumentsPrompt": {
+    "description": "Message to prompt for documents submission"
+  },
+  "documentsPending": "Your documents are pending verification.",
+  "@documentsPending": {
+    "description": "Message to inform driver of pending verification"
+  },
+  "documentsApproved": "Your documents have been approved.",
+  "@documentsApproved": {
+    "description": "Documents approval message"
+  },
+  "documentsRejected": "Your documents were rejected. Please re-submit.",
+  "@documentsRejected": {
+    "description": "Documents rejection message"
+  },
+  "myReviews": "My Reviews",
+  "@myReviews": {
+    "description": "My Reviews menu label"
+  },
+  "reviews": "reviews",
+  "@reviews": {
+    "description": "Number of reviews label"
+  },
+  "youHaveNoReviews": "You have no reviews yet",
+  "@youHaveNoReviews": {
+    "description": "Message prompting drivers of no reviews"
+  },
+  "yourRideWasRejected": "Your ride was rejected. Please try again.",
+  "@yourRideWasRejected": {
+    "description": "Ride rejection snackbar message"
+  },
+  "selectDriver": "Select Driver",
+  "@selectDriver": {
+    "description": "Driver selection prompt message"
+  },
+  "waitingForDriver": "Waiting for driver response...",
+  "@waitingForDriver": {
+    "description": "Loading message when waiting for driver to accept/reject ride"
+  },
+  "rateRide": "Rate Ride",
+  "@rateRide": {
+    "description": "Ride rating title for ride history"
+  },
+  "rateYourDriver": "How was your ride?",
+  "@rateYourDriver": {
+    "description": "Rating modal title"
+  },
+  "areYouSureDeleteFile": "Are you sure you want to delete this file?",
+  "@areYouSureDeleteFile": {
+    "description": "File deletion warning"
+  },
+  "fileDeletedSuccessfully": "File deleted successfully",
+  "@fileDeletedSuccessfully": {
+    "description": "File deletion success message"
+  },
+  "deleteFailed": "File deletion failed:",
+  "@deleteFailed": {
+    "description": "File deletion failure message"
+  },
+  "accepted": "Accepted",
+  "@accepted": {
+    "description": "Accepted file status"
+  },
+  "rejected": "Rejected",
+  "@rejected": {
+    "description": "Rejected file status"
+  },
+  "submitted": "Submitted",
+  "@submitted": {
+    "description": "Submitted file status"
+  },
+  "driversLicence": "Driver’s Licence",
+  "@driversLicence": {
+    "description": "Driver's licence subtitle"
+  },
+  "uploadAClearPictureofLicence": "Upload a clear picture of your driver’s licence.",
+  "@uploadAClearPictureofLicence": {
+    "description": "Licence instruction 1"
+  },
+  "ensureYourFullName": "Ensure your full name and driver’s licence number are visible.",
+  "@ensureYourFullName": {
+    "description": "Licence instruction 2"
+  },
+  "theDocumentMustBeValid": "The document must be valid (not expired).",
+  "@theDocumentMustBeValid": {
+    "description": "Licence instruction 3"
+  },
+  "vehicleRegistration": "Vehicle Registration (Car Image)",
+  "@vehicleRegistration": {
+    "description": "Car image subtitle"
+  },
+  "uploadAClearPictureOfCar": "Upload a clear picture of your car showing the number plate.",
+  "@uploadAClearPictureOfCar": {
+    "description": "Car image instruction 1"
+  },
+  "theNumberPlateMustBeReadable": "The number plate must be readable.",
+  "@theNumberPlateMustBeReadable": {
+    "description": "Car image instruction 2"
+  },
+  "theVehicleMustMatch": "The vehicle must match the details on your profile.",
+  "@theVehicleMustMatch": {
+    "description": "Car image instruction 3"
+  },
+  "takeASelfie": "Take a selfie holding your driver’s licence.",
+  "@takeASelfie": {
+    "description": "Selfie instruction 1"
+  },
+  "yourFaceAndTheLicence": "Your face and the licence details must both be visible.",
+  "@yourFaceAndTheLicence": {
+    "description": "Selfie instruction 1"
+  },
+  "thisHelpsUsConfirm": "This helps us confirm the licence truly belongs to you.",
+  "@thisHelpsUsConfirm": {
+    "description": "Selfie instruction 1"
+  },
+  "missingDocuments": "Upload Missing Documents",
+  "@missingDocuments": {
+    "description": "Alert message for some missing documents"
+  },
+  "documentRejected": "Resubmit Rejected Documents",
+  "@documentRejected": {
+    "description": "Alert message for some rejected documents"
+  },
+  "status": "Status:",
+  "@status": {
+    "description": "Message about status"
+  },
+  "removeFile": "Remove This File",
+  "@removeFile": {
+    "description": "Prompt message for user to remove file if needed"
+  },
+  "rideIsComing": "Ride is coming",
+  "@rideIsComing": {
+    "description": "Text showing ride status (moving towards pickup)"
+  },
+  "fetchingETA": "Fetching ETA...",
+  "@fetchingETA": {
+    "description": "Loading text for calculating eta"
+  },
+  "driverIsWaiting": "Waiting for you...",
+  "@driverIsWaiting": {
+    "description": "Hint text to prompt rider of driver's arrival"
+  },
+  "onTrip": "On Trip",
+  "@onTrip": {
+    "description": "Text showing ride status (moving towards destination)"
+  },
+  "arrivingIn": "Arriving in",
+  "@arrivingIn": {
+    "description": "Estimated time text for driver to reach pickup location"
+  },
+  "reachingDestinationIn": "Reaching destination in",
+  "@reachingDestinationIn": {
+    "description": "Estimated time text for driver to reach dropoff location"
+  },
+  "cancelRide": "Cancel Ride?",
+  "@cancelRide": {
+    "description": "Ride cancellation alert"
+  },
+  "areYouSureCancelRide": "Are you sure you want to cancel this ride? The driver will be notified.",
+  "@areYouSureCancelRide": {
+    "description": "Warning message for cancelling ride"
+  },
+  "no": "No",
+  "@no": {
+    "description": "No text label"
+  },
+  "yesCancel": "Yes Cancel",
+  "@yesCancel": {
+    "description": "Action button label to cancel ride"
+  },
+  "backgroundLocationNeeded": "Background Location Needed",
+  "@backgroundLocationNeeded": {
+    "description": "Alert for background location"
+  },
+  "kipgoNeeds": "Kipgo needs 'Allow all the time' location access so riders can find you even when the app is closed or running in the background. Please go to settings and enable 'Allow all the time'.",
+  "@kipgoNeeds": {
+    "description": "Kipgo background permission instruction"
+  },
+  "openSettings": "Open Settings",
+  "@openSettings": {
+    "description": "Open settings helper"
+  },
+  "locationPermissionRequired": "Location Permission Required",
+  "@locationPermissionRequired": {
+    "description": "Location permission required information"
+  },
+  "locationPermissionRequiredDrivers": "Location permission is required for drivers. Please enable it in Settings.",
+  "@locationPermissionRequiredDrivers": {
+    "description": "Driver location permission required information"
+  },
+  "rideCancelledSuccessfully": "Ride cancelled successfully.",
+  "@rideCancelledSuccessfully": {
+    "description": "Ride cancelled successfully snackbar message"
+  },
+  "failedToCancelRide": "Failed to cancel ride: ",
+  "@failedToCancelRide": {
+    "description": "Cancel ride error message"
+  },
+  "toDropoff": "To Dropoff",
+  "@toDropoff": {
+    "description": "Estimated time to dropoff"
+  },
+  "waitingForRider": "Waiting for rider...",
+  "@waitingForRider": {
+    "description": "Waiting for rider information text"
+  },
+  "cancelled": "Cancelled",
+  "@cancelled": {
+    "description": "Ride status cancelled"
+  },
+  "ok": "OK",
+  "@ok": {
+    "description": "OK button text"
+  },
+  "riderCancelledTrip": "Rider cancelled the trip.",
+  "@riderCancelledTrip": {
+    "description": "Rider cancelled trip snackbar details"
+  },
+  "rideCancelled": "Ride Cancelled",
+  "@rideCancelled": {
+    "description": "Rider cancelled trip snackbar title"
+  },
+  "theRiderHasCancelled": "The rider has cancelled this trip. You will be redirected to your home screen.",
+  "@theRiderHasCancelled": {
+    "description": "The rider cancelled trip alert details"
+  },
+  "newRideRequest": "New Ride Request",
+  "@newRideRequest": {
+    "description": "Pop-up title for new ride request"
+  },
+  "accept": "Accept",
+  "@accept": {
+    "description": "Accept ride action button text"
+  },
+  "rideRequestIsNotAvailable": "Ride request is not available",
+  "@rideRequestIsNotAvailable": {
+    "description": "Ride request no longer available snackbar message"
+  },
+  "rideRequestRejected": "Ride request rejected",
+  "@rideRequestRejected": {
+    "description": "Success message when a ride request has been rejected"
+  },
+  "failedToRejectRide": "Failed to reject ride",
+  "@failedToRejectRide": {
+    "description": "Ride rejection error message"
+  },
+  "errorProcessingRideRequest": "Error Processing Ride Request",
+  "@errorProcessingRideRequest": {
+    "description": "Ride request acceptance error message"
+  },
+  "reject": "Reject",
+  "@reject": {
+    "description": "Ride request reject action text"
   }
 }

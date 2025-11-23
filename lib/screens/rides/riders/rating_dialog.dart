@@ -7,80 +7,67 @@ import 'package:kipgo/utils/colors.dart';
 
 class RatingDialog extends StatefulWidget {
   final void Function(double rating, String? review) onSubmit;
+  final VoidCallback? onCancel;
 
-  const RatingDialog({super.key, required this.onSubmit});
+  const RatingDialog({super.key, required this.onSubmit, this.onCancel});
 
   @override
   State<RatingDialog> createState() => _RatingDialogState();
 }
 
 class _RatingDialogState extends State<RatingDialog> {
-  double _rating = 0;
+  double _rating = 2.5;
   final TextEditingController _reviewController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      title: const Text("Rate your driver"),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              StarRating(
-                mainAxisAlignment: MainAxisAlignment.center,
-                allowHalfRating: true,
-                color: Colors.amber,
-                rating: _rating,
-                size: 32,
-                onRatingChanged: (rating) => setState(() {
-                  _rating = rating;
-                }),
-              ),
-              SizedBox(width: 8),
-              Text(
-                "($_rating/5.0)",
-                style: Theme.of(context).textTheme.labelSmall,
-              ),
-            ],
-          ),
-          SizedBox(height: 20),
-          Text(
-            AppLocalizations.of(context)!.tellUsMore,
-            style: Theme.of(context).textTheme.titleSmall,
-          ),
-          SizedBox(height: 10),
-          TextField(
-            minLines: 1,
-            maxLines: 3,
-            controller: _reviewController,
-            decoration: inputDecoration(
-              context: context,
-              hint: AppLocalizations.of(context)!.enterComment,
+      title: Text(AppLocalizations.of(context)!.rateYourDriver),
+      content: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                StarRating(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  allowHalfRating: true,
+                  color: Colors.amber,
+                  rating: _rating,
+                  size: 32,
+                  onRatingChanged: (rating) => setState(() {
+                    _rating = rating;
+                  }),
+                ),
+                SizedBox(width: 8),
+                Text(
+                  "($_rating/5.0)",
+                  style: Theme.of(context).textTheme.labelSmall,
+                ),
+              ],
             ),
-          ),
-        ],
+            SizedBox(height: 20),
+            Text(
+              AppLocalizations.of(context)!.tellUsMore,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+            SizedBox(height: 10),
+            TextField(
+              minLines: 1,
+              maxLines: 3,
+              controller: _reviewController,
+              decoration: inputDecoration(
+                context: context,
+                hint: AppLocalizations.of(context)!.enterComment,
+              ),
+            ),
+          ],
+        ),
       ),
       actions: [
-        TextButton(
-          style: TextButton.styleFrom(
-            backgroundColor: AppColors.tertiary,
-            foregroundColor: Colors.white,
-            disabledBackgroundColor: AppColors.tertiary.withValues(alpha: 0.5),
-            disabledForegroundColor: Colors.white54,
-            minimumSize: const Size.fromHeight(50),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-          onPressed: () => Navigator.pop(context),
-          child: const Text("Cancel"),
-        ),
-        SizedBox(height: 8),
-        Divider(height: 0, color: AppColors.border),
-        SizedBox(height: 8),
         ElevatedButton(
           onPressed: () {
             widget.onSubmit(
@@ -101,7 +88,27 @@ class _RatingDialogState extends State<RatingDialog> {
               borderRadius: BorderRadius.circular(12),
             ),
           ),
-          child: const Text("Submit"),
+          child: Text(AppLocalizations.of(context)!.submit),
+        ),
+        SizedBox(height: 8),
+        Divider(height: 0, color: AppColors.border),
+        SizedBox(height: 8),
+        TextButton(
+          style: TextButton.styleFrom(
+            backgroundColor: AppColors.tertiary,
+            foregroundColor: Colors.white,
+            disabledBackgroundColor: AppColors.tertiary.withValues(alpha: 0.5),
+            disabledForegroundColor: Colors.white54,
+            minimumSize: const Size.fromHeight(50),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+          onPressed: () {
+            widget.onCancel?.call();
+            Navigator.pop(context);
+          },
+          child: Text(AppLocalizations.of(context)!.cancel),
         ),
       ],
     );

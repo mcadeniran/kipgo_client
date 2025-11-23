@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 1.0.0+10
 
 environment:
   sdk: ^3.8.1
@@ -28,76 +28,84 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  animated_theme_switcher:
-  audioplayers:
-  carousel_slider:
-  cloud_firestore:
-  cloud_functions:
-  cupertino_icons:
-  duration:
-  email_validator:
-  file_picker:
-  firebase_auth:
-  firebase_core:
-  firebase_database:
-  firebase_messaging:
-  firebase_storage:
+  animated_theme_switcher: null
+  audioplayers: null
+  carousel_slider: null
+  cloud_firestore: null
+  cloud_functions: null
+  cupertino_icons: null
+  duration: null
+  email_validator: null
+  file_picker: null
+  firebase_auth: null
+  firebase_core: null
+  firebase_crashlytics: ^4.3.10
+  firebase_database: null
+  firebase_messaging: null
+  firebase_storage: null
   flutter:
     sdk: flutter
-  flutter_animate:
-  flutter_dotenv:
-  flutter_geofire:
-  flutter_launcher_icons:
-  flutter_libphonenumber:
-  flutter_local_notifications:
+  flutter_animate: null
+  flutter_dotenv: null
+  # flutter_geofire: null
+  flutter_libphonenumber: null
+  flutter_local_notifications: null
   flutter_localizations:
     sdk: flutter
-  flutter_native_splash:
-  flutter_polyline_points:
-  flutter_rating:
-  geocoder2:
-  geocoding:
-  geolocator:
-  google_fonts:
-  google_maps_flutter:
-  google_places_flutter:
-  googleapis:
-  googleapis_auth:
-  http:
-  iconify_flutter:
-  image_picker:
-  intl:
-  intl_phone_number_input:
-  location:
-  path:
-  provider:
-  shared_preferences:
-  sign_in_button:
-  timeago:
-  url_launcher:
-  uuid:
+  flutter_polyline_points: null
+  flutter_rating: null
+  font_awesome_flutter: ^10.9.1
+  geocoder2: null
+  geocoding: null
+  geoflutterfire2:
+    git:
+      url: https://github.com/wilpar/GeoFlutterFire2-Firebase3
+  geolocator: null
+  google_fonts: null
+  google_maps_flutter: null
+  google_places_flutter: null
+  googleapis: null
+  googleapis_auth: null
+  http: null
+  iconify_flutter: null
+  image_picker: null
+  intl: null
+  intl_phone_number_input: null
+  location: null
+  material_symbols_icons: ^4.2873.0
+  path: null
+  permission_handler: ^12.0.1
+  provider: null
+  rename: ^3.1.0
+  shared_preferences: null
+  sign_in_button: null
+  timeago: null
+  url_launcher: null
+  uuid: null
 
 dev_dependencies:
+  flutter_launcher_icons: null
   flutter_lints: ^6.0.0
+
+  flutter_native_splash: null
   flutter_test:
     sdk: flutter
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
-
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: 'assets/images/kipgo_logo.png'
+  image_path: 'assets/images/app_logo.png'
 
 flutter_native_splash:
-  color: '#00009A'
-  image: assets/images/kipgo_logo.png
+  color: '#010080'
+  image: assets/images/splash2.png
   ios: true
 
   android_12:
-    color: '#00009A'
+    color: '#010080'
     image: assets/images/splash12.png
 
 flutter:

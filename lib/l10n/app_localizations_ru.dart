@@ -341,7 +341,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Эта поездка уже принята другим водителем.';
 
   @override
-  String get yourCurrentLocation => 'Ваше местоположение';
+  String get yourCurrentLocation => 'Текущее местоположение';
 
   @override
   String get toPickup => 'до места посадки';
@@ -627,4 +627,241 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get ratingError =>
       'Не удалось отправить оценку. Пожалуйста, попробуйте снова.';
+
+  @override
+  String get nowOnline => 'Сейчас в сети';
+
+  @override
+  String get deleteRide => 'Удалить поездку';
+
+  @override
+  String get delete => 'Удалить';
+
+  @override
+  String get areYouSureRide => 'Вы уверены, что хотите удалить эту поездку?';
+
+  @override
+  String get rideDeletedSuccessfully => 'Поездка успешно удалена';
+
+  @override
+  String get errorDeletingRide => 'Ошибка при удалении поездки: ';
+
+  @override
+  String get rideNotFound => 'Поездка не найдена';
+
+  @override
+  String get completeProfilePrompt =>
+      'Пожалуйста, заполните свой профиль, чтобы начать работать водителем.';
+
+  @override
+  String get submitDocumentsPrompt =>
+      'Пожалуйста, загрузите необходимые документы, чтобы продолжить.';
+
+  @override
+  String get documentsPending => 'Ваши документы ожидают проверки.';
+
+  @override
+  String get documentsApproved => 'Ваши документы одобрены.';
+
+  @override
+  String get documentsRejected =>
+      'Ваши документы отклонены. Пожалуйста, отправьте заново.';
+
+  @override
+  String get myReviews => 'Мои отзывы';
+
+  @override
+  String get reviews => 'отзывы';
+
+  @override
+  String get youHaveNoReviews => 'У вас пока нет отзывов';
+
+  @override
+  String get yourRideWasRejected =>
+      'Ваша поездка была отклонена. Пожалуйста, попробуйте снова.';
+
+  @override
+  String get selectDriver => 'Выберите водителя';
+
+  @override
+  String get waitingForDriver => 'Ожидание ответа водителя...';
+
+  @override
+  String get rateRide => 'Оценить поездку';
+
+  @override
+  String get rateYourDriver => 'Как прошла ваша поездка?';
+
+  @override
+  String get areYouSureDeleteFile =>
+      'Вы уверены, что хотите удалить этот файл?';
+
+  @override
+  String get fileDeletedSuccessfully => 'Файл успешно удалён';
+
+  @override
+  String get deleteFailed => 'Не удалось удалить файл:';
+
+  @override
+  String get accepted => 'Принято';
+
+  @override
+  String get rejected => 'Отклонено';
+
+  @override
+  String get submitted => 'Отправлено';
+
+  @override
+  String get driversLicence => 'Водительское удостоверение';
+
+  @override
+  String get uploadAClearPictureofLicence =>
+      'Загрузите четкую фотографию вашего водительского удостоверения.';
+
+  @override
+  String get ensureYourFullName =>
+      'Убедитесь, что ваше полное имя и номер водительского удостоверения видны.';
+
+  @override
+  String get theDocumentMustBeValid =>
+      'Документ должен быть действительным (не просроченным).';
+
+  @override
+  String get vehicleRegistration =>
+      'Регистрация транспортного средства (Фото автомобиля)';
+
+  @override
+  String get uploadAClearPictureOfCar =>
+      'Загрузите четкую фотографию автомобиля с видимым номерным знаком.';
+
+  @override
+  String get theNumberPlateMustBeReadable =>
+      'Номерной знак должен быть читаемым.';
+
+  @override
+  String get theVehicleMustMatch =>
+      'Автомобиль должен соответствовать данным в вашем профиле.';
+
+  @override
+  String get takeASelfie => 'Сделайте селфи, держа водительское удостоверение.';
+
+  @override
+  String get yourFaceAndTheLicence =>
+      'Ваше лицо и данные удостоверения должны быть видны.';
+
+  @override
+  String get thisHelpsUsConfirm =>
+      'Это помогает нам подтвердить, что удостоверение действительно принадлежит вам.';
+
+  @override
+  String get missingDocuments => 'Загрузить отсутствующие документы';
+
+  @override
+  String get documentRejected => 'Повторно отправить отклонённые документы';
+
+  @override
+  String get status => 'Статус:';
+
+  @override
+  String get removeFile => 'Удалить этот файл';
+
+  @override
+  String get rideIsComing => 'Поездка в пути';
+
+  @override
+  String get fetchingETA => 'Получение времени прибытия...';
+
+  @override
+  String get driverIsWaiting => 'Ждёт вас...';
+
+  @override
+  String get onTrip => 'В поездке';
+
+  @override
+  String get arrivingIn => 'Прибудет через';
+
+  @override
+  String get reachingDestinationIn => 'Прибытие к месту назначения через';
+
+  @override
+  String get cancelRide => 'Отменить поездку?';
+
+  @override
+  String get areYouSureCancelRide =>
+      'Вы уверены, что хотите отменить эту поездку? Водитель будет поставлен в известность.';
+
+  @override
+  String get no => 'Нет';
+
+  @override
+  String get yesCancel => 'Да, отменить';
+
+  @override
+  String get backgroundLocationNeeded =>
+      'Требуется доступ к местоположению в фоновом режиме';
+
+  @override
+  String get kipgoNeeds =>
+      'Приложению Kipgo нужен доступ к местоположению «Всегда», чтобы пассажиры могли найти вас даже когда приложение закрыто или работает в фоновом режиме. Пожалуйста, перейдите в настройки и включите «Разрешить всегда».';
+
+  @override
+  String get openSettings => 'Открыть настройки';
+
+  @override
+  String get locationPermissionRequired =>
+      'Требуется разрешение на доступ к местоположению';
+
+  @override
+  String get locationPermissionRequiredDrivers =>
+      'Для водителей требуется разрешение на доступ к местоположению. Пожалуйста, включите его в настройках.';
+
+  @override
+  String get rideCancelledSuccessfully => 'Поездка успешно отменена.';
+
+  @override
+  String get failedToCancelRide => 'Не удалось отменить поездку: ';
+
+  @override
+  String get toDropoff => 'К высадке';
+
+  @override
+  String get waitingForRider => 'Ожидание пассажира...';
+
+  @override
+  String get cancelled => 'Отменено';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get riderCancelledTrip => 'Пассажир отменил поездку.';
+
+  @override
+  String get rideCancelled => 'Поездка отменена';
+
+  @override
+  String get theRiderHasCancelled =>
+      'Пассажир отменил эту поездку. Вы будете перенаправлены на главный экран.';
+
+  @override
+  String get newRideRequest => 'Новый запрос на поездку';
+
+  @override
+  String get accept => 'Принять';
+
+  @override
+  String get rideRequestIsNotAvailable => 'Запрос на поездку недоступен';
+
+  @override
+  String get rideRequestRejected => 'Запрос на поездку отклонён';
+
+  @override
+  String get failedToRejectRide => 'Не удалось отклонить поездку';
+
+  @override
+  String get errorProcessingRideRequest =>
+      'Ошибка при обработке запроса на поездку';
+
+  @override
+  String get reject => 'Отклонить';
 }

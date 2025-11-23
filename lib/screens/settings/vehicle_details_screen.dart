@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:kipgo/controllers/theme_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:kipgo/controllers/profile_provider.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
@@ -106,6 +107,13 @@ class _VehicleDetailsScreenState extends State<VehicleDetailsScreen> {
         child: Container(
           width: double.maxFinite,
           height: double.maxFinite,
+          padding: EdgeInsets.only(
+            top: 10,
+            bottom: MediaQuery.of(context).padding.bottom > 20
+                ? MediaQuery.of(context).padding.bottom
+                : 20,
+          ),
+          clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
@@ -114,28 +122,60 @@ class _VehicleDetailsScreenState extends State<VehicleDetailsScreen> {
             color: Theme.of(context).scaffoldBackgroundColor,
           ),
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.only(top: 12, left: 12, right: 12),
             keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             child: Column(
               children: [
-                SizedBox(height: 20),
+                // SizedBox(height: 20),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       "${AppLocalizations.of(context)!.documentStatus}: ",
                       style: TextStyle(fontWeight: FontWeight.w500),
                     ),
-                    Text(
-                      documentSubmitted == false
-                          ? AppLocalizations.of(context)!.notSubmitted
-                          : profile.account.isApproved == true
-                          ? AppLocalizations.of(context)!.approved
-                          : AppLocalizations.of(context)!.pending,
-                      style: TextStyle(
-                        color: profile.account.isApproved
-                            ? Colors.blue
-                            : Colors.red,
-                      ),
+                    Consumer<ProfileProvider>(
+                      builder: (context, p, _) {
+                        if (p.isLoading) {
+                          return Center(
+                            child: CircularProgressIndicator.adaptive(),
+                          );
+                        } else {
+                          String s1 = p.profile!.vehicle.licenceStatus;
+                          String s2 = p.profile!.vehicle.registrationStatus;
+                          String s3 = p.profile!.vehicle.selfieStatus;
+                          bool status = p.profile!.account.isApproved;
+                          return Expanded(
+                            child: Text(
+                              status == true
+                                  ? AppLocalizations.of(context)!.approved
+                                  : s1 == '' && s2 == '' && s3 == ''
+                                  ? AppLocalizations.of(context)!.notSubmitted
+                                  : s1 == '' || s2 == '' || s3 == ''
+                                  ? AppLocalizations.of(
+                                      context,
+                                    )!.missingDocuments
+                                  : s1 == 'Rejected' ||
+                                        s2 == 'Rejected' ||
+                                        s3 == 'Rejected'
+                                  ? AppLocalizations.of(
+                                      context,
+                                    )!.documentRejected
+                                  : AppLocalizations.of(context)!.pending,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: status == true
+                                    ? Colors.green
+                                    : s1 == '' && s2 == '' && s3 == ''
+                                    ? Colors.red
+                                    : s1 == '' || s2 == '' || s3 == ''
+                                    ? Colors.red
+                                    : AppColors.secondary,
+                              ),
+                            ),
+                          );
+                        }
+                      },
                     ),
                   ],
                 ),
@@ -293,11 +333,37 @@ class _VehicleDetailsScreenState extends State<VehicleDetailsScreen> {
                         style: TextStyle(fontSize: 16),
                       ),
                       SizedBox(height: 10),
-                      DriverLicenceSection(),
-                      SizedBox(height: 10),
-                      CarWithPlateSection(),
-                      SizedBox(height: 10),
-                      SelfieWithLicenceSection(),
+                      Consumer<ProfileProvider>(
+                        builder: (context, p, _) {
+                          return Column(
+                            children: [
+                              documentTile(
+                                title: AppLocalizations.of(
+                                  context,
+                                )!.driverLicencePicture,
+                                status: p.profile!.vehicle.licenceStatus,
+                                page: DriverLicenceSection(),
+                              ),
+                              SizedBox(height: 10),
+                              documentTile(
+                                title: AppLocalizations.of(
+                                  context,
+                                )!.carWithRegistrationNumberPicture,
+                                status: p.profile!.vehicle.registrationStatus,
+                                page: CarWithPlateSection(),
+                              ),
+                              SizedBox(height: 10),
+                              documentTile(
+                                title: AppLocalizations.of(
+                                  context,
+                                )!.selfieWithLicence,
+                                status: p.profile!.vehicle.selfieStatus,
+                                page: SelfieWithLicenceSection(),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
                       SizedBox(height: 20),
                       Divider(thickness: 0.5, color: AppColors.border),
                       SizedBox(height: 20),
@@ -313,6 +379,87 @@ class _VehicleDetailsScreenState extends State<VehicleDetailsScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Container documentTile({
+    required String title,
+    required String status,
+    required Widget page,
+  }) {
+    bool isDark = Provider.of<ThemeProvider>(context, listen: false).isDarkMode;
+    return Container(
+      width: double.maxFinite,
+      padding: EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: isDark ? AppColors.darkAccent : Colors.grey[50],
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Row(
+              children: [
+                Icon(
+                  status == ''
+                      ? Icons.upload_file
+                      : status == 'Submitted'
+                      ? Icons.timelapse
+                      : status == 'Accepted'
+                      ? Icons.check_circle
+                      : Icons.cancel,
+                  color: status == ''
+                      ? Colors.grey
+                      : status == 'Submitted'
+                      ? AppColors.secondary
+                      : status == 'Accepted'
+                      ? Colors.green
+                      : Colors.red,
+                ),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(title, style: TextStyle(fontSize: 16)),
+                      Text(
+                        status == ''
+                            ? AppLocalizations.of(context)!.notSubmitted
+                            : status == 'Submitted'
+                            ? AppLocalizations.of(context)!.submitted
+                            : status == 'Accepted'
+                            ? AppLocalizations.of(context)!.accepted
+                            : AppLocalizations.of(context)!.rejected,
+                        style: TextStyle(
+                          color: status == ''
+                              ? Colors.grey
+                              : status == 'Submitted'
+                              ? AppColors.secondary
+                              : status == 'Accepted'
+                              ? Colors.green
+                              : Colors.red,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          IconButton.outlined(
+            padding: EdgeInsets.all(0),
+            visualDensity: VisualDensity.compact,
+            iconSize: 28,
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (_) => page));
+            },
+            icon: Icon(Icons.chevron_right_outlined),
+          ),
+        ],
       ),
     );
   }

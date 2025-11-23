@@ -10,7 +10,7 @@ import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/screens/edit_profile.dart';
 import 'package:kipgo/screens/settings/change_password_screen.dart';
 import 'package:kipgo/screens/settings/chat.dart';
-import 'package:kipgo/screens/settings/contact_us_screen.dart';
+// import 'package:kipgo/screens/settings/contact_us_screen.dart';
 import 'package:kipgo/screens/settings/delete_account_screen.dart';
 import 'package:kipgo/screens/settings/terms_and_conditions_screen.dart';
 import 'package:kipgo/screens/settings/vehicle_details_screen.dart';
@@ -69,6 +69,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: Text(AppLocalizations.of(context)!.profileNotFound),
                 )
               : Container(
+                  clipBehavior: Clip.hardEdge,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
@@ -297,13 +298,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               color: Theme.of(context).scaffoldBackgroundColor,
                               thickness: 0.8,
                             ),
-                            SettingWidget(
-                              title: AppLocalizations.of(
-                                context,
-                              )!.enableNotifications,
-                              icon: Icons.notifications_none,
-                              page: const DeleteAccountScreen(),
-                            ),
+                            // SettingWidget(
+                            //   title: AppLocalizations.of(
+                            //     context,
+                            //   )!.enableNotifications,
+                            //   icon: Icons.notifications_none,
+                            //   page: const DeleteAccountScreen(),
+                            // ),
                           ],
                         ),
                       ),
@@ -339,11 +340,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               color: Theme.of(context).scaffoldBackgroundColor,
                               thickness: 0.8,
                             ),
-                            SettingWidget(
-                              title: AppLocalizations.of(context)!.contactUs,
-                              icon: Icons.contact_support,
-                              page: const ContactUsScreen(),
-                            ),
+                            // SettingWidget(
+                            //   title: AppLocalizations.of(context)!.contactUs,
+                            //   icon: Icons.contact_support,
+                            //   page: const ContactUsScreen(),
+                            // ),
                             Divider(
                               height: 0,
                               color: Theme.of(context).scaffoldBackgroundColor,

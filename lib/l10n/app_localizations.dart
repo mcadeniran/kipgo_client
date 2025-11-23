@@ -727,7 +727,7 @@ abstract class AppLocalizations {
   /// Message to show driver current location
   ///
   /// In en, this message translates to:
-  /// **'Your location'**
+  /// **'Current Position'**
   String get yourCurrentLocation;
 
   /// Text to show distance to pickup
@@ -1263,6 +1263,438 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to submit rating. Please try again.'**
   String get ratingError;
+
+  /// Now online message
+  ///
+  /// In en, this message translates to:
+  /// **'Now Online'**
+  String get nowOnline;
+
+  /// Delete Ride alert dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Ride'**
+  String get deleteRide;
+
+  /// Delete action button label
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// Ride deletion warning
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this ride?'**
+  String get areYouSureRide;
+
+  /// Ride deleted successfully message
+  ///
+  /// In en, this message translates to:
+  /// **'Ride deleted successfully'**
+  String get rideDeletedSuccessfully;
+
+  /// Ride deletion failure message
+  ///
+  /// In en, this message translates to:
+  /// **'Error deleting ride: '**
+  String get errorDeletingRide;
+
+  /// Ride not found error message
+  ///
+  /// In en, this message translates to:
+  /// **'Ride not found'**
+  String get rideNotFound;
+
+  /// Message to prompt profile completion
+  ///
+  /// In en, this message translates to:
+  /// **'Please complete your profile to start driving.'**
+  String get completeProfilePrompt;
+
+  /// Message to prompt for documents submission
+  ///
+  /// In en, this message translates to:
+  /// **'Please submit the required documents to continue.'**
+  String get submitDocumentsPrompt;
+
+  /// Message to inform driver of pending verification
+  ///
+  /// In en, this message translates to:
+  /// **'Your documents are pending verification.'**
+  String get documentsPending;
+
+  /// Documents approval message
+  ///
+  /// In en, this message translates to:
+  /// **'Your documents have been approved.'**
+  String get documentsApproved;
+
+  /// Documents rejection message
+  ///
+  /// In en, this message translates to:
+  /// **'Your documents were rejected. Please re-submit.'**
+  String get documentsRejected;
+
+  /// My Reviews menu label
+  ///
+  /// In en, this message translates to:
+  /// **'My Reviews'**
+  String get myReviews;
+
+  /// Number of reviews label
+  ///
+  /// In en, this message translates to:
+  /// **'reviews'**
+  String get reviews;
+
+  /// Message prompting drivers of no reviews
+  ///
+  /// In en, this message translates to:
+  /// **'You have no reviews yet'**
+  String get youHaveNoReviews;
+
+  /// Ride rejection snackbar message
+  ///
+  /// In en, this message translates to:
+  /// **'Your ride was rejected. Please try again.'**
+  String get yourRideWasRejected;
+
+  /// Driver selection prompt message
+  ///
+  /// In en, this message translates to:
+  /// **'Select Driver'**
+  String get selectDriver;
+
+  /// Loading message when waiting for driver to accept/reject ride
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for driver response...'**
+  String get waitingForDriver;
+
+  /// Ride rating title for ride history
+  ///
+  /// In en, this message translates to:
+  /// **'Rate Ride'**
+  String get rateRide;
+
+  /// Rating modal title
+  ///
+  /// In en, this message translates to:
+  /// **'How was your ride?'**
+  String get rateYourDriver;
+
+  /// File deletion warning
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this file?'**
+  String get areYouSureDeleteFile;
+
+  /// File deletion success message
+  ///
+  /// In en, this message translates to:
+  /// **'File deleted successfully'**
+  String get fileDeletedSuccessfully;
+
+  /// File deletion failure message
+  ///
+  /// In en, this message translates to:
+  /// **'File deletion failed:'**
+  String get deleteFailed;
+
+  /// Accepted file status
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted'**
+  String get accepted;
+
+  /// Rejected file status
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get rejected;
+
+  /// Submitted file status
+  ///
+  /// In en, this message translates to:
+  /// **'Submitted'**
+  String get submitted;
+
+  /// Driver's licence subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Driver’s Licence'**
+  String get driversLicence;
+
+  /// Licence instruction 1
+  ///
+  /// In en, this message translates to:
+  /// **'Upload a clear picture of your driver’s licence.'**
+  String get uploadAClearPictureofLicence;
+
+  /// Licence instruction 2
+  ///
+  /// In en, this message translates to:
+  /// **'Ensure your full name and driver’s licence number are visible.'**
+  String get ensureYourFullName;
+
+  /// Licence instruction 3
+  ///
+  /// In en, this message translates to:
+  /// **'The document must be valid (not expired).'**
+  String get theDocumentMustBeValid;
+
+  /// Car image subtitle
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle Registration (Car Image)'**
+  String get vehicleRegistration;
+
+  /// Car image instruction 1
+  ///
+  /// In en, this message translates to:
+  /// **'Upload a clear picture of your car showing the number plate.'**
+  String get uploadAClearPictureOfCar;
+
+  /// Car image instruction 2
+  ///
+  /// In en, this message translates to:
+  /// **'The number plate must be readable.'**
+  String get theNumberPlateMustBeReadable;
+
+  /// Car image instruction 3
+  ///
+  /// In en, this message translates to:
+  /// **'The vehicle must match the details on your profile.'**
+  String get theVehicleMustMatch;
+
+  /// Selfie instruction 1
+  ///
+  /// In en, this message translates to:
+  /// **'Take a selfie holding your driver’s licence.'**
+  String get takeASelfie;
+
+  /// Selfie instruction 1
+  ///
+  /// In en, this message translates to:
+  /// **'Your face and the licence details must both be visible.'**
+  String get yourFaceAndTheLicence;
+
+  /// Selfie instruction 1
+  ///
+  /// In en, this message translates to:
+  /// **'This helps us confirm the licence truly belongs to you.'**
+  String get thisHelpsUsConfirm;
+
+  /// Alert message for some missing documents
+  ///
+  /// In en, this message translates to:
+  /// **'Upload Missing Documents'**
+  String get missingDocuments;
+
+  /// Alert message for some rejected documents
+  ///
+  /// In en, this message translates to:
+  /// **'Resubmit Rejected Documents'**
+  String get documentRejected;
+
+  /// Message about status
+  ///
+  /// In en, this message translates to:
+  /// **'Status:'**
+  String get status;
+
+  /// Prompt message for user to remove file if needed
+  ///
+  /// In en, this message translates to:
+  /// **'Remove This File'**
+  String get removeFile;
+
+  /// Text showing ride status (moving towards pickup)
+  ///
+  /// In en, this message translates to:
+  /// **'Ride is coming'**
+  String get rideIsComing;
+
+  /// Loading text for calculating eta
+  ///
+  /// In en, this message translates to:
+  /// **'Fetching ETA...'**
+  String get fetchingETA;
+
+  /// Hint text to prompt rider of driver's arrival
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for you...'**
+  String get driverIsWaiting;
+
+  /// Text showing ride status (moving towards destination)
+  ///
+  /// In en, this message translates to:
+  /// **'On Trip'**
+  String get onTrip;
+
+  /// Estimated time text for driver to reach pickup location
+  ///
+  /// In en, this message translates to:
+  /// **'Arriving in'**
+  String get arrivingIn;
+
+  /// Estimated time text for driver to reach dropoff location
+  ///
+  /// In en, this message translates to:
+  /// **'Reaching destination in'**
+  String get reachingDestinationIn;
+
+  /// Ride cancellation alert
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Ride?'**
+  String get cancelRide;
+
+  /// Warning message for cancelling ride
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to cancel this ride? The driver will be notified.'**
+  String get areYouSureCancelRide;
+
+  /// No text label
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no;
+
+  /// Action button label to cancel ride
+  ///
+  /// In en, this message translates to:
+  /// **'Yes Cancel'**
+  String get yesCancel;
+
+  /// Alert for background location
+  ///
+  /// In en, this message translates to:
+  /// **'Background Location Needed'**
+  String get backgroundLocationNeeded;
+
+  /// Kipgo background permission instruction
+  ///
+  /// In en, this message translates to:
+  /// **'Kipgo needs \'Allow all the time\' location access so riders can find you even when the app is closed or running in the background. Please go to settings and enable \'Allow all the time\'.'**
+  String get kipgoNeeds;
+
+  /// Open settings helper
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings'**
+  String get openSettings;
+
+  /// Location permission required information
+  ///
+  /// In en, this message translates to:
+  /// **'Location Permission Required'**
+  String get locationPermissionRequired;
+
+  /// Driver location permission required information
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission is required for drivers. Please enable it in Settings.'**
+  String get locationPermissionRequiredDrivers;
+
+  /// Ride cancelled successfully snackbar message
+  ///
+  /// In en, this message translates to:
+  /// **'Ride cancelled successfully.'**
+  String get rideCancelledSuccessfully;
+
+  /// Cancel ride error message
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to cancel ride: '**
+  String get failedToCancelRide;
+
+  /// Estimated time to dropoff
+  ///
+  /// In en, this message translates to:
+  /// **'To Dropoff'**
+  String get toDropoff;
+
+  /// Waiting for rider information text
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for rider...'**
+  String get waitingForRider;
+
+  /// Ride status cancelled
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get cancelled;
+
+  /// OK button text
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get ok;
+
+  /// Rider cancelled trip snackbar details
+  ///
+  /// In en, this message translates to:
+  /// **'Rider cancelled the trip.'**
+  String get riderCancelledTrip;
+
+  /// Rider cancelled trip snackbar title
+  ///
+  /// In en, this message translates to:
+  /// **'Ride Cancelled'**
+  String get rideCancelled;
+
+  /// The rider cancelled trip alert details
+  ///
+  /// In en, this message translates to:
+  /// **'The rider has cancelled this trip. You will be redirected to your home screen.'**
+  String get theRiderHasCancelled;
+
+  /// Pop-up title for new ride request
+  ///
+  /// In en, this message translates to:
+  /// **'New Ride Request'**
+  String get newRideRequest;
+
+  /// Accept ride action button text
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get accept;
+
+  /// Ride request no longer available snackbar message
+  ///
+  /// In en, this message translates to:
+  /// **'Ride request is not available'**
+  String get rideRequestIsNotAvailable;
+
+  /// Success message when a ride request has been rejected
+  ///
+  /// In en, this message translates to:
+  /// **'Ride request rejected'**
+  String get rideRequestRejected;
+
+  /// Ride rejection error message
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to reject ride'**
+  String get failedToRejectRide;
+
+  /// Ride request acceptance error message
+  ///
+  /// In en, this message translates to:
+  /// **'Error Processing Ride Request'**
+  String get errorProcessingRideRequest;
+
+  /// Ride request reject action text
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get reject;
 }
 
 class _AppLocalizationsDelegate

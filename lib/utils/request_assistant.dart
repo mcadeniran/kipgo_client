@@ -13,12 +13,12 @@ class RequestAssistant {
 
         return decodedResponseData;
       } else {
-        print(httpResponse.statusCode);
-        print(httpResponse.body);
+        // print(httpResponse.statusCode);
+        // print(httpResponse.body);
         return 'Error fetching data. No Response';
       }
     } catch (e) {
-      print(e);
+      // print(e);
       return 'Error fetchin data.';
     }
   }

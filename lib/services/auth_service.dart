@@ -32,6 +32,7 @@ class AuthService {
         drives: [],
         rides: [],
         token: '',
+        newRideStatus: 'idle',
         personal: Personal(
           firstName: '',
           lastName: '',
@@ -47,6 +48,12 @@ class AuthService {
           registrationUrl: '',
           selfieUrl: '',
           licenceUrl: '',
+          registrationStatus: '',
+          registrationText: '',
+          licenceStatus: '',
+          licenceText: '',
+          selfieStatus: '',
+          selfieText: '',
         ),
         account: Account(
           isOnline: true,

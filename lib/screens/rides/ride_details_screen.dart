@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
@@ -15,6 +16,12 @@ import 'package:kipgo/models/ride_history.dart';
 import 'package:kipgo/screens/rides/directions_service.dart';
 import 'package:kipgo/screens/widgets/app_bar_widget.dart';
 import 'package:kipgo/utils/colors.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+Future<void> _makePhoneCall(BuildContext context, String phoneNumber) async {
+  final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
+  await launchUrl(launchUri);
+}
 
 class RideDetailsScreen extends StatefulWidget {
   final String title;
@@ -38,12 +45,21 @@ class _RideDetailsScreenState extends State<RideDetailsScreen> {
   Set<Marker> _markers = {};
   Set<Polyline> _polylines = {};
   final DirectionsService _directionsService = DirectionsService(apiKey!);
+  String? _mapStyle;
+
+  Future<void> _loadMapStyle() async {
+    String style = await rootBundle.loadString('map_themes/dark_style.json');
+    setState(() {
+      _mapStyle = style;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     _setMarkers();
     _loadRoute();
+    _loadMapStyle();
   }
 
   void _setMarkers() {
@@ -91,8 +107,8 @@ class _RideDetailsScreenState extends State<RideDetailsScreen> {
         _polylines = {
           Polyline(
             polylineId: const PolylineId("route"),
-            color: Colors.black,
-            width: 5,
+            color: AppColors.tertiary,
+            width: 8,
             points: route,
           ),
         };
@@ -136,182 +152,209 @@ class _RideDetailsScreenState extends State<RideDetailsScreen> {
     bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
     return Scaffold(
       appBar: AppBarWidget(title: widget.title.toUpperCase()),
-      body: Column(
-        children: [
-          // Map
-          Expanded(
-            flex: 1,
-            child: GoogleMap(
-              initialCameraPosition: CameraPosition(
-                target: LatLng(
-                  widget.history.origin.latitude,
-                  widget.history.origin.longitude,
+      backgroundColor: AppColors.primary,
+      body: Container(
+        width: double.maxFinite,
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          children: [
+            // Map
+            Expanded(
+              flex: 4,
+              child: GoogleMap(
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(
+                    widget.history.origin.latitude,
+                    widget.history.origin.longitude,
+                  ),
+                  zoom: 14,
                 ),
-                zoom: 14,
+                myLocationButtonEnabled: false,
+                myLocationEnabled: false,
+                zoomControlsEnabled: false,
+                zoomGesturesEnabled: true,
+                style: isDark ? _mapStyle : null,
+                markers: _markers,
+                polylines: _polylines,
+                onMapCreated: (controller) => _mapController = controller,
               ),
-              markers: _markers,
-              polylines: _polylines,
-              onMapCreated: (controller) => _mapController = controller,
             ),
-          ),
 
-          // Ride info
-          Expanded(
-            flex: 1,
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(0)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 10,
-                    offset: Offset(0, -1),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Iconify(
-                        Ic.outline_trip_origin,
-                        color: isDark
-                            ? AppColors.lightLayer
-                            : AppColors.primary,
-                      ),
-                      SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          widget.history.originAddress,
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Iconify(
-                        Ic.baseline_nature_people,
-                        color: AppColors.tertiary,
-                      ),
-                      SizedBox(width: 8),
-                      Text(
-                        widget.history.destinationAddress,
-                        style: const TextStyle(fontSize: 14),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 6),
-                  Divider(thickness: 0.5, color: AppColors.border),
-                  SizedBox(height: 6),
-                  Row(
-                    children: [
-                      Iconify(
-                        widget.isRider
-                            ? Healthicons.truck_driver_outline
-                            : Mdi.seat_passenger,
-                        color: isDark
-                            ? AppColors.lightLayer
-                            : AppColors.primary,
-                      ),
-                      SizedBox(width: 14),
-                      Text(
-                        widget.isRider
-                            ? widget.history.driverName
-                            : widget.history.username,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Iconify(
-                        Platform.isIOS
-                            ? Ic.round_phone_iphone
-                            : Ic.round_phone_android,
-                        color: isDark
-                            ? AppColors.lightLayer
-                            : AppColors.primary,
-                      ),
-                      SizedBox(width: 14),
-                      Text(
-                        widget.isRider
-                            ? widget.history.driverPhone
-                            : widget.history.userPhone,
-                      ),
-                    ],
-                  ),
-
-                  if (widget.isRider) ...[
-                    SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Iconify(
-                          Ic.twotone_local_taxi,
-                          color: isDark
-                              ? AppColors.lightLayer
-                              : AppColors.primary,
-                        ),
-                        SizedBox(width: 14),
-                        Text(
-                          '${widget.history.colour} ${widget.history.model}',
-                        ),
-                      ],
+            // Ride info
+            Expanded(
+              flex: 3,
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 10,
+                      offset: Offset(0, -1),
                     ),
-                    SizedBox(height: 10),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Iconify(
-                          Fa.drivers_license_o,
+                          Ic.outline_trip_origin,
                           color: isDark
                               ? AppColors.lightLayer
                               : AppColors.primary,
                         ),
                         SizedBox(width: 8),
-                        Text(widget.history.numberPlate),
+                        Expanded(
+                          child: Text(
+                            widget.history.originAddress,
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ),
                       ],
                     ),
-                  ],
-                  const Spacer(),
-                  TextButton.icon(
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.white,
-                      disabledBackgroundColor: isDark
-                          ? AppColors.lightLayer
-                          : AppColors.primary.withValues(alpha: 0.5),
-                      disabledForegroundColor: Colors.white54,
-                      minimumSize: const Size.fromHeight(50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                    const SizedBox(height: 12),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Iconify(
+                          Ic.baseline_nature_people,
+                          color: AppColors.tertiary,
+                        ),
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            widget.history.destinationAddress,
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 6),
+                    Divider(thickness: 0.5, color: AppColors.border),
+                    SizedBox(height: 6),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Iconify(
+                                  widget.isRider
+                                      ? Healthicons.truck_driver_outline
+                                      : Mdi.seat_passenger,
+                                  color: isDark
+                                      ? AppColors.lightLayer
+                                      : AppColors.primary,
+                                ),
+                                SizedBox(width: 14),
+                                Text(
+                                  widget.isRider
+                                      ? widget.history.driverName
+                                      : widget.history.username,
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                              children: [
+                                Iconify(
+                                  Platform.isIOS
+                                      ? Ic.round_phone_iphone
+                                      : Ic.round_phone_android,
+                                  color: isDark
+                                      ? AppColors.lightLayer
+                                      : AppColors.primary,
+                                ),
+                                SizedBox(width: 14),
+                                Text(
+                                  widget.isRider
+                                      ? widget.history.driverPhone
+                                      : widget.history.userPhone,
+                                ),
+                              ],
+                            ),
+                            if (widget.isRider) ...[
+                              SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  Iconify(
+                                    Ic.twotone_local_taxi,
+                                    color: isDark
+                                        ? AppColors.lightLayer
+                                        : AppColors.primary,
+                                  ),
+                                  SizedBox(width: 14),
+                                  Text(
+                                    '${widget.history.colour} ${widget.history.model}',
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  Iconify(
+                                    Fa.drivers_license_o,
+                                    color: isDark
+                                        ? AppColors.lightLayer
+                                        : AppColors.primary,
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(widget.history.numberPlate),
+                                ],
+                              ),
+                            ],
+                          ],
+                        ),
                       ),
                     ),
-                    icon: Icon(Icons.call),
-                    label: Text(
-                      widget.isRider
-                          ? AppLocalizations.of(
-                              context,
-                            )!.callUsername(widget.history.driverName)
-                          : AppLocalizations.of(
-                              context,
-                            )!.callUsername(widget.history.username),
-                      // ? 'CALL ${widget.history.driverName}'
-                      // : 'CALL ${widget.history.username}',
+                    // const Spacer(),
+                    SizedBox(height: 6),
+                    Divider(thickness: 0.5, color: AppColors.border),
+                    SizedBox(height: 6),
+                    TextButton.icon(
+                      onPressed: () => _makePhoneCall(
+                        context,
+                        widget.isRider
+                            ? widget.history.driverPhone
+                            : widget.history.userPhone,
+                      ),
+                      style: TextButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: Colors.white,
+                        disabledBackgroundColor: isDark
+                            ? AppColors.lightLayer
+                            : AppColors.primary.withValues(alpha: 0.5),
+                        disabledForegroundColor: Colors.white54,
+                        minimumSize: const Size.fromHeight(50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      icon: Icon(Icons.call),
+                      label: Text(
+                        widget.isRider
+                            ? AppLocalizations.of(
+                                context,
+                              )!.callUsername(widget.history.driverName)
+                            : AppLocalizations.of(
+                                context,
+                              )!.callUsername(widget.history.username),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

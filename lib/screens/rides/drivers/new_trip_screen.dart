@@ -3,9 +3,13 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:kipgo/helpers/location_settings_helper.dart';
+import 'package:kipgo/pushNotification/push_notification_system.dart';
+import 'package:kipgo/screens/widgets/ride_location_card_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
 import 'package:kipgo/controllers/profile_provider.dart';
@@ -14,10 +18,16 @@ import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/models/profile.dart';
 import 'package:kipgo/models/user_ride_request_information.dart';
 import 'package:kipgo/screens/homes/driver_home.dart';
-import 'package:kipgo/screens/rides/drivers/available_rides_screen.dart';
+// import 'package:kipgo/screens/rides/drivers/available_rides_screen.dart';
 import 'package:kipgo/screens/widgets/progress_dialog.dart';
 import 'package:kipgo/utils/colors.dart';
 import 'package:kipgo/utils/methods.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+Future<void> _makePhoneCall(BuildContext context, String phoneNumber) async {
+  final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
+  await launchUrl(launchUri);
+}
 
 class NewTripScreen extends StatefulWidget {
   final UserRideRequestInformation? userRideRequestDetails;
@@ -33,7 +43,7 @@ class _NewTripScreenState extends State<NewTripScreen> {
   GoogleMapController? newTripGoogleMapController;
 
   static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+    target: LatLng(35.133428350758344, 33.923606022529256),
     zoom: 14.4746,
   );
 
@@ -54,7 +64,12 @@ class _NewTripScreenState extends State<NewTripScreen> {
 
   String durationFromOriginToDestination = '';
 
+  String? _mapStyle;
+
   bool isRequestDirectionDetails = false;
+
+  DatabaseReference? rideStatusRef;
+  StreamSubscription<DatabaseEvent>? rideStatusSubscription;
 
   // Step 1:When driver accepts user's request
   // Origin addres is the driver's current address and destination address is the passanger's pickup address
@@ -102,7 +117,7 @@ class _NewTripScreenState extends State<NewTripScreen> {
 
     setState(() {
       Polyline polyline = Polyline(
-        color: isDark ? AppColors.lightLayer : AppColors.darkLayer,
+        color: AppColors.tertiary,
         polylineId: PolylineId('PolylineID'),
         jointType: JointType.round,
         points: polylinePositionCoordinates,
@@ -223,17 +238,21 @@ class _NewTripScreenState extends State<NewTripScreen> {
           .child('driverPhone')
           .set(onlineDriverData.personal.phone);
       databaseReference.child('ratings').set(onlineDriverData.personal.rating);
-      // databaseReference
-      //     .child('car_details')
-      //     .set(
-      //       '${onlineDriverData.vehicle.colour} ${onlineDriverData.vehicle.model} ${onlineDriverData.vehicle.numberPlate}',
-      //     );
       databaseReference.child('model').set(onlineDriverData.vehicle.model);
       databaseReference.child('colour').set(onlineDriverData.vehicle.colour);
       databaseReference
           .child('numberPlate')
           .set(onlineDriverData.vehicle.numberPlate);
+      databaseReference
+          .child('driverPhotoUrl')
+          .set(onlineDriverData.personal.photoUrl);
 
+      FirebaseDatabase.instance
+          .ref()
+          .child('drivers')
+          .child(onlineDriverData.id)
+          .child('newRide')
+          .set(widget.userRideRequestDetails!.rideRequestId!);
       // saveRideRequestIdToDriverHistory();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -245,30 +264,12 @@ class _NewTripScreenState extends State<NewTripScreen> {
     }
   }
 
-  // Future<void> saveRideRequestIdToDriverHistory() async {
-  //   List<dynamic> allDrives = [];
-  //   allDrives.add(widget.userRideRequestDetails!.rideRequestId);
-  //   String driverId = Provider.of<ProfileProvider>(
-  //     context,
-  //     listen: false,
-  //   ).profile!.id;
-
-  //   await FirebaseFirestore.instance
-  //       .collection('profiles')
-  //       .doc(driverId)
-  //       .update({'drives': allDrives});
-  // }
-
   void getDriverLocationUpdatesAtRealTime() {
     // LatLng oldLatLng = LatLng(0, 0);
     streamSubscriptionDriverLivePosition = Geolocator.getPositionStream()
         .listen((Position position) {
           driverCurrentPosition = position;
           onlineDriverCurrentPosition = position;
-
-          // if (newTripGoogleMapController == null) {
-          //   return;
-          // }
 
           LatLng latLngLiveDriverPosition = LatLng(
             onlineDriverCurrentPosition!.latitude,
@@ -360,23 +361,8 @@ class _NewTripScreenState extends State<NewTripScreen> {
           ProgressDialog(message: AppLocalizations.of(context)!.pleaseWait)),
     );
 
-    // get the trip details = distance travelled
-    // var currentDriverPositionLatLng = LatLng(
-    //   onlineDriverCurrentPosition!.latitude,
-    //   onlineDriverCurrentPosition!.longitude,
-    // );
+    cleanupResources();
 
-    // For calculating fare
-
-    // var tripDirectionDetails =
-    //     await AppMethods.obtainOriginToDestinationDirectionDetails(
-    //       currentDriverPositionLatLng,
-    //       widget.userRideRequestDetails!.originLatLng!,
-    //     );
-
-    // Fare amount
-
-    // End trip
     FirebaseDatabase.instance
         .ref()
         .child('All Ride Requests')
@@ -394,67 +380,27 @@ class _NewTripScreenState extends State<NewTripScreen> {
         .doc(driverId)
         .update({'newRideStatus': 'idle'});
 
-    // Navigator.pop(context);
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(builder: (c) => AvailableRidesScreen()),
-    // );
+    await FirebaseDatabase.instance
+        .ref()
+        .child('drivers')
+        .child(driverId)
+        .child('newRide')
+        .remove();
+
     if (!mounted) return;
-
-    final shouldGoHome = await showDialog<bool>(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return AlertDialog(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          title: Text(
-            AppLocalizations.of(context)!.rideCompleted,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          content: Text(AppLocalizations.of(context)!.yourRideHasEnded),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: Text(
-                AppLocalizations.of(context)!.stay,
-                style: TextStyle(color: AppColors.tertiary),
-              ),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              onPressed: () => Navigator.pop(context, true),
-              child: Text(AppLocalizations.of(context)!.goHome),
-            ),
-          ],
-        );
-      },
+    Navigator.pop(context);
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (c) => const DriverHome()),
+      (route) => false,
     );
+  }
 
-    if (shouldGoHome == true) {
-      cleanupResources();
-      if (!mounted) return;
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (c) => const DriverHome()),
-        (route) => false,
-      );
-    } else {
-      if (!mounted) return;
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (c) => const AvailableRidesScreen()),
-        (route) => false,
-      );
-    }
+  Future<void> _loadMapStyle() async {
+    String style = await rootBundle.loadString('map_themes/dark_style.json');
+    setState(() {
+      _mapStyle = style;
+    });
   }
 
   void cleanupResources() {
@@ -465,11 +411,14 @@ class _NewTripScreenState extends State<NewTripScreen> {
   @override
   void initState() {
     super.initState();
+    _loadMapStyle();
     createDriverIconMarker();
+    buttonTitle = 'Arrived';
     // Get driver's initial location safely
-    Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high).then((
-      position,
-    ) {
+    Geolocator.getCurrentPosition(
+      // desiredAccuracy: LocationAccuracy.high,
+      locationSettings: getLocationSetting(),
+    ).then((position) {
       driverCurrentPosition = position;
       onlineDriverCurrentPosition = position;
 
@@ -478,15 +427,54 @@ class _NewTripScreenState extends State<NewTripScreen> {
 
     // Save ride details
     saveAssignedDriverDetailsToUserRideRequest();
+
+    // ✅ Listen for ride cancellation in real-time
+    rideStatusRef = FirebaseDatabase.instance
+        .ref()
+        .child('All Ride Requests')
+        .child(widget.userRideRequestDetails!.rideRequestId!)
+        .child('status');
+
+    rideStatusSubscription = rideStatusRef!.onValue.listen((event) async {
+      final status = event.snapshot.value?.toString();
+
+      if (status == 'cancelled') {
+        // Stop location and cleanup
+        cleanupResources();
+        rideStatusSubscription?.cancel();
+
+        if (!mounted) return;
+
+        await FirebaseDatabase.instance
+            .ref()
+            .child('drivers')
+            .child(
+              Provider.of<ProfileProvider>(context, listen: false).profile!.id,
+            )
+            .child('newRide')
+            .remove();
+
+        if (!mounted) return;
+
+        // 🏠 Step 3: Redirect driver back home
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (c) => const DriverHome()),
+          (route) => false,
+        );
+      }
+    });
   }
 
   @override
   void dispose() {
     // Cancel live location updates
     streamSubscriptionDriverLivePosition?.cancel();
-
+    rideStatusSubscription?.cancel();
     // Dispose Google Map controller
     newTripGoogleMapController?.dispose();
+
+    PushNotificationSystem().resetRideFlags();
 
     super.dispose();
   }
@@ -494,191 +482,209 @@ class _NewTripScreenState extends State<NewTripScreen> {
   @override
   Widget build(BuildContext context) {
     bool isDark = Provider.of<ThemeProvider>(context, listen: false).isDarkMode;
-    buttonTitle = AppLocalizations.of(context)!.arrived;
     return Scaffold(
-      body: Stack(
+      body: Column(
         children: [
           // Google Maps
-          GoogleMap(
-            padding: EdgeInsets.only(bottom: mapPadding),
-            mapType: MapType.normal,
-            myLocationEnabled: true,
-            initialCameraPosition: _kGooglePlex,
-            markers: markersSet,
-            circles: circlesSet,
-            polylines: polylinesSet,
-            onMapCreated: (GoogleMapController controller) {
-              _controllerGoogleMap.complete(controller);
-              newTripGoogleMapController = controller;
+          Expanded(
+            child: GoogleMap(
+              padding: EdgeInsets.only(bottom: mapPadding),
+              mapType: MapType.normal,
+              myLocationEnabled: true,
+              initialCameraPosition: _kGooglePlex,
+              markers: markersSet,
+              circles: circlesSet,
+              polylines: polylinesSet,
+              style: isDark ? _mapStyle : null,
+              onMapCreated: (GoogleMapController controller) {
+                _controllerGoogleMap.complete(controller);
+                newTripGoogleMapController = controller;
 
-              setState(() {
-                mapPadding = 350;
-              });
+                setState(() {
+                  mapPadding = 350;
+                });
 
-              var driverCurrentLatLng = LatLng(
-                driverCurrentPosition!.latitude,
-                driverCurrentPosition!.longitude,
-              );
+                var driverCurrentLatLng = LatLng(
+                  driverCurrentPosition!.latitude,
+                  driverCurrentPosition!.longitude,
+                );
 
-              var userPickupLatLng =
-                  widget.userRideRequestDetails!.originLatLng;
+                var userPickupLatLng =
+                    widget.userRideRequestDetails!.originLatLng;
 
-              drawPolylineFromOriginToDestination(
-                driverCurrentLatLng,
-                userPickupLatLng!,
-                isDark,
-              );
+                drawPolylineFromOriginToDestination(
+                  driverCurrentLatLng,
+                  userPickupLatLng!,
+                  isDark,
+                );
 
-              getDriverLocationUpdatesAtRealTime();
-            },
+                getDriverLocationUpdatesAtRealTime();
+              },
+            ),
           ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Padding(
-              padding: EdgeInsets.all(10),
-              child: Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.white,
-                      blurRadius: 10,
-                      spreadRadius: 0.5,
-                      offset: Offset(0.6, 0.6),
-                    ),
-                  ],
+          Container(
+            padding: EdgeInsets.fromLTRB(
+              12,
+              12,
+              12,
+              MediaQuery.of(context).padding.bottom + 5,
+            ),
+            color: Theme.of(context).scaffoldBackgroundColor,
+            child: Column(
+              children: [
+                RideLocationCard(
+                  currentLocation:
+                      widget.userRideRequestDetails!.originAddress!,
+                  destinationAddress:
+                      widget.userRideRequestDetails!.destinationAddress!,
                 ),
-                child: Column(
-                  children: [
-                    // Duration
-                    Text(
-                      "$durationFromOriginToDestination ${AppLocalizations.of(context)!.toPickup}",
-                      style: Theme.of(context).textTheme.labelMedium,
-                    ),
-                    SizedBox(height: 10),
-                    Divider(thickness: 0.5, color: AppColors.border),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(widget.userRideRequestDetails!.username!),
-                        IconButton(onPressed: () {}, icon: Icon(Icons.phone)),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/origin.png',
-                          height: 20,
-                          width: 20,
-                        ),
-                        SizedBox(width: 10),
-                        Expanded(
-                          child: Text(
-                            widget.userRideRequestDetails!.originAddress!,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Image.asset(
-                          'assets/images/destination.png',
-                          height: 20,
-                          width: 20,
-                        ),
-                        SizedBox(width: 10),
-                        Expanded(
-                          child: Text(
-                            widget.userRideRequestDetails!.destinationAddress!,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Divider(thickness: 0.5, color: AppColors.border),
-                    ElevatedButton.icon(
-                      onPressed: () async {
-                        // Driver arrives at pickup station - Arrived Button
+                SizedBox(height: 10),
+                Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: isDark
+                        ? AppColors.darkAccent
+                        : AppColors.lightAccent,
+                  ),
+                  child: Column(
+                    children: [
+                      rideRequestStatus == 'arrived'
+                          ? Text(
+                              AppLocalizations.of(context)!.waitingForRider,
+                              style: Theme.of(context).textTheme.labelMedium,
+                            )
+                          : rideRequestStatus == 'accepted'
+                          ? Text(
+                              "$durationFromOriginToDestination ${AppLocalizations.of(context)!.toPickup}",
+                              style: Theme.of(context).textTheme.labelMedium,
+                            )
+                          : Text(
+                              "$durationFromOriginToDestination ${AppLocalizations.of(context)!.toDropoff}",
+                              style: Theme.of(context).textTheme.labelMedium,
+                            ),
+                      SizedBox(height: 5),
+                      Divider(color: AppColors.border, thickness: 0.5),
+                      SizedBox(height: 5),
+                      ElevatedButton.icon(
+                        onPressed: () async {
+                          // Driver arrives at pickup station - Arrived Button
 
-                        if (rideRequestStatus == 'accepted') {
-                          rideRequestStatus = 'arrived';
-                          setState(() {
-                            print("Should print start trip");
-                            buttonTitle = AppLocalizations.of(
+                          if (rideRequestStatus == 'accepted') {
+                            rideRequestStatus = 'arrived';
+                            setState(() {
+                              // print("Should print start trip");
+                              buttonTitle = AppLocalizations.of(
+                                context,
+                              )!.startTrip;
+                            });
+
+                            FirebaseDatabase.instance
+                                .ref()
+                                .child('All Ride Requests')
+                                .child(
+                                  widget.userRideRequestDetails!.rideRequestId!,
+                                )
+                                .child('status')
+                                .set(rideRequestStatus);
+
+                            showDialog(
+                              context: context,
+                              barrierDismissible: false,
+                              builder: ((BuildContext context) =>
+                                  ProgressDialog(
+                                    message: AppLocalizations.of(
+                                      context,
+                                    )!.pleaseWait,
+                                  )),
+                            );
+
+                            await drawPolylineFromOriginToDestination(
+                              widget.userRideRequestDetails!.originLatLng!,
+                              widget.userRideRequestDetails!.destinationLatLng!,
+                              isDark,
+                            );
+                            if (!context.mounted) return;
+                            Navigator.pop(context);
+                          }
+                          // User is onboard - Trip Started Button
+                          else if (rideRequestStatus == 'arrived') {
+                            rideRequestStatus = 'ontrip';
+                            AppMethods.sendDriverArrivalNotification(
+                              widget.userRideRequestDetails!.userId!,
+                              widget.userRideRequestDetails!.originAddress!,
                               context,
-                            )!.startTrip;
-                          });
+                            );
 
-                          FirebaseDatabase.instance
-                              .ref()
-                              .child('All Ride Requests')
-                              .child(
-                                widget.userRideRequestDetails!.rideRequestId!,
-                              )
-                              .child('status')
-                              .set(rideRequestStatus);
+                            setState(() {
+                              // print('Button should be end trip');
+                              buttonTitle = AppLocalizations.of(
+                                context,
+                              )!.endTrip;
+                            });
 
-                          showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: ((BuildContext context) => ProgressDialog(
-                              message: AppLocalizations.of(context)!.pleaseWait,
-                            )),
-                          );
-
-                          await drawPolylineFromOriginToDestination(
-                            widget.userRideRequestDetails!.originLatLng!,
-                            widget.userRideRequestDetails!.destinationLatLng!,
-                            isDark,
-                          );
-
-                          Navigator.pop(context);
-                        }
-                        // User is onboard - Trip Started Button
-                        else if (rideRequestStatus == 'arrived') {
-                          rideRequestStatus = 'ontrip';
-
-                          setState(() {
-                            print('Button should be end trip');
-                            buttonTitle = AppLocalizations.of(context)!.endTrip;
-                          });
-
-                          FirebaseDatabase.instance
-                              .ref()
-                              .child('All Ride Requests')
-                              .child(
-                                widget.userRideRequestDetails!.rideRequestId!,
-                              )
-                              .child('status')
-                              .set(rideRequestStatus);
-                        }
-                        // User reached dropoff location
-                        else if (rideRequestStatus == 'ontrip') {
-                          endTripNow();
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        elevation: 0.2,
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                            FirebaseDatabase.instance
+                                .ref()
+                                .child('All Ride Requests')
+                                .child(
+                                  widget.userRideRequestDetails!.rideRequestId!,
+                                )
+                                .child('status')
+                                .set(rideRequestStatus);
+                          }
+                          // User reached dropoff location
+                          else if (rideRequestStatus == 'ontrip') {
+                            endTripNow();
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: Colors.white,
+                          disabledBackgroundColor: AppColors.primary.withValues(
+                            alpha: 0.5,
+                          ),
+                          disabledForegroundColor: Colors.white54,
+                          padding: EdgeInsets.all(16),
+                          minimumSize: const Size.fromHeight(50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        icon: Icon(Icons.directions_car, size: 25),
+                        label: Text(buttonTitle),
+                      ),
+                      SizedBox(height: 8),
+                      ElevatedButton(
+                        onPressed: () => _makePhoneCall(
+                          context,
+                          widget.userRideRequestDetails!.userPhone!,
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: AppColors.primary,
+                          backgroundColor: Colors.white,
+                          disabledBackgroundColor: AppColors.primary.withValues(
+                            alpha: 0.5,
+                          ),
+                          disabledForegroundColor: Colors.white54,
+                          padding: EdgeInsets.all(8),
+                          minimumSize: const Size.fromHeight(50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.call, size: 28),
+                            SizedBox(width: 12),
+                            Text(widget.userRideRequestDetails!.username!),
+                          ],
                         ),
                       ),
-                      icon: Icon(Icons.directions_car, size: 25),
-                      label: Text(buttonTitle),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ],

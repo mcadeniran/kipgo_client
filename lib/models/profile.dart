@@ -6,6 +6,7 @@ class Profile {
   final String username;
   final String role;
   final String token;
+  final String newRideStatus;
   final Personal personal;
   final Vehicle vehicle;
   final Account account;
@@ -23,6 +24,7 @@ class Profile {
     required this.account,
     required this.rides,
     required this.drives,
+    required this.newRideStatus,
   });
 
   factory Profile.fromMap(Map<String, dynamic> map, {required String id}) {
@@ -32,6 +34,7 @@ class Profile {
       username: map['username'] ?? '',
       role: map['role'] ?? '',
       token: map['token'] ?? '',
+      newRideStatus: map['newRideStatus'] ?? 'idle',
       personal: Personal.fromMap(map['personal'] ?? {}),
       vehicle: Vehicle.fromMap(map['vehicle'] ?? {}),
       account: Account.fromMap(map['account'] ?? {}),
@@ -52,6 +55,7 @@ class Profile {
       'username': username,
       'role': role,
       'token': token,
+      'newRideStatus': newRideStatus,
       'personal': personal.toMap(),
       'vehicle': vehicle.toMap(),
       'account': account.toMap(),
@@ -67,6 +71,7 @@ class Profile {
     String? username,
     String? role,
     String? token,
+    String? newRideStatus,
     Personal? personal,
     Vehicle? vehicle,
     Account? account,
@@ -79,6 +84,7 @@ class Profile {
       username: username ?? this.username,
       role: role ?? this.role,
       token: token ?? this.token,
+      newRideStatus: newRideStatus ?? this.newRideStatus,
       personal: personal ?? this.personal,
       vehicle: vehicle ?? this.vehicle,
       account: account ?? this.account,
@@ -166,6 +172,12 @@ class Vehicle {
   final String registrationUrl;
   final String licenceUrl;
   final String selfieUrl;
+  final String registrationStatus;
+  final String registrationText;
+  final String selfieStatus;
+  final String selfieText;
+  final String licenceStatus;
+  final String licenceText;
 
   Vehicle({
     required this.numberPlate,
@@ -175,6 +187,12 @@ class Vehicle {
     required this.registrationUrl,
     required this.licenceUrl,
     required this.selfieUrl,
+    required this.licenceStatus,
+    required this.licenceText,
+    required this.registrationStatus,
+    required this.registrationText,
+    required this.selfieStatus,
+    required this.selfieText,
   });
 
   factory Vehicle.fromMap(Map<String, dynamic> map) {
@@ -186,6 +204,12 @@ class Vehicle {
       registrationUrl: map['registrationUrl'] ?? '',
       licenceUrl: map['licenceUrl'] ?? '',
       selfieUrl: map['selfieUrl'] ?? '',
+      registrationStatus: map['registrationStatus'] ?? '',
+      registrationText: map['registrationText'] ?? '',
+      licenceStatus: map['licenceStatus'] ?? '',
+      licenceText: map['licenceText'] ?? '',
+      selfieStatus: map['selfieStatus'] ?? '',
+      selfieText: map['selfieText'] ?? '',
     );
   }
 
@@ -198,6 +222,12 @@ class Vehicle {
       'registrationUrl': registrationUrl,
       'licenceUrl': licenceUrl,
       'selfieUrl': selfieUrl,
+      'registrationStatus': registrationStatus,
+      'registrationText': registrationText,
+      'selfieStatus': selfieStatus,
+      'selfieText': selfieText,
+      'licenceStatus': licenceStatus,
+      'licenceText': licenceText,
     };
   }
 
@@ -209,6 +239,12 @@ class Vehicle {
     String? registrationUrl,
     String? licenceUrl,
     String? selfieUrl,
+    String? registrationStatus,
+    String? registrationText,
+    String? licenceStatus,
+    String? licenceText,
+    String? selfieStatus,
+    String? selfieText,
   }) {
     return Vehicle(
       numberPlate: numberPlate ?? this.numberPlate,
@@ -218,6 +254,12 @@ class Vehicle {
       registrationUrl: registrationUrl ?? this.registrationUrl,
       licenceUrl: licenceUrl ?? this.registrationUrl,
       selfieUrl: selfieUrl ?? this.selfieUrl,
+      registrationStatus: registrationStatus ?? this.registrationStatus,
+      registrationText: registrationText ?? this.registrationText,
+      selfieStatus: selfieStatus ?? this.selfieStatus,
+      selfieText: selfieText ?? this.selfieText,
+      licenceStatus: licenceStatus ?? this.licenceStatus,
+      licenceText: licenceText ?? this.licenceText,
     );
   }
 }
@@ -275,6 +317,7 @@ class Account {
 class Review {
   final double rating;
   final String? details;
+  final String rideId;
   final String reviewerId;
   final String reviewerName;
   final String reviewerPhotoUrl;
@@ -284,6 +327,7 @@ class Review {
     required this.rating,
     this.details,
     required this.reviewerId,
+    required this.rideId,
     required this.reviewerName,
     required this.reviewerPhotoUrl,
     required this.createdAt,
@@ -293,6 +337,7 @@ class Review {
     return Review(
       rating: (map['rating'] ?? 0).toDouble(),
       details: map['details'],
+      rideId: map['rideId'] ?? '',
       reviewerId: map['reviewerId'] ?? '',
       reviewerName: map['reviewerName'] ?? '',
       reviewerPhotoUrl: map['reviewerPhotoUrl'] ?? '',
@@ -306,6 +351,7 @@ class Review {
     return {
       'rating': rating,
       if (details != null) 'details': details,
+      'rideId': rideId,
       'reviewerId': reviewerId,
       'reviewerName': reviewerName,
       'reviewerPhotoUrl': reviewerPhotoUrl,

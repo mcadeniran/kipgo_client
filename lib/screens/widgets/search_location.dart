@@ -33,8 +33,8 @@ class SearchLocationWidget extends StatelessWidget {
         isLatLngRequired: true, // if you required coordinates from place detail
         getPlaceDetailWithLatLng: (Prediction prediction) {
           // this method will return latlng with place detail
-          print("placeDetails" + prediction.lng.toString());
-          print("Address: " + prediction.description!);
+          // print("placeDetails" + prediction.lng.toString());
+          // print("Address: " + prediction.description!);
         }, // this callback is called when isLatLngRequired is true
         itemClick: (Prediction prediction) {
           controller.text = prediction.description!;
@@ -50,7 +50,7 @@ class SearchLocationWidget extends StatelessWidget {
               children: [
                 Icon(Icons.location_on),
                 SizedBox(width: 7),
-                Expanded(child: Text("${prediction.description ?? ""}")),
+                Expanded(child: Text(prediction.description ?? "")),
               ],
             ),
           );

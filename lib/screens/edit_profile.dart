@@ -50,7 +50,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           .collection('profiles')
           .doc(profile.id)
           .update({
-            'isProfileCompleted': true,
+            'account.isProfileCompleted': true,
             'personal.phone': formattedPhone,
             'personal.firstName': firstNameController.text,
             'personal.lastName': lastNameController.text,
@@ -80,7 +80,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     // final e164 = profile.personal.phone;
     initialPhone = PhoneNumber(
-      isoCode: 'NG',
+      isoCode: 'TR',
       phoneNumber: profile.personal.phone,
     );
   }

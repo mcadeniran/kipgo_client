@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kipgo/screens/text_screen.dart';
+import 'package:kipgo/infoHandler/app_info.dart';
+import 'package:kipgo/screens/rides/active_ride_widget.dart';
+// import 'package:kipgo/screens/test_screen.dart';
+// import 'package:kipgo/screens/text_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
 import 'package:kipgo/controllers/profile_provider.dart';
@@ -15,14 +19,53 @@ import 'package:kipgo/screens/widgets/ads_carousel_widget.dart';
 import 'package:kipgo/screens/widgets/app_bar_widget.dart';
 import 'package:kipgo/utils/colors.dart';
 
-class CustomerHome extends StatelessWidget {
+class CustomerHome extends StatefulWidget {
   const CustomerHome({super.key});
 
   @override
+  State<CustomerHome> createState() => _CustomerHomeState();
+}
+
+class _CustomerHomeState extends State<CustomerHome> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _requestLocationPermission();
+      await _initializePushNotifications(context);
+      final user = Provider.of<ProfileProvider>(context, listen: false).profile;
+      final appInfo = Provider.of<AppInfo>(context, listen: false);
+      if (user != null) {
+        if (appInfo.rideId != null) {
+          await appInfo.startRideListener(appInfo.rideId!);
+        } else {
+          await appInfo.recoverActiveRide(user.id);
+        }
+      }
+    });
+  }
+
+  Future<void> _requestLocationPermission() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      permission = await Geolocator.requestPermission();
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Optional: redirect user to app settings
+      // await Geolocator.openAppSettings(); (if using geolocator >=9.0.0)
+    }
+  }
+
+  Future<void> _initializePushNotifications(BuildContext context) async {
+    await PushNotificationSystem().generateAndGetToken(context);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    PushNotificationSystem pushNotificationSystem = PushNotificationSystem();
-    pushNotificationSystem.initializeCloudMessaging(context);
-    pushNotificationSystem.generateAndGetToken(context);
+    bool activeRide = Provider.of<AppInfo>(context).hasActiveRide;
     return Scaffold(
       // backgroundColor: const Color(0xFFF5F7FB),
       appBar: AppBarWidget(title: 'KIPGO'),
@@ -63,6 +106,20 @@ class CustomerHome extends StatelessWidget {
                 AppLocalizations.of(context)!.whatWouldYouLikeToDoToday,
                 style: GoogleFonts.poppins(fontSize: 16),
               ),
+              // const SizedBox(height: 20),
+              Consumer<AppInfo>(
+                builder: (context, appInfo, child) {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 400),
+                      child: appInfo.hasActiveRide
+                          ? ActiveRideWidget()
+                          : const SizedBox.shrink(),
+                    ),
+                  );
+                },
+              ),
               const SizedBox(height: 20),
 
               // Buttons grid
@@ -76,18 +133,21 @@ class CustomerHome extends StatelessWidget {
                   mainAxisSpacing: 12,
                 ),
                 children: [
-                  _buildOptionCard(
-                    context,
-                    title: AppLocalizations.of(context)!.requestRide,
-                    icon: Icons.directions_car,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const RequestRide()),
-                        // MaterialPageRoute(builder: (_) => const InitiateRide()),
-                      );
-                    },
-                  ),
+                  if (activeRide == false)
+                    _buildOptionCard(
+                      context,
+                      title: AppLocalizations.of(context)!.requestRide,
+                      icon: Icons.hail_rounded,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const RequestRide(),
+                          ),
+                          // MaterialPageRoute(builder: (_) => const InitiateRide()),
+                        );
+                      },
+                    ),
                   _buildOptionCard(
                     context,
                     title: AppLocalizations.of(context)!.rideHistory,
@@ -127,17 +187,17 @@ class CustomerHome extends StatelessWidget {
                       );
                     },
                   ),
-                  _buildOptionCard(
-                    context,
-                    title: AppLocalizations.of(context)!.test,
-                    icon: Icons.laptop_chromebook,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const TestScreen()),
-                      );
-                    },
-                  ),
+                  // _buildOptionCard(
+                  //   context,
+                  //   title: AppLocalizations.of(context)!.test,
+                  //   icon: Icons.laptop_chromebook,
+                  //   onTap: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(builder: (_) => const TestScreen()),
+                  //     );
+                  //   },
+                  // ),
                 ],
               ),
               const SizedBox(height: 10),

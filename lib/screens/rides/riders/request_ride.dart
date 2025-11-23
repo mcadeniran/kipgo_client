@@ -5,14 +5,15 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_geofire/flutter_geofire.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_rating/flutter_rating.dart';
+import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/ic.dart';
-import 'package:kipgo/screens/rides/riders/rating_dialog.dart';
+import 'package:kipgo/screens/homes/customer_home.dart';
+import 'package:kipgo/screens/homes/driver_home.dart';
 import 'package:location/location.dart' as loc;
 import 'package:provider/provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
@@ -23,22 +24,12 @@ import 'package:kipgo/infoHandler/app_info.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/models/active_nearby_available_driver.dart';
 import 'package:kipgo/models/profile.dart';
-import 'package:kipgo/screens/homes/customer_home.dart';
 import 'package:kipgo/screens/rides/riders/precise_pickup_location.dart';
 import 'package:kipgo/screens/rides/riders/search_places_screen.dart';
 import 'package:kipgo/screens/widgets/progress_dialog.dart';
 import 'package:kipgo/utils/colors.dart';
 import 'package:kipgo/utils/geofire_assistant.dart';
 import 'package:kipgo/utils/methods.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-Future<void> _makePhoneCall(BuildContext context, String url) async {
-  if (await canLaunch(url)) {
-    await launchUrl(url as Uri);
-  } else {
-    throw '${AppLocalizations.of(context)!.couldNotCallDriver} $url';
-  }
-}
 
 class RequestRide extends StatefulWidget {
   const RequestRide({super.key});
@@ -48,6 +39,8 @@ class RequestRide extends StatefulWidget {
 }
 
 class _RequestRideState extends State<RequestRide> {
+  StreamSubscription? driverQuerySubscription;
+
   LatLng? pickLocation;
   loc.Location location = loc.Location();
   String? address;
@@ -57,7 +50,7 @@ class _RequestRideState extends State<RequestRide> {
   GoogleMapController? newGoogleMapController;
 
   static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+    target: LatLng(35.133428350758344, 33.923606022529256),
     zoom: 14.4746,
   );
 
@@ -68,10 +61,10 @@ class _RequestRideState extends State<RequestRide> {
   double assignedDriverInfoContainerHeight = 0;
   double suggestedRideContainerHeight = 0;
   double searchingForDriversContainerHeight = 0;
+  bool showSearchingContainer = false; // control visibility
 
   Position? userCurrentPosition;
-  var geoLocation = Geolocator();
-
+  // var geoLocation = Geolocator;
   double bottomPaddingOfMap = 0;
 
   List<LatLng> pLineCoordinateList = [];
@@ -132,7 +125,7 @@ class _RequestRideState extends State<RequestRide> {
           context,
         );
 
-    print("Address: $humanReadableAddress");
+    debugPrint("Address: $humanReadableAddress");
 
     if (!mounted) return;
     driverRideStatus = AppLocalizations.of(context)!.driverIsComing;
@@ -141,75 +134,50 @@ class _RequestRideState extends State<RequestRide> {
       listen: false,
     ).profile!.username;
 
-    initializeGeoFireListner();
-    // AppMethods.readTripsKeysForOnlineUser(context);
+    initializeNearbyDriverListener();
   }
 
   StreamSubscription<dynamic>? _geoQuerySubscription;
 
-  void initializeGeoFireListner() {
-    Geofire.initialize('activeDrivers');
+  void initializeNearbyDriverListener() {
+    final geo = GeoFlutterFire();
+    final driversCollection = FirebaseFirestore.instance.collection(
+      'activeDrivers',
+    );
 
-    _geoQuerySubscription =
-        Geofire.queryAtLocation(
-          userCurrentPosition!.latitude,
-          userCurrentPosition!.longitude,
-          10,
-        )!.listen((map) {
-          if (map != null) {
-            var callBack = map['callBack'];
+    final center = geo.point(
+      latitude: userCurrentPosition!.latitude,
+      longitude: userCurrentPosition!.longitude,
+    );
 
-            switch (callBack) {
-              // Whenever any driver becomes active/online
-              case Geofire.onKeyEntered:
-                GeofireAssistant.activeNearbyAvailableDriversList.clear();
-                ActiveNearbyAvailableDriver activeNearbyAvailableDriver =
-                    ActiveNearbyAvailableDriver();
-                activeNearbyAvailableDriver.driverId = map['key'];
-                activeNearbyAvailableDriver.locationLatitude = map['latitude'];
-                activeNearbyAvailableDriver.locationLongitude =
-                    map['longitude'];
-                GeofireAssistant.activeNearbyAvailableDriversList.add(
-                  activeNearbyAvailableDriver,
-                );
+    // 🔍 Query drivers within 5km
+    driverQuerySubscription = geo
+        .collection(collectionRef: driversCollection)
+        .within(center: center, radius: 5, field: 'position')
+        .listen((List<DocumentSnapshot> documentList) {
+          GeofireAssistant.activeNearbyAvailableDriversList.clear();
 
-                if (activateNearbyDriverKeysLoaded == true) {
-                  displayActiveDriversOnUserMap();
-                }
-                break;
+          for (var doc in documentList) {
+            final data = doc.data() as Map<String, dynamic>?;
 
-              // Whenever any driver goes inactive/offline
-              case Geofire.onKeyExited:
-                GeofireAssistant.deleteOfflineDriverFromList(map['key']);
-                displayActiveDriversOnUserMap();
-                break;
+            if (data == null || data['position'] == null) continue;
 
-              // Whenever a driver moves - update location
-              case Geofire.onKeyMoved:
-                ActiveNearbyAvailableDriver activeNearbyAvailableDriver =
-                    ActiveNearbyAvailableDriver();
-                activeNearbyAvailableDriver.driverId = map['key'];
-                activeNearbyAvailableDriver.locationLatitude = map['latitude'];
-                activeNearbyAvailableDriver.locationLongitude =
-                    map['longitude'];
-                GeofireAssistant.updateActiveNearbyAvailableDriverLocation(
-                  activeNearbyAvailableDriver,
-                );
-                displayActiveDriversOnUserMap();
-                break;
+            final GeoPoint point = data['position']['geopoint'];
 
-              // Display online active drivers on user's map
-              case Geofire.onGeoQueryReady:
-                activateNearbyDriverKeysLoaded = true;
-                displayActiveDriversOnUserMap();
-                break;
-            }
+            ActiveNearbyAvailableDriver driver = ActiveNearbyAvailableDriver();
+            driver.driverId = doc.id;
+            driver.locationLatitude = point.latitude;
+            driver.locationLongitude = point.longitude;
+
+            GeofireAssistant.activeNearbyAvailableDriversList.add(driver);
           }
-          setState(() {});
+
+          displayActiveDriversOnUserMap();
         });
   }
 
   void displayActiveDriversOnUserMap() {
+    if (!mounted) return; // ✅ Prevent setState after dispose
     setState(() {
       markersSet.clear();
       circlesSet.clear();
@@ -233,9 +201,7 @@ class _RequestRideState extends State<RequestRide> {
         driversMarkerSet.add(marker);
       }
 
-      setState(() {
-        markersSet = driversMarkerSet;
-      });
+      markersSet = driversMarkerSet;
     });
   }
 
@@ -419,40 +385,39 @@ class _RequestRideState extends State<RequestRide> {
     });
   }
 
-  void saveRideRequestInformation() {
+  Future<void> saveRideRequestInformation() async {
+    // Create new ride request in DB
     referenceRideRequest = FirebaseDatabase.instance
         .ref()
         .child('All Ride Requests')
         .push();
 
-    var originLocation = Provider.of<AppInfo>(
+    final rideId = referenceRideRequest!.key!;
+
+    debugPrint("NEW RIDE REQUEST ID: $rideId");
+
+    final originLocation = Provider.of<AppInfo>(
       context,
       listen: false,
     ).userPickUpLocation;
-    var destinationLocation = Provider.of<AppInfo>(
+    final destinationLocation = Provider.of<AppInfo>(
       context,
       listen: false,
     ).userDropOffLocation;
-
-    Map originLocationMap = {
-      // key: 'value',
-      "latitude": originLocation!.locationLatitude.toString(),
-      "longitude": originLocation.locationLongitude.toString(),
-    };
-
-    Map destinationLocationMap = {
-      // key: 'value',
-      "latitude": destinationLocation!.locationLatitude.toString(),
-      "longitude": destinationLocation.locationLongitude.toString(),
-    };
-    Profile profile = Provider.of<ProfileProvider>(
+    final profile = Provider.of<ProfileProvider>(
       context,
       listen: false,
     ).profile!;
 
-    Map userInformationMap = {
-      'origin': originLocationMap,
-      'destination': destinationLocationMap,
+    final userInformationMap = {
+      'origin': {
+        "latitude": originLocation!.locationLatitude.toString(),
+        "longitude": originLocation.locationLongitude.toString(),
+      },
+      'destination': {
+        "latitude": destinationLocation!.locationLatitude.toString(),
+        "longitude": destinationLocation.locationLongitude.toString(),
+      },
       'time': DateTime.now().toString(),
       'userId': profile.id,
       'username': profile.username,
@@ -462,192 +427,106 @@ class _RequestRideState extends State<RequestRide> {
       'driverId': 'waiting',
     };
 
-    referenceRideRequest!.set(userInformationMap);
+    await referenceRideRequest!.set(userInformationMap);
 
-    tripRideRequestInfoStreamSubscription = referenceRideRequest!.onValue.listen((
-      eventSnap,
-    ) async {
-      if (eventSnap.snapshot.value == null) {
-        return;
-      }
-      if ((eventSnap.snapshot.value as Map)['model'] != null) {
-        setState(() {
-          driverCarModel = (eventSnap.snapshot.value as Map)['model']
-              .toString();
-        });
-      }
-      if ((eventSnap.snapshot.value as Map)['colour'] != null) {
-        setState(() {
-          driverCarColour = (eventSnap.snapshot.value as Map)['colour']
-              .toString();
-        });
-      }
-      if ((eventSnap.snapshot.value as Map)['numberPlate'] != null) {
-        setState(() {
-          driverNumberPlate = (eventSnap.snapshot.value as Map)['numberPlate']
-              .toString();
-        });
-      }
-      if ((eventSnap.snapshot.value as Map)['driverPhone'] != null) {
-        setState(() {
-          driverPhone = (eventSnap.snapshot.value as Map)['driverPhone']
-              .toString();
-        });
-      }
-      if ((eventSnap.snapshot.value as Map)['driverName'] != null) {
-        setState(() {
-          driverName = (eventSnap.snapshot.value as Map)['driverName']
-              .toString();
-        });
-      }
-      if ((eventSnap.snapshot.value as Map)['driverPhotoUrl'] != null) {
-        setState(() {
-          driverPhotoUrl = (eventSnap.snapshot.value as Map)['driverPhotoUrl']
-              .toString();
-        });
-      }
-      if ((eventSnap.snapshot.value as Map)['status'] != null) {
-        setState(() {
-          userRideRequestStatus = (eventSnap.snapshot.value as Map)['status']
-              .toString();
-        });
-      }
+    Provider.of<AppInfo>(context, listen: false).setActiveRideId(rideId);
 
-      if ((eventSnap.snapshot.value as Map)['driverLocation'] != null) {
-        double driverCurrentPositionLat = double.parse(
-          (eventSnap.snapshot.value as Map)['driverLocation']['latitude']
-              .toString(),
-        );
-        double driverCurrentPositionLng = double.parse(
-          (eventSnap.snapshot.value as Map)['driverLocation']['longitude']
-              .toString(),
-        );
+    // Listen for updates
+    tripRideRequestInfoStreamSubscription = referenceRideRequest!.onValue
+        .listen((eventSnap) async {
+          if (eventSnap.snapshot.value == null) return;
 
-        LatLng driverCurrentPositionLatLng = LatLng(
-          driverCurrentPositionLat,
-          driverCurrentPositionLng,
-        );
+          final data = Map<String, dynamic>.from(
+            eventSnap.snapshot.value as Map,
+          );
 
-        // status = 'accepted'
-        if (userRideRequestStatus == 'accepted') {
-          updateArrivalTimeToUserPickupLocation(driverCurrentPositionLatLng);
-        }
-
-        // status = 'arrived'
-        if (userRideRequestStatus == 'arrived') {
+          // Update driver info fields dynamically
           setState(() {
-            driverRideStatus = AppLocalizations.of(context)!.driverHasArrived;
-          });
-        }
-
-        // status = 'onTrip'
-        if (userRideRequestStatus == 'ontrip') {
-          updateReachingTimeToUserDropoffLocation(driverCurrentPositionLatLng);
-        }
-
-        // if (userRideRequestStatus == 'ended') {
-        //   // setState(() {
-        //   //   assignedDriverInfoContainerHeight = 0;
-        //   // });
-        //   // referenceRideRequest!.onDisconnect();
-        //   // tripRideRequestInfoStreamSubscription!.cancel();
-        //   // Navigator.push(
-        //   //   context,
-        //   //   MaterialPageRoute(builder: (c) => CustomerHome()),
-        //   // );
-        //   // cleanupRideResources();
-
-        //   // Navigate back to Customer Home
-        //   // if (mounted) {
-        //   //   Navigator.pushReplacement(
-        //   //     context,
-        //   //     MaterialPageRoute(builder: (c) => CustomerHome()),
-        //   //   );
-        //   // }
-
-        //   // if ((eventSnap.snapshot.value as Map)['driverId'] != null) {
-        //   //   String assignedDriverId =
-        //   //       (eventSnap.snapshot.value as Map)['driverId'].toString();
-        //   //   // Navigator.push(
-        //   //   //   context,
-        //   //   //   MaterialPageRoute(builder: (c) => RateDriverScreen),
-        //   //   // );
-        //   // }
-        // }
-        if (userRideRequestStatus == 'ended') {
-          setState(() {
-            assignedDriverInfoContainerHeight = 0;
+            driverCarModel = data['model'] ?? driverCarModel;
+            driverCarColour = data['colour'] ?? driverCarColour;
+            driverNumberPlate = data['numberPlate'] ?? driverNumberPlate;
+            driverPhone = data['driverPhone'] ?? driverPhone;
+            driverName = data['driverName'] ?? driverName;
+            driverPhotoUrl = data['driverPhotoUrl'] ?? driverPhotoUrl;
+            userRideRequestStatus = data['status'] ?? userRideRequestStatus;
           });
 
-          // 🔑 Cleanup resources before navigating
-          cleanupRideResources();
+          // ✅ Handle rejection (even if driverLocation is null)
+          if (userRideRequestStatus == 'rejected') {
+            setState(() {
+              assignedDriverInfoContainerHeight = 0;
+              userRideRequestStatus = '';
+            });
+            // showBottomDriversListModel();
+            hideSearchingForDriversContainer();
+            if (referenceRideRequest != null) {
+              referenceRideRequest!.remove();
+              referenceRideRequest = null;
+            }
+            // WITHOUT CLEANUP
+            // cleanupRideResources();
 
-          if (mounted) {
-            String assignedDriverId =
-                (eventSnap.snapshot.value as Map)['driverId'].toString();
-            print("Assigned Driver Id: $assignedDriverId");
-            _endRide(context, assignedDriverId);
-            // await showDialog(
-            //   context: context,
-            //   barrierDismissible: false, // user must tap the button
-            //   builder: (BuildContext context) {
-            //     return AlertDialog(
-            //       backgroundColor: Theme.of(
-            //         context,
-            //       ).scaffoldBackgroundColor, // custom color
-            //       shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(20),
-            //       ),
-            //       title: Text(
-            //         AppLocalizations.of(context)!.rideCompleted,
-            //         style: TextStyle(
-            //           fontWeight: FontWeight.bold,
-            //           // color: AppColors.primary,
-            //         ),
-            //       ),
-            //       content: Text(
-            //         AppLocalizations.of(context)!.yourRideHasEnded,
-            //         style: TextStyle(fontSize: 16),
-            //       ),
-            //       actions: [
-            //         TextButton(
-            //           onPressed: () {
-            //             Navigator.pop(context); // close dialog
-            //           },
-            //           child: Text(
-            //             AppLocalizations.of(context)!.stay,
-            //             style: TextStyle(color: AppColors.tertiary),
-            //           ),
-            //         ),
-            //         ElevatedButton(
-            //           style: ElevatedButton.styleFrom(
-            //             backgroundColor: AppColors.primary,
-            //             foregroundColor: Colors.white,
-            //             shape: RoundedRectangleBorder(
-            //               borderRadius: BorderRadius.circular(12),
-            //             ),
-            //           ),
-            //           onPressed: () {
-            //             Navigator.pop(context);
-            //             Navigator.pushAndRemoveUntil(
-            //               context,
-            //               MaterialPageRoute(
-            //                 builder: (c) => const CustomerHome(),
-            //               ),
-            //               (route) => false,
-            //             );
-            //           },
-            //           child: Text(AppLocalizations.of(context)!.goHome),
-            //         ),
-            //       ],
-            //     );
-            //   },
-            // );
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    AppLocalizations.of(context)!.yourRideWasRejected,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  backgroundColor: AppColors.tertiary,
+                  behavior: SnackBarBehavior.floating,
+                  duration: Duration(seconds: 3),
+                ),
+              );
+              // Optionally re-open driver list modal
+              // showDriverListsModel = true;
+              // showBottomDriversListModel();
+            }
+            return; // stop here since rejected
           }
-        }
-      }
-    });
 
+          // Handle driver location updates
+          if (data['driverLocation'] != null) {
+            switch (userRideRequestStatus) {
+              case 'accepted':
+                cleanupRideResources(); // Stop listeners and free resources
+
+                if (mounted) {
+                  Profile profile = Provider.of<ProfileProvider>(
+                    context,
+                    listen: false,
+                  ).profile!;
+                  Provider.of<AppInfo>(
+                    context,
+                    listen: false,
+                  ).updateActiveRideStatus(true);
+
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => profile.role == 'rider'
+                          ? CustomerHome()
+                          : DriverHome(),
+                    ),
+                    (route) => false, // Removes all previous routes
+                  );
+                }
+                break;
+              default:
+                // ScaffoldMessenger.of(context).showSnackBar(
+                //   SnackBar(
+                //     content: Text(
+                //       AppLocalizations.of(context)!.noAvailableDriverNearby,
+                //     ),
+                //     duration: const Duration(seconds: 3),
+                //   ),
+                // );
+                break;
+            }
+          }
+        });
+
+    // Start searching for drivers
     onlineNearbyAvailableDriversList =
         GeofireAssistant.activeNearbyAvailableDriversList;
     searchNearestOnlineDrivers();
@@ -655,106 +534,16 @@ class _RequestRideState extends State<RequestRide> {
 
   void showSearchingForDriversContainer() {
     setState(() {
-      searchingForDriversContainerHeight = 200;
+      showSearchingContainer = true;
+      searchingForDriversContainerHeight = 150;
     });
   }
 
-  void _endRide(BuildContext context, String driverId) {
-    // 🔹 Show rating dialog when ride ends
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => RatingDialog(
-        onSubmit: (rating, reviews) async {
-          final userP = Provider.of<ProfileProvider>(
-            context,
-            listen: false,
-          ).profile;
-
-          final review = Review(
-            rating: rating,
-            details: reviews,
-            reviewerId: userP!.id,
-            reviewerName: userP.username,
-            reviewerPhotoUrl: userP.personal.photoUrl,
-            createdAt: DateTime.now(),
-          );
-
-          // Update driver profile
-          final docRef = FirebaseFirestore.instance
-              .collection("profiles")
-              .doc(driverId);
-          await docRef.update({
-            "personal.reviews": FieldValue.arrayUnion([review.toMap()]),
-          });
-          print("User rated: $rating, review: $review");
-        },
-      ),
-    );
-  }
-
-  Future<void> updateArrivalTimeToUserPickupLocation(
-    LatLng driverCurrentPositionLatLng,
-  ) async {
-    if (requestPositionInfo == true) {
-      requestPositionInfo = false;
-      LatLng userPickupPosition = LatLng(
-        userCurrentPosition!.latitude,
-        userCurrentPosition!.longitude,
-      );
-
-      var directionDetailsInfo =
-          await AppMethods.obtainOriginToDestinationDirectionDetails(
-            driverCurrentPositionLatLng,
-            userPickupPosition,
-          );
-
-      if (directionDetailsInfo == null) {
-        return;
-      }
-
-      setState(() {
-        driverRideStatus =
-            "${AppLocalizations.of(context)!.driverIsComing}: ${directionDetailsInfo.durationText}";
-      });
-
-      requestPositionInfo = true;
-    }
-  }
-
-  Future<void> updateReachingTimeToUserDropoffLocation(
-    LatLng driverCurrentPositionLatLng,
-  ) async {
-    if (requestPositionInfo == true) {
-      requestPositionInfo = false;
-
-      var dropoffLocation = Provider.of<AppInfo>(
-        context,
-        listen: false,
-      ).userDropOffLocation;
-
-      LatLng userDestinationPosition = LatLng(
-        dropoffLocation!.locationLatitude!,
-        dropoffLocation.locationLongitude!,
-      );
-
-      var directionDetailsInfo =
-          await AppMethods.obtainOriginToDestinationDirectionDetails(
-            driverCurrentPositionLatLng,
-            userDestinationPosition,
-          );
-
-      if (directionDetailsInfo == null) {
-        return;
-      }
-
-      setState(() {
-        driverRideStatus =
-            '${AppLocalizations.of(context)!.goingTowardsDestination}: ${directionDetailsInfo.durationText}';
-      });
-
-      requestPositionInfo = true;
-    }
+  void hideSearchingForDriversContainer() {
+    setState(() {
+      showSearchingContainer = false;
+      searchingForDriversContainerHeight = 0;
+    });
   }
 
   Future<void> searchNearestOnlineDrivers() async {
@@ -785,16 +574,6 @@ class _RequestRideState extends State<RequestRide> {
 
     showBottomDriversListModel();
 
-    // for (int i = 0; i < driversList.length; i++) {
-    //   AppMethods.sendNotificationToDriverNow(
-    //     driversList[i]['token'],
-    //     referenceRideRequest!.key!,
-    //     context,
-    //   );
-    // }
-
-    // showSearchingForDriversContainer();
-
     FirebaseDatabase.instance
         .ref()
         .child('All Ride Requests')
@@ -804,24 +583,10 @@ class _RequestRideState extends State<RequestRide> {
         .listen((eventRideRequestSnapshot) {
           if (eventRideRequestSnapshot.snapshot.value != null) {
             if (eventRideRequestSnapshot.snapshot.value != 'waiting') {
-              setState(() {
-                showDriverListsModel = false;
-              });
-              showBottomDriversListModel();
-              showUIForAssignedDriverInfo();
+              // showUIForAssignedDriverInfo();
             }
           }
         });
-  }
-
-  void showUIForAssignedDriverInfo() {
-    setState(() {
-      waitingResponseFromDriverContainerHeight = 0;
-      searchLocationContainerHeight = 0;
-      assignedDriverInfoContainerHeight = 280;
-      suggestedRideContainerHeight = 0;
-      bottomPaddingOfMap = 200;
-    });
   }
 
   Future<void> retrieveOnlineDriversInformation(
@@ -836,8 +601,6 @@ class _RequestRideState extends State<RequestRide> {
           .get()
           .then((dataSnapshot) {
             driversList.add(Profile.fromFirestore(dataSnapshot));
-            // var driverKeyInfo = dataSnapshot.data();
-            // driversList.add(driverKeyInfo);
           });
     }
   }
@@ -866,7 +629,7 @@ class _RequestRideState extends State<RequestRide> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      'Select Driver',
+                      AppLocalizations.of(context)!.selectDriver,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
@@ -960,8 +723,16 @@ class _RequestRideState extends State<RequestRide> {
                                     referenceRideRequest!.key!,
                                     context,
                                   );
+                                  setState(() {
+                                    showDriverListsModel = false;
+                                  });
+                                  // MIGHT REMOVE
+                                  showBottomDriversListModel();
+                                  showSearchingForDriversContainer();
                                 },
-                                child: const Text('Hail Ride'),
+                                child: Text(
+                                  AppLocalizations.of(context)!.requestRide,
+                                ),
                               ),
                             ],
                           ),
@@ -977,9 +748,8 @@ class _RequestRideState extends State<RequestRide> {
       });
     } else {
       // Close if it's already open
-      if (Navigator.canPop(context)) {
-        Navigator.pop(context);
-      }
+      Navigator.pop(context);
+      if (Navigator.canPop(context)) {}
     }
   }
 
@@ -990,25 +760,29 @@ class _RequestRideState extends State<RequestRide> {
     if (isDark) {
       _loadMapStyle();
     }
+
     checkIfLocationPermissionAllowed();
+    createActiveNearbyDriverIconMarker();
   }
 
-  void cleanupRideResources() {
+  void cleanupRideResources() async {
     // Cancel ride request subscription
     tripRideRequestInfoStreamSubscription?.cancel();
-    tripRideRequestInfoStreamSubscription = null;
+    // tripRideRequestInfoStreamSubscription = null;
+
+    await driverQuerySubscription?.cancel();
+    driverQuerySubscription = null;
 
     // Cancel GeoFire subscription
-    _geoQuerySubscription?.cancel();
-    _geoQuerySubscription = null;
-
+    await _geoQuerySubscription?.cancel();
+    // _geoQuerySubscription = null;
     // Clean up Firebase ride request reference
     referenceRideRequest?.onDisconnect();
-    referenceRideRequest = null;
+    // referenceRideRequest = null;
 
     // Dispose Google Maps controller
     newGoogleMapController?.dispose();
-    newGoogleMapController = null;
+    // newGoogleMapController = null;
 
     // Reset temporary data (optional, keeps things tidy)
     markersSet.clear();
@@ -1028,7 +802,6 @@ class _RequestRideState extends State<RequestRide> {
   @override
   Widget build(BuildContext context) {
     bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
-    createActiveNearbyDriverIconMarker();
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -1262,6 +1035,7 @@ class _RequestRideState extends State<RequestRide> {
                                             listen: false,
                                           ).userPickUpLocation !=
                                           null) {
+                                    debugPrint("SHOULD CREATE RIDEREQUEST");
                                     saveRideRequestInformation();
                                   } else {
                                     final snackBarPickup = SnackBar(
@@ -1325,224 +1099,124 @@ class _RequestRideState extends State<RequestRide> {
               ),
             ),
             // Requesting a ride
+            // Positioned(
+            //   bottom: 0,
+            //   left: 0,
+            //   right: 0,
+            //   child: AnimatedContainer(
+            //     clipBehavior: Clip.hardEdge,
+            //     duration: const Duration(milliseconds: 300),
+            //     curve: Curves.easeInOut,
+            //     height: searchingForDriversContainerHeight,
+            //     width: double.infinity,
+            //     color: isDark ? AppColors.darkAccent : Colors.grey[50],
+            //     child: Column(
+            //       mainAxisAlignment: MainAxisAlignment.center,
+            //       // mainAxisSize: MainAxisSize.min,
+            //       children: [
+            //         Text(
+            //           AppLocalizations.of(context)!.waitingForDriver,
+            //           style: Theme.of(context).textTheme.bodyLarge,
+            //         ),
+            //         const SizedBox(height: 12),
+            //         const LinearProgressIndicator(),
+            //         const SizedBox(height: 10),
+            //         ElevatedButton(
+            //           onPressed: () {
+            //             // Cancel ride searching
+            //             hideSearchingForDriversContainer();
+            //             // setState(() {
+            //             //   showDriverListsModel = true;
+            //             // });
+            //             // showBottomDriversListModel();
+
+            //             // Optional: cancel the ride request in DB if you want
+            //             if (referenceRideRequest != null) {
+            //               referenceRideRequest!.remove();
+            //               referenceRideRequest = null;
+            //             }
+            //           },
+            //           style: ElevatedButton.styleFrom(
+            //             backgroundColor: Colors.redAccent,
+            //             shape: RoundedRectangleBorder(
+            //               borderRadius: BorderRadius.circular(8),
+            //             ),
+            //           ),
+            //           child: Text(
+            //             AppLocalizations.of(context)!.cancel,
+            //             style: TextStyle(color: Colors.white),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
             Positioned(
               bottom: 0,
               left: 0,
               right: 0,
-              child: Container(
+              child: AnimatedContainer(
+                clipBehavior: Clip.hardEdge,
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.easeInOut,
                 height: searchingForDriversContainerHeight,
-                // height: 180,
-                padding: EdgeInsets.symmetric(vertical: 18, horizontal: 24),
+                width: double.infinity,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15),
+                  color: isDark ? AppColors.darkAccent : Colors.grey[50],
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(16),
                   ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    LinearProgressIndicator(
-                      backgroundColor: isDark
-                          ? AppColors.darkLayer
-                          : AppColors.primary,
-                      color: AppColors.tertiary,
-                    ),
-                    SizedBox(height: 10),
-                    Center(
-                      child: Text(
-                        AppLocalizations.of(context)!.searchingForDriver,
-                        style: Theme.of(context).textTheme.headlineSmall!
-                            .copyWith(
-                              color: Theme.of(
-                                context,
-                              ).textTheme.headlineSmall!.color!.withAlpha(100),
-                            ),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    InkWell(
-                      onTap: () {
-                        referenceRideRequest!.remove();
-                        setState(() {
-                          searchingForDriversContainerHeight = 0;
-                          suggestedRideContainerHeight = 0;
-                        });
-                      },
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).scaffoldBackgroundColor,
-                          borderRadius: BorderRadius.circular(25),
-                          border: Border.all(width: 1, color: AppColors.border),
-                        ),
-                        child: Icon(Icons.close, size: 25),
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    SizedBox(
-                      width: double.infinity,
-                      child: Text(
-                        AppLocalizations.of(context)!.cancel,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: AppColors.tertiary,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 6,
+                      offset: const Offset(0, -2),
                     ),
                   ],
                 ),
-              ),
-            ),
-            // UI for displaying assigned driver information
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: Container(
-                // padding: EdgeInsets.all(10),
-                height: assignedDriverInfoContainerHeight,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    children: [
-                      Text(driverRideStatus),
-                      SizedBox(height: 5),
-                      Divider(thickness: 0.5, color: AppColors.border),
-                      SizedBox(height: 5),
-                      Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: AnimatedOpacity(
+                  duration: const Duration(milliseconds: 300),
+                  opacity: showSearchingContainer ? 1.0 : 0.0, // ✅ fade in/out
+                  curve: Curves.easeInOut,
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        // mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Material(
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            // shape: const CircleBorder(),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: driverPhotoUrl == ''
-                                ? Container(
-                                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                                    width: 60,
-                                    height: 60,
-                                    decoration: const BoxDecoration(
-                                      color: AppColors.primary,
-                                      // shape: BoxShape.circle,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(10),
-                                      ),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        // username[0].toUpperCase(),
-                                        'J',
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 32,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                : FadeInImage.assetNetwork(
-                                    height: 60,
-                                    width: 60,
-                                    fit: BoxFit.cover,
-                                    placeholder: "assets/images/avatar.png",
-                                    image: driverPhotoUrl,
-                                    fadeInDuration: const Duration(
-                                      milliseconds: 300,
-                                    ),
-                                    fadeOutDuration: const Duration(
-                                      milliseconds: 300,
-                                    ),
-                                    imageErrorBuilder: (c, e, s) => Image.asset(
-                                      "assets/images/avatar.png",
-                                      height: 60,
-                                      width: 60,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
+                          Text(
+                            AppLocalizations.of(context)!.waitingForDriver,
+                            style: Theme.of(context).textTheme.titleMedium,
+                            textAlign: TextAlign.center,
                           ),
-                          SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                driverName,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                          const SizedBox(height: 12),
+                          const LinearProgressIndicator(),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: () {
+                              hideSearchingForDriversContainer();
+
+                              // Optional: cancel the ride request in DB if needed
+                              if (referenceRideRequest != null) {
+                                referenceRideRequest!.remove();
+                                referenceRideRequest = null;
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.redAccent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                              Row(
-                                children: [
-                                  Icon(
-                                    Icons.star,
-                                    color: Colors.orange.shade200,
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text('4.5'),
-                                ],
-                              ),
-                            ],
+                            ),
+                            child: Text(
+                              AppLocalizations.of(context)!.cancel,
+                              style: const TextStyle(color: Colors.white),
+                            ),
                           ),
                         ],
                       ),
-                      SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text("$driverCarColour $driverCarModel"),
-                          ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 2,
-                            ),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: AppColors.border),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Text(driverNumberPlate),
-                          ),
-                        ],
-                      ),
-                      Divider(thickness: 0.5, color: AppColors.border),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 6.0,
-                          horizontal: MediaQuery.of(context).size.width / 8,
-                        ),
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            _makePhoneCall(context, "tel: $driverPhone");
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            foregroundColor: Colors.white,
-                            disabledBackgroundColor: AppColors.primary
-                                .withValues(alpha: 0.5),
-                            disabledForegroundColor: Colors.white54,
-                            minimumSize: const Size.fromHeight(50),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          icon: Icon(Icons.call),
-                          label: Text(AppLocalizations.of(context)!.callDriver),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),

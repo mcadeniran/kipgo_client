@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyD-VZPivjwtD8LB-4h5JiEY2e5bTOMA98I',
-    appId: '1:1014236146041:android:436d7984101f3848ed67a8',
+    appId: '1:1014236146041:android:418b10b0e0d7dd81ed67a8',
     messagingSenderId: '1014236146041',
     projectId: 'kipgo-taxi',
     databaseURL: 'https://kipgo-taxi-default-rtdb.europe-west1.firebasedatabase.app',
@@ -60,12 +60,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAKi2xX2aVN4WMie8xBOTY4LFty6ITwAqA',
-    appId: '1:1014236146041:ios:563f6e32053a8ec4ed67a8',
+    appId: '1:1014236146041:ios:eb2a362bbb6efd8ced67a8',
     messagingSenderId: '1014236146041',
     projectId: 'kipgo-taxi',
     databaseURL: 'https://kipgo-taxi-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'kipgo-taxi.firebasestorage.app',
-    iosBundleId: 'com.kipgotaksi.taxiApp',
+    iosBundleId: 'com.kipgotaxi.app',
   );
 
 }

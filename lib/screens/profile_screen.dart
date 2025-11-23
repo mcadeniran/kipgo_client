@@ -30,6 +30,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ).profile!.id;
       final provider = Provider.of<RideHistoryProvider>(context, listen: false);
       provider.fetchUserRides(userId);
+      final driverProvider = Provider.of<DriveHistoryProvider>(
+        context,
+        listen: false,
+      );
+      driverProvider.fetchDriverRides(userId);
     });
   }
 
@@ -37,7 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     bool isDark = Provider.of<ThemeProvider>(context, listen: false).isDarkMode;
     final rideProvider = Provider.of<RideHistoryProvider>(context);
-    final driverProvider = Provider.of<DriveHistoryProvider>(context);
+    // final driverProvider = Provider.of<DriveHistoryProvider>(context);
     return Scaffold(
       backgroundColor: AppColors.primary,
       appBar: AppBarWidget(
@@ -249,16 +254,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                 ),
                                 SizedBox(width: 5),
-                                driverProvider.isLoading
-                                    ? CircularProgressIndicator.adaptive()
-                                    : Text(
-                                        driverProvider.driverRides.length
-                                            .toString(),
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
+                                Consumer<DriveHistoryProvider>(
+                                  builder: (context, dhp, _) {
+                                    return dhp.isLoading
+                                        ? CircularProgressIndicator.adaptive()
+                                        : Text(
+                                            dhp.driverRides.length.toString(),
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          );
+                                  },
+                                ),
                               ],
                             ),
                             IconButton(

@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.kipgo</string>
+	<string>com.kipgotaxi.app</string>
 	<key>PROJECT_ID</key>
 	<string>kipgo-taxi</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,7 +25,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:1014236146041:ios:f4e74490469fcc01ed67a8</string>
+	<string>1:1014236146041:ios:eb2a362bbb6efd8ced67a8</string>
 	<key>DATABASE_URL</key>
 	<string>https://kipgo-taxi-default-rtdb.europe-west1.firebasedatabase.app</string>
 </dict>

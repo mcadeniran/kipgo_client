@@ -335,7 +335,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Bu yolculuk başka bir sürücü tarafından kabul edildi.';
 
   @override
-  String get yourCurrentLocation => 'Mevcut konumunuz';
+  String get yourCurrentLocation => 'Mevcut Konum';
 
   @override
   String get toPickup => 'Alım noktasına';
@@ -616,4 +616,238 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get ratingError =>
       'Değerlendirme gönderilemedi. Lütfen tekrar deneyin.';
+
+  @override
+  String get nowOnline => 'Şimdi Çevrimiçi';
+
+  @override
+  String get deleteRide => 'Yolculuğu Sil';
+
+  @override
+  String get delete => 'Sil';
+
+  @override
+  String get areYouSureRide =>
+      'Bu yolculuğu silmek istediğinizden emin misiniz?';
+
+  @override
+  String get rideDeletedSuccessfully => 'Yolculuk başarıyla silindi';
+
+  @override
+  String get errorDeletingRide => 'Yolculuk silinirken hata oluştu: ';
+
+  @override
+  String get rideNotFound => 'Yolculuk bulunamadı';
+
+  @override
+  String get completeProfilePrompt =>
+      'Sürüşe başlamak için lütfen profilinizi tamamlayın.';
+
+  @override
+  String get submitDocumentsPrompt =>
+      'Devam etmek için lütfen gerekli belgeleri gönderin.';
+
+  @override
+  String get documentsPending => 'Belgeleriniz doğrulama için beklemede.';
+
+  @override
+  String get documentsApproved => 'Belgeleriniz onaylandı.';
+
+  @override
+  String get documentsRejected =>
+      'Belgeleriniz reddedildi. Lütfen tekrar gönderin.';
+
+  @override
+  String get myReviews => 'Yorumlarım';
+
+  @override
+  String get reviews => 'yorumlar';
+
+  @override
+  String get youHaveNoReviews => 'Henüz hiç yorumunuz yok';
+
+  @override
+  String get yourRideWasRejected =>
+      'Yolculuk talebiniz reddedildi. Lütfen tekrar deneyin.';
+
+  @override
+  String get selectDriver => 'Sürücü Seç';
+
+  @override
+  String get waitingForDriver => 'Sürücü yanıtı bekleniyor...';
+
+  @override
+  String get rateRide => 'Yolculuğu Değerlendir';
+
+  @override
+  String get rateYourDriver => 'Yolculuğunuz nasıldı?';
+
+  @override
+  String get areYouSureDeleteFile =>
+      'Bu dosyayı silmek istediğinizden emin misiniz?';
+
+  @override
+  String get fileDeletedSuccessfully => 'Dosya başarıyla silindi';
+
+  @override
+  String get deleteFailed => 'Dosya silme başarısız:';
+
+  @override
+  String get accepted => 'Kabul Edildi';
+
+  @override
+  String get rejected => 'Reddedildi';
+
+  @override
+  String get submitted => 'Gönderildi';
+
+  @override
+  String get driversLicence => 'Sürücü Belgesi';
+
+  @override
+  String get uploadAClearPictureofLicence =>
+      'Sürücü belgenizin net bir fotoğrafını yükleyin.';
+
+  @override
+  String get ensureYourFullName =>
+      'Adınız, soyadınız ve sürücü belgesi numaranızın görünür olduğundan emin olun.';
+
+  @override
+  String get theDocumentMustBeValid =>
+      'Belge geçerli olmalıdır (süresi dolmamış).';
+
+  @override
+  String get vehicleRegistration => 'Araç Ruhsatı (Araba Fotoğrafı)';
+
+  @override
+  String get uploadAClearPictureOfCar =>
+      'Plakası görünen net bir araç fotoğrafı yükleyin.';
+
+  @override
+  String get theNumberPlateMustBeReadable => 'Plaka okunabilir olmalıdır.';
+
+  @override
+  String get theVehicleMustMatch =>
+      'Araç, profilinizdeki bilgilerle eşleşmelidir.';
+
+  @override
+  String get takeASelfie => 'Sürücü belgenizi tutarken bir selfie çekin.';
+
+  @override
+  String get yourFaceAndTheLicence =>
+      'Hem yüzünüz hem de belge bilgileri görünür olmalıdır.';
+
+  @override
+  String get thisHelpsUsConfirm =>
+      'Bu, belgenin size ait olduğunu doğrulamamıza yardımcı olur.';
+
+  @override
+  String get missingDocuments => 'Eksik Belgeleri Yükle';
+
+  @override
+  String get documentRejected => 'Reddedilen Belgeleri Tekrar Yükle';
+
+  @override
+  String get status => 'Durum:';
+
+  @override
+  String get removeFile => 'Bu Dosyayı Kaldır';
+
+  @override
+  String get rideIsComing => 'Yolculuk yolda';
+
+  @override
+  String get fetchingETA => 'Tahmini varış süresi alınıyor...';
+
+  @override
+  String get driverIsWaiting => 'Seni bekliyor...';
+
+  @override
+  String get onTrip => 'Yolculukta';
+
+  @override
+  String get arrivingIn => 'Varış süresi:';
+
+  @override
+  String get reachingDestinationIn => 'Varış yerine kalan süre:';
+
+  @override
+  String get cancelRide => 'Yolculuk iptal edilsin mi?';
+
+  @override
+  String get areYouSureCancelRide =>
+      'Bu yolculuğu iptal etmek istediğinize emin misiniz? Sürücü bilgilendirilecektir.';
+
+  @override
+  String get no => 'Hayır';
+
+  @override
+  String get yesCancel => 'Evet, iptal et';
+
+  @override
+  String get backgroundLocationNeeded => 'Arka Plan Konum Erişimi Gerekli';
+
+  @override
+  String get kipgoNeeds =>
+      'Kipgo\'nun, yolcuların sizi uygulama kapalıyken veya arka planda çalışırken bile bulabilmesi için \'Her Zaman İzin Ver\' konum erişimine ihtiyacı var. Lütfen ayarlara gidip \'Her Zaman İzin Ver\'i etkinleştirin.';
+
+  @override
+  String get openSettings => 'Ayarları Aç';
+
+  @override
+  String get locationPermissionRequired => 'Konum İzni Gerekli';
+
+  @override
+  String get locationPermissionRequiredDrivers =>
+      'Sürücüler için konum izni gereklidir. Lütfen Ayarlar\'dan etkinleştirin.';
+
+  @override
+  String get rideCancelledSuccessfully => 'Yolculuk başarıyla iptal edildi.';
+
+  @override
+  String get failedToCancelRide => 'Yolculuk iptal edilemedi: ';
+
+  @override
+  String get toDropoff => 'Teslim Noktasına';
+
+  @override
+  String get waitingForRider => 'Yolcu bekleniyor...';
+
+  @override
+  String get cancelled => 'İptal Edildi';
+
+  @override
+  String get ok => 'Tamam';
+
+  @override
+  String get riderCancelledTrip => 'Yolcu yolculuğu iptal etti.';
+
+  @override
+  String get rideCancelled => 'Yolculuk İptal Edildi';
+
+  @override
+  String get theRiderHasCancelled =>
+      'Yolcu bu yolculuğu iptal etti. Ana ekrana yönlendirileceksiniz.';
+
+  @override
+  String get newRideRequest => 'Yeni Yolculuk Talebi';
+
+  @override
+  String get accept => 'Kabul Et';
+
+  @override
+  String get rideRequestIsNotAvailable => 'Yolculuk talebi mevcut değil';
+
+  @override
+  String get rideRequestRejected => 'Yolculuk talebi reddedildi';
+
+  @override
+  String get failedToRejectRide => 'Yolculuk reddedilemedi';
+
+  @override
+  String get errorProcessingRideRequest =>
+      'Yolculuk talebi işlenirken bir hata oluştu';
+
+  @override
+  String get reject => 'Reddet';
 }

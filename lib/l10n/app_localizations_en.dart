@@ -335,7 +335,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'This ride was already accepted by another driver.';
 
   @override
-  String get yourCurrentLocation => 'Your location';
+  String get yourCurrentLocation => 'Current Position';
 
   @override
   String get toPickup => 'To Pickup';
@@ -617,4 +617,236 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ratingError => 'Failed to submit rating. Please try again.';
+
+  @override
+  String get nowOnline => 'Now Online';
+
+  @override
+  String get deleteRide => 'Delete Ride';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get areYouSureRide => 'Are you sure you want to delete this ride?';
+
+  @override
+  String get rideDeletedSuccessfully => 'Ride deleted successfully';
+
+  @override
+  String get errorDeletingRide => 'Error deleting ride: ';
+
+  @override
+  String get rideNotFound => 'Ride not found';
+
+  @override
+  String get completeProfilePrompt =>
+      'Please complete your profile to start driving.';
+
+  @override
+  String get submitDocumentsPrompt =>
+      'Please submit the required documents to continue.';
+
+  @override
+  String get documentsPending => 'Your documents are pending verification.';
+
+  @override
+  String get documentsApproved => 'Your documents have been approved.';
+
+  @override
+  String get documentsRejected =>
+      'Your documents were rejected. Please re-submit.';
+
+  @override
+  String get myReviews => 'My Reviews';
+
+  @override
+  String get reviews => 'reviews';
+
+  @override
+  String get youHaveNoReviews => 'You have no reviews yet';
+
+  @override
+  String get yourRideWasRejected => 'Your ride was rejected. Please try again.';
+
+  @override
+  String get selectDriver => 'Select Driver';
+
+  @override
+  String get waitingForDriver => 'Waiting for driver response...';
+
+  @override
+  String get rateRide => 'Rate Ride';
+
+  @override
+  String get rateYourDriver => 'How was your ride?';
+
+  @override
+  String get areYouSureDeleteFile =>
+      'Are you sure you want to delete this file?';
+
+  @override
+  String get fileDeletedSuccessfully => 'File deleted successfully';
+
+  @override
+  String get deleteFailed => 'File deletion failed:';
+
+  @override
+  String get accepted => 'Accepted';
+
+  @override
+  String get rejected => 'Rejected';
+
+  @override
+  String get submitted => 'Submitted';
+
+  @override
+  String get driversLicence => 'Driver’s Licence';
+
+  @override
+  String get uploadAClearPictureofLicence =>
+      'Upload a clear picture of your driver’s licence.';
+
+  @override
+  String get ensureYourFullName =>
+      'Ensure your full name and driver’s licence number are visible.';
+
+  @override
+  String get theDocumentMustBeValid =>
+      'The document must be valid (not expired).';
+
+  @override
+  String get vehicleRegistration => 'Vehicle Registration (Car Image)';
+
+  @override
+  String get uploadAClearPictureOfCar =>
+      'Upload a clear picture of your car showing the number plate.';
+
+  @override
+  String get theNumberPlateMustBeReadable =>
+      'The number plate must be readable.';
+
+  @override
+  String get theVehicleMustMatch =>
+      'The vehicle must match the details on your profile.';
+
+  @override
+  String get takeASelfie => 'Take a selfie holding your driver’s licence.';
+
+  @override
+  String get yourFaceAndTheLicence =>
+      'Your face and the licence details must both be visible.';
+
+  @override
+  String get thisHelpsUsConfirm =>
+      'This helps us confirm the licence truly belongs to you.';
+
+  @override
+  String get missingDocuments => 'Upload Missing Documents';
+
+  @override
+  String get documentRejected => 'Resubmit Rejected Documents';
+
+  @override
+  String get status => 'Status:';
+
+  @override
+  String get removeFile => 'Remove This File';
+
+  @override
+  String get rideIsComing => 'Ride is coming';
+
+  @override
+  String get fetchingETA => 'Fetching ETA...';
+
+  @override
+  String get driverIsWaiting => 'Waiting for you...';
+
+  @override
+  String get onTrip => 'On Trip';
+
+  @override
+  String get arrivingIn => 'Arriving in';
+
+  @override
+  String get reachingDestinationIn => 'Reaching destination in';
+
+  @override
+  String get cancelRide => 'Cancel Ride?';
+
+  @override
+  String get areYouSureCancelRide =>
+      'Are you sure you want to cancel this ride? The driver will be notified.';
+
+  @override
+  String get no => 'No';
+
+  @override
+  String get yesCancel => 'Yes Cancel';
+
+  @override
+  String get backgroundLocationNeeded => 'Background Location Needed';
+
+  @override
+  String get kipgoNeeds =>
+      'Kipgo needs \'Allow all the time\' location access so riders can find you even when the app is closed or running in the background. Please go to settings and enable \'Allow all the time\'.';
+
+  @override
+  String get openSettings => 'Open Settings';
+
+  @override
+  String get locationPermissionRequired => 'Location Permission Required';
+
+  @override
+  String get locationPermissionRequiredDrivers =>
+      'Location permission is required for drivers. Please enable it in Settings.';
+
+  @override
+  String get rideCancelledSuccessfully => 'Ride cancelled successfully.';
+
+  @override
+  String get failedToCancelRide => 'Failed to cancel ride: ';
+
+  @override
+  String get toDropoff => 'To Dropoff';
+
+  @override
+  String get waitingForRider => 'Waiting for rider...';
+
+  @override
+  String get cancelled => 'Cancelled';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get riderCancelledTrip => 'Rider cancelled the trip.';
+
+  @override
+  String get rideCancelled => 'Ride Cancelled';
+
+  @override
+  String get theRiderHasCancelled =>
+      'The rider has cancelled this trip. You will be redirected to your home screen.';
+
+  @override
+  String get newRideRequest => 'New Ride Request';
+
+  @override
+  String get accept => 'Accept';
+
+  @override
+  String get rideRequestIsNotAvailable => 'Ride request is not available';
+
+  @override
+  String get rideRequestRejected => 'Ride request rejected';
+
+  @override
+  String get failedToRejectRide => 'Failed to reject ride';
+
+  @override
+  String get errorProcessingRideRequest => 'Error Processing Ride Request';
+
+  @override
+  String get reject => 'Reject';
 }

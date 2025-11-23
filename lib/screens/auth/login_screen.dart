@@ -7,7 +7,6 @@ import 'package:iconify_flutter/icons/ion.dart';
 import 'package:iconify_flutter/icons/ph.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/screens/auth/forgot_password_screen.dart';
-import 'package:kipgo/screens/auth/social_login.dart';
 import 'package:kipgo/screens/widgets/change_language_mini_widget.dart';
 import 'package:kipgo/screens/widgets/error_message.dart';
 import 'package:kipgo/screens/widgets/input_decorator.dart';
@@ -60,7 +59,6 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     } catch (e) {
       localErrorMessage = e.toString().replaceFirst('Exception: ', '');
-    } finally {
       setState(() => isLoading = false);
     }
   }
@@ -122,6 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         TextFormField(
                           controller: emailController,
                           textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.emailAddress,
                           validator: (email) {
                             if (email != null &&
                                 !EmailValidator.validate(email)) {
@@ -243,7 +242,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        SocialLogin(),
+                        // SocialLogin(),
                       ],
                     ).animate().fadeIn(duration: 500.ms).slideX(begin: 0.2),
                   ),

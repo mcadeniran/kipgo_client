@@ -14,23 +14,28 @@ class SettingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Icon(icon, size: 18),
-            const SizedBox(width: 12),
-            Text(title, style: Theme.of(context).textTheme.bodyMedium),
-          ],
-        ),
-        IconButton(
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (_) => page));
-          },
-          icon: Icon(Icons.chevron_right),
-        ),
-      ],
+    return InkWell(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (_) => page));
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Icon(icon, size: 18),
+              const SizedBox(width: 12),
+              Text(title, style: Theme.of(context).textTheme.bodyMedium),
+            ],
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (_) => page));
+            },
+            icon: Icon(Icons.chevron_right),
+          ),
+        ],
+      ),
     );
   }
 }

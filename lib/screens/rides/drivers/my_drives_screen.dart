@@ -47,16 +47,17 @@ class _MyDrivesScreenState extends State<MyDrivesScreen> {
         title: AppLocalizations.of(context)!.myDrives.toUpperCase(),
       ),
       body: Container(
+        clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
         child: driveProvider.isLoading
             ? Center(child: CircularProgressIndicator.adaptive())
             : driveProvider.driverRides.isEmpty
             ? Center(child: Text(AppLocalizations.of(context)!.noDrivesYet))
             : ListView.builder(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(12),
                 itemCount: driveProvider.driverRides.length,
                 itemBuilder: (context, index) {
                   RideHistory drive = driveProvider.driverRides[index];
@@ -64,10 +65,10 @@ class _MyDrivesScreenState extends State<MyDrivesScreen> {
                     color: isDark
                         ? AppColors.darkAccent
                         : AppColors.lightAccent,
-                    margin: const EdgeInsets.symmetric(vertical: 10),
+                    margin: const EdgeInsets.only(bottom: 5),
                     elevation: 0,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: InkWell(
                       onTap: () {
@@ -83,7 +84,7 @@ class _MyDrivesScreenState extends State<MyDrivesScreen> {
                         );
                       },
                       child: Padding(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(12),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -98,7 +99,7 @@ class _MyDrivesScreenState extends State<MyDrivesScreen> {
                                   ),
                                 ),
                                 Text(
-                                  '${AppLocalizations.of(context)!.drive} ${index + 1}',
+                                  '${AppLocalizations.of(context)!.drive} ${driveProvider.driverRides.length - index}',
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ),
                               ],
@@ -144,9 +145,12 @@ class _MyDrivesScreenState extends State<MyDrivesScreen> {
                                       ? AppLocalizations.of(context)!.rideOnTrip
                                       : drive.status == 'ended'
                                       ? AppLocalizations.of(context)!.rideEnded
+                                      : drive.status == 'cancelled'
+                                      ? AppLocalizations.of(context)!.cancelled
                                       : AppLocalizations.of(
                                           context,
                                         )!.rideUnknown,
+                                  // : drive.status,
                                   style: TextStyle(
                                     color: drive.status == 'ended'
                                         ? Colors.green
