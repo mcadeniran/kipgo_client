@@ -118,46 +118,72 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 Center(
                   child: Stack(
                     children: [
-                      ClipOval(
-                        child: Material(
-                          color: Colors.transparent,
-                          child: profile.personal.photoUrl == ''
-                              ? Ink.image(
-                                  image: const AssetImage(
-                                    'assets/images/avatar.png',
+                      Hero(
+                        tag: 'avatarImageChange',
+                        child: ClipOval(
+                          child: Material(
+                            color: Colors.transparent,
+                            child: profile.personal.photoUrl == ''
+                                ? Ink.image(
+                                    image: const AssetImage(
+                                      'assets/images/avatar.png',
+                                    ),
+                                    fit: BoxFit.cover,
+                                    width: 120,
+                                    height: 120,
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) =>
+                                                const EditProfilePictureScreen(),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  )
+                                : SizedBox(
+                                    // image: NetworkImage(photoUrl),
+                                    // fit: BoxFit.cover,
+                                    width: 120,
+                                    height: 120,
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) =>
+                                                const EditProfilePictureScreen(),
+                                          ),
+                                        );
+                                      },
+                                      child: Image.network(
+                                        profile.personal.photoUrl,
+                                        fit: BoxFit.cover,
+                                        loadingBuilder:
+                                            (context, child, progress) {
+                                              if (progress == null) {
+                                                return child;
+                                              }
+                                              return const Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              );
+                                            },
+                                        errorBuilder:
+                                            (
+                                              context,
+                                              error,
+                                              stackTrace,
+                                            ) => Image.asset(
+                                              'assets/images/image_not_found.png',
+                                              fit: BoxFit.cover,
+                                            ),
+                                      ),
+                                    ),
                                   ),
-                                  fit: BoxFit.cover,
-                                  width: 120,
-                                  height: 120,
-                                  child: InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) =>
-                                              const EditProfilePictureScreen(),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                )
-                              : Ink.image(
-                                  image: NetworkImage(photoUrl),
-                                  fit: BoxFit.cover,
-                                  width: 120,
-                                  height: 120,
-                                  child: InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) =>
-                                              const EditProfilePictureScreen(),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
+                          ),
                         ),
                       ),
                       Positioned(

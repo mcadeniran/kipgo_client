@@ -178,11 +178,12 @@ class NotificationService {
   NotificationDetails notificationDetails() {
     return const NotificationDetails(
       android: AndroidNotificationDetails(
-        'high_importance_channel',
+        'high_importance_channel_v2',
         'High Importance Notifications',
         channelDescription: 'This channel is used for important notifications.',
         importance: Importance.max,
         priority: Priority.high,
+        playSound: true,
         sound: RawResourceAndroidNotificationSound('notification'),
       ),
       iOS: DarwinNotificationDetails(

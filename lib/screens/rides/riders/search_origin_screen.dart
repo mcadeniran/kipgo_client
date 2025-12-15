@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:kipgo/l10n/app_localizations.dart';
-import 'package:kipgo/screens/widgets/app_bar_widget.dart';
-import 'package:provider/provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
+import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/models/predicted_places.dart';
-import 'package:kipgo/screens/widgets/prediction_places_tile.dart';
+import 'package:kipgo/screens/widgets/app_bar_widget.dart';
+import 'package:kipgo/screens/widgets/prediction_pickup_tile.dart';
 import 'package:kipgo/utils/colors.dart';
 import 'package:kipgo/utils/request_assistant.dart';
+import 'package:provider/provider.dart';
 
-class SearchPlacesScreen extends StatefulWidget {
-  const SearchPlacesScreen({super.key});
+class SearchOriginScreen extends StatefulWidget {
+  const SearchOriginScreen({super.key});
 
   @override
-  State<SearchPlacesScreen> createState() => _SearchPlacesScreenState();
+  State<SearchOriginScreen> createState() => _SearchOriginScreenState();
 }
 
-class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
+class _SearchOriginScreenState extends State<SearchOriginScreen> {
   final apiKey = dotenv.env['GOOGLE_API_KEY'];
   List<PredictedPlaces> predictedPlacesList = [];
 
@@ -58,7 +58,7 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
       child: Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBarWidget(
-          title: AppLocalizations.of(context)!.enterDropoffLocation,
+          title: AppLocalizations.of(context)!.enterPickupLocation,
           showLanguage: false,
         ),
         body: Column(
@@ -93,7 +93,7 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
                               decoration: InputDecoration(
                                 hintText: AppLocalizations.of(
                                   context,
-                                )!.searchDropoffLocation,
+                                )!.searchPickupLocation,
                                 filled: true,
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.only(
@@ -125,11 +125,17 @@ class _SearchPlacesScreenState extends State<SearchPlacesScreen> {
                       },
                       physics: ClampingScrollPhysics(),
                       itemCount: predictedPlacesList.length,
-                      itemBuilder: (context, index) {
-                        return PredictionPlacesTile(
-                          predictedPlaces: predictedPlacesList[index],
-                        );
-                      },
+                      // itemBuilder: (context, index) {
+                      //   return PredictionPickupTile(
+                      //     predictedPlaces: predictedPlacesList[index],
+                      //   );
+                      // },
+                      itemBuilder: (_, i) => PredictionPickupTile(
+                        predictedPlaces: predictedPlacesList[i],
+                        onSelected: (direction) {
+                          Navigator.pop(context, direction);
+                        },
+                      ),
                     ),
                   )
                 : Container(),

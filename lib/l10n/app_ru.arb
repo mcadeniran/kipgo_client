@@ -264,5 +264,19 @@
   "rideRequestRejected": "Запрос на поездку отклонён",
   "failedToRejectRide": "Не удалось отклонить поездку",
   "errorProcessingRideRequest": "Ошибка при обработке запроса на поездку",
-  "reject": "Отклонить"
+  "reject": "Отклонить",
+  "enterDropoffLocation": "Введите место высадки",
+  "searchDropoffLocation": "Поиск места высадки",
+  "enterPickupLocation": "Введите место отправления",
+  "searchPickupLocation": "Поиск места отправления",
+  "fareAccepted": "Цена принята",
+  "theRiderAcceptedFare": "Пассажир принял вашу цену. Вы можете начать поездку.",
+  "fareRejected": "Цена отклонена",
+  "theRiderRejectedFare": "Пассажир отклонил вашу цену.",
+  "enterFare": "Введите цену",
+  "enterPrice": "Введите цену (₺)",
+  "waitingForRiderResponse": "Ожидание ответа пассажира",
+  "driverProposedFare": "Водитель предложил стоимость",
+  "acceptFare": "Принять цену",
+  "rejectFare": "Отклонить цену"
 }

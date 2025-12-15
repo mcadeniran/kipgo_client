@@ -752,7 +752,7 @@ class _ActiveDriveWidgetState extends State<ActiveDriveWidget> {
               child: GoogleMap(
                 padding: EdgeInsets.only(top: mapPadding),
                 mapType: MapType.normal,
-                myLocationEnabled: true,
+                myLocationEnabled: false,
                 initialCameraPosition: _kGooglePlex,
                 markers: markersSet,
                 circles: circlesSet,

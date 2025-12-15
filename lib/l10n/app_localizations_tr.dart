@@ -850,4 +850,47 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get reject => 'Reddet';
+
+  @override
+  String get enterDropoffLocation => 'Bırakış konumunu girin';
+
+  @override
+  String get searchDropoffLocation => 'Bırakış konumu ara';
+
+  @override
+  String get enterPickupLocation => 'Alış konumunu girin';
+
+  @override
+  String get searchPickupLocation => 'Alış konumu ara';
+
+  @override
+  String get fareAccepted => 'Ücret Kabul Edildi';
+
+  @override
+  String get theRiderAcceptedFare =>
+      'Yolcu ücretinizi kabul etti. Yolculuğu başlatabilirsiniz.';
+
+  @override
+  String get fareRejected => 'Ücret Reddedildi';
+
+  @override
+  String get theRiderRejectedFare => 'Yolcu ücretinizi reddetti.';
+
+  @override
+  String get enterFare => 'Ücreti Girin';
+
+  @override
+  String get enterPrice => 'Fiyatı Girin (₺)';
+
+  @override
+  String get driverProposedFare => 'Sürücü Ücret Teklifi';
+
+  @override
+  String get acceptFare => 'Ücreti Kabul Et';
+
+  @override
+  String get rejectFare => 'Ücreti Reddet';
+
+  @override
+  String get waitingForRiderResponse => 'Yolcunun yanıtı bekleniyor';
 }

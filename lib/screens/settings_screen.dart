@@ -57,6 +57,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       backgroundColor: AppColors.primary,
       appBar: AppBarWidget(
         title: AppLocalizations.of(context)!.settings.toUpperCase(),
+        showLanguage: false,
       ),
       body: Consumer<ProfileProvider>(
         builder: (context, userProvider, _) {
@@ -124,6 +125,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           : Image.network(
                                               profile.personal.photoUrl,
                                               fit: BoxFit.cover,
+                                              loadingBuilder:
+                                                  (context, child, progress) {
+                                                    if (progress == null) {
+                                                      return child;
+                                                    }
+                                                    return const Center(
+                                                      child:
+                                                          CircularProgressIndicator(),
+                                                    );
+                                                  },
+                                              errorBuilder:
+                                                  (
+                                                    context,
+                                                    error,
+                                                    stackTrace,
+                                                  ) => Image.asset(
+                                                    'assets/images/image_not_found.png',
+                                                    fit: BoxFit.cover,
+                                                  ),
                                             ),
                                     ),
                                   ),

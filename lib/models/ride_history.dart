@@ -66,7 +66,7 @@ class RideHistory {
                 : (data['time'] != null
                       ? DateTime.parse(data['time'].toString())
                       : DateTime.now())),
-      fare: (data['fare'] ?? 0).toDouble(),
+      fare: (data['proposedFare'] ?? 0).toDouble(),
       isRated: data['isRated'] ?? false,
     );
   }
@@ -105,7 +105,7 @@ class RideHistory {
       status: data['status'] ?? 'pending',
       time: parseDate(data['time']),
       // time: DateTime.fromMillisecondsSinceEpoch(data['time'] ?? 0),
-      fare: (data['fare'] ?? 0).toDouble(),
+      fare: (data['proposedFare'] ?? 0).toDouble(),
       isRated: data['isRated'] ?? false,
     );
   }
@@ -128,7 +128,7 @@ class RideHistory {
       'numberPlate': numberPlate,
       'status': status,
       'time': time,
-      'fare': fare,
+      'proposedFare': fare,
       'isRated': isRated,
     };
   }

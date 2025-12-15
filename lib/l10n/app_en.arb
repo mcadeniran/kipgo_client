@@ -1080,5 +1080,61 @@
   "reject": "Reject",
   "@reject": {
     "description": "Ride request reject action text"
+  },
+  "enterDropoffLocation": "Enter dropoff location",
+  "@enterDropoffLocation": {
+    "description": "Enter dropoff location hint text"
+  },
+  "searchDropoffLocation": "Search Dropoff Location",
+  "@searchDropoffLocation": {
+    "description": "Search Dropoff Location hint text"
+  },
+  "enterPickupLocation": "Enter pickup location",
+  "@enterPickupLocation": {
+    "description": "Enter Pickup location hint text"
+  },
+  "searchPickupLocation": "Search pickup Location",
+  "@searchPickupLocation": {
+    "description": "Search Pickup Location hint text"
+  },
+  "fareAccepted": "Fare Accepted",
+  "@fareAccepted": {
+    "description": "Fare accepted alert title"
+  },
+  "theRiderAcceptedFare": "The rider has accepted your fare. You may start the trip.",
+  "@theRiderAcceptedFare": {
+    "description": "Fare accepted alert details"
+  },
+  "fareRejected": "Fare Rejected",
+  "@fareRejected": {
+    "description": "Fare rejected alert details"
+  },
+  "theRiderRejectedFare": "The rider rejected your fare.",
+  "@theRiderRejectedFare": {
+    "description": "Fare rejected alert details"
+  },
+  "enterFare": "Enter Fare",
+  "@enterFare": {
+    "description": "Enter fare hint text"
+  },
+  "enterPrice": "'Enter Price (₺)",
+  "@enterPrice": {
+    "description": "Enter price label"
+  },
+  "driverProposedFare": "Driver Proposed Fare",
+  "@driverProposedFare": {
+    "description": "Driver Proposed Fare title"
+  },
+  "acceptFare": "Accept Fare",
+  "@acceptFare": {
+    "description": "Accept Fare message"
+  },
+  "rejectFare": "Reject Fare",
+  "@rejectFare": {
+    "description": "Reject Fare message"
+  },
+  "waitingForRiderResponse": "Waiting for rider's response",
+  "@waitingForRiderResponse": {
+    "description": "Waiting for rider's response message"
   }
 }

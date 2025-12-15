@@ -1695,6 +1695,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reject'**
   String get reject;
+
+  /// Enter dropoff location hint text
+  ///
+  /// In en, this message translates to:
+  /// **'Enter dropoff location'**
+  String get enterDropoffLocation;
+
+  /// Search Dropoff Location hint text
+  ///
+  /// In en, this message translates to:
+  /// **'Search Dropoff Location'**
+  String get searchDropoffLocation;
+
+  /// Enter Pickup location hint text
+  ///
+  /// In en, this message translates to:
+  /// **'Enter pickup location'**
+  String get enterPickupLocation;
+
+  /// Search Pickup Location hint text
+  ///
+  /// In en, this message translates to:
+  /// **'Search pickup Location'**
+  String get searchPickupLocation;
+
+  /// Fare accepted alert title
+  ///
+  /// In en, this message translates to:
+  /// **'Fare Accepted'**
+  String get fareAccepted;
+
+  /// Fare accepted alert details
+  ///
+  /// In en, this message translates to:
+  /// **'The rider has accepted your fare. You may start the trip.'**
+  String get theRiderAcceptedFare;
+
+  /// Fare rejected alert details
+  ///
+  /// In en, this message translates to:
+  /// **'Fare Rejected'**
+  String get fareRejected;
+
+  /// Fare rejected alert details
+  ///
+  /// In en, this message translates to:
+  /// **'The rider rejected your fare.'**
+  String get theRiderRejectedFare;
+
+  /// Enter fare hint text
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Fare'**
+  String get enterFare;
+
+  /// Enter price label
+  ///
+  /// In en, this message translates to:
+  /// **'\'Enter Price (₺)'**
+  String get enterPrice;
+
+  /// Driver Proposed Fare title
+  ///
+  /// In en, this message translates to:
+  /// **'Driver Proposed Fare'**
+  String get driverProposedFare;
+
+  /// Accept Fare message
+  ///
+  /// In en, this message translates to:
+  /// **'Accept Fare'**
+  String get acceptFare;
+
+  /// Reject Fare message
+  ///
+  /// In en, this message translates to:
+  /// **'Reject Fare'**
+  String get rejectFare;
+
+  /// Waiting for rider's response message
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for rider\'s response'**
+  String get waitingForRiderResponse;
 }
 
 class _AppLocalizationsDelegate

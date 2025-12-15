@@ -864,4 +864,47 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get reject => 'Отклонить';
+
+  @override
+  String get enterDropoffLocation => 'Введите место высадки';
+
+  @override
+  String get searchDropoffLocation => 'Поиск места высадки';
+
+  @override
+  String get enterPickupLocation => 'Введите место отправления';
+
+  @override
+  String get searchPickupLocation => 'Поиск места отправления';
+
+  @override
+  String get fareAccepted => 'Цена принята';
+
+  @override
+  String get theRiderAcceptedFare =>
+      'Пассажир принял вашу цену. Вы можете начать поездку.';
+
+  @override
+  String get fareRejected => 'Цена отклонена';
+
+  @override
+  String get theRiderRejectedFare => 'Пассажир отклонил вашу цену.';
+
+  @override
+  String get enterFare => 'Введите цену';
+
+  @override
+  String get enterPrice => 'Введите цену (₺)';
+
+  @override
+  String get driverProposedFare => 'Водитель предложил стоимость';
+
+  @override
+  String get acceptFare => 'Принять цену';
+
+  @override
+  String get rejectFare => 'Отклонить цену';
+
+  @override
+  String get waitingForRiderResponse => 'Ожидание ответа пассажира';
 }

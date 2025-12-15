@@ -1,11 +1,14 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:kipgo/controllers/notification_service.dart';
+import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/main.dart';
 import 'package:kipgo/pushNotification/notification_dialog_box.dart';
+import 'package:kipgo/screens/rides/drivers/new_trip_screen.dart';
 import 'package:kipgo/screens/settings/vehicle_details_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -47,11 +50,31 @@ class PushNotificationSystem {
       }
     });
 
+    // // 2. Foreground (app is open)
+    // FirebaseMessaging.onMessage.listen((RemoteMessage? remoteMessage) {
+    //   if (remoteMessage != null) {
+    //     _handleNotification(remoteMessage, context, fromUserTap: false);
+    //   }
+    // });
+
     // 2. Foreground (app is open)
-    FirebaseMessaging.onMessage.listen((RemoteMessage? remoteMessage) {
-      if (remoteMessage != null) {
-        _handleNotification(remoteMessage, context, fromUserTap: false);
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      debugPrint("📩 Foreground FCM received");
+
+      // 🔔 iOS foreground sound handling
+      if (Theme.of(context).platform == TargetPlatform.iOS) {
+        final title = message.notification?.title ?? message.data['title'];
+        final body = message.notification?.body ?? message.data['body'];
+
+        // Play sound + show banner manually
+        NotificationService().showNotification(
+          title: title ?? 'Notification',
+          body: body ?? '',
+        );
       }
+
+      // 🧠 KEEP your existing routing logic
+      _handleNotification(message, context, fromUserTap: false);
     });
 
     // 3. Background (app in background, user taps notification)
@@ -76,7 +99,6 @@ class PushNotificationSystem {
         readUserRideRequestInformation(rideRequestId);
       } else {
         debugPrint("⚠️ Missing rideRequestId in notification data.");
-        print(remoteMessage.data);
       }
     } else if (notificationType == 'accountStatus') {
       final title = remoteMessage.data['title'] ?? "Notice";
@@ -151,6 +173,9 @@ class PushNotificationSystem {
       return;
     }
 
+    TextEditingController priceController = TextEditingController();
+    final priceKey = GlobalKey<FormState>();
+
     try {
       final uid = Provider.of<ProfileProvider>(ctx, listen: false).profile?.id;
       if (uid == null) {
@@ -182,16 +207,15 @@ class PushNotificationSystem {
           // ✅ Only show if no dialog already active
           if (!_isDialogShowing) {
             _isDialogShowing = true;
-            showDialog(
+            showRideRequestBottomSheet(
               context: ctx,
-              barrierDismissible: false,
-              builder: (_) => NotificationDialogBox(
-                userRideRequestDetails: userRideRequestDetails,
-                onDialogClosed: () {
-                  _isDialogShowing = false;
-                  _isProcessingRide = false; // reset when dialog closes
-                },
-              ),
+              ride: userRideRequestDetails,
+              onDialogClosed: () {
+                _isDialogShowing = false;
+                _isProcessingRide = false;
+              },
+              priceKey: priceKey,
+              priceController: priceController,
             );
           } else {
             _isProcessingRide = false;
@@ -209,7 +233,56 @@ class PushNotificationSystem {
     }
   }
 
-  /// Save driver token to Firestore
+  void showFareAcceptedDialog(UserRideRequestInformation ride) {
+    final ctx = navigatorKey.currentState?.overlay?.context;
+    if (ctx == null) return;
+
+    showDialog(
+      context: ctx,
+      barrierDismissible: false,
+      builder: (_) => AlertDialog(
+        title: Text(AppLocalizations.of(ctx)!.fareAccepted),
+        content: Text(AppLocalizations.of(ctx)!.theRiderAcceptedFare),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+
+              Navigator.of(ctx).pushReplacement(
+                MaterialPageRoute(
+                  builder: (_) => NewTripScreen(userRideRequestDetails: ride),
+                ),
+              );
+            },
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void showFareRejectedDialog() {
+    final ctx = navigatorKey.currentState?.overlay?.context;
+    if (ctx == null) return;
+
+    showDialog(
+      context: ctx,
+      barrierDismissible: false,
+      builder: (_) => AlertDialog(
+        title: Text(AppLocalizations.of(ctx)!.fareRejected),
+        content: Text(AppLocalizations.of(ctx)!.theRiderRejectedFare),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+
   Future<void> generateAndGetToken(BuildContext context) async {
     final userId = Provider.of<ProfileProvider>(
       context,
@@ -217,21 +290,75 @@ class PushNotificationSystem {
     ).profile?.id;
     if (userId == null) return;
 
-    String? registrationToken;
+    String? fcmToken;
 
     if (Platform.isIOS) {
-      registrationToken = await messaging.getAPNSToken();
+      await FirebaseMessaging.instance.requestPermission(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+
+      final deviceInfo = DeviceInfoPlugin();
+      final iosInfo = await deviceInfo.iosInfo;
+
+      final bool isSimulator = !iosInfo.isPhysicalDevice;
+
+      if (!isSimulator) {
+        // ✅ REAL DEVICE ONLY
+        String? apnsToken;
+        for (int i = 0; i < 10 && apnsToken == null; i++) {
+          apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+          await Future.delayed(const Duration(milliseconds: 500));
+        }
+
+        if (apnsToken == null) {
+          debugPrint("⚠️ APNs token not available");
+          return;
+        }
+
+        fcmToken = await FirebaseMessaging.instance.getToken();
+      } else {
+        // 🧪 Simulator — skip APNs
+        debugPrint("🧪 iOS Simulator detected — skipping APNs");
+        // fcmToken = await FirebaseMessaging.instance.getToken();
+      }
     } else {
-      registrationToken = await messaging.getToken();
+      // 🤖 Android
+      fcmToken = await FirebaseMessaging.instance.getToken();
     }
 
-    debugPrint("✅ FCM Token: $registrationToken");
-
-    if (registrationToken != null) {
+    if (fcmToken != null) {
+      debugPrint("✅ FCM Token: $fcmToken");
       await FirebaseFirestore.instance
           .collection('profiles')
           .doc(userId)
-          .update({'token': registrationToken});
+          .update({'token': fcmToken});
     }
+  }
+
+  void initTokenRefreshListener(BuildContext context) {
+    FirebaseMessaging.instance.onTokenRefresh.listen(
+      (String newToken) async {
+        debugPrint("🔄 FCM Token refreshed: $newToken");
+
+        final userId = Provider.of<ProfileProvider>(
+          context,
+          listen: false,
+        ).profile?.id;
+
+        if (userId == null) return;
+
+        await FirebaseFirestore.instance
+            .collection('profiles')
+            .doc(userId)
+            .update({'token': newToken});
+
+        debugPrint("✅ New token saved to Firestore");
+      },
+      onError: (e) {
+        debugPrint("❌ Token refresh error: $e");
+      },
+    );
   }
 }

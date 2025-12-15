@@ -188,7 +188,7 @@ class _RideDetailsScreenState extends State<RideDetailsScreen> {
               flex: 3,
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: Theme.of(context).scaffoldBackgroundColor,
                   boxShadow: [
@@ -232,6 +232,25 @@ class _RideDetailsScreenState extends State<RideDetailsScreen> {
                         Expanded(
                           child: Text(
                             widget.history.destinationAddress,
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 12),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Iconify(
+                          Ic.twotone_money,
+                          color: isDark
+                              ? AppColors.lightLayer
+                              : AppColors.primary,
+                        ),
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            "₺${widget.history.fare.toStringAsFixed(0)}",
                             style: const TextStyle(fontSize: 14),
                           ),
                         ),

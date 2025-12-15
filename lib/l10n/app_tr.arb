@@ -264,5 +264,19 @@
   "rideRequestRejected": "Yolculuk talebi reddedildi",
   "failedToRejectRide": "Yolculuk reddedilemedi",
   "errorProcessingRideRequest": "Yolculuk talebi işlenirken bir hata oluştu",
-  "reject": "Reddet"
+  "reject": "Reddet",
+  "enterDropoffLocation": "Bırakış konumunu girin",
+  "searchDropoffLocation": "Bırakış konumu ara",
+  "enterPickupLocation": "Alış konumunu girin",
+  "searchPickupLocation": "Alış konumu ara",
+  "fareAccepted": "Ücret Kabul Edildi",
+  "theRiderAcceptedFare": "Yolcu ücretinizi kabul etti. Yolculuğu başlatabilirsiniz.",
+  "fareRejected": "Ücret Reddedildi",
+  "theRiderRejectedFare": "Yolcu ücretinizi reddetti.",
+  "enterFare": "Ücreti Girin",
+  "enterPrice": "Fiyatı Girin (₺)",
+  "waitingForRiderResponse": "Yolcunun yanıtı bekleniyor",
+  "driverProposedFare": "Sürücü Ücret Teklifi",
+  "acceptFare": "Ücreti Kabul Et",
+  "rejectFare": "Ücreti Reddet"
 }

@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:kipgo/infoHandler/app_info.dart';
 import 'package:kipgo/screens/rides/active_ride_widget.dart';
 // import 'package:kipgo/screens/test_screen.dart';
-// import 'package:kipgo/screens/text_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
 import 'package:kipgo/controllers/profile_provider.dart';
@@ -69,6 +68,7 @@ class _CustomerHomeState extends State<CustomerHome> {
     return Scaffold(
       // backgroundColor: const Color(0xFFF5F7FB),
       appBar: AppBarWidget(title: 'KIPGO'),
+
       backgroundColor: AppColors.primary,
       // backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Container(
@@ -81,7 +81,7 @@ class _CustomerHomeState extends State<CustomerHome> {
           color: Theme.of(context).scaffoldBackgroundColor,
         ),
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -132,6 +132,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
                 ),
+                padding: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
                 children: [
                   if (activeRide == false)
                     _buildOptionCard(
@@ -200,7 +201,7 @@ class _CustomerHomeState extends State<CustomerHome> {
                   // ),
                 ],
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               AdsCarouselWidget(),
               const SizedBox(height: 10),
             ],
@@ -221,7 +222,7 @@ class _CustomerHomeState extends State<CustomerHome> {
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: isDark ? AppColors.darkLayer : Colors.white,
           borderRadius: BorderRadius.circular(16),

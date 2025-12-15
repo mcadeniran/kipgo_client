@@ -89,9 +89,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 'assets/images/avatar.png',
                                 fit: BoxFit.cover,
                               )
+                            // : Image.network(
+                            //     profile.personal.photoUrl,
+                            //     fit: BoxFit.cover,
+                            //   ),
                             : Image.network(
                                 profile.personal.photoUrl,
                                 fit: BoxFit.cover,
+                                width: 76,
+                                height: 76,
+                                loadingBuilder: (context, child, progress) {
+                                  if (progress == null) {
+                                    return child;
+                                  }
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                },
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Image.asset(
+                                      'assets/images/image_not_found.png',
+                                      fit: BoxFit.cover,
+                                    ),
                               ),
                       ),
                     ),

@@ -146,35 +146,68 @@ class _EditProfilePictureScreenState extends State<EditProfilePictureScreen> {
             Center(
               child: Stack(
                 children: [
-                  ClipOval(
-                    child: Material(
-                      color: Colors.transparent,
-                      child: pickedFile == null
-                          ? profile.personal.photoUrl == ''
-                                ? Ink.image(
-                                    image: const AssetImage(
-                                      'assets/images/avatar.png',
-                                    ),
-                                    fit: BoxFit.cover,
-                                    width: 200,
-                                    height: 200,
-                                  )
-                                : Ink.image(
-                                    image: NetworkImage(
-                                      profile.personal.photoUrl,
-                                    ),
-                                    fit: BoxFit.cover,
-                                    width: 200,
-                                    height: 200,
-                                    // child: InkWell(onTap: selectFile),
-                                  )
-                          : Ink.image(
-                              image: FileImage(File(pickedFile!.path!)),
-                              fit: BoxFit.cover,
-                              width: 200,
-                              height: 200,
-                              // child: InkWell(onTap: selectFile),
-                            ),
+                  Hero(
+                    tag: 'avatarImageChange',
+                    child: ClipOval(
+                      child: Material(
+                        color: Colors.transparent,
+                        child: pickedFile == null
+                            ? profile.personal.photoUrl == ''
+                                  ? Ink.image(
+                                      image: const AssetImage(
+                                        'assets/images/avatar.png',
+                                      ),
+                                      fit: BoxFit.cover,
+                                      width: 200,
+                                      height: 200,
+                                    )
+                                  // : Ink.image(
+                                  //     image: NetworkImage(
+                                  //       profile.personal.photoUrl,
+                                  //     ),
+                                  //     fit: BoxFit.cover,
+                                  //     width: 200,
+                                  //     height: 200,
+                                  //     // child: InkWell(onTap: selectFile),
+                                  //   )
+                                  : SizedBox(
+                                      width: 200,
+                                      height: 200,
+                                      child: InkWell(
+                                        onTap: selectFile,
+                                        child: Image.network(
+                                          profile.personal.photoUrl,
+                                          fit: BoxFit.cover,
+                                          loadingBuilder:
+                                              (context, child, progress) {
+                                                if (progress == null) {
+                                                  return child;
+                                                }
+                                                return const Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                );
+                                              },
+                                          errorBuilder:
+                                              (
+                                                context,
+                                                error,
+                                                stackTrace,
+                                              ) => Image.asset(
+                                                'assets/images/image_not_found.png',
+                                                fit: BoxFit.cover,
+                                              ),
+                                        ),
+                                      ),
+                                    )
+                            : Ink.image(
+                                image: FileImage(File(pickedFile!.path!)),
+                                fit: BoxFit.cover,
+                                width: 200,
+                                height: 200,
+                                // child: InkWell(onTap: selectFile),
+                              ),
+                      ),
                     ),
                   ),
                   Positioned(

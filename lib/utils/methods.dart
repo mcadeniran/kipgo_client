@@ -43,6 +43,33 @@ class AppMethods {
     return humanReadableAddress;
   }
 
+  static Future<String> getAddressFromLatLng(LatLng latlng, context) async {
+    final apiKey = dotenv.env['GOOGLE_API_KEY'];
+    String apiUrl =
+        "https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng.latitude},${latlng.longitude}&key=$apiKey";
+    String humanReadableAddress = '';
+
+    var requestResponse = await RequestAssistant.receiveRequest(apiUrl);
+
+    if (requestResponse != 'Error fetching data. No Response' &&
+        requestResponse != 'Error fetchin data.') {
+      humanReadableAddress = requestResponse['results'][0]['formatted_address'];
+
+      Direction userPickupAddress = Direction();
+
+      userPickupAddress.locationLatitude = latlng.latitude;
+      userPickupAddress.locationLongitude = latlng.longitude;
+      userPickupAddress.locationName = humanReadableAddress;
+
+      Provider.of<AppInfo>(
+        context,
+        listen: false,
+      ).updatePickUpLocationAddress(userPickupAddress);
+    }
+
+    return humanReadableAddress;
+  }
+
   static Future<DirectionDetailsInfo?>
   obtainOriginToDestinationDirectionDetails(
     LatLng originPosition,

@@ -849,4 +849,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reject => 'Reject';
+
+  @override
+  String get enterDropoffLocation => 'Enter dropoff location';
+
+  @override
+  String get searchDropoffLocation => 'Search Dropoff Location';
+
+  @override
+  String get enterPickupLocation => 'Enter pickup location';
+
+  @override
+  String get searchPickupLocation => 'Search pickup Location';
+
+  @override
+  String get fareAccepted => 'Fare Accepted';
+
+  @override
+  String get theRiderAcceptedFare =>
+      'The rider has accepted your fare. You may start the trip.';
+
+  @override
+  String get fareRejected => 'Fare Rejected';
+
+  @override
+  String get theRiderRejectedFare => 'The rider rejected your fare.';
+
+  @override
+  String get enterFare => 'Enter Fare';
+
+  @override
+  String get enterPrice => '\'Enter Price (₺)';
+
+  @override
+  String get driverProposedFare => 'Driver Proposed Fare';
+
+  @override
+  String get acceptFare => 'Accept Fare';
+
+  @override
+  String get rejectFare => 'Reject Fare';
+
+  @override
+  String get waitingForRiderResponse => 'Waiting for rider\'s response';
 }

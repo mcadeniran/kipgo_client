@@ -33,10 +33,12 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
-  'high_importance_channel',
+  'high_importance_channel_v2',
   'High Importance Notifications',
   description: 'This channel is used for important notifications.',
   importance: Importance.max,
+  playSound: true,
+  sound: RawResourceAndroidNotificationSound('notification'),
 );
 
 // @pragma('vm:entry-point')
@@ -63,6 +65,12 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   NotificationService().init(flutterLocalNotificationsPlugin);
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
   await dotenv.load();
 
   // Pass all uncaught errors to Crashlytics.
@@ -123,11 +131,16 @@ class _KipGoState extends State<KipGo> {
 
       await _ensureNotificationPermission();
 
-      // Initialize push system
+      // 🔔 Push notifications
       await pushSystem.initializeCloudMessaging(context);
+
+      // 🔑 Initial token generation
       await pushSystem.generateAndGetToken(context);
 
-      // Initialize Profile auth listener only when user is ready
+      // 🔄 TOKEN REFRESH LISTENER (ADD THIS LINE)
+      pushSystem.initTokenRefreshListener(context);
+
+      // 👤 Auth listener
       context.read<ProfileProvider>().initAuthListener();
     });
   }

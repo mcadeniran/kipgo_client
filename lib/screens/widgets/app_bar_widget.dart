@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kipgo/screens/widgets/language_widget.dart';
 import 'package:kipgo/utils/colors.dart';
 
 class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
   final String title;
-  const AppBarWidget({super.key, required this.title});
+  final bool showLanguage;
+  const AppBarWidget({
+    super.key,
+    required this.title,
+    this.showLanguage = true,
+  });
 
   @override
   State<AppBarWidget> createState() => _AppBarWidgetState();
@@ -27,6 +33,8 @@ class _AppBarWidgetState extends State<AppBarWidget> {
         ),
       ),
       iconTheme: IconThemeData(color: Colors.white),
+      actions: [widget.showLanguage ? LanguageWidget() : SizedBox.shrink()],
+      actionsPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       // toolbarHeight: 50,
     );
   }
