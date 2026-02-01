@@ -65,6 +65,8 @@ class DefaultFirebaseOptions {
     projectId: 'kipgo-taxi',
     databaseURL: 'https://kipgo-taxi-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'kipgo-taxi.firebasestorage.app',
+    androidClientId: '1014236146041-da79tgick6652ia2iim4lg5e0rb37j1v.apps.googleusercontent.com',
+    iosClientId: '1014236146041-8a80fj4jrdos9mijs3lu4gf7elgh0icq.apps.googleusercontent.com',
     iosBundleId: 'com.kipgotaxi.app',
   );
 

@@ -5,6 +5,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:kipgo/controllers/notification_service.dart';
+import 'package:kipgo/controllers/ringtone_service.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/main.dart';
 import 'package:kipgo/pushNotification/notification_dialog_box.dart';
@@ -20,6 +21,9 @@ class PushNotificationSystem {
   static final PushNotificationSystem _instance =
       PushNotificationSystem._privateConstructor();
   factory PushNotificationSystem() => _instance;
+
+  VoidCallback? onAcceptRide;
+  VoidCallback? onRejectRide;
 
   final FirebaseMessaging messaging = FirebaseMessaging.instance;
   bool _isDialogShowing = false;
@@ -114,10 +118,10 @@ class PushNotificationSystem {
       }
     } else {
       debugPrint('UNKNOWN NOTIFICATION TYPE RECEIVED');
-      NotificationService().showNotification(
-        title: remoteMessage.notification?.title ?? 'Message',
-        body: remoteMessage.notification?.body ?? 'You have a new notification',
-      );
+      // NotificationService().showNotification(
+      //   title: remoteMessage.notification?.title ?? 'Message',
+      //   body: remoteMessage.notification?.body ?? 'You have a new notification',
+      // );
     }
   }
 
@@ -143,7 +147,7 @@ class PushNotificationSystem {
               Navigator.of(ctx).pop();
               _isDialogShowing = false;
             },
-            child: const Text("OK"),
+            child: Text(AppLocalizations.of(ctx)!.ok),
           ),
           TextButton(
             onPressed: () {
@@ -153,7 +157,7 @@ class PushNotificationSystem {
               );
               _isDialogShowing = false;
             },
-            child: Text('Vehicle Details'),
+            child: Text(AppLocalizations.of(ctx)!.vehicleDetails),
           ),
         ],
       ),
@@ -206,11 +210,15 @@ class PushNotificationSystem {
 
           // ✅ Only show if no dialog already active
           if (!_isDialogShowing) {
+            // 🔔 Start ringing sound
+            RingtoneService().playRideRequestTone();
+
             _isDialogShowing = true;
             showRideRequestBottomSheet(
               context: ctx,
               ride: userRideRequestDetails,
               onDialogClosed: () {
+                RingtoneService().stop();
                 _isDialogShowing = false;
                 _isProcessingRide = false;
               },
@@ -237,6 +245,9 @@ class PushNotificationSystem {
     final ctx = navigatorKey.currentState?.overlay?.context;
     if (ctx == null) return;
 
+    // 🔕 STOP RINGING
+    RingtoneService().stop();
+
     showDialog(
       context: ctx,
       barrierDismissible: false,
@@ -248,13 +259,17 @@ class PushNotificationSystem {
             onPressed: () {
               Navigator.of(ctx).pop();
 
+              if (onAcceptRide != null) {
+                onAcceptRide!();
+              }
+
               Navigator.of(ctx).pushReplacement(
                 MaterialPageRoute(
                   builder: (_) => NewTripScreen(userRideRequestDetails: ride),
                 ),
               );
             },
-            child: const Text("OK"),
+            child: Text(AppLocalizations.of(ctx)!.ok),
           ),
         ],
       ),
@@ -264,6 +279,9 @@ class PushNotificationSystem {
   void showFareRejectedDialog() {
     final ctx = navigatorKey.currentState?.overlay?.context;
     if (ctx == null) return;
+
+    // 🔕 STOP RINGING
+    RingtoneService().stop();
 
     showDialog(
       context: ctx,
@@ -276,7 +294,7 @@ class PushNotificationSystem {
             onPressed: () {
               Navigator.of(ctx).pop();
             },
-            child: const Text("OK"),
+            child: Text(AppLocalizations.of(ctx)!.ok),
           ),
         ],
       ),
@@ -360,5 +378,13 @@ class PushNotificationSystem {
         debugPrint("❌ Token refresh error: $e");
       },
     );
+  }
+
+  void registerRideCallbacks({
+    required VoidCallback onAccept,
+    required VoidCallback onReject,
+  }) {
+    onAcceptRide = onAccept;
+    onRejectRide = onReject;
   }
 }

@@ -1,38 +1,8 @@
-// import 'package:flutter/material.dart';
-// import 'package:supabase_flutter/supabase_flutter.dart';
-// import 'package:kipgo/screens/login_screen.dart';
-// import 'package:kipgo/services/role_based_auth_gate.dart';
-
-// class AuthGate extends StatelessWidget {
-//   const AuthGate({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder(
-//       stream: Supabase.instance.client.auth.onAuthStateChange,
-//       builder: (context, snapshot) {
-//         // Loading
-//         if (snapshot.connectionState == ConnectionState.waiting) {
-//           return const Scaffold(
-//             body: Center(child: CircularProgressIndicator.adaptive()),
-//           );
-//         }
-//         final session = snapshot.hasData ? snapshot.data!.session : null;
-
-//         if (session != null) {
-//           return RoleBasedAuthGate();
-//         } else {
-//           return LoginScreen();
-//         }
-//       },
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kipgo/screens/auth/login_screen.dart';
-import 'package:kipgo/services/role_based_auth_gate.dart';
+import 'package:kipgo/screens/auth/verify_email_page.dart';
+// import 'package:kipgo/services/role_based_auth_gate.dart';
 
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
@@ -52,7 +22,8 @@ class AuthGate extends StatelessWidget {
         final user = snapshot.data;
 
         if (user != null) {
-          return const RoleBasedAuthGate();
+          // return const RoleBasedAuthGate();
+          return const VerifyEmailPage();
         } else {
           return const LoginScreen();
         }

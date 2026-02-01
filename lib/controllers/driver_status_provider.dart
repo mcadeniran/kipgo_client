@@ -10,6 +10,7 @@ import 'package:kipgo/helpers/helpers.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/main.dart';
 import 'package:kipgo/models/profile.dart';
+import 'package:kipgo/screens/widgets/background_location_disclosure.dart';
 import 'package:kipgo/utils/methods.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,11 +25,6 @@ class DriverStatusProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
 
   late LocationSettings locationSettings;
-
-  // GoogleMapController? _newGoogleMapController;
-  // Completer<GoogleMapController> _controllerGoogleMap = Completer();
-
-  // GoogleMapController get newGoogleMapController => _newGoogleMapController!;
 
   StreamSubscription<Position>? _positionSub;
 
@@ -89,14 +85,6 @@ class DriverStatusProvider extends ChangeNotifier {
     }
   }
 
-  // Future<GoogleMapController> get controllerFuture async {
-  //   return await _controllerGoogleMap.future;
-  // }
-
-  // DriverStatusProvider() {
-  //   _loadStatus();
-  // }
-
   Future<void> _loadStatus() async {
     final prefs = await SharedPreferences.getInstance();
     _isOnline = prefs.getBool("driver_status") ?? false;
@@ -120,9 +108,9 @@ class DriverStatusProvider extends ChangeNotifier {
       await showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: Text("Permission Required"),
+          title: Text(AppLocalizations.of(context)!.permissionRequired),
           content: Text(
-            "Location permission is permanently denied. Please enable it in Settings.",
+            AppLocalizations.of(context)!.locationPermissionIsPermanentlyDenied,
           ),
           actions: [
             TextButton(
@@ -130,7 +118,7 @@ class DriverStatusProvider extends ChangeNotifier {
                 Navigator.pop(ctx);
                 await Geolocator.openAppSettings();
               },
-              child: Text("Open Settings"),
+              child: Text(AppLocalizations.of(context)!.openSettings),
             ),
           ],
         ),
@@ -147,106 +135,79 @@ class DriverStatusProvider extends ChangeNotifier {
     return permission == LocationPermission.always;
   }
 
+  // Future<bool> ensureBackgroundPermission(BuildContext context) async {
+  //   LocationPermission permission = await Geolocator.checkPermission();
+  //   // print("FROM ENSURE BACKGROUND PERMISSION: $permission");
+  //   if (permission == LocationPermission.always) {
+  //     // ✅ Already has background
+  //     return true;
+  //   }
+
+  //   if (permission == LocationPermission.whileInUse) {
+  //     // ❌ Only foreground — explain to the driver
+  //     await showDialog(
+  //       context: context,
+  //       builder: (ctx) => AlertDialog(
+  //         title: Text(AppLocalizations.of(context)!.backgroundLocationNeeded),
+  //         content: Text(AppLocalizations.of(context)!.kipgoNeeds),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () async {
+  //               Navigator.pop(ctx);
+  //               await Geolocator.openAppSettings();
+  //             },
+  //             child: Text(AppLocalizations.of(context)!.openSettings),
+  //           ),
+  //         ],
+  //       ),
+  //     );
+  //     return false;
+  //   }
+
+  //   if (permission == LocationPermission.denied ||
+  //       permission == LocationPermission.deniedForever) {
+  //     // Handle normal denied case
+  //     await showDialog(
+  //       context: context,
+  //       builder: (ctx) => AlertDialog(
+  //         title: Text(AppLocalizations.of(context)!.locationPermissionRequired),
+  //         content: Text(
+  //           AppLocalizations.of(context)!.locationPermissionRequiredDrivers,
+  //         ),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () async {
+  //               Navigator.pop(ctx);
+  //               await Geolocator.openAppSettings();
+  //             },
+  //             child: Text(AppLocalizations.of(context)!.openSettings),
+  //           ),
+  //         ],
+  //       ),
+  //     );
+  //     return false;
+  //   }
+
+  //   return false;
+  // }
+
   Future<bool> ensureBackgroundPermission(BuildContext context) async {
     LocationPermission permission = await Geolocator.checkPermission();
-    // print("FROM ENSURE BACKGROUND PERMISSION: $permission");
+
+    // ✅ Already granted
     if (permission == LocationPermission.always) {
-      // ✅ Already has background
       return true;
     }
 
-    if (permission == LocationPermission.whileInUse) {
-      // ❌ Only foreground — explain to the driver
-      await showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text(AppLocalizations.of(context)!.backgroundLocationNeeded),
-          content: Text(AppLocalizations.of(context)!.kipgoNeeds),
-          actions: [
-            TextButton(
-              onPressed: () async {
-                Navigator.pop(ctx);
-                await Geolocator.openAppSettings();
-              },
-              child: Text(AppLocalizations.of(context)!.openSettings),
-            ),
-          ],
-        ),
-      );
-      return false;
-    }
+    // ❌ Must show disclosure BEFORE background permission
+    final accepted = await showBackgroundLocationDisclosure(context);
+    if (!accepted) return false;
 
-    if (permission == LocationPermission.denied ||
-        permission == LocationPermission.deniedForever) {
-      // Handle normal denied case
-      await showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: Text(AppLocalizations.of(context)!.locationPermissionRequired),
-          content: Text(
-            AppLocalizations.of(context)!.locationPermissionRequiredDrivers,
-          ),
-          actions: [
-            TextButton(
-              onPressed: () async {
-                Navigator.pop(ctx);
-                await Geolocator.openAppSettings();
-              },
-              child: Text(AppLocalizations.of(context)!.openSettings),
-            ),
-          ],
-        ),
-      );
-      return false;
-    }
+    // 🔐 Redirect user to system settings (Android requirement)
+    await Geolocator.openAppSettings();
 
     return false;
   }
-
-  // Future<void> toggleStatus(bool value, BuildContext context) async {
-  //   _isLoading = true;
-  //   notifyListeners();
-
-  //   // 🔹 Trying to go ONLINE
-  //   if (value) {
-  //     // Check background permission before allowing online
-  //     bool hasBackgroundPermission = await ensureBackgroundPermission(context);
-  //     // print("BACKGROUND PERMISSION: $hasBackgroundPermission");
-
-  //     if (!hasBackgroundPermission) {
-  //       // Don’t go online, keep driver offline
-  //       _isOnline = false;
-  //       _isLoading = false;
-  //       notifyListeners();
-
-  //       debugPrint("Driver denied background permission → staying offline.");
-  //       return;
-  //     }
-
-  //     // ✅ Permission granted → go online
-  //     _isOnline = true;
-  //     final prefs = await SharedPreferences.getInstance();
-  //     await prefs.setBool("driver_status", _isOnline);
-
-  //     // print('DRIVER CHANGING STATUS');
-  //     if (!context.mounted) return;
-  //     await driverIsOnlineNow(context);
-  //     if (!context.mounted) return;
-  //     updateDriverLocationInRealTime(context);
-  //   }
-  //   // 🔹 Going OFFLINE
-  //   else {
-  //     _isOnline = false;
-  //     final prefs = await SharedPreferences.getInstance();
-  //     await prefs.setBool("driver_status", _isOnline);
-
-  //     if (!context.mounted) return;
-  //     driverIsOfflineNow(context);
-  //   }
-
-  //   _isLoading = false;
-  //   notifyListeners();
-  // }
 
   Future<void> toggleStatus(bool value, BuildContext context) async {
     _isLoading = true;
@@ -317,7 +278,7 @@ class DriverStatusProvider extends ChangeNotifier {
 
     try {
       Position pos = await Geolocator.getCurrentPosition(
-        locationSettings: getLocationSettings(),
+        locationSettings: getLocationSettings(context),
       );
 
       driverCurrentPosition = pos;
@@ -333,50 +294,21 @@ class DriverStatusProvider extends ChangeNotifier {
     }
   }
 
-  // void driverIsOfflineNow(BuildContext context) {
-  //   Profile currentDriver = Provider.of<ProfileProvider>(
-  //     context,
-  //     listen: false,
-  //   ).profile!;
+  Future<void> forceOfflineForTrip(String driverId) async {
+    // Stop location streaming immediately
+    await _positionSub?.cancel();
+    _positionSub = null;
 
-  //   setDriverOffline(currentDriver.id);
-  // }
+    _isOnline = false;
 
-  // void updateDriverLocationInRealTime(BuildContext context) async {
-  //   final hasPermission = await _handleLocationPermission(context);
-  //   if (!hasPermission) return;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("driver_status", false);
 
-  //   // await _positionSub?.cancel();
+    // 🔥 CRITICAL: remove driver from rider-visible pool
+    setDriverOffline(driverId);
 
-  //   if (!context.mounted) return;
-  //   Profile currentDriver = Provider.of<ProfileProvider>(
-  //     context,
-  //     listen: false,
-  //   ).profile!;
-
-  //   streamSubscriptionPosition = Geolocator.getPositionStream().listen((
-  //     Position position,
-  //   ) async {
-  //     if (_isOnline) {
-  //       driverCurrentPosition = position;
-
-  //       setDriverOnline(
-  //         currentDriver.id,
-  //         position.latitude,
-  //         position.longitude,
-  //       );
-
-  //       // final controller = await controllerFuture;
-  //       // controller.animateCamera(
-  //       //   CameraUpdate.newLatLng(LatLng(position.latitude, position.longitude)),
-  //       // );
-
-  //       await safeAnimateCamera(
-  //         CameraUpdate.newLatLng(LatLng(position.latitude, position.longitude)),
-  //       );
-  //     }
-  //   });
-  // }
+    notifyListeners();
+  }
 
   void updateDriverLocationInRealTime() async {
     final ctx = navigatorKey.currentState?.overlay?.context;
@@ -390,7 +322,7 @@ class DriverStatusProvider extends ChangeNotifier {
     final profile = Provider.of<ProfileProvider>(ctx, listen: false).profile!;
     _positionSub =
         Geolocator.getPositionStream(
-          locationSettings: getLocationSettings(),
+          locationSettings: getLocationSettings(ctx),
         ).listen((pos) async {
           if (!_isOnline) return;
 
@@ -432,7 +364,7 @@ class DriverStatusProvider extends ChangeNotifier {
     if (!hasPermission) return;
 
     Position cPosition = await Geolocator.getCurrentPosition(
-      locationSettings: getLocationSettings(),
+      locationSettings: getLocationSettings(context),
     );
 
     driverCurrentPosition = cPosition;
@@ -442,13 +374,6 @@ class DriverStatusProvider extends ChangeNotifier {
       driverCurrentPosition!.longitude,
     );
 
-    // CameraPosition cameraPosition = CameraPosition(
-    //   target: latLngPosition,
-    //   zoom: 15,
-    // );
-
-    // final controller = await controllerFuture;
-    // controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
     await safeAnimateCamera(
       CameraUpdate.newLatLng(
         LatLng(latLngPosition.latitude, latLngPosition.longitude),
@@ -461,11 +386,9 @@ class DriverStatusProvider extends ChangeNotifier {
       driverCurrentPosition!,
       context,
     );
-
-    // print("Address: $humanReadableAddress");
   }
 
-  LocationSettings getLocationSettings() {
+  LocationSettings getLocationSettings(BuildContext context) {
     // Platform-specific location settings
     LocationSettings locationSettings;
     if (defaultTargetPlatform == TargetPlatform.android) {
@@ -474,10 +397,9 @@ class DriverStatusProvider extends ChangeNotifier {
         distanceFilter: 50,
         forceLocationManager: true,
         intervalDuration: const Duration(seconds: 10),
-        foregroundNotificationConfig: const ForegroundNotificationConfig(
-          notificationText:
-              "KIPGO will continue to receive your location even when you aren't using it",
-          notificationTitle: "Running in Background",
+        foregroundNotificationConfig: ForegroundNotificationConfig(
+          notificationText: AppLocalizations.of(context)!.kipgoWillContinue,
+          notificationTitle: AppLocalizations.of(context)!.runningInBackground,
           enableWakeLock: true,
         ),
       );

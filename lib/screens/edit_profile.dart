@@ -1,6 +1,14 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:iconify_flutter/iconify_flutter.dart';
+import 'package:iconify_flutter/icons/ic.dart';
+import 'package:iconify_flutter/icons/mdi.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:kipgo/controllers/theme_provider.dart';
+import 'package:kipgo/screens/widgets/phone_otp_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:kipgo/controllers/profile_provider.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
@@ -11,6 +19,9 @@ import 'package:kipgo/screens/widgets/error_message.dart';
 import 'package:kipgo/screens/widgets/input_decorator.dart';
 import 'package:kipgo/screens/widgets/success_message_widget.dart';
 import 'package:kipgo/utils/colors.dart';
+import 'package:recaptcha_enterprise_flutter/recaptcha.dart';
+import 'package:recaptcha_enterprise_flutter/recaptcha_action.dart';
+import 'package:recaptcha_enterprise_flutter/recaptcha_client.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -43,17 +54,27 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     });
 
     try {
-      final String formattedPhone =
-          parsedPhoneNumber?.phoneNumber ?? phoneController.text;
+      final oldPhone = profile.personal.phone;
+      final newPhone = parsedPhoneNumber?.phoneNumber ?? phoneController.text;
+
+      final phoneChanged = oldPhone.isNotEmpty && oldPhone != newPhone;
+
+      if (phoneChanged) {
+        // 🔥 unlink old phone auth
+        await unlinkPhoneIfExists();
+      }
 
       await FirebaseFirestore.instance
           .collection('profiles')
           .doc(profile.id)
           .update({
             'account.isProfileCompleted': true,
-            'personal.phone': formattedPhone,
+            'personal.phone': newPhone,
             'personal.firstName': firstNameController.text,
             'personal.lastName': lastNameController.text,
+            'personal.isPhoneVerified': phoneChanged
+                ? false
+                : profile.personal.isPhoneVerified,
           });
       setState(() {
         localSuccess = AppLocalizations.of(context)!.profileUpdateSuccess;
@@ -63,7 +84,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         localError = '${AppLocalizations.of(context)!.profileUpdateFailure}$e';
       });
     } finally {
-      setState(() => isLoading = false);
+      if (context.mounted) {
+        setState(() => isLoading = false);
+      }
+    }
+  }
+
+  Future<void> unlinkPhoneIfExists() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    for (final provider in user.providerData) {
+      if (provider.providerId == PhoneAuthProvider.PROVIDER_ID) {
+        await user.unlink(PhoneAuthProvider.PROVIDER_ID);
+        debugPrint("📴 Old phone provider unlinked");
+        break;
+      }
     }
   }
 
@@ -79,14 +115,36 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     number = PhoneNumber(phoneNumber: profile.personal.phone);
 
     // final e164 = profile.personal.phone;
-    initialPhone = PhoneNumber(
-      isoCode: 'TR',
-      phoneNumber: profile.personal.phone,
-    );
+    // initialPhone = PhoneNumber(
+    //   isoCode: 'TR',
+    //   phoneNumber: profile.personal.phone,
+    // );
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (profile.personal.phone != '') {
+        PhoneNumber numb = await PhoneNumber.getRegionInfoFromPhoneNumber(
+          profile.personal.phone,
+        );
+
+        setState(() {
+          initialPhone = PhoneNumber(
+            isoCode: numb.isoCode,
+            phoneNumber: profile.personal.phone,
+          );
+        });
+      } else {
+        setState(() {
+          initialPhone = PhoneNumber(
+            isoCode: 'TR',
+            phoneNumber: profile.personal.phone,
+          );
+        });
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Provider.of<ThemeProvider>(context, listen: false).isDarkMode;
     return Scaffold(
       backgroundColor: AppColors.primary,
       appBar: AppBarWidget(
@@ -281,45 +339,218 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       SizedBox(height: 16),
                       initialPhone == null
                           ? const CircularProgressIndicator() // while parsing
-                          : InternationalPhoneNumberInput(
-                              onInputChanged: (PhoneNumber number) {
-                                parsedPhoneNumber =
-                                    number; // ✅ save latest parsed phone number
-                              },
-                              onInputValidated: (bool isValid) {
-                                // print("Is valid: $isValid");
-                              },
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return AppLocalizations.of(
-                                    context,
-                                  )!.phoneNumberRequiredError;
-                                }
-                                if (value.length < 10) {
-                                  return AppLocalizations.of(
-                                    context,
-                                  )!.phoneNumberInvalidError;
-                                }
-                                return null;
-                              },
-                              selectorConfig: SelectorConfig(
-                                selectorType:
-                                    PhoneInputSelectorType.BOTTOM_SHEET,
-                                useBottomSheetSafeArea: true,
-                              ),
-                              ignoreBlank: false,
-                              autoValidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              initialValue: initialPhone,
-                              textFieldController: phoneController,
-                              formatInput: true,
-                              keyboardType: TextInputType.phone,
-                              inputDecoration: inputDecoration(
-                                context: context,
-                                hint: AppLocalizations.of(context)!.phone,
-                              ),
-                              onSaved: (PhoneNumber number) {
-                                parsedPhoneNumber = number;
+                          : Consumer<ProfileProvider>(
+                              builder: (context, userProvider, _) {
+                                return Column(
+                                  children: [
+                                    Row(
+                                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(
+                                          width:
+                                              userProvider
+                                                      .profile!
+                                                      .personal
+                                                      .phone ==
+                                                  ''
+                                              ? MediaQuery.of(
+                                                          context,
+                                                        ).size.width *
+                                                        1 -
+                                                    24
+                                              : MediaQuery.of(
+                                                      context,
+                                                    ).size.width *
+                                                    0.8,
+                                          child: InternationalPhoneNumberInput(
+                                            onInputChanged: (PhoneNumber number) {
+                                              parsedPhoneNumber =
+                                                  number; // ✅ save latest parsed phone number
+                                            },
+                                            onInputValidated: (bool isValid) {
+                                              // print("Is valid: $isValid");
+                                            },
+                                            validator: (value) {
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return AppLocalizations.of(
+                                                  context,
+                                                )!.phoneNumberRequiredError;
+                                              }
+                                              if (value.length < 10) {
+                                                return AppLocalizations.of(
+                                                  context,
+                                                )!.phoneNumberInvalidError;
+                                              }
+                                              return null;
+                                            },
+                                            selectorConfig: SelectorConfig(
+                                              selectorType:
+                                                  PhoneInputSelectorType
+                                                      .BOTTOM_SHEET,
+                                              useBottomSheetSafeArea: true,
+                                              setSelectorButtonAsPrefixIcon:
+                                                  true,
+                                              useEmoji: true,
+                                              leadingPadding: 10,
+                                            ),
+                                            ignoreBlank: false,
+                                            autoValidateMode: AutovalidateMode
+                                                .onUserInteraction,
+                                            initialValue: initialPhone,
+                                            textFieldController:
+                                                phoneController,
+                                            formatInput: true,
+                                            keyboardType: TextInputType.phone,
+                                            inputDecoration: inputDecoration(
+                                              context: context,
+                                              hint: AppLocalizations.of(
+                                                context,
+                                              )!.phone,
+                                            ),
+                                            onSaved: (PhoneNumber number) {
+                                              parsedPhoneNumber = number;
+                                            },
+                                            spaceBetweenSelectorAndTextField: 0,
+                                          ),
+                                        ),
+                                        if (userProvider
+                                                .profile!
+                                                .personal
+                                                .phone !=
+                                            '') ...[
+                                          SizedBox(width: 5),
+                                          if (userProvider
+                                              .profile!
+                                              .personal
+                                              .isPhoneVerified) ...[
+                                            IconButton(
+                                              onPressed: () {},
+                                              icon: Iconify(
+                                                Ic.baseline_verified,
+                                                color: Colors.green[800],
+                                                size: 28,
+                                              ),
+                                            ),
+                                          ],
+                                          if (!userProvider
+                                              .profile!
+                                              .personal
+                                              .isPhoneVerified) ...[
+                                            IconButton(
+                                              onPressed: () {},
+                                              icon: Iconify(
+                                                Mdi.alert_octagram,
+                                                color: Colors.amber[800],
+                                                size: 28,
+                                              ),
+                                            ),
+                                          ],
+                                        ],
+                                      ],
+                                    ),
+                                    if (userProvider.profile!.personal.phone !=
+                                            '' &&
+                                        userProvider
+                                            .profile!
+                                            .personal
+                                            .isPhoneVerified) ...[
+                                      SizedBox(height: 5),
+                                      Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          "Changing your phone number will require re-verification.",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold,
+                                            fontStyle: FontStyle.italic,
+                                            color: isDark
+                                                ? Colors.white54
+                                                : Colors.black45,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                    if (userProvider.profile!.personal.phone !=
+                                            '' &&
+                                        !userProvider
+                                            .profile!
+                                            .personal
+                                            .isPhoneVerified) ...[
+                                      // SizedBox(height: 10),
+                                      Align(
+                                        alignment: Alignment.centerRight,
+                                        child: TextButton(
+                                          onPressed: () async {
+                                            setState(() {
+                                              localError = '';
+                                              localSuccess = '';
+                                            });
+                                            final siteKey = Platform.isAndroid
+                                                ? "6LcSEVksAAAAAB3iC7dVERxfub7c-9zrMeXh72BA"
+                                                : "6LfsFlksAAAAAFtmqSllV2AM5loygoimyWcCBfW3";
+
+                                            RecaptchaClient client =
+                                                await Recaptcha.fetchClient(
+                                                  siteKey,
+                                                );
+                                            print("SENDING OTP CODE");
+                                            await client.execute(
+                                              RecaptchaAction.LOGIN(),
+                                            );
+                                            await FirebaseAuth.instance.verifyPhoneNumber(
+                                              codeAutoRetrievalTimeout: (e) {
+                                                debugPrint("SMS TIMEOUT: $e");
+                                              },
+                                              phoneNumber: userProvider
+                                                  .profile!
+                                                  .personal
+                                                  .phone,
+                                              codeSent:
+                                                  (
+                                                    verificationId,
+                                                    forceResendingToken,
+                                                  ) {
+                                                    print("SENT OTP CODE");
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (_) =>
+                                                            PhoneOtpWidget(
+                                                              phoneNumber:
+                                                                  userProvider
+                                                                      .profile!
+                                                                      .personal
+                                                                      .phone,
+                                                              verificationId:
+                                                                  verificationId,
+                                                              profile: profile,
+                                                            ),
+                                                      ),
+                                                    );
+                                                  },
+                                              verificationCompleted: (_) {},
+                                              verificationFailed: (error) {
+                                                // throw Exception(error.message);
+                                                setState(() {
+                                                  localError = error.code;
+                                                });
+                                                debugPrint(error.message);
+                                              },
+                                            );
+                                          },
+                                          child: Text(
+                                            'Verify Phone Number',
+                                            style: TextStyle(
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                );
                               },
                             ),
                       if (localError != '') ...[
@@ -330,7 +561,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         SizedBox(height: 16),
                         SuccessMessageWidget(successMessage: localSuccess),
                       ],
-                      SizedBox(height: 16),
+                      SizedBox(height: 26),
                       ElevatedButton(
                         onPressed: isLoading
                             ? null

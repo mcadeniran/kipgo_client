@@ -39,6 +39,7 @@ class AuthService {
           photoUrl: '',
           reviews: [],
           phone: '',
+          isPhoneVerified: false,
         ),
         vehicle: Vehicle(
           numberPlate: '',

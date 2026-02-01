@@ -6,9 +6,9 @@ LocationSettings getLocationSetting() {
   if (defaultTargetPlatform == TargetPlatform.android) {
     locationSettings = AndroidSettings(
       accuracy: LocationAccuracy.high,
-      distanceFilter: 100,
+      distanceFilter: 0,
       forceLocationManager: true,
-      intervalDuration: const Duration(seconds: 10),
+      intervalDuration: const Duration(seconds: 1),
       foregroundNotificationConfig: const ForegroundNotificationConfig(
         notificationText:
             "KIPGO will continue to receive your location even when you aren't using it",
@@ -21,7 +21,7 @@ LocationSettings getLocationSetting() {
     locationSettings = AppleSettings(
       accuracy: LocationAccuracy.bestForNavigation,
       activityType: ActivityType.automotiveNavigation,
-      distanceFilter: 100,
+      distanceFilter: 0,
       pauseLocationUpdatesAutomatically: true,
       // Only set to true if our app will be started up in the background.
       showBackgroundLocationIndicator: false,
@@ -29,13 +29,13 @@ LocationSettings getLocationSetting() {
   } else if (kIsWeb) {
     locationSettings = WebSettings(
       accuracy: LocationAccuracy.bestForNavigation,
-      distanceFilter: 100,
+      distanceFilter: 10,
       maximumAge: Duration(minutes: 5),
     );
   } else {
     locationSettings = LocationSettings(
       accuracy: LocationAccuracy.bestForNavigation,
-      distanceFilter: 100,
+      distanceFilter: 10,
     );
   }
 

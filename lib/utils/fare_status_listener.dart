@@ -1,9 +1,12 @@
 import 'dart:async';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class FareStatusListener {
+  static final AudioPlayer _player = AudioPlayer();
+
   static StreamSubscription? _sub;
   static bool _dialogShowing = false;
 
@@ -26,6 +29,7 @@ class FareStatusListener {
 
       if (status == 'accepted' && !_dialogShowing) {
         _dialogShowing = true;
+        await _player.play(AssetSource('sounds/notification.mp3'));
         onAccepted();
       }
 

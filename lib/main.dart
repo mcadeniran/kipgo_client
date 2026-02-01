@@ -1,4 +1,3 @@
-// lib/main.dart
 import 'dart:ui';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -41,21 +40,9 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
   sound: RawResourceAndroidNotificationSound('notification'),
 );
 
-// @pragma('vm:entry-point')
-// Future<void> backgroundHandler(RemoteMessage message) async {}
-
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-
-  // Initialize NotificationService manually (since no context is available)
-  NotificationService().init(flutterLocalNotificationsPlugin);
-  await NotificationService().initNotification();
-
-  NotificationService().showNotification(
-    title: message.notification?.title ?? 'New Message',
-    body: message.notification?.body ?? 'You have a new notification',
-  );
 }
 
 Future<void> main() async {

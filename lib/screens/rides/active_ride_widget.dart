@@ -15,6 +15,7 @@ import 'package:kipgo/utils/colors.dart';
 import 'package:kipgo/utils/methods.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 Future<void> _makePhoneCall(BuildContext context, String phoneNumber) async {
   final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
@@ -58,6 +59,8 @@ class _ActiveRideWidgetState extends State<ActiveRideWidget>
   @override
   void initState() {
     super.initState();
+
+    WakelockPlus.enable();
 
     bool isDark = Provider.of<ThemeProvider>(context, listen: false).isDarkMode;
     if (isDark) {
@@ -170,6 +173,7 @@ class _ActiveRideWidgetState extends State<ActiveRideWidget>
   @override
   void dispose() {
     _driverLocationSub?.cancel();
+    WakelockPlus.disable();
     super.dispose();
   }
 

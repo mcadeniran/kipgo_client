@@ -194,10 +194,10 @@ class NotificationService {
   }
 
   Future<void> showNotification({
-    int id = 0,
     required String title,
     required String body,
   }) async {
+    final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     return notificationsPlugin.show(id, title, body, notificationDetails());
   }
 }

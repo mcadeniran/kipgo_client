@@ -4,6 +4,8 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:kipgo/controllers/driver_status_provider.dart';
+import 'package:kipgo/controllers/ringtone_service.dart';
 // import 'package:kipgo/controllers/driver_status_provider.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/main.dart';
@@ -339,7 +341,46 @@ class _RideRequestSheetContentState extends State<_RideRequestSheetContent> {
     throw Exception("No valid context available");
   }
 
+  Future<bool> _isRideStillAvailable() async {
+    final ref = FirebaseDatabase.instance.ref(
+      "All Ride Requests/${widget.ride.rideRequestId}",
+    );
+
+    final snapshot = await ref.get();
+
+    if (!snapshot.exists) return false;
+
+    return true;
+  }
+
+  Future<bool> _guardRideAvailability() async {
+    final isAvailable = await _isRideStillAvailable();
+
+    if (!isAvailable) {
+      await _showRideCancelledDialog();
+      return false;
+    }
+
+    return true;
+  }
+
+  Future<void> _showRideCancelledDialog() async {
+    await _showSingleDialog(
+      title: AppLocalizations.of(safeContext)!.rideCancelled,
+      message: AppLocalizations.of(safeContext)!.riderHasCancelledTheRequest,
+      onOk: () {
+        Navigator.of(navigatorKey.currentContext!).pop(); // close sheet
+      },
+    );
+  }
+
   Future<void> proposeFare(double enteredFare) async {
+    final isAvailable = await _isRideStillAvailable();
+
+    if (!isAvailable) {
+      await _showRideCancelledDialog();
+      return;
+    }
     await FirebaseDatabase.instance
         .ref('All Ride Requests/${widget.ride.rideRequestId}')
         .update({
@@ -376,7 +417,7 @@ class _RideRequestSheetContentState extends State<_RideRequestSheetContent> {
           title: AppLocalizations.of(context)!.fareAccepted,
           message: AppLocalizations.of(context)!.theRiderAcceptedFare,
           onOk: () {
-            acceptRide();
+            // acceptRide();
           },
         );
       }
@@ -454,12 +495,26 @@ class _RideRequestSheetContentState extends State<_RideRequestSheetContent> {
     }
   }
 
+  @override
+  void initState() {
+    super.initState();
+    PushNotificationSystem().registerRideCallbacks(
+      onAccept: () {
+        acceptRide();
+      },
+      onReject: () {
+        // optional: rejectRide();
+      },
+    );
+  }
+
   // ───────
   // DISPOSE
   // ───────
   @override
   void dispose() {
     fareSubscription?.cancel();
+    RingtoneService().stop();
     player.dispose();
     super.dispose();
   }
@@ -547,14 +602,18 @@ class _RideRequestSheetContentState extends State<_RideRequestSheetContent> {
           ),
           validator: (value) {
             if (value == null || value.trim().isEmpty) {
-              return "Price cannot be empty";
+              return AppLocalizations.of(context)!.priceCannotBeEmpty;
             }
 
             final cleaned = value.replaceAll(",", "").trim();
             final amount = double.tryParse(cleaned);
 
-            if (amount == null) return "Invalid fare";
-            if (amount < 1) return "Fare cannot be less than ₺1";
+            if (amount == null) {
+              return AppLocalizations.of(context)!.invalidFare;
+            }
+            if (amount < 1) {
+              return AppLocalizations.of(context)!.fareCannotBeLessThan;
+            }
 
             return null;
           },
@@ -581,9 +640,12 @@ class _RideRequestSheetContentState extends State<_RideRequestSheetContent> {
               ),
               SizedBox(width: 10),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (widget.priceKey.currentState!.validate()) {
+                    final canProceed = await _guardRideAvailability();
+                    if (!canProceed) return;
                     Navigator.of(context).pop();
+
                     showDialog(
                       context: navigatorKey.currentContext!,
                       builder: (_) => ProgressDialog(
@@ -602,6 +664,7 @@ class _RideRequestSheetContentState extends State<_RideRequestSheetContent> {
                       onAccepted: () {
                         _closeProgressDialogSafely();
                         FareStatusListener.stop();
+                        // acceptRide();
                         PushNotificationSystem().showFareAcceptedDialog(
                           widget.ride,
                         );
@@ -638,6 +701,13 @@ class _RideRequestSheetContentState extends State<_RideRequestSheetContent> {
   // ───────────
   void rejectRide() async {
     widget.onDialogClosed?.call();
+
+    final isAvailable = await _isRideStillAvailable();
+
+    if (!isAvailable) {
+      await _showRideCancelledDialog();
+      return;
+    }
 
     final driverId = Provider.of<ProfileProvider>(
       navigatorKey.currentContext!,
@@ -702,6 +772,13 @@ class _RideRequestSheetContentState extends State<_RideRequestSheetContent> {
   void acceptRide() async {
     widget.onDialogClosed?.call();
 
+    final isAvailable = await _isRideStillAvailable();
+
+    if (!isAvailable) {
+      await _showRideCancelledDialog();
+      return;
+    }
+
     final driverId = Provider.of<ProfileProvider>(
       navigatorKey.currentContext!,
       listen: false,
@@ -715,6 +792,12 @@ class _RideRequestSheetContentState extends State<_RideRequestSheetContent> {
           .get();
 
       if (!rideSnapshot.exists) return;
+
+      // Optionally set driver offline
+      await Provider.of<DriverStatusProvider>(
+        navigatorKey.currentContext!,
+        listen: false,
+      ).forceOfflineForTrip(driverId);
 
       await FirebaseFirestore.instance
           .collection('profiles')

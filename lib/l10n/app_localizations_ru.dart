@@ -907,4 +907,75 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get waitingForRiderResponse => 'Ожидание ответа пассажира';
+
+  @override
+  String get riderHasCancelledTheRequest => 'Пассажир отменил запрос';
+
+  @override
+  String get priceCannotBeEmpty => 'Цена не может быть пустой';
+
+  @override
+  String get invalidFare => 'Недопустимая цена';
+
+  @override
+  String get fareCannotBeLessThan => 'Цена не может быть меньше ₺1';
+
+  @override
+  String get permissionRequired => 'Требуется разрешение';
+
+  @override
+  String get locationPermissionIsPermanentlyDenied =>
+      'Разрешение на доступ к местоположению окончательно отклонено. Пожалуйста, включите его в настройках.';
+
+  @override
+  String get kipgoWillContinue =>
+      'KIPGO будет продолжать получать ваше местоположение, даже когда вы не используете приложение';
+
+  @override
+  String get runningInBackground => 'Работает в фоновом режиме';
+
+  @override
+  String get backgroundLocationUsage =>
+      'Использование геолокации в фоновом режиме';
+
+  @override
+  String get kipgoCollectsLocationData =>
+      'KIPGO собирает данные о местоположении, чтобы водители и пассажиры могли отслеживать друг друга в реальном времени во время активных поездок.';
+
+  @override
+  String get thisAllows => 'Это позволяет:';
+
+  @override
+  String get driversToNavigate =>
+      '• Водителям прокладывать маршрут к пассажирам';
+
+  @override
+  String get ridersToseeLiveDriver =>
+      '• Пассажирам видеть перемещение водителя в реальном времени';
+
+  @override
+  String get tripsToContinue =>
+      '• Продолжение поездок даже при закрытом приложении';
+
+  @override
+  String get locationDataIsCollectedOnly =>
+      'Данные о местоположении собираются только во время активных поездок и никогда не передаются за пределы приложения.';
+
+  @override
+  String get pleaseGoToSettings =>
+      'Пожалуйста, перейдите в настройки и включите «Разрешить всегда».';
+
+  @override
+  String get notNow => 'Не сейчас';
+
+  @override
+  String get verifyEmail => 'Подтвердите электронную почту';
+
+  @override
+  String verificationEmailSent(String email) {
+    return 'Письмо для подтверждения было отправлено на $email';
+  }
+
+  @override
+  String get resendEmail => 'Отправить письмо повторно';
 }

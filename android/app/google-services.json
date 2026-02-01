@@ -8,50 +8,33 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1014236146041:android:2e41d9613a1001d5ed67a8",
-        "android_client_info": {
-          "package_name": "com.example.kipgo"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyD-VZPivjwtD8LB-4h5JiEY2e5bTOMA98I"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1014236146041:android:436d7984101f3848ed67a8",
-        "android_client_info": {
-          "package_name": "com.kipgotaksi.taxiapp"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyD-VZPivjwtD8LB-4h5JiEY2e5bTOMA98I"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:1014236146041:android:418b10b0e0d7dd81ed67a8",
         "android_client_info": {
           "package_name": "com.kipgotaxi.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1014236146041-da79tgick6652ia2iim4lg5e0rb37j1v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kipgotaxi.app",
+            "certificate_hash": "bc9ec5e47160998db1a7e061072cc655d1f2ed9a"
+          }
+        },
+        {
+          "client_id": "1014236146041-u4n5e9b6t574lmllpcv0ta7chbu67457.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kipgotaxi.app",
+            "certificate_hash": "4554d8ff9f506155316912803328ba2b3fab3bc0"
+          }
+        },
+        {
+          "client_id": "1014236146041-3uhvm9q4skstir4fa0g46j7cjddd1oes.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD-VZPivjwtD8LB-4h5JiEY2e5bTOMA98I"
@@ -59,7 +42,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1014236146041-3uhvm9q4skstir4fa0g46j7cjddd1oes.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1014236146041-8a80fj4jrdos9mijs3lu4gf7elgh0icq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kipgotaxi.app"
+              }
+            }
+          ]
         }
       }
     }

@@ -1117,7 +1117,7 @@
   "@enterFare": {
     "description": "Enter fare hint text"
   },
-  "enterPrice": "'Enter Price (₺)",
+  "enterPrice": "Enter Price (₺)",
   "@enterPrice": {
     "description": "Enter price label"
   },
@@ -1136,5 +1136,90 @@
   "waitingForRiderResponse": "Waiting for rider's response",
   "@waitingForRiderResponse": {
     "description": "Waiting for rider's response message"
+  },
+  "riderHasCancelledTheRequest": "Rider has cancelled the request",
+  "@riderHasCancelledTheRequest": {
+    "description": "Rider has cancelled the request message"
+  },
+  "priceCannotBeEmpty": "Price cannot be empty",
+  "@priceCannotBeEmpty": {
+    "description": "Price cannot be empty error message"
+  },
+  "invalidFare": "Invalid fare",
+  "@invalidFare": {
+    "description": "Invalid fare error message"
+  },
+  "fareCannotBeLessThan": "Fare cannot be less than ₺1",
+  "@fareCannotBeLessThan": {
+    "description": "Fare cannot be less than ₺1 error message"
+  },
+  "permissionRequired": "Permission Required",
+  "@permissionRequired": {
+    "description": "Permission required heading"
+  },
+  "locationPermissionIsPermanentlyDenied": "Location permission is permanently denied. Please enable it in Settings.",
+  "@locationPermissionIsPermanentlyDenied": {
+    "description": "Location permission permanently denied message"
+  },
+  "kipgoWillContinue": "KIPGO will continue to receive your location even when you aren't using it",
+  "@kipgoWillContinue": {
+    "description": "KIPGO will continue to receive location status message"
+  },
+  "runningInBackground": "Running in Background",
+  "@runningInBackground": {
+    "description": "Running in background banner message"
+  },
+  "backgroundLocationUsage": "Background Location Usage",
+  "@backgroundLocationUsage": {
+    "description": "Background location usage title"
+  },
+  "kipgoCollectsLocationData": "KIPGO collects location data to enable drivers and riders to track each other in real time during active rides.",
+  "@kipgoCollectsLocationData": {
+    "description": "Kipgo collects location data detailed message"
+  },
+  "thisAllows": "This allows:",
+  "@thisAllows": {
+    "description": "This allows list header"
+  },
+  "driversToNavigate": "• Drivers to navigate to riders",
+  "@driversToNavigate": {
+    "description": "Drivers to navigate to riders list item"
+  },
+  "ridersToseeLiveDriver": "• Riders to see live driver movement",
+  "@ridersToseeLiveDriver": {
+    "description": "Riders to see live driver movement list item"
+  },
+  "tripsToContinue": "• Trips to continue even when the app is closed",
+  "@tripsToContinue": {
+    "description": "Trips to continue even when the app is closed list item"
+  },
+  "locationDataIsCollectedOnly": "Location data is collected only during active rides and is never shared outside the app.",
+  "@locationDataIsCollectedOnly": {
+    "description": "Location data is collected only during active rides details"
+  },
+  "pleaseGoToSettings": "Please go to settings and enable 'Allow all the time'.",
+  "@pleaseGoToSettings": {
+    "description": "How to enable Allow all the time instruction"
+  },
+  "notNow": "Not now",
+  "@notNow": {
+    "description": "Not now cancel button label"
+  },
+  "verifyEmail": "Verify Email",
+  "@verifyEmail": {
+    "description": "Verify email title"
+  },
+  "verificationEmailSent": "A verification email has been sent to {email}",
+  "@verificationEmailSent": {
+    "description": "Verification email sent message",
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "resendEmail": "Resend Email",
+  "@resendEmail": {
+    "description": "Resend email action button message"
   }
 }

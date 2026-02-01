@@ -23,6 +23,7 @@ import 'package:kipgo/utils/colors.dart';
 import 'package:kipgo/utils/methods.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 Future<void> _makePhoneCall(BuildContext context, String phoneNumber) async {
   final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
@@ -424,11 +425,11 @@ class _ActiveDriveWidgetState extends State<ActiveDriveWidget> {
 
     if (shouldGoHome == true) {
       cleanupResources();
-      // if (!mounted) return;
-      // Provider.of<DriverStatusProvider>(
-      //   context,
-      //   listen: false,
-      // ).toggleStatus(true, context);
+      if (!mounted) return;
+      Provider.of<DriverStatusProvider>(
+        context,
+        listen: false,
+      ).toggleStatus(true, context);
       if (!mounted) return;
       Navigator.pop(ctx);
     } else {}
@@ -450,6 +451,7 @@ class _ActiveDriveWidgetState extends State<ActiveDriveWidget> {
   void initState() {
     super.initState();
     cleanupResources();
+    WakelockPlus.enable();
     _loadMapStyle();
     createDriverIconMarker();
     buttonTitle = '';
@@ -699,6 +701,7 @@ class _ActiveDriveWidgetState extends State<ActiveDriveWidget> {
   @override
   void dispose() {
     // Cancel live location updates
+    WakelockPlus.disable();
     streamSubscriptionDriverLivePosition?.cancel();
     rideStatusSubscription?.cancel();
     // Dispose Google Map controller

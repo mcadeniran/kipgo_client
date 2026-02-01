@@ -879,7 +879,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enterFare => 'Enter Fare';
 
   @override
-  String get enterPrice => '\'Enter Price (₺)';
+  String get enterPrice => 'Enter Price (₺)';
 
   @override
   String get driverProposedFare => 'Driver Proposed Fare';
@@ -892,4 +892,72 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get waitingForRiderResponse => 'Waiting for rider\'s response';
+
+  @override
+  String get riderHasCancelledTheRequest => 'Rider has cancelled the request';
+
+  @override
+  String get priceCannotBeEmpty => 'Price cannot be empty';
+
+  @override
+  String get invalidFare => 'Invalid fare';
+
+  @override
+  String get fareCannotBeLessThan => 'Fare cannot be less than ₺1';
+
+  @override
+  String get permissionRequired => 'Permission Required';
+
+  @override
+  String get locationPermissionIsPermanentlyDenied =>
+      'Location permission is permanently denied. Please enable it in Settings.';
+
+  @override
+  String get kipgoWillContinue =>
+      'KIPGO will continue to receive your location even when you aren\'t using it';
+
+  @override
+  String get runningInBackground => 'Running in Background';
+
+  @override
+  String get backgroundLocationUsage => 'Background Location Usage';
+
+  @override
+  String get kipgoCollectsLocationData =>
+      'KIPGO collects location data to enable drivers and riders to track each other in real time during active rides.';
+
+  @override
+  String get thisAllows => 'This allows:';
+
+  @override
+  String get driversToNavigate => '• Drivers to navigate to riders';
+
+  @override
+  String get ridersToseeLiveDriver => '• Riders to see live driver movement';
+
+  @override
+  String get tripsToContinue =>
+      '• Trips to continue even when the app is closed';
+
+  @override
+  String get locationDataIsCollectedOnly =>
+      'Location data is collected only during active rides and is never shared outside the app.';
+
+  @override
+  String get pleaseGoToSettings =>
+      'Please go to settings and enable \'Allow all the time\'.';
+
+  @override
+  String get notNow => 'Not now';
+
+  @override
+  String get verifyEmail => 'Verify Email';
+
+  @override
+  String verificationEmailSent(String email) {
+    return 'A verification email has been sent to $email';
+  }
+
+  @override
+  String get resendEmail => 'Resend Email';
 }

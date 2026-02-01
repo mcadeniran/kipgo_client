@@ -115,6 +115,7 @@ class _DriverHomeState extends State<DriverHome> {
   Widget build(BuildContext context) {
     final driverStatus = Provider.of<DriverStatusProvider>(context);
     bool activeRide = Provider.of<AppInfo>(context).hasActiveRide;
+    bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
     final driveProvider = Provider.of<DriverRideProvider>(context);
     return Scaffold(
       backgroundColor: AppColors.primary,
@@ -147,7 +148,8 @@ class _DriverHomeState extends State<DriverHome> {
               } else if (p.profile!.account.isProfileCompleted &&
                   p.profile!.account.isApproved &&
                   !activeRide &&
-                  !activeDriveProvider.hasActiveDrive) {
+                  !activeDriveProvider.hasActiveDrive &&
+                  p.profile!.personal.isPhoneVerified) {
                 return Consumer<DriverStatusProvider>(
                   builder: (context, ds, _) {
                     return Row(
@@ -341,51 +343,23 @@ class _DriverHomeState extends State<DriverHome> {
                                 .account
                                 .isProfileCompleted) ...[
                               SizedBox(height: 10),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 4,
-                                ),
-                                width: double.maxFinite,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(
-                                    color: Colors.red,
-                                    width: 1,
-                                  ),
-                                ),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) =>
-                                            const EditProfileScreen(),
-                                      ),
-                                    );
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          AppLocalizations.of(
-                                            context,
-                                          )!.completeProfilePrompt,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.red,
-                                          ),
-                                        ),
-                                      ),
-                                      Icon(
-                                        Icons.chevron_right,
-                                        color: Colors.red,
-                                        size: 18,
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                              profileErrorMessage(
+                                AppLocalizations.of(
+                                  context,
+                                )!.completeProfilePrompt,
+                              ),
+                            ],
+                            if (profileProvider
+                                    .profile!
+                                    .account
+                                    .isProfileCompleted &&
+                                !profileProvider
+                                    .profile!
+                                    .personal
+                                    .isPhoneVerified) ...[
+                              SizedBox(height: 10),
+                              profileErrorMessage(
+                                "Please verify your phone number to request and accept rides",
                               ),
                             ],
                           ],
@@ -424,8 +398,6 @@ class _DriverHomeState extends State<DriverHome> {
                             zoom: 14.5,
                           ),
                           onMapCreated: (controller) {
-                            // driverStatus.newGoogleMapController = controller;
-                            // driverStatus.locateDriverPosition(context);
                             driverStatus.attachMap(controller);
                             driverStatus.locateDriverPosition(context);
                           },
@@ -457,20 +429,32 @@ class _DriverHomeState extends State<DriverHome> {
                             );
                           },
                         ),
-                        if (!driverStatus.isOnline && !activeRide)
-                          _buildCard(
-                            context,
-                            icon: Icons.hail_rounded,
-                            label: AppLocalizations.of(context)!.requestRide,
-                            onTap: () {
-                              Navigator.push(
+                        Consumer<ProfileProvider>(
+                          builder: (context, pp, _) {
+                            if (!driverStatus.isOnline &&
+                                !activeRide &&
+                                pp.profile!.account.isProfileCompleted &&
+                                pp.profile!.personal.isPhoneVerified) {
+                              return _buildCard(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (_) => const RequestRide(),
-                                ),
+                                icon: Icons.hail_rounded,
+                                label: AppLocalizations.of(
+                                  context,
+                                )!.requestRide,
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => const RequestRide(),
+                                    ),
+                                  );
+                                },
                               );
-                            },
-                          ),
+                            } else {
+                              return rideNotAvailable(isDark);
+                            }
+                          },
+                        ),
                         _buildCard(
                           context,
                           icon: Icons.history,
@@ -543,6 +527,102 @@ class _DriverHomeState extends State<DriverHome> {
                 ),
               ),
             ),
+    );
+  }
+
+  InkWell rideNotAvailable(bool isDark) {
+    return InkWell(
+      onTap: null,
+      borderRadius: BorderRadius.circular(16),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final iconSize = constraints.maxWidth * 0.35;
+          final overlaySize = constraints.maxWidth * 0.6;
+
+          return Stack(
+            fit: StackFit.expand,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: isDark ? AppColors.darkLayer : Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 6,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.hail,
+                      size: iconSize.clamp(24, 48),
+                      color: isDark ? Colors.white : AppColors.primary,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      AppLocalizations.of(context)!.requestRide,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Center(
+                child: Icon(
+                  Icons.do_disturb_alt,
+                  size: overlaySize.clamp(40, 90),
+                  color: isDark ? Colors.white54 : Colors.black26,
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget profileErrorMessage(String message) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const EditProfileScreen()),
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        width: double.maxFinite,
+        decoration: BoxDecoration(
+          color: Colors.red.shade400.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.red, width: 1),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                message,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.red,
+                ),
+              ),
+            ),
+            Icon(Icons.chevron_right, color: Colors.red, size: 18),
+          ],
+        ),
+      ),
     );
   }
 

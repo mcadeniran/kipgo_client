@@ -1753,7 +1753,7 @@ abstract class AppLocalizations {
   /// Enter price label
   ///
   /// In en, this message translates to:
-  /// **'\'Enter Price (₺)'**
+  /// **'Enter Price (₺)'**
   String get enterPrice;
 
   /// Driver Proposed Fare title
@@ -1779,6 +1779,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Waiting for rider\'s response'**
   String get waitingForRiderResponse;
+
+  /// Rider has cancelled the request message
+  ///
+  /// In en, this message translates to:
+  /// **'Rider has cancelled the request'**
+  String get riderHasCancelledTheRequest;
+
+  /// Price cannot be empty error message
+  ///
+  /// In en, this message translates to:
+  /// **'Price cannot be empty'**
+  String get priceCannotBeEmpty;
+
+  /// Invalid fare error message
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid fare'**
+  String get invalidFare;
+
+  /// Fare cannot be less than ₺1 error message
+  ///
+  /// In en, this message translates to:
+  /// **'Fare cannot be less than ₺1'**
+  String get fareCannotBeLessThan;
+
+  /// Permission required heading
+  ///
+  /// In en, this message translates to:
+  /// **'Permission Required'**
+  String get permissionRequired;
+
+  /// Location permission permanently denied message
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission is permanently denied. Please enable it in Settings.'**
+  String get locationPermissionIsPermanentlyDenied;
+
+  /// KIPGO will continue to receive location status message
+  ///
+  /// In en, this message translates to:
+  /// **'KIPGO will continue to receive your location even when you aren\'t using it'**
+  String get kipgoWillContinue;
+
+  /// Running in background banner message
+  ///
+  /// In en, this message translates to:
+  /// **'Running in Background'**
+  String get runningInBackground;
+
+  /// Background location usage title
+  ///
+  /// In en, this message translates to:
+  /// **'Background Location Usage'**
+  String get backgroundLocationUsage;
+
+  /// Kipgo collects location data detailed message
+  ///
+  /// In en, this message translates to:
+  /// **'KIPGO collects location data to enable drivers and riders to track each other in real time during active rides.'**
+  String get kipgoCollectsLocationData;
+
+  /// This allows list header
+  ///
+  /// In en, this message translates to:
+  /// **'This allows:'**
+  String get thisAllows;
+
+  /// Drivers to navigate to riders list item
+  ///
+  /// In en, this message translates to:
+  /// **'• Drivers to navigate to riders'**
+  String get driversToNavigate;
+
+  /// Riders to see live driver movement list item
+  ///
+  /// In en, this message translates to:
+  /// **'• Riders to see live driver movement'**
+  String get ridersToseeLiveDriver;
+
+  /// Trips to continue even when the app is closed list item
+  ///
+  /// In en, this message translates to:
+  /// **'• Trips to continue even when the app is closed'**
+  String get tripsToContinue;
+
+  /// Location data is collected only during active rides details
+  ///
+  /// In en, this message translates to:
+  /// **'Location data is collected only during active rides and is never shared outside the app.'**
+  String get locationDataIsCollectedOnly;
+
+  /// How to enable Allow all the time instruction
+  ///
+  /// In en, this message translates to:
+  /// **'Please go to settings and enable \'Allow all the time\'.'**
+  String get pleaseGoToSettings;
+
+  /// Not now cancel button label
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get notNow;
+
+  /// Verify email title
+  ///
+  /// In en, this message translates to:
+  /// **'Verify Email'**
+  String get verifyEmail;
+
+  /// Verification email sent message
+  ///
+  /// In en, this message translates to:
+  /// **'A verification email has been sent to {email}'**
+  String verificationEmailSent(String email);
+
+  /// Resend email action button message
+  ///
+  /// In en, this message translates to:
+  /// **'Resend Email'**
+  String get resendEmail;
 }
 
 class _AppLocalizationsDelegate

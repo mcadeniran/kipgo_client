@@ -99,12 +99,14 @@ class Personal {
   final String lastName;
   final String photoUrl;
   final String phone;
+  final bool isPhoneVerified;
   final List<Review> reviews;
 
   Personal({
     required this.firstName,
     required this.lastName,
     required this.photoUrl,
+    required this.isPhoneVerified,
     required this.phone,
     required this.reviews,
   });
@@ -132,6 +134,7 @@ class Personal {
       lastName: map['lastName'] ?? '',
       photoUrl: map['photoUrl'] ?? '',
       phone: map['phone'] ?? '',
+      isPhoneVerified: map['isPhoneVerified'] ?? false,
       reviews: reviewsList,
     );
   }
@@ -152,6 +155,7 @@ class Personal {
     String? lastName,
     String? photoUrl,
     String? phone,
+    bool? isPhoneVerified,
     List<Review>? reviews,
   }) {
     return Personal(
@@ -159,6 +163,7 @@ class Personal {
       lastName: lastName ?? this.lastName,
       photoUrl: photoUrl ?? this.photoUrl,
       phone: phone ?? this.phone,
+      isPhoneVerified: isPhoneVerified ?? this.isPhoneVerified,
       reviews: reviews ?? this.reviews,
     );
   }

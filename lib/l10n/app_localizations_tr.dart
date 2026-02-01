@@ -893,4 +893,73 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get waitingForRiderResponse => 'Yolcunun yanıtı bekleniyor';
+
+  @override
+  String get riderHasCancelledTheRequest => 'Yolcu talebi iptal etti';
+
+  @override
+  String get priceCannotBeEmpty => 'Fiyat boş olamaz';
+
+  @override
+  String get invalidFare => 'Geçersiz ücret';
+
+  @override
+  String get fareCannotBeLessThan => 'Ücret ₺1\'den az olamaz';
+
+  @override
+  String get permissionRequired => 'İzin Gerekli';
+
+  @override
+  String get locationPermissionIsPermanentlyDenied =>
+      'Konum izni kalıcı olarak reddedildi. Lütfen Ayarlar\'dan etkinleştirin.';
+
+  @override
+  String get kipgoWillContinue =>
+      'KIPGO, uygulamayı kullanmadığınızda bile konumunuzu almaya devam edecektir';
+
+  @override
+  String get runningInBackground => 'Arka Planda Çalışıyor';
+
+  @override
+  String get backgroundLocationUsage => 'Arka Plan Konum Kullanımı';
+
+  @override
+  String get kipgoCollectsLocationData =>
+      'KIPGO, aktif yolculuklar sırasında sürücülerin ve yolcuların birbirlerini gerçek zamanlı olarak takip edebilmesini sağlamak için konum verilerini toplar.';
+
+  @override
+  String get thisAllows => 'Bu sayede:';
+
+  @override
+  String get driversToNavigate => '• Sürücülerin yolculara yön bulabilmesi';
+
+  @override
+  String get ridersToseeLiveDriver =>
+      '• Yolcuların sürücünün canlı konumunu görmesi';
+
+  @override
+  String get tripsToContinue =>
+      '• Uygulama kapalıyken bile yolculukların devam etmesi';
+
+  @override
+  String get locationDataIsCollectedOnly =>
+      'Konum verileri yalnızca aktif yolculuklar sırasında toplanır ve uygulama dışında asla paylaşılmaz.';
+
+  @override
+  String get pleaseGoToSettings =>
+      'Lütfen Ayarlar’a gidin ve \"Her zaman izin ver\" seçeneğini etkinleştirin.';
+
+  @override
+  String get notNow => 'Şimdi Değil';
+
+  @override
+  String get verifyEmail => 'E-postayı Doğrula';
+
+  @override
+  String verificationEmailSent(String email) {
+    return '$email adresine bir doğrulama e-postası gönderildi';
+  }
+
+  @override
+  String get resendEmail => 'E-postayı Yeniden Gönder';
 }
