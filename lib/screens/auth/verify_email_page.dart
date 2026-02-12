@@ -72,8 +72,8 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       ? RoleBasedAuthGate()
       : Scaffold(
           appBar: AppBarWidget(
-            title: 'Verify Email',
-            // title: AppLocalizations.of(context)!.verifyEmail,
+            // title: 'Verify Email',
+            title: AppLocalizations.of(context)!.verifyEmail,
           ),
           backgroundColor: AppColors.primary,
           body: GestureDetector(
@@ -92,10 +92,10 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
-                          // AppLocalizations.of(
-                          //   context,
-                          // )!.verificationEmailSent(email),
-                          "A verification email has been sent to $email",
+                          AppLocalizations.of(
+                            context,
+                          )!.verificationEmailSent(email),
+                          // "A verification email has been sent to $email",
                           style: TextStyle(fontSize: 16, color: Colors.black87),
                           textAlign: TextAlign.center,
                         ),
@@ -116,8 +116,8 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                             : null,
                         icon: Icon(Icons.email, size: 32),
                         label: Text(
-                          // AppLocalizations.of(context)!.resendEmail
-                          "Resend Email",
+                          AppLocalizations.of(context)!.resendEmail,
+                          // "Resend Email",
                         ),
                       ),
                       if (error != null) ...[

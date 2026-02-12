@@ -359,7 +359,9 @@ class _DriverHomeState extends State<DriverHome> {
                                     .isPhoneVerified) ...[
                               SizedBox(height: 10),
                               profileErrorMessage(
-                                "Please verify your phone number to request and accept rides",
+                                AppLocalizations.of(
+                                  context,
+                                )!.pleaseVerifyYourNumber,
                               ),
                             ],
                           ],

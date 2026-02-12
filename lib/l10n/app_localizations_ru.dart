@@ -978,4 +978,86 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get resendEmail => 'Отправить письмо повторно';
+
+  @override
+  String get otp => 'OTP';
+
+  @override
+  String get otpVerification => 'Проверка OTP';
+
+  @override
+  String enterOtpCodeSent(String number) {
+    return 'Введите OTP-код, отправленный на $number';
+  }
+
+  @override
+  String get verify => 'Подтвердить';
+
+  @override
+  String get didntReceiveOTPCode => 'Не получили OTP-код?';
+
+  @override
+  String get resendCode => 'Отправить код повторно';
+
+  @override
+  String get changingYourPhoneNumber =>
+      'Изменение номера телефона потребует повторной проверки.';
+
+  @override
+  String get verifyPhoneNumber => 'Подтвердить номер телефона';
+
+  @override
+  String get youRejectedTheFare => 'Вы отклонили тариф. Поездка отменена.';
+
+  @override
+  String get requestTimeout => 'Время ожидания истекло';
+
+  @override
+  String get driverDidnotAcceptRequest => 'Водитель не принял запрос';
+
+  @override
+  String get expandSearchAreaQuestion => 'Расширить зону поиска?';
+
+  @override
+  String get expandSearchArea => 'Расширить зону поиска';
+
+  @override
+  String get driversMayTakeLongToArrive =>
+      'Водители могут прибывать дольше, а стоимость поездки может быть выше.';
+
+  @override
+  String get calculatingDistance => 'Вычисление расстояния...';
+
+  @override
+  String get pleaseVerifyYourNumber =>
+      'Пожалуйста, подтвердите свой номер телефона, чтобы запрашивать и принимать поездки';
+
+  @override
+  String get estimatedDetailsToPickup => 'Расчётное время до места подачи';
+
+  @override
+  String get estimatedDetailsToDropoff => 'Расчётное время до места высадки';
+
+  @override
+  String get pleaseVerifyYourPhoneNumber =>
+      'Пожалуйста, подтвердите номер телефона, чтобы заказать поездку';
+
+  @override
+  String get pleaseCompleteYourProfile =>
+      'Пожалуйста, заполните профиль, чтобы заказать поездку';
+
+  @override
+  String get profilePicture => 'Фото профиля';
+
+  @override
+  String get uploadImage => 'Загрузить изображение';
+
+  @override
+  String get deleteProfilePicture => 'Удалить фото профиля';
+
+  @override
+  String get pickupAddress => 'Адрес подачи';
+
+  @override
+  String get dropoffAddress => 'Адрес назначения';
 }

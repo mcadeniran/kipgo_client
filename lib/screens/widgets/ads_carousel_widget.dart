@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kipgo/models/ads.dart';
 import 'package:kipgo/screens/widgets/ads_fade_carousel.dart';
-// import 'package:url_launcher/url_launcher.dart';
-// import 'package:carousel_slider/carousel_slider.dart';
 
 class AdsCarouselWidget extends StatelessWidget {
   const AdsCarouselWidget({super.key});
@@ -45,99 +43,6 @@ class AdsCarouselWidget extends StatelessWidget {
 
         final ads = snapshot.data!;
         return AdsFadeCarousel(ads: ads);
-        // return CarouselSlider.builder(
-        //   itemCount: ads.length,
-        //   itemBuilder: (context, index, realIndex) {
-        //     final ad = ads[index];
-        //     return GestureDetector(
-        //       onTap: () async {
-        //         final uri = Uri.parse(ad.linkUrl);
-        //         if (await canLaunchUrl(uri)) {
-        //           await launchUrl(uri, mode: LaunchMode.externalApplication);
-        //         }
-        //       },
-        //       child: Card(
-        //         margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-
-        //         shape: RoundedRectangleBorder(
-        //           borderRadius: BorderRadius.circular(16),
-        //         ),
-        //         clipBehavior: Clip.antiAlias,
-        //         child: Stack(
-        //           fit: StackFit.expand,
-        //           children: [
-        //             Image.network(
-        //               ad.bannerUrl,
-        //               fit: BoxFit.cover,
-        //               loadingBuilder: (context, child, progress) {
-        //                 if (progress == null) return child;
-        //                 return const Center(child: CircularProgressIndicator());
-        //               },
-        //               errorBuilder: (context, error, stackTrace) =>
-        //                   const Center(
-        //                     child: Icon(Icons.broken_image, size: 50),
-        //                   ),
-        //             ),
-        //             Container(
-        //               decoration: BoxDecoration(
-        //                 gradient: LinearGradient(
-        //                   colors: [
-        //                     Colors.black.withValues(alpha: 0.6),
-        //                     Colors.transparent,
-        //                   ],
-        //                   begin: Alignment.bottomCenter,
-        //                   end: Alignment.topCenter,
-        //                 ),
-        //               ),
-        //             ),
-        //             Positioned(
-        //               bottom: 8,
-        //               left: 2,
-        //               right: 2,
-        //               child: Container(
-        //                 padding: EdgeInsets.symmetric(horizontal: 12),
-        //                 decoration: BoxDecoration(
-        //                   color: Colors.black.withValues(alpha: 0.5),
-        //                   borderRadius: BorderRadius.circular(8),
-        //                 ),
-        //                 child: Column(
-        //                   crossAxisAlignment: CrossAxisAlignment.start,
-        //                   children: [
-        //                     Text(
-        //                       ad.title,
-        //                       style: Theme.of(context).textTheme.titleLarge!
-        //                           .copyWith(
-        //                             color: Colors.white,
-        //                             fontWeight: FontWeight.bold,
-        //                           ),
-        //                     ),
-        //                     const SizedBox(height: 4),
-        //                     Text(
-        //                       ad.description,
-        //                       style: Theme.of(context).textTheme.bodyMedium!
-        //                           .copyWith(
-        //                             color: Colors.white.withValues(alpha: 0.9),
-        //                           ),
-        //                       maxLines: 2,
-        //                       overflow: TextOverflow.ellipsis,
-        //                     ),
-        //                   ],
-        //                 ),
-        //               ),
-        //             ),
-        //           ],
-        //         ),
-        //       ),
-        //     );
-        //   },
-        //   options: CarouselOptions(
-        //     height: 200,
-        //     enlargeCenterPage: true,
-        //     autoPlay: ads.length > 1,
-        //     autoPlayInterval: const Duration(seconds: 5),
-        //     viewportFraction: 1,
-        //   ),
-        // );
       },
     );
   }

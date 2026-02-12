@@ -960,4 +960,86 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get resendEmail => 'Resend Email';
+
+  @override
+  String get otp => 'OTP';
+
+  @override
+  String get otpVerification => 'OTP Verification';
+
+  @override
+  String enterOtpCodeSent(String number) {
+    return 'Enter OTP Code sent to $number';
+  }
+
+  @override
+  String get verify => 'Verify';
+
+  @override
+  String get didntReceiveOTPCode => 'Didn\'t receive OTP code?';
+
+  @override
+  String get resendCode => 'Resend Code';
+
+  @override
+  String get changingYourPhoneNumber =>
+      'Changing your phone number will require re-verification.';
+
+  @override
+  String get verifyPhoneNumber => 'Verify Phone Number';
+
+  @override
+  String get youRejectedTheFare => 'You rejected the fare. Ride cancelled.';
+
+  @override
+  String get requestTimeout => 'Request Timeout';
+
+  @override
+  String get driverDidnotAcceptRequest => 'Driver did not accept request';
+
+  @override
+  String get expandSearchAreaQuestion => 'Expand search area?';
+
+  @override
+  String get expandSearchArea => 'Expand search area';
+
+  @override
+  String get driversMayTakeLongToArrive =>
+      'Drivers may take longer to arrive and fares may be higher.';
+
+  @override
+  String get calculatingDistance => 'Calculating distance...';
+
+  @override
+  String get pleaseVerifyYourNumber =>
+      'Please verify your phone number to request and accept rides';
+
+  @override
+  String get estimatedDetailsToPickup => 'Estimated Details To Pickup';
+
+  @override
+  String get estimatedDetailsToDropoff => 'Estimated Details To Dropoff';
+
+  @override
+  String get pleaseVerifyYourPhoneNumber =>
+      'Please verify your phone number to request ride';
+
+  @override
+  String get pleaseCompleteYourProfile =>
+      'Please complete your profile to request ride';
+
+  @override
+  String get profilePicture => 'Profile Picture';
+
+  @override
+  String get uploadImage => 'Upload Image';
+
+  @override
+  String get deleteProfilePicture => 'Delete Profile Picture';
+
+  @override
+  String get pickupAddress => 'Pickup Address';
+
+  @override
+  String get dropoffAddress => 'Dropoff Address';
 }

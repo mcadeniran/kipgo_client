@@ -100,6 +100,25 @@ class _RequestRideState extends State<RequestRide> {
   bool _requestExpired = false;
   String _remainingSecondsText = '00.00';
 
+  double _currentSearchRadiusKm = 5.0;
+  bool _expandedSearchAccepted = false;
+  bool _noDriversFound = false;
+
+  static const double _defaultRadiusKm = 5.0;
+  static const double _expandedRadiusKm = 15.0;
+  static const int _maxDriversAfterExpand = 5;
+  bool _isExpandingSearch = false;
+
+  bool get shouldShowExpandSearchCTA =>
+      _noDriversFound && !_expandedSearchAccepted;
+
+  final Map<String, Profile> _driverProfileCache = {};
+
+  final GlobalKey<AnimatedListState> _driverListKey =
+      GlobalKey<AnimatedListState>();
+
+  final List<String> _shownDriverIds = [];
+
   @override
   void initState() {
     super.initState();
@@ -158,7 +177,6 @@ class _RequestRideState extends State<RequestRide> {
   void scheduleDistanceUpdate() {
     _distanceTimer?.cancel();
     _distanceTimer = Timer(const Duration(seconds: 8), () {
-      debugPrint("Scheduling Timer");
       updateDriversRoadDistance();
     });
   }
@@ -216,7 +234,6 @@ class _RequestRideState extends State<RequestRide> {
             cPosition,
             context,
           );
-      debugPrint("Address: $humanReadableAddress");
 
       // Update provider pick up location (existing method)
       final userPickup = Direction()
@@ -244,14 +261,70 @@ class _RequestRideState extends State<RequestRide> {
   // Initialize nearby driver listener — explicit center (pickup)
   // Cancels previous driver query safely.
   // ───────────────────────────────────────────
+  // void initializeNearbyDriverListener({
+  //   required double centerLat,
+  //   required double centerLng,
+  //   double radiusKm = 5.0,
+  // }) {
+  //   // cancel previous
+  //   driverQuerySubscription?.cancel();
+  //   driverQuerySubscription = null;
+
+  //   final geo = gf.GeoFlutterFire();
+  //   final driversCollection = FirebaseFirestore.instance.collection(
+  //     'activeDrivers',
+  //   );
+
+  //   final center = geo.point(latitude: centerLat, longitude: centerLng);
+
+  //   driverQuerySubscription = geo
+  //       .collection(collectionRef: driversCollection)
+  //       .within(center: center, radius: radiusKm, field: 'position')
+  //       .listen((List<DocumentSnapshot> documentList) {
+  //         if (!mounted) return;
+
+  //         GeofireAssistant.activeNearbyAvailableDriversList.clear();
+
+  //         for (var doc in documentList) {
+  //           final data = doc.data() as Map<String, dynamic>?;
+  //           if (data == null || data['position'] == null) continue;
+  //           final GeoPoint point = data['position']['geopoint'];
+
+  //           final distance = calculateDistance(
+  //             centerLat,
+  //             centerLng,
+  //             point.latitude,
+  //             point.longitude,
+  //           );
+  //           if (distance <= radiusKm) {
+  //             final driver = ActiveNearbyAvailableDriver()
+  //               ..driverId = doc.id
+  //               ..locationLatitude = point.latitude
+  //               ..locationLongitude = point.longitude
+  //               ..distanceToPickupKm = distance;
+  //             GeofireAssistant.activeNearbyAvailableDriversList.add(driver);
+  //           }
+  //         }
+
+  //         GeofireAssistant.activeNearbyAvailableDriversList.sort(
+  //           (a, b) => (a.distanceToPickupKm ?? 0).compareTo(
+  //             b.distanceToPickupKm ?? 0,
+  //           ),
+  //         );
+
+  //         // After updating list, refresh markers
+  //         displayActiveDriversOnUserMap();
+  //         updateDriversRoadDistance();
+  //         scheduleDistanceUpdate();
+  //       });
+  // }
+
   void initializeNearbyDriverListener({
     required double centerLat,
     required double centerLng,
-    double radiusKm = 5.0,
+    double? radiusKm,
   }) {
-    // cancel previous
     driverQuerySubscription?.cancel();
-    driverQuerySubscription = null;
 
     final geo = gf.GeoFlutterFire();
     final driversCollection = FirebaseFirestore.instance.collection(
@@ -259,10 +332,11 @@ class _RequestRideState extends State<RequestRide> {
     );
 
     final center = geo.point(latitude: centerLat, longitude: centerLng);
+    final effectiveRadius = radiusKm ?? _currentSearchRadiusKm;
 
     driverQuerySubscription = geo
         .collection(collectionRef: driversCollection)
-        .within(center: center, radius: radiusKm, field: 'position')
+        .within(center: center, radius: effectiveRadius, field: 'position')
         .listen((List<DocumentSnapshot> documentList) {
           if (!mounted) return;
 
@@ -271,21 +345,23 @@ class _RequestRideState extends State<RequestRide> {
           for (var doc in documentList) {
             final data = doc.data() as Map<String, dynamic>?;
             if (data == null || data['position'] == null) continue;
-            final GeoPoint point = data['position']['geopoint'];
 
+            final GeoPoint point = data['position']['geopoint'];
             final distance = calculateDistance(
               centerLat,
               centerLng,
               point.latitude,
               point.longitude,
             );
-            if (distance <= radiusKm) {
-              final driver = ActiveNearbyAvailableDriver()
-                ..driverId = doc.id
-                ..locationLatitude = point.latitude
-                ..locationLongitude = point.longitude
-                ..distanceToPickupKm = distance;
-              GeofireAssistant.activeNearbyAvailableDriversList.add(driver);
+
+            if (distance <= effectiveRadius) {
+              GeofireAssistant.activeNearbyAvailableDriversList.add(
+                ActiveNearbyAvailableDriver()
+                  ..driverId = doc.id
+                  ..locationLatitude = point.latitude
+                  ..locationLongitude = point.longitude
+                  ..distanceToPickupKm = distance,
+              );
             }
           }
 
@@ -295,10 +371,29 @@ class _RequestRideState extends State<RequestRide> {
             ),
           );
 
-          // After updating list, refresh markers
+          // LIMIT to 5 drivers after expansion
+          if (_expandedSearchAccepted &&
+              GeofireAssistant.activeNearbyAvailableDriversList.length >
+                  _maxDriversAfterExpand) {
+            GeofireAssistant.activeNearbyAvailableDriversList = GeofireAssistant
+                .activeNearbyAvailableDriversList
+                .take(_maxDriversAfterExpand)
+                .toList();
+          }
+
+          unawaited(refreshDriverList());
+
+          _noDriversFound =
+              GeofireAssistant.activeNearbyAvailableDriversList.isEmpty;
+
           displayActiveDriversOnUserMap();
           updateDriversRoadDistance();
           scheduleDistanceUpdate();
+
+          if (_bottomSheetSetState != null) {
+            _bottomSheetSetState!(() {});
+          }
+          setState(() {});
         });
   }
 
@@ -361,6 +456,11 @@ class _RequestRideState extends State<RequestRide> {
           !id.startsWith('driver_');
     }).toSet();
 
+    // final nonDriverMarkers = markersSet.where((m) {
+    //   final id = m.markerId.value;
+    //   return !id.startsWith('driver_');
+    // }).toSet();
+
     final Set<Marker> driversMarkerSet = <Marker>{};
     for (ActiveNearbyAvailableDriver eachDriver
         in GeofireAssistant.activeNearbyAvailableDriversList) {
@@ -368,6 +468,7 @@ class _RequestRideState extends State<RequestRide> {
         eachDriver.locationLatitude!,
         eachDriver.locationLongitude!,
       );
+
       final marker = Marker(
         markerId: MarkerId('driver_${eachDriver.driverId}'),
         position: pos,
@@ -393,8 +494,8 @@ class _RequestRideState extends State<RequestRide> {
   }
 
   // ───────────────────────────────────────────
-  // Draw polyline origin -> destination (you already had this)
-  // When polyline exists, remove the simple user marker (we keep origin marker)
+  // Draw polyline origin -> destination
+  // When polyline exists, remove the simple user marker
   // ───────────────────────────────────────────
   Future<void> drawPolyLineFromOriginToDestination(bool isDark) async {
     final originPosition = Provider.of<AppInfo>(
@@ -540,16 +641,15 @@ class _RequestRideState extends State<RequestRide> {
     setState(() {});
   }
 
-  // ───────────────────────────────────────────
-  // Save ride request (keeps most of your logic, but uses pickup from provider)
-  // ───────────────────────────────────────────
+  // ─────────────────
+  // Save ride request
+  // ─────────────────
   Future<void> saveRideRequestInformation() async {
     referenceRideRequest = FirebaseDatabase.instance
         .ref()
         .child('All Ride Requests')
         .push();
     final rideId = referenceRideRequest!.key!;
-    debugPrint("NEW RIDE REQUEST ID: $rideId");
 
     final originLocation = Provider.of<AppInfo>(
       context,
@@ -564,14 +664,29 @@ class _RequestRideState extends State<RequestRide> {
       listen: false,
     ).profile!;
 
+    final estimate = await DirectionsService.getRouteInfo(
+      origin: LatLng(
+        originLocation!.locationLatitude!,
+        originLocation.locationLongitude!,
+      ),
+      destination: LatLng(
+        destinationLocation!.locationLatitude!,
+        destinationLocation.locationLongitude!,
+      ),
+    );
+
     final userInformationMap = {
       'origin': {
-        "latitude": originLocation!.locationLatitude.toString(),
+        "latitude": originLocation.locationLatitude.toString(),
         "longitude": originLocation.locationLongitude.toString(),
       },
       'destination': {
-        "latitude": destinationLocation!.locationLatitude.toString(),
+        "latitude": destinationLocation.locationLatitude.toString(),
         "longitude": destinationLocation.locationLongitude.toString(),
+      },
+      'tripEstimates': {
+        'distanceKm': estimate!.distanceKm,
+        'durationMin': estimate.durationMin,
       },
       'time': DateTime.now().toString(),
       'userId': profile.id,
@@ -590,118 +705,123 @@ class _RequestRideState extends State<RequestRide> {
 
     // subscribe for ride changes
     tripRideRequestInfoStreamSubscription?.cancel();
-    tripRideRequestInfoStreamSubscription = referenceRideRequest!.onValue.listen((
-      eventSnap,
-    ) async {
-      if (eventSnap.snapshot.value == null) return;
-      final data = Map<String, dynamic>.from(eventSnap.snapshot.value as Map);
+    tripRideRequestInfoStreamSubscription = referenceRideRequest!.onValue.listen(
+      (eventSnap) async {
+        if (eventSnap.snapshot.value == null) return;
+        final data = Map<String, dynamic>.from(eventSnap.snapshot.value as Map);
 
-      if (!mounted) return;
-      setState(() {
-        driverCarModel = data['model'] ?? driverCarModel;
-        driverCarColour = data['colour'] ?? driverCarColour;
-        driverNumberPlate = data['numberPlate'] ?? driverNumberPlate;
-        driverPhone = data['driverPhone'] ?? driverPhone;
-        driverName = data['driverName'] ?? driverName;
-        driverPhotoUrl = data['driverPhotoUrl'] ?? driverPhotoUrl;
-        userRideRequestStatus = data['status'] ?? userRideRequestStatus;
-      });
-
-      if (userRideRequestStatus == 'rejected') {
+        if (!mounted) return;
         setState(() {
-          // assignedDriverInfoContainerHeight = 0;
-          userRideRequestStatus = '';
+          driverCarModel = data['model'] ?? driverCarModel;
+          driverCarColour = data['colour'] ?? driverCarColour;
+          driverNumberPlate = data['numberPlate'] ?? driverNumberPlate;
+          driverPhone = data['driverPhone'] ?? driverPhone;
+          driverName = data['driverName'] ?? driverName;
+          driverPhotoUrl = data['driverPhotoUrl'] ?? driverPhotoUrl;
+          userRideRequestStatus = data['status'] ?? userRideRequestStatus;
         });
-        // showBottomDriversListModel();
-        hideSearchingForDriversContainer();
-        if (referenceRideRequest != null) {
-          referenceRideRequest!.remove();
-          referenceRideRequest = null;
-          // Provider.of<AppInfo>(context, listen: false).setActiveRideId('');
-        }
-        // WITHOUT CLEANUP
-        // cleanupRideResources();
 
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                AppLocalizations.of(context)!.yourRideWasRejected,
-                style: TextStyle(color: Colors.white),
-              ),
-              backgroundColor: AppColors.tertiary,
-              behavior: SnackBarBehavior.floating,
-              duration: Duration(seconds: 3),
-            ),
-          );
-
-          _showRideRejectedDialog();
-          // Optionally re-open driver list modal
-          // showDriverListsModel = true;
-          // showBottomDriversListModel();
-        }
-        return; // stop here since rejected
-      }
-
-      // fare negotiation (kept)
-      if (data.containsKey("fareStatus")) {
-        final fareStatus = data["fareStatus"];
-        final fare = data["proposedFare"];
-        debugPrint("PROPOSED FARE ₺$fare");
-        if (fareStatus == "waiting_for_rider" && fare != null) {
-          // notify user
-          // play sound, show popup
-          if (!mounted) return;
-          await player.play(AssetSource('sounds/notification.mp3'));
-          if (!mounted) return;
+        if (userRideRequestStatus == 'rejected') {
+          setState(() {
+            // assignedDriverInfoContainerHeight = 0;
+            userRideRequestStatus = '';
+          });
           _requestTimer?.cancel();
+          resetDriverSearch();
           hideSearchingForDriversContainer();
-          showFareProposalPopup(fare);
-        }
-        if (fareStatus == "rejected") {
-          _requestTimer?.cancel();
-          if (mounted) {
-            await player.play(AssetSource('sounds/notification.mp3'));
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("You rejected the fare. Ride cancelled.")),
-            );
+          if (referenceRideRequest != null) {
+            referenceRideRequest!.remove();
+            referenceRideRequest = null;
+            // Provider.of<AppInfo>(context, listen: false).setActiveRideId('');
           }
-          referenceRideRequest?.remove();
-          cleanupRideResources();
-          return;
-        }
-      }
+          // WITHOUT CLEANUP
+          // cleanupRideResources();
 
-      // driver location update leading to accepted status (your previous logic)
-      if (data['driverLocation'] != null) {
-        switch (userRideRequestStatus) {
-          case 'accepted':
-            _requestTimer?.cancel();
-            cleanupRideResources();
-            if (mounted) {
-              Profile profile = Provider.of<ProfileProvider>(
-                context,
-                listen: false,
-              ).profile!;
-              Provider.of<AppInfo>(
-                context,
-                listen: false,
-              ).updateActiveRideStatus(true);
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (_) =>
-                      profile.role == 'rider' ? CustomerHome() : DriverHome(),
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  AppLocalizations.of(context)!.yourRideWasRejected,
+                  style: TextStyle(color: Colors.white),
                 ),
-                (route) => false,
+                backgroundColor: AppColors.tertiary,
+                behavior: SnackBarBehavior.floating,
+                duration: Duration(seconds: 3),
+              ),
+            );
+
+            _showRideRejectedDialog();
+            // Optionally re-open driver list modal
+            // showDriverListsModel = true;
+            // showBottomDriversListModel();
+          }
+          return; // stop here since rejected
+        }
+
+        // fare negotiation (kept)
+        if (data.containsKey("fareStatus")) {
+          final fareStatus = data["fareStatus"];
+          final fare = data["proposedFare"];
+          if (fareStatus == "waiting_for_rider" && fare != null) {
+            // notify user
+            // play sound, show popup
+            if (!mounted) return;
+            await player.play(AssetSource('sounds/notification.mp3'));
+            if (!mounted) return;
+            _requestTimer?.cancel();
+            hideSearchingForDriversContainer();
+            showFareProposalPopup(fare);
+          }
+          if (fareStatus == "rejected") {
+            _requestTimer?.cancel();
+            if (mounted) {
+              await player.play(AssetSource('sounds/notification.mp3'));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    AppLocalizations.of(context)!.youRejectedTheFare,
+                  ),
+                ),
               );
             }
-            break;
-          default:
-            break;
+            referenceRideRequest?.remove();
+            cleanupRideResources();
+            return;
+          }
         }
-      }
-    });
+
+        // driver location update leading to accepted status
+        if (data['driverLocation'] != null) {
+          switch (userRideRequestStatus) {
+            case 'accepted':
+              _requestTimer?.cancel();
+              resetDriverSearch();
+              cleanupRideResources();
+              if (mounted) {
+                Profile profile = Provider.of<ProfileProvider>(
+                  context,
+                  listen: false,
+                ).profile!;
+                Provider.of<AppInfo>(
+                  context,
+                  listen: false,
+                ).updateActiveRideStatus(true);
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) =>
+                        profile.role == 'rider' ? CustomerHome() : DriverHome(),
+                  ),
+                  (route) => false,
+                );
+              }
+              break;
+            default:
+              break;
+          }
+        }
+      },
+    );
 
     // start searching drivers based on the current pickup (important)
     if (userCurrentPosition != null) {
@@ -737,10 +857,39 @@ class _RequestRideState extends State<RequestRide> {
     });
 
     // fetch driver info for list
+    _noDriversFound = GeofireAssistant.activeNearbyAvailableDriversList.isEmpty;
+
     onlineNearbyAvailableDriversList =
         GeofireAssistant.activeNearbyAvailableDriversList;
     await retrieveOnlineDriversInformation(onlineNearbyAvailableDriversList);
+
     showBottomDriversListModel();
+  }
+
+  Future<void> refreshDriverList() async {
+    onlineNearbyAvailableDriversList =
+        GeofireAssistant.activeNearbyAvailableDriversList;
+
+    await retrieveOnlineDriversInformation(onlineNearbyAvailableDriversList);
+
+    for (int i = 0; i < onlineNearbyAvailableDriversList.length; i++) {
+      final driver = onlineNearbyAvailableDriversList[i];
+      final id = driver.driverId;
+
+      if (_shownDriverIds.contains(id)) continue;
+
+      _shownDriverIds.add(id!);
+      _driverListKey.currentState?.insertItem(
+        _shownDriverIds.length - 1,
+        duration: const Duration(milliseconds: 300),
+      );
+    }
+
+    if (_bottomSheetSetState != null) {
+      _bottomSheetSetState!(() {});
+    }
+
+    setState(() {});
   }
 
   void _startRequestTimer() {
@@ -784,8 +933,8 @@ class _RequestRideState extends State<RequestRide> {
       // Provider.of<AppInfo>(context, listen: false).setActiveRideId('');
     }
 
+    resetDriverSearch();
     hideSearchingForDriversContainer();
-
     if (!mounted) return;
 
     // UI feedback
@@ -793,14 +942,14 @@ class _RequestRideState extends State<RequestRide> {
       context: context,
       barrierDismissible: false,
       builder: (ctx) => AlertDialog(
-        title: Text('Request timeout'),
-        content: Text('Driver did not accept request'),
+        title: Text(AppLocalizations.of(context)!.requestTimeout),
+        content: Text(AppLocalizations.of(context)!.driverDidnotAcceptRequest),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.pop(ctx);
             },
-            child: const Text("OK"),
+            child: Text(AppLocalizations.of(context)!.ok),
           ),
         ],
       ),
@@ -824,7 +973,7 @@ class _RequestRideState extends State<RequestRide> {
               Navigator.of(ctx).pop();
               _isRejectDialogShowing = false;
             },
-            child: const Text("OK"),
+            child: Text(AppLocalizations.of(context)!.ok),
           ),
         ],
       ),
@@ -907,25 +1056,70 @@ class _RequestRideState extends State<RequestRide> {
     );
   }
 
+  // Future<void> retrieveOnlineDriversInformation(
+  //   List onlineNearestDriverList,
+  // ) async {
+  //   driversList.clear();
+
+  //   for (int i = 0; i < onlineNearestDriverList.length; i++) {
+  //     final snap = await FirebaseFirestore.instance
+  //         .collection("profiles")
+  //         .doc(onlineNearestDriverList[i].driverId)
+  //         .get();
+  //     driversList.add(Profile.fromFirestore(snap));
+  //   }
+  // }
+
   Future<void> retrieveOnlineDriversInformation(
-    List onlineNearestDriverList,
+    List<ActiveNearbyAvailableDriver> onlineNearestDriverList,
   ) async {
     driversList.clear();
-    for (int i = 0; i < onlineNearestDriverList.length; i++) {
-      final snap = await FirebaseFirestore.instance
-          .collection("profiles")
-          .doc(onlineNearestDriverList[i].driverId)
-          .get();
-      driversList.add(Profile.fromFirestore(snap));
+
+    for (final driver in onlineNearestDriverList) {
+      final driverId = driver.driverId!;
+      Profile profile;
+
+      // ✅ Use cache if available
+      if (_driverProfileCache.containsKey(driverId)) {
+        profile = _driverProfileCache[driverId]!;
+      } else {
+        final snap = await FirebaseFirestore.instance
+            .collection("profiles")
+            .doc(driverId)
+            .get();
+
+        if (!snap.exists) continue;
+
+        profile = Profile.fromFirestore(snap);
+        _driverProfileCache[driverId] = profile;
+      }
+
+      driversList.add(profile);
     }
+
+    // 🔥 IMPORTANT: notify bottom sheet
+    if (_bottomSheetSetState != null) {
+      _bottomSheetSetState!(() {});
+    }
+  }
+
+  void clearDriverCache() {
+    _driverProfileCache.clear();
   }
 
   bool isBottomSheetOpen = false;
 
   void showBottomDriversListModel() {
     if (!mounted) return;
+
+    hideSearchingForDriversContainer();
     isProgrammaticClose = false;
     isBottomSheetOpen = true;
+
+    _shownDriverIds.clear();
+    for (final d in driversList) {
+      _shownDriverIds.add(d.id);
+    }
 
     showModalBottomSheet(
       context: context,
@@ -955,166 +1149,285 @@ class _RequestRideState extends State<RequestRide> {
                     ),
                   ),
                   driversList.isEmpty
-                      ? Center(
-                          child: Text(
-                            AppLocalizations.of(
-                              context,
-                            )!.noAvailableDriverNearby,
+                      ? SizedBox(
+                          width: double.maxFinite,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  AppLocalizations.of(
+                                    context,
+                                  )!.noAvailableDriverNearby,
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleMedium,
+                                  textAlign: TextAlign.center,
+                                ),
+
+                                if (shouldShowExpandSearchCTA) ...[
+                                  const SizedBox(height: 16),
+
+                                  Container(
+                                    padding: const EdgeInsets.all(14),
+                                    decoration: BoxDecoration(
+                                      color: Colors.orange.withOpacity(0.12),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          AppLocalizations.of(
+                                            context,
+                                          )!.expandSearchAreaQuestion,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall
+                                              ?.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          AppLocalizations.of(
+                                            context,
+                                          )!.driversMayTakeLongToArrive,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        const SizedBox(height: 14),
+                                        SizedBox(
+                                          width: double.infinity,
+                                          child: ElevatedButton(
+                                            onPressed: _isExpandingSearch
+                                                ? null
+                                                : _onExpandSearchAccepted,
+                                            child: _isExpandingSearch
+                                                ? const SizedBox(
+                                                    height: 18,
+                                                    width: 18,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                          strokeWidth: 2,
+                                                        ),
+                                                  )
+                                                : Text(
+                                                    AppLocalizations.of(
+                                                      context,
+                                                    )!.expandSearchArea,
+                                                  ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ),
                           ),
                         )
                       : Expanded(
-                          child: ListView.separated(
-                            shrinkWrap: true,
-                            separatorBuilder: (context, index) => Divider(
-                              thickness: 0.4,
-                              color: AppColors.border,
-                            ),
-                            itemCount: driversList.length,
-                            itemBuilder: (context, index) {
-                              final ride = driversList[index];
+                          child: AnimatedList(
+                            key: _driverListKey,
+                            initialItemCount: _shownDriverIds.length,
+                            padding: const EdgeInsets.only(bottom: 12),
+                            itemBuilder: (context, index, animation) {
+                              final driverId = _shownDriverIds[index];
+
+                              final ride = driversList.firstWhere(
+                                (d) => d.id == driverId,
+                              );
+
                               final driverDistance = GeofireAssistant
                                   .activeNearbyAvailableDriversList
                                   .firstWhere(
                                     (d) => d.driverId == ride.id,
                                     orElse: () => ActiveNearbyAvailableDriver(),
                                   );
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        CircleAvatar(
-                                          radius: 30,
-                                          backgroundColor: AppColors.primary,
-                                          backgroundImage: NetworkImage(
-                                            ride.personal.photoUrl,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 10),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+
+                              return SizeTransition(
+                                sizeFactor: animation,
+                                axisAlignment: 0.0,
+                                child: FadeTransition(
+                                  opacity: animation,
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                              ride.username,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge!
-                                                  .copyWith(
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                            ),
-                                            const SizedBox(height: 3),
-                                            if (driverDistance.roadDistanceKm !=
-                                                null)
-                                              AnimatedSwitcher(
-                                                duration: const Duration(
-                                                  milliseconds: 400,
-                                                ),
-                                                transitionBuilder:
-                                                    (child, animation) =>
-                                                        FadeTransition(
-                                                          opacity: animation,
-                                                          child: child,
-                                                        ),
-                                                child: Text(
-                                                  "${driverDistance.roadDistanceKm!.toStringAsFixed(1)} km • "
-                                                  "${driverDistance.etaMinutes!.round()} min away",
-                                                  key: ValueKey(
-                                                    "${driverDistance.roadDistanceKm}-${driverDistance.etaMinutes}",
-                                                  ),
-                                                  style: Theme.of(
-                                                    context,
-                                                  ).textTheme.bodySmall,
-                                                ),
-                                              )
-                                            else
-                                              const Text(
-                                                "Calculating distance...",
-                                              ),
-                                            const SizedBox(height: 3),
+                                            /// LEFT SIDE (UNCHANGED UI)
                                             Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                Text(ride.vehicle.model),
-                                                // Text("${ride['model']}"),
-                                                const SizedBox(width: 4),
-                                                const Icon(
-                                                  Icons.circle,
-                                                  size: 6,
+                                                CircleAvatar(
+                                                  radius: 30,
+                                                  backgroundColor:
+                                                      AppColors.primary,
+                                                  backgroundImage: NetworkImage(
+                                                    ride.personal.photoUrl,
+                                                  ),
                                                 ),
-                                                const SizedBox(width: 4),
-                                                Text(ride.vehicle.colour),
-                                                // Text("${ride['colour']}"),
-                                              ],
-                                            ),
-                                            const SizedBox(height: 5),
-                                            Row(
-                                              children: [
-                                                Container(
-                                                  padding:
-                                                      const EdgeInsets.symmetric(
-                                                        vertical: 2,
-                                                        horizontal: 4,
-                                                      ),
-                                                  decoration: BoxDecoration(
-                                                    border: Border.all(
-                                                      color: AppColors.border,
+                                                const SizedBox(width: 10),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      ride.username,
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyLarge!
+                                                          .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
                                                     ),
-                                                  ),
-                                                  child: Text(
-                                                    // ride['registration'] as String,
-                                                    ride.vehicle.numberPlate,
-                                                    style: Theme.of(
-                                                      context,
-                                                    ).textTheme.bodySmall,
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 5),
-                                                StarRating(
-                                                  rating: ride.personal.rating,
-                                                  // rating: ride['rating'] as double,
-                                                  allowHalfRating: true,
-                                                  color: Colors.amber,
+                                                    const SizedBox(height: 3),
+                                                    if (driverDistance
+                                                            .roadDistanceKm !=
+                                                        null)
+                                                      AnimatedSwitcher(
+                                                        duration:
+                                                            const Duration(
+                                                              milliseconds: 400,
+                                                            ),
+                                                        child: Text(
+                                                          "${driverDistance.roadDistanceKm!.toStringAsFixed(1)} km • "
+                                                          "${driverDistance.etaMinutes!.round()} min away",
+                                                          key: ValueKey(
+                                                            "${driverDistance.roadDistanceKm}-${driverDistance.etaMinutes}",
+                                                          ),
+                                                          style: Theme.of(
+                                                            context,
+                                                          ).textTheme.bodySmall,
+                                                        ),
+                                                      )
+                                                    else
+                                                      Text(
+                                                        AppLocalizations.of(
+                                                          context,
+                                                        )!.calculatingDistance,
+                                                      ),
+                                                    const SizedBox(height: 3),
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          ride.vehicle.model,
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 4,
+                                                        ),
+                                                        const Icon(
+                                                          Icons.circle,
+                                                          size: 6,
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 4,
+                                                        ),
+                                                        Text(
+                                                          ride.vehicle.colour,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    const SizedBox(height: 5),
+                                                    Row(
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets.symmetric(
+                                                                vertical: 2,
+                                                                horizontal: 4,
+                                                              ),
+                                                          decoration: BoxDecoration(
+                                                            border: Border.all(
+                                                              color: AppColors
+                                                                  .border,
+                                                            ),
+                                                          ),
+                                                          child: Text(
+                                                            ride
+                                                                .vehicle
+                                                                .numberPlate,
+                                                            style:
+                                                                Theme.of(
+                                                                      context,
+                                                                    )
+                                                                    .textTheme
+                                                                    .bodySmall,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        StarRating(
+                                                          rating: ride
+                                                              .personal
+                                                              .rating,
+                                                          allowHalfRating: true,
+                                                          color: Colors.amber,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
                                                 ),
                                               ],
+                                            ),
+
+                                            /// REQUEST BUTTON
+                                            TextButton(
+                                              onPressed:
+                                                  driverDistance
+                                                          .roadDistanceKm ==
+                                                      null
+                                                  ? null
+                                                  : () async {
+                                                      await FirebaseDatabase
+                                                          .instance
+                                                          .ref(
+                                                            "All Ride Requests/${referenceRideRequest!.key!}/driverEstimates",
+                                                          )
+                                                          .set({
+                                                            "distanceKm":
+                                                                driverDistance
+                                                                    .roadDistanceKm!,
+                                                            "etaMin":
+                                                                driverDistance
+                                                                    .etaMinutes,
+                                                          });
+                                                      AppMethods.sendNotificationToDriverNow(
+                                                        ride.token,
+                                                        referenceRideRequest!
+                                                            .key!,
+                                                        ride.id,
+                                                        context,
+                                                      );
+
+                                                      isProgrammaticClose =
+                                                          true;
+                                                      Navigator.pop(context);
+
+                                                      _startRequestTimer();
+                                                      showSearchingForDriversContainer();
+                                                    },
+                                              child: Text(
+                                                AppLocalizations.of(
+                                                  context,
+                                                )!.requestRide,
+                                              ),
                                             ),
                                           ],
                                         ),
-                                      ],
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        AppMethods.sendNotificationToDriverNow(
-                                          ride.token,
-                                          referenceRideRequest!.key!,
-                                          context,
-                                        );
-                                        setState(() {
-                                          showDriverListsModel = false;
-                                        });
-
-                                        isProgrammaticClose =
-                                            true; // <- important
-                                        Navigator.pop(
-                                          context,
-                                        ); // Close bottom sheet safely
-                                        // MIGHT REMOVE
-                                        // showBottomDriversListModel();
-                                        _startRequestTimer();
-                                        showSearchingForDriversContainer();
-                                      },
-                                      child: Text(
-                                        AppLocalizations.of(
-                                          context,
-                                        )!.requestRide,
                                       ),
-                                    ),
-                                  ],
+                                      Divider(
+                                        thickness: 0.4,
+                                        color: AppColors.border,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               );
                             },
@@ -1134,10 +1447,50 @@ class _RequestRideState extends State<RequestRide> {
         if (referenceRideRequest != null) {
           referenceRideRequest!.remove();
           referenceRideRequest = null;
+          resetDriverSearch();
           hideSearchingForDriversContainer();
         }
       }
     });
+  }
+
+  Future<void> _onExpandSearchAccepted() async {
+    if (userCurrentPosition == null || _isExpandingSearch) return;
+
+    _isExpandingSearch = true;
+
+    _expandedSearchAccepted = true;
+    _currentSearchRadiusKm = _expandedRadiusKm;
+    _noDriversFound = false;
+
+    initializeNearbyDriverListener(
+      centerLat: userCurrentPosition!.latitude,
+      centerLng: userCurrentPosition!.longitude,
+      radiusKm: _expandedRadiusKm,
+    );
+
+    await Future.delayed(const Duration(seconds: 1));
+
+    _isExpandingSearch = false;
+
+    await refreshDriverList();
+
+    // Force bottom sheet rebuild
+    if (_bottomSheetSetState != null) {
+      _bottomSheetSetState!(() {});
+    }
+
+    setState(() {});
+  }
+
+  void resetDriverSearch() {
+    _expandedSearchAccepted = false;
+    _noDriversFound = false;
+    _currentSearchRadiusKm = _defaultRadiusKm;
+    _isExpandingSearch = false;
+
+    GeofireAssistant.activeNearbyAvailableDriversList.clear();
+    driverQuerySubscription?.cancel();
   }
 
   void showSearchingForDriversContainer() {
@@ -1174,7 +1527,7 @@ class _RequestRideState extends State<RequestRide> {
 
     newGoogleMapController?.dispose();
     newGoogleMapController = null;
-
+    clearDriverCache();
     markersSet.clear();
     circlesSet.clear();
     polylineSet.clear();
@@ -1195,7 +1548,6 @@ class _RequestRideState extends State<RequestRide> {
   Future<void> _onMapTap(LatLng latlng) async {
     // get address from latlng using your helper
     final humanAddress = await AppMethods.getAddressFromLatLng(latlng, context);
-    debugPrint(humanAddress);
 
     // update provider's pickup
     final userPickup = Direction()
@@ -1515,7 +1867,6 @@ class _RequestRideState extends State<RequestRide> {
                                         listen: false,
                                       ).userPickUpLocation !=
                                       null) {
-                                debugPrint("SHOULD CREATE RIDEREQUEST");
                                 saveRideRequestInformation();
                               } else {
                                 final snackBarPickup = SnackBar(

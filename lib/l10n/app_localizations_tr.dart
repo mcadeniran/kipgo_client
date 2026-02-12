@@ -962,4 +962,88 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get resendEmail => 'E-postayı Yeniden Gönder';
+
+  @override
+  String get otp => 'OTP';
+
+  @override
+  String get otpVerification => 'OTP Doğrulama';
+
+  @override
+  String enterOtpCodeSent(String number) {
+    return '$number numarasına gönderilen OTP kodunu girin';
+  }
+
+  @override
+  String get verify => 'Doğrula';
+
+  @override
+  String get didntReceiveOTPCode => 'OTP kodunu almadınız mı?';
+
+  @override
+  String get resendCode => 'Kodu Yeniden Gönder';
+
+  @override
+  String get changingYourPhoneNumber =>
+      'Telefon numaranızı değiştirmek yeniden doğrulama gerektirir.';
+
+  @override
+  String get verifyPhoneNumber => 'Telefon Numarasını Doğrula';
+
+  @override
+  String get youRejectedTheFare => 'Ücreti reddettiniz. Yolculuk iptal edildi.';
+
+  @override
+  String get requestTimeout => 'İstek Zaman Aşımına Uğradı';
+
+  @override
+  String get driverDidnotAcceptRequest => 'Sürücü isteği kabul etmedi';
+
+  @override
+  String get expandSearchAreaQuestion => 'Arama alanı genişletilsin mi?';
+
+  @override
+  String get expandSearchArea => 'Arama Alanını Genişlet';
+
+  @override
+  String get driversMayTakeLongToArrive =>
+      'Sürücülerin gelmesi daha uzun sürebilir ve ücretler daha yüksek olabilir.';
+
+  @override
+  String get calculatingDistance => 'Mesafe hesaplanıyor...';
+
+  @override
+  String get pleaseVerifyYourNumber =>
+      'Yolculuk talep etmek ve kabul etmek için lütfen telefon numaranızı doğrulayın';
+
+  @override
+  String get estimatedDetailsToPickup =>
+      'Tahmini Varış Bilgileri (Alış Noktası)';
+
+  @override
+  String get estimatedDetailsToDropoff =>
+      'Tahmini Varış Bilgileri (Bırakma Noktası)';
+
+  @override
+  String get pleaseVerifyYourPhoneNumber =>
+      'Yolculuk talep edebilmek için lütfen telefon numaranızı doğrulayın';
+
+  @override
+  String get pleaseCompleteYourProfile =>
+      'Yolculuk talep edebilmek için lütfen profilinizi tamamlayın';
+
+  @override
+  String get profilePicture => 'Profil Fotoğrafı';
+
+  @override
+  String get uploadImage => 'Fotoğraf Yükle';
+
+  @override
+  String get deleteProfilePicture => 'Profil Fotoğrafını Sil';
+
+  @override
+  String get pickupAddress => 'Alış Adresi';
+
+  @override
+  String get dropoffAddress => 'Bırakma Adresi';
 }

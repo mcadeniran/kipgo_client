@@ -131,7 +131,9 @@ class _EditProfilePictureScreenState extends State<EditProfilePictureScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primary,
-      appBar: AppBarWidget(title: 'Profile Picture'),
+      appBar: AppBarWidget(
+        title: AppLocalizations.of(context)!.profilePicture.toUpperCase(),
+      ),
       body: Container(
         width: double.maxFinite,
         padding: EdgeInsets.all(18),
@@ -252,7 +254,7 @@ class _EditProfilePictureScreenState extends State<EditProfilePictureScreen> {
                   borderRadius: BorderRadius.circular(5),
                 ),
               ),
-              child: const Text('Upload Image'),
+              child: Text(AppLocalizations.of(context)!.uploadImage),
             ),
             if (isLoading) ...[SizedBox(height: 10), buildProgress()],
             SizedBox(height: 20),
@@ -270,7 +272,7 @@ class _EditProfilePictureScreenState extends State<EditProfilePictureScreen> {
                   borderRadius: BorderRadius.circular(5),
                 ),
               ),
-              child: const Text(' Delete profile picture '),
+              child: Text(AppLocalizations.of(context)!.deleteProfilePicture),
             ),
             if (localError != '') ...[
               SizedBox(height: 10),

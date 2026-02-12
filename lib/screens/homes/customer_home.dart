@@ -116,11 +116,11 @@ class _CustomerHomeState extends State<CustomerHome> {
                       pp.profile!.personal.phone != '' &&
                       pp.profile!.personal.isPhoneVerified == false) {
                     return profileErrorMessage(
-                      "Please verify your phone number to request ride",
+                      AppLocalizations.of(context)!.pleaseVerifyYourPhoneNumber,
                     );
                   } else {
                     return profileErrorMessage(
-                      "Please complete your profile to request ride",
+                      AppLocalizations.of(context)!.pleaseCompleteYourProfile,
                     );
                   }
                 },

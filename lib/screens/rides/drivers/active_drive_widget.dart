@@ -381,7 +381,6 @@ class _ActiveDriveWidgetState extends State<ActiveDriveWidget> {
         .ref()
         .child('drivers')
         .child(driverId)
-        .child('newRide')
         .remove();
 
     if (!mounted) return;
@@ -557,7 +556,6 @@ class _ActiveDriveWidgetState extends State<ActiveDriveWidget> {
             .ref()
             .child('drivers')
             .child(driverId)
-            .child('newRide')
             .remove();
 
         await showDialog(
@@ -635,7 +633,6 @@ class _ActiveDriveWidgetState extends State<ActiveDriveWidget> {
             .child(
               Provider.of<ProfileProvider>(context, listen: false).profile!.id,
             )
-            .child('newRide')
             .remove();
 
         // Small delay for the toast to appear before dialog

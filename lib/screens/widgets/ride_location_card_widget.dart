@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
+import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/utils/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -45,7 +46,7 @@ class RideLocationCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Pickup Address",
+                      AppLocalizations.of(context)!.pickupAddress,
                       style: TextStyle(
                         color: isDark
                             ? Colors.grey.shade400
@@ -75,7 +76,7 @@ class RideLocationCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Dropoff Address",
+                      AppLocalizations.of(context)!.dropoffAddress,
                       style: TextStyle(
                         color: isDark
                             ? Colors.grey.shade400

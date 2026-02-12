@@ -1899,6 +1899,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Resend Email'**
   String get resendEmail;
+
+  /// OTP title
+  ///
+  /// In en, this message translates to:
+  /// **'OTP'**
+  String get otp;
+
+  /// OTP Verification
+  ///
+  /// In en, this message translates to:
+  /// **'OTP Verification'**
+  String get otpVerification;
+
+  /// Enter otp code prompt
+  ///
+  /// In en, this message translates to:
+  /// **'Enter OTP Code sent to {number}'**
+  String enterOtpCodeSent(String number);
+
+  /// Verify OTP code
+  ///
+  /// In en, this message translates to:
+  /// **'Verify'**
+  String get verify;
+
+  /// OTP code delivery issue message
+  ///
+  /// In en, this message translates to:
+  /// **'Didn\'t receive OTP code?'**
+  String get didntReceiveOTPCode;
+
+  /// Resend code action message
+  ///
+  /// In en, this message translates to:
+  /// **'Resend Code'**
+  String get resendCode;
+
+  /// Phone number change warning
+  ///
+  /// In en, this message translates to:
+  /// **'Changing your phone number will require re-verification.'**
+  String get changingYourPhoneNumber;
+
+  /// Text
+  ///
+  /// In en, this message translates to:
+  /// **'Verify Phone Number'**
+  String get verifyPhoneNumber;
+
+  /// Message
+  ///
+  /// In en, this message translates to:
+  /// **'You rejected the fare. Ride cancelled.'**
+  String get youRejectedTheFare;
+
+  /// Timeout message
+  ///
+  /// In en, this message translates to:
+  /// **'Request Timeout'**
+  String get requestTimeout;
+
+  /// Timeout details
+  ///
+  /// In en, this message translates to:
+  /// **'Driver did not accept request'**
+  String get driverDidnotAcceptRequest;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Expand search area?'**
+  String get expandSearchAreaQuestion;
+
+  /// Action Text
+  ///
+  /// In en, this message translates to:
+  /// **'Expand search area'**
+  String get expandSearchArea;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Drivers may take longer to arrive and fares may be higher.'**
+  String get driversMayTakeLongToArrive;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Calculating distance...'**
+  String get calculatingDistance;
+
+  /// Warning
+  ///
+  /// In en, this message translates to:
+  /// **'Please verify your phone number to request and accept rides'**
+  String get pleaseVerifyYourNumber;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated Details To Pickup'**
+  String get estimatedDetailsToPickup;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated Details To Dropoff'**
+  String get estimatedDetailsToDropoff;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Please verify your phone number to request ride'**
+  String get pleaseVerifyYourPhoneNumber;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Please complete your profile to request ride'**
+  String get pleaseCompleteYourProfile;
+
+  /// Label
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Picture'**
+  String get profilePicture;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Upload Image'**
+  String get uploadImage;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Profile Picture'**
+  String get deleteProfilePicture;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup Address'**
+  String get pickupAddress;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Dropoff Address'**
+  String get dropoffAddress;
 }
 
 class _AppLocalizationsDelegate

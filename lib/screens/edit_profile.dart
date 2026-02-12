@@ -9,6 +9,7 @@ import 'package:iconify_flutter/icons/mdi.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
 import 'package:kipgo/screens/widgets/phone_otp_widget.dart';
+import 'package:kipgo/screens/widgets/progress_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:kipgo/controllers/profile_provider.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
@@ -459,7 +460,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                       Align(
                                         alignment: Alignment.centerRight,
                                         child: Text(
-                                          "Changing your phone number will require re-verification.",
+                                          AppLocalizations.of(
+                                            context,
+                                          )!.changingYourPhoneNumber,
                                           style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
@@ -482,6 +485,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                         alignment: Alignment.centerRight,
                                         child: TextButton(
                                           onPressed: () async {
+                                            showDialog(
+                                              context: context,
+                                              builder:
+                                                  ((BuildContext context) =>
+                                                      ProgressDialog(
+                                                        message:
+                                                            AppLocalizations.of(
+                                                              context,
+                                                            )!.pleaseWait,
+                                                      )),
+                                            );
                                             setState(() {
                                               localError = '';
                                               localSuccess = '';
@@ -494,7 +508,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                 await Recaptcha.fetchClient(
                                                   siteKey,
                                                 );
-                                            print("SENDING OTP CODE");
+                                            debugPrint("SENDING OTP CODE");
                                             await client.execute(
                                               RecaptchaAction.LOGIN(),
                                             );
@@ -511,7 +525,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                     verificationId,
                                                     forceResendingToken,
                                                   ) {
-                                                    print("SENT OTP CODE");
+                                                    debugPrint("SENT OTP CODE");
+                                                    Navigator.pop(context);
                                                     Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
@@ -531,6 +546,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                                   },
                                               verificationCompleted: (_) {},
                                               verificationFailed: (error) {
+                                                Navigator.pop(context);
                                                 // throw Exception(error.message);
                                                 setState(() {
                                                   localError = error.code;
@@ -540,7 +556,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                             );
                                           },
                                           child: Text(
-                                            'Verify Phone Number',
+                                            AppLocalizations.of(
+                                              context,
+                                            )!.verifyPhoneNumber,
                                             style: TextStyle(
                                               decoration:
                                                   TextDecoration.underline,

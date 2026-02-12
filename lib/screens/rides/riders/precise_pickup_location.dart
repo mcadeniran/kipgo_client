@@ -57,7 +57,7 @@ class _PrecisePickupLocationScreenState
         intervalDuration: const Duration(seconds: 10),
         foregroundNotificationConfig: const ForegroundNotificationConfig(
           notificationText:
-              "Example app will continue to receive your location even when you aren't using it",
+              "Kipgo will continue to receive your location even when you aren't using it",
           notificationTitle: "Running in Background",
           enableWakeLock: true,
         ),
@@ -213,7 +213,7 @@ class _PrecisePickupLocationScreenState
                     ? (Provider.of<AppInfo>(
                         context,
                       ).userPickUpLocation!.locationName!)
-                    : 'Unknown Address',
+                    : AppLocalizations.of(context)!.unknownAddress,
                 overflow: TextOverflow.ellipsis,
                 softWrap: true,
               ),

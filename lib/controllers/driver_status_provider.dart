@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -135,62 +136,6 @@ class DriverStatusProvider extends ChangeNotifier {
     return permission == LocationPermission.always;
   }
 
-  // Future<bool> ensureBackgroundPermission(BuildContext context) async {
-  //   LocationPermission permission = await Geolocator.checkPermission();
-  //   // print("FROM ENSURE BACKGROUND PERMISSION: $permission");
-  //   if (permission == LocationPermission.always) {
-  //     // ✅ Already has background
-  //     return true;
-  //   }
-
-  //   if (permission == LocationPermission.whileInUse) {
-  //     // ❌ Only foreground — explain to the driver
-  //     await showDialog(
-  //       context: context,
-  //       builder: (ctx) => AlertDialog(
-  //         title: Text(AppLocalizations.of(context)!.backgroundLocationNeeded),
-  //         content: Text(AppLocalizations.of(context)!.kipgoNeeds),
-  //         actions: [
-  //           TextButton(
-  //             onPressed: () async {
-  //               Navigator.pop(ctx);
-  //               await Geolocator.openAppSettings();
-  //             },
-  //             child: Text(AppLocalizations.of(context)!.openSettings),
-  //           ),
-  //         ],
-  //       ),
-  //     );
-  //     return false;
-  //   }
-
-  //   if (permission == LocationPermission.denied ||
-  //       permission == LocationPermission.deniedForever) {
-  //     // Handle normal denied case
-  //     await showDialog(
-  //       context: context,
-  //       builder: (ctx) => AlertDialog(
-  //         title: Text(AppLocalizations.of(context)!.locationPermissionRequired),
-  //         content: Text(
-  //           AppLocalizations.of(context)!.locationPermissionRequiredDrivers,
-  //         ),
-  //         actions: [
-  //           TextButton(
-  //             onPressed: () async {
-  //               Navigator.pop(ctx);
-  //               await Geolocator.openAppSettings();
-  //             },
-  //             child: Text(AppLocalizations.of(context)!.openSettings),
-  //           ),
-  //         ],
-  //       ),
-  //     );
-  //     return false;
-  //   }
-
-  //   return false;
-  // }
-
   Future<bool> ensureBackgroundPermission(BuildContext context) async {
     LocationPermission permission = await Geolocator.checkPermission();
 
@@ -289,6 +234,10 @@ class DriverStatusProvider extends ChangeNotifier {
           .collection('profiles')
           .doc(currentDriver.id)
           .update({'newRideStatus': 'idle'});
+
+      await FirebaseDatabase.instance.ref("drivers/${currentDriver.id}").update(
+        {"status": "idle", "currentRideId": null},
+      );
     } catch (e) {
       debugPrint('Error setting driver online: $e');
     }

@@ -117,6 +117,7 @@ class AppMethods {
   static Future<void> sendNotificationToDriverNow(
     String deviceRegistrationToken,
     String userRideRequestId,
+    String driverId,
     context,
   ) async {
     String destinationAddress = userDropOffAddress;
@@ -139,6 +140,7 @@ class AppMethods {
       "username": username,
       "pickupAddress": pickupAddress,
       "dropoffAddress": destinationAddress,
+      "driverId": driverId,
     });
 
     // print("Response from notification:  $response");

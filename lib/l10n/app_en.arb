@@ -1221,5 +1221,110 @@
   "resendEmail": "Resend Email",
   "@resendEmail": {
     "description": "Resend email action button message"
+  },
+  "otp": "OTP",
+  "@otp": {
+    "description": "OTP title"
+  },
+  "otpVerification": "OTP Verification",
+  "@otpVerification": {
+    "description": "OTP Verification"
+  },
+  "enterOtpCodeSent": "Enter OTP Code sent to {number}",
+  "@enterOtpCodeSent": {
+    "description": "Enter otp code prompt",
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "verify": "Verify",
+  "@verify": {
+    "description": "Verify OTP code"
+  },
+  "didntReceiveOTPCode": "Didn't receive OTP code?",
+  "@didntReceiveOTPCode": {
+    "description": "OTP code delivery issue message"
+  },
+  "resendCode": "Resend Code",
+  "@resendCode": {
+    "description": "Resend code action message"
+  },
+  "changingYourPhoneNumber": "Changing your phone number will require re-verification.",
+  "@changingYourPhoneNumber": {
+    "description": "Phone number change warning"
+  },
+  "verifyPhoneNumber": "Verify Phone Number",
+  "@verifyPhoneNumber": {
+    "description": "Text"
+  },
+  "youRejectedTheFare": "You rejected the fare. Ride cancelled.",
+  "@youRejectedTheFare": {
+    "description": "Message"
+  },
+  "requestTimeout": "Request Timeout",
+  "@requestTimeout": {
+    "description": "Timeout message"
+  },
+  "driverDidnotAcceptRequest": "Driver did not accept request",
+  "@driverDidnotAcceptRequest": {
+    "description": "Timeout details"
+  },
+  "expandSearchAreaQuestion": "Expand search area?",
+  "@expandSearchAreaQuestion": {
+    "description": "Info"
+  },
+  "expandSearchArea": "Expand search area",
+  "@expandSearchArea": {
+    "description": "Action Text"
+  },
+  "driversMayTakeLongToArrive": "Drivers may take longer to arrive and fares may be higher.",
+  "@driversMayTakeLongToArrive": {
+    "description": "Info"
+  },
+  "calculatingDistance": "Calculating distance...",
+  "@calculatingDistance": {
+    "description": "Info"
+  },
+  "pleaseVerifyYourNumber": "Please verify your phone number to request and accept rides",
+  "@pleaseVerifyYourNumber": {
+    "description": "Warning"
+  },
+  "estimatedDetailsToPickup": "Estimated Details To Pickup",
+  "@estimatedDetailsToPickup": {
+    "description": "Info"
+  },
+  "estimatedDetailsToDropoff": "Estimated Details To Dropoff",
+  "@estimatedDetailsToDropoff": {
+    "description": "Info"
+  },
+  "pleaseVerifyYourPhoneNumber": "Please verify your phone number to request ride",
+  "@pleaseVerifyYourPhoneNumber": {
+    "description": "Info"
+  },
+  "pleaseCompleteYourProfile": "Please complete your profile to request ride",
+  "@pleaseCompleteYourProfile": {
+    "description": "Info"
+  },
+  "profilePicture": "Profile Picture",
+  "@profilePicture": {
+    "description": "Label"
+  },
+  "uploadImage": "Upload Image",
+  "@uploadImage": {
+    "description": "Info"
+  },
+  "deleteProfilePicture": "Delete Profile Picture",
+  "@deleteProfilePicture": {
+    "description": "Action"
+  },
+  "pickupAddress": "Pickup Address",
+  "@pickupAddress": {
+    "description": "Info"
+  },
+  "dropoffAddress": "Dropoff Address",
+  "@dropoffAddress": {
+    "description": "Info"
   }
 }

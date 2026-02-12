@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/models/profile.dart';
 import 'package:kipgo/screens/widgets/app_bar_widget.dart';
 import 'package:kipgo/screens/widgets/error_message.dart';
@@ -67,7 +68,7 @@ class _PhoneOtpWidgetState extends State<PhoneOtpWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primary,
-      appBar: AppBarWidget(title: 'OTP'),
+      appBar: AppBarWidget(title: AppLocalizations.of(context)!.otp),
       body: GestureDetector(
         onTap: () {
           FocusScopeNode currentFocus = FocusScope.of(context);
@@ -94,13 +95,17 @@ class _PhoneOtpWidgetState extends State<PhoneOtpWidget> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "OTP Verification",
+                    AppLocalizations.of(context)!.otpVerification,
                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(height: 5),
-                  Text('Enter OTP Code sent to ${widget.phoneNumber}'),
+                  Text(
+                    AppLocalizations.of(
+                      context,
+                    )!.enterOtpCodeSent(widget.phoneNumber.toString()),
+                  ),
                   SizedBox(height: 30),
                   OtpTextField(
                     numberOfFields: 6,
@@ -138,7 +143,7 @@ class _PhoneOtpWidgetState extends State<PhoneOtpWidget> {
                     onPressed: verifying ? null : _verifyOtp,
                     child: verifying
                         ? CircularProgressIndicator(color: Colors.white)
-                        : Text('Verify'),
+                        : Text(AppLocalizations.of(context)!.verify),
                   ),
                   if (localError != '') ...[
                     SizedBox(height: 16),
@@ -146,7 +151,7 @@ class _PhoneOtpWidgetState extends State<PhoneOtpWidget> {
                   ],
                   SizedBox(height: 30),
                   Text(
-                    'Didn\'t receive OTP code?',
+                    AppLocalizations.of(context)!.didntReceiveOTPCode,
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.black38,
@@ -168,7 +173,7 @@ class _PhoneOtpWidgetState extends State<PhoneOtpWidget> {
                         verificationFailed: (_) {},
                       );
                     },
-                    child: Text("Resend Code"),
+                    child: Text(AppLocalizations.of(context)!.resendCode),
                   ),
                 ],
               ),

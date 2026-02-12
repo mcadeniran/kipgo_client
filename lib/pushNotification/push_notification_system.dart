@@ -54,13 +54,6 @@ class PushNotificationSystem {
       }
     });
 
-    // // 2. Foreground (app is open)
-    // FirebaseMessaging.onMessage.listen((RemoteMessage? remoteMessage) {
-    //   if (remoteMessage != null) {
-    //     _handleNotification(remoteMessage, context, fromUserTap: false);
-    //   }
-    // });
-
     // 2. Foreground (app is open)
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       debugPrint("📩 Foreground FCM received");
@@ -118,10 +111,6 @@ class PushNotificationSystem {
       }
     } else {
       debugPrint('UNKNOWN NOTIFICATION TYPE RECEIVED');
-      // NotificationService().showNotification(
-      //   title: remoteMessage.notification?.title ?? 'Message',
-      //   body: remoteMessage.notification?.body ?? 'You have a new notification',
-      // );
     }
   }
 
@@ -206,7 +195,11 @@ class PushNotificationSystem {
         if (snapData.value != null && ctx.mounted) {
           final rideData = Map<String, dynamic>.from(snapData.value as Map);
           final userRideRequestDetails =
-              UserRideRequestInformation.fromRealtime(snapData.key!, rideData);
+              UserRideRequestInformation.fromRealtime(
+                snapData.key!,
+                rideData,
+                driverId,
+              );
 
           // ✅ Only show if no dialog already active
           if (!_isDialogShowing) {
@@ -233,6 +226,10 @@ class PushNotificationSystem {
         }
       } else {
         _isProcessingRide = false;
+        await FirebaseDatabase.instance.ref("drivers/$uid").update({
+          "status": "idle",
+          "currentRideId": null,
+        });
       }
     } catch (e, st) {
       debugPrint("❌ Error reading ride request: $e");
