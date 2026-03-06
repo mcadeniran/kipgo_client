@@ -1046,4 +1046,45 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get dropoffAddress => 'Bırakma Adresi';
+
+  @override
+  String get verifyYourEmail => 'E-postanızı doğrulayın';
+
+  @override
+  String get ifYouDontSee =>
+      'E-postayı göremiyorsanız, lütfen spam veya gereksiz posta klasörünüzü kontrol edin.';
+
+  @override
+  String get pleaseVerifyYourEmail =>
+      'Devam etmek için lütfen e-posta adresinizi doğrulayın.';
+
+  @override
+  String get areYouEnjoyingKipgo => 'Kipgo’dan memnun musunuz?';
+
+  @override
+  String get weLoveToHear => 'Geri bildiriminizi duymaktan memnuniyet duyarız!';
+
+  @override
+  String get notReally => 'Pek sayılmaz';
+
+  @override
+  String get yes => 'Evet';
+
+  @override
+  String get sendFeedback => 'Geri Bildirim Gönder';
+
+  @override
+  String get tellUsWhatWeCanImprove => 'Neleri geliştirebiliriz, bize yazın...';
+
+  @override
+  String get thanksForYourFeedback => 'Geri bildiriminiz için teşekkürler ❤️';
+
+  @override
+  String get noResultsFound => 'Sonuç bulunamadı';
+
+  @override
+  String get tapMapToSetPickupLocation => 'Alış için haritaya dokun';
+
+  @override
+  String get tapMapToSetDestination => 'Varış için haritaya dokun';
 }

@@ -1526,6 +1526,8 @@ PODS:
   - GTMSessionFetcher/Core (4.5.0)
   - image_picker_ios (0.0.1):
     - Flutter
+  - in_app_review (2.0.0):
+    - Flutter
   - leveldb-library (1.22.6)
   - libphonenumber_plugin (0.0.1):
     - Flutter
@@ -1593,6 +1595,7 @@ DEPENDENCIES:
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/darwin`)
   - google_maps_flutter_ios (from `.symlinks/plugins/google_maps_flutter_ios/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
+  - in_app_review (from `.symlinks/plugins/in_app_review/ios`)
   - libphonenumber_plugin (from `.symlinks/plugins/libphonenumber_plugin/ios`)
   - location (from `.symlinks/plugins/location/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
@@ -1685,6 +1688,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_maps_flutter_ios/ios"
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
+  in_app_review:
+    :path: ".symlinks/plugins/in_app_review/ios"
   libphonenumber_plugin:
     :path: ".symlinks/plugins/libphonenumber_plugin/ios"
   location:
@@ -1754,6 +1759,7 @@ SPEC CHECKSUMS:
   gRPC-Core: 860978b7db482de8b4f5e10677216309b5ff6330
   GTMSessionFetcher: fc75fc972958dceedee61cb662ae1da7a83a91cf
   image_picker_ios: c560581cceedb403a6ff17f2f816d7fea1421fc1
+  in_app_review: 436034b18594851a7328d7f1c2ed5ec235b79cfc
   leveldb-library: cc8b8f8e013647a295ad3f8cd2ddf49a6f19be19
   libphonenumber_plugin: 48bf4078546377eedaab4aa54978cd0f6fa23072
   location: d5cf8598915965547c3f36761ae9cc4f4e87d22e

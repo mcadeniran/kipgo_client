@@ -7,16 +7,15 @@ import 'package:iconify_flutter/icons/ion.dart';
 import 'package:iconify_flutter/icons/ph.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
-import 'package:kipgo/screens/auth/login_screen.dart';
 import 'package:kipgo/screens/widgets/change_language_mini_widget.dart';
 import 'package:kipgo/screens/widgets/error_message.dart';
 import 'package:kipgo/screens/widgets/input_decorator.dart';
 import 'package:kipgo/services/auth_service.dart';
-import 'package:kipgo/services/role_based_auth_gate.dart';
 import 'package:kipgo/utils/colors.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+  final VoidCallback onBackToLogin;
+  const SignupScreen({super.key, required this.onBackToLogin});
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -61,7 +60,6 @@ class _SignupScreenState extends State<SignupScreen> {
     });
 
     if (!mounted) return;
-
     try {
       await authService.signUp(
         email: emailController.text,
@@ -69,21 +67,14 @@ class _SignupScreenState extends State<SignupScreen> {
         username: nameController.text,
         role: role,
       );
-
-      if (!mounted) return;
-
-      if (mounted) {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => RoleBasedAuthGate()),
-          (route) => false,
-        );
-      }
     } catch (e) {
       setState(() {
         localErrorMessage = e.toString().replaceFirst('Exception: ', '');
       });
     } finally {
-      setState(() => isLoading = false);
+      if (mounted) {
+        setState(() => isLoading = false);
+      }
     }
   }
 
@@ -324,14 +315,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           const SizedBox(height: 10),
                         ],
                         TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => const LoginScreen(),
-                              ),
-                            );
-                          },
+                          onPressed: widget.onBackToLogin,
                           child: Text(
                             AppLocalizations.of(context)!.alreadyHaveAnAccount,
                             style: TextStyle(color: Colors.black),

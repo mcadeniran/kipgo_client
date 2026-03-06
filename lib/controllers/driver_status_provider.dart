@@ -236,7 +236,7 @@ class DriverStatusProvider extends ChangeNotifier {
           .update({'newRideStatus': 'idle'});
 
       await FirebaseDatabase.instance.ref("drivers/${currentDriver.id}").update(
-        {"status": "idle", "currentRideId": null},
+        {"status": "idle", "currentRideId": null, "pendingSince": null},
       );
     } catch (e) {
       debugPrint('Error setting driver online: $e');

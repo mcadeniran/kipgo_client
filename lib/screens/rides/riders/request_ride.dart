@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'dart:math' show sin, cos, sqrt, atan2, pi;
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart' as gf;
@@ -12,11 +15,13 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/ic.dart';
+import 'package:kipgo/helpers/location_settings_helper.dart';
 import 'package:kipgo/models/direction.dart';
+import 'package:kipgo/models/predicted_places.dart';
 import 'package:kipgo/screens/homes/customer_home.dart';
 import 'package:kipgo/screens/homes/driver_home.dart';
-import 'package:kipgo/screens/rides/riders/search_origin_screen.dart';
 import 'package:kipgo/utils/direction_service.dart';
+import 'package:kipgo/utils/request_assistant.dart';
 import 'package:provider/provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
 import 'package:kipgo/controllers/profile_provider.dart';
@@ -25,7 +30,6 @@ import 'package:kipgo/infoHandler/app_info.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/models/active_nearby_available_driver.dart';
 import 'package:kipgo/models/profile.dart';
-import 'package:kipgo/screens/rides/riders/search_places_screen.dart';
 import 'package:kipgo/screens/widgets/progress_dialog.dart';
 import 'package:kipgo/utils/colors.dart';
 import 'package:kipgo/utils/geofire_assistant.dart';
@@ -67,6 +71,10 @@ class _RequestRideState extends State<RequestRide> {
   Set<Marker> markersSet = {};
   Set<Circle> circlesSet = {};
 
+  Marker? _pickupMarker;
+  Marker? _destinationMarker;
+  Set<Marker> _driverMarkers = {};
+
   BitmapDescriptor? activeNearbyIcon;
 
   String username = "";
@@ -84,7 +92,7 @@ class _RequestRideState extends State<RequestRide> {
   bool isProgrammaticClose = false;
 
   // ID used for the single user marker
-  static const String _userMarkerId = 'user_marker';
+  // static const String _userMarkerId = 'user_marker';
 
   bool showDriverListsModel = false;
 
@@ -118,6 +126,19 @@ class _RequestRideState extends State<RequestRide> {
       GlobalKey<AnimatedListState>();
 
   final List<String> _shownDriverIds = [];
+
+  // Overlay state
+  bool _showSearchOverlay = false;
+  bool _isPickupSearch = true;
+
+  // Search controller & results
+  final TextEditingController _searchController = TextEditingController();
+  List<PredictedPlaces> _searchResults = [];
+
+  // API key
+  final String? apiKey = dotenv.env['GOOGLE_API_KEY'];
+
+  bool _isMapLoading = false;
 
   @override
   void initState() {
@@ -181,34 +202,39 @@ class _RequestRideState extends State<RequestRide> {
     });
   }
 
-  // ───────────────────────────────────────────
-  // User marker management
-  // ───────────────────────────────────────────
-  void _addOrUpdateUserMarker(LatLng pos) {
-    if (!mounted) return;
-    final marker = Marker(
-      markerId: const MarkerId(_userMarkerId),
-      position: pos,
-      infoWindow: const InfoWindow(title: 'Pickup'),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
-    );
+  void _rebuildMarkers() {
+    final newMarkers = <Marker>{};
 
-    // If there's a drawn polyline, we remove the user marker (origin marker will show)
-    if (polylineSet.isNotEmpty) {
-      markersSet.removeWhere((m) => m.markerId.value == _userMarkerId);
-    } else {
-      markersSet.removeWhere((m) => m.markerId.value == _userMarkerId);
-      markersSet.add(marker);
+    if (_pickupMarker != null) {
+      newMarkers.add(_pickupMarker!);
     }
 
-    setState(() {});
+    if (_destinationMarker != null) {
+      newMarkers.add(_destinationMarker!);
+    }
+
+    newMarkers.addAll(_driverMarkers);
+    if (!mounted) return;
+    setState(() {
+      markersSet = newMarkers;
+    });
   }
 
-  void _removeUserMarker() {
-    if (!mounted) return;
-    markersSet.removeWhere((m) => m.markerId.value == _userMarkerId);
-    setState(() {});
+  void _addOrUpdateUserMarker(LatLng latlng) {
+    _pickupMarker = Marker(
+      markerId: const MarkerId("pickupId"),
+      position: latlng,
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+    );
+
+    _rebuildMarkers();
   }
+
+  // void _removeUserMarker() {
+  //   if (!mounted) return;
+  //   markersSet.removeWhere((m) => m.markerId.value == _userMarkerId);
+  //   setState(() {});
+  // }
 
   // ───────────────────────────────────────────
   // Locate user position (initial)
@@ -256,68 +282,6 @@ class _RequestRideState extends State<RequestRide> {
       debugPrint("locateUserPosition error: $e");
     }
   }
-
-  // ───────────────────────────────────────────
-  // Initialize nearby driver listener — explicit center (pickup)
-  // Cancels previous driver query safely.
-  // ───────────────────────────────────────────
-  // void initializeNearbyDriverListener({
-  //   required double centerLat,
-  //   required double centerLng,
-  //   double radiusKm = 5.0,
-  // }) {
-  //   // cancel previous
-  //   driverQuerySubscription?.cancel();
-  //   driverQuerySubscription = null;
-
-  //   final geo = gf.GeoFlutterFire();
-  //   final driversCollection = FirebaseFirestore.instance.collection(
-  //     'activeDrivers',
-  //   );
-
-  //   final center = geo.point(latitude: centerLat, longitude: centerLng);
-
-  //   driverQuerySubscription = geo
-  //       .collection(collectionRef: driversCollection)
-  //       .within(center: center, radius: radiusKm, field: 'position')
-  //       .listen((List<DocumentSnapshot> documentList) {
-  //         if (!mounted) return;
-
-  //         GeofireAssistant.activeNearbyAvailableDriversList.clear();
-
-  //         for (var doc in documentList) {
-  //           final data = doc.data() as Map<String, dynamic>?;
-  //           if (data == null || data['position'] == null) continue;
-  //           final GeoPoint point = data['position']['geopoint'];
-
-  //           final distance = calculateDistance(
-  //             centerLat,
-  //             centerLng,
-  //             point.latitude,
-  //             point.longitude,
-  //           );
-  //           if (distance <= radiusKm) {
-  //             final driver = ActiveNearbyAvailableDriver()
-  //               ..driverId = doc.id
-  //               ..locationLatitude = point.latitude
-  //               ..locationLongitude = point.longitude
-  //               ..distanceToPickupKm = distance;
-  //             GeofireAssistant.activeNearbyAvailableDriversList.add(driver);
-  //           }
-  //         }
-
-  //         GeofireAssistant.activeNearbyAvailableDriversList.sort(
-  //           (a, b) => (a.distanceToPickupKm ?? 0).compareTo(
-  //             b.distanceToPickupKm ?? 0,
-  //           ),
-  //         );
-
-  //         // After updating list, refresh markers
-  //         displayActiveDriversOnUserMap();
-  //         updateDriversRoadDistance();
-  //         scheduleDistanceUpdate();
-  //       });
-  // }
 
   void initializeNearbyDriverListener({
     required double centerLat,
@@ -398,9 +362,23 @@ class _RequestRideState extends State<RequestRide> {
   }
 
   Future<void> updateDriversRoadDistance() async {
+    // final pickup = LatLng(
+    //   userCurrentPosition!.latitude,
+    //   userCurrentPosition!.longitude,
+    // );
+
+    if (!mounted) return;
+
+    final pickupDetails = Provider.of<AppInfo>(
+      context,
+      listen: false,
+    ).userPickUpLocation;
+
+    if (pickupDetails == null) return;
+
     final pickup = LatLng(
-      userCurrentPosition!.latitude,
-      userCurrentPosition!.longitude,
+      pickupDetails.locationLatitude!,
+      pickupDetails.locationLongitude!,
     );
 
     if (GeofireAssistant.activeNearbyAvailableDriversList.isNotEmpty) {
@@ -447,19 +425,6 @@ class _RequestRideState extends State<RequestRide> {
 
   void displayActiveDriversOnUserMap() {
     if (!mounted) return;
-    // keep origin/destination markers and circle set intact
-    // Build set with drivers + existing non-driver markers (origin/destination)
-    final nonDriverMarkers = markersSet.where((m) {
-      final id = m.markerId.value;
-      return id != _userMarkerId &&
-          id != 'driver_marker_' &&
-          !id.startsWith('driver_');
-    }).toSet();
-
-    // final nonDriverMarkers = markersSet.where((m) {
-    //   final id = m.markerId.value;
-    //   return !id.startsWith('driver_');
-    // }).toSet();
 
     final Set<Marker> driversMarkerSet = <Marker>{};
     for (ActiveNearbyAvailableDriver eachDriver
@@ -478,16 +443,25 @@ class _RequestRideState extends State<RequestRide> {
       driversMarkerSet.add(marker);
     }
 
-    markersSet = {...nonDriverMarkers, ...driversMarkerSet};
+    // markersSet = {...nonDriverMarkers, ...driversMarkerSet};
+    _driverMarkers = driversMarkerSet;
+    _rebuildMarkers();
 
-    // ensure user marker is present if no polyline
-    if (polylineSet.isEmpty && userCurrentPosition != null) {
+    Direction? pickupLocation = Provider.of<AppInfo>(
+      context,
+      listen: false,
+    ).userPickUpLocation;
+
+    if (polylineSet.isEmpty && pickupLocation != null) {
       _addOrUpdateUserMarker(
-        LatLng(userCurrentPosition!.latitude, userCurrentPosition!.longitude),
+        LatLng(
+          pickupLocation.locationLatitude!,
+          pickupLocation.locationLongitude!,
+        ),
       );
     } else {
       // remove user marker when polyline exists
-      markersSet.removeWhere((m) => m.markerId.value == _userMarkerId);
+      // markersSet.removeWhere((m) => m.markerId.value == _userMarkerId);
     }
 
     setState(() {});
@@ -561,12 +535,8 @@ class _RequestRideState extends State<RequestRide> {
     polylineSet.clear();
     polylineSet.add(polyline);
 
-    // remove user marker (we'll add origin/dest markers)
-    _removeUserMarker();
-
-    // add origin/destination markers
-    final originMarker = Marker(
-      markerId: const MarkerId('originId'),
+    _pickupMarker = Marker(
+      markerId: const MarkerId('pickupId'),
       position: originLatLng,
       infoWindow: InfoWindow(
         title: originPosition.locationName,
@@ -574,7 +544,8 @@ class _RequestRideState extends State<RequestRide> {
       ),
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
     );
-    final destMarker = Marker(
+
+    _destinationMarker = Marker(
       markerId: const MarkerId('destinationId'),
       position: destinationLatLng,
       infoWindow: InfoWindow(
@@ -584,9 +555,7 @@ class _RequestRideState extends State<RequestRide> {
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
     );
 
-    markersSet.removeWhere((m) => m.markerId.value == _userMarkerId);
-    markersSet.add(originMarker);
-    markersSet.add(destMarker);
+    _rebuildMarkers();
 
     // add circles
     circlesSet.clear();
@@ -594,7 +563,7 @@ class _RequestRideState extends State<RequestRide> {
       Circle(
         circleId: const CircleId('originId'),
         center: originLatLng,
-        radius: 12,
+        radius: 0,
         fillColor: Colors.green,
         strokeWidth: 3,
         strokeColor: Colors.white,
@@ -604,7 +573,7 @@ class _RequestRideState extends State<RequestRide> {
       Circle(
         circleId: const CircleId('destinationId'),
         center: destinationLatLng,
-        radius: 12,
+        radius: 0,
         fillColor: Colors.red,
         strokeWidth: 3,
         strokeColor: Colors.white,
@@ -824,29 +793,18 @@ class _RequestRideState extends State<RequestRide> {
     );
 
     // start searching drivers based on the current pickup (important)
-    if (userCurrentPosition != null) {
-      initializeNearbyDriverListener(
-        centerLat: userCurrentPosition!.latitude,
-        centerLng: userCurrentPosition!.longitude,
-      );
+    final pickup = Provider.of<AppInfo>(
+      context,
+      listen: false,
+    ).userPickUpLocation;
 
-      scheduleDistanceUpdate();
-    } else if (Provider.of<AppInfo>(
-          context,
-          listen: false,
-        ).userPickUpLocation !=
-        null) {
-      final pick = Provider.of<AppInfo>(
-        context,
-        listen: false,
-      ).userPickUpLocation!;
+    if (pickup != null) {
       initializeNearbyDriverListener(
-        centerLat: pick.locationLatitude!,
-        centerLng: pick.locationLongitude!,
+        centerLat: pickup.locationLatitude!,
+        centerLng: pickup.locationLongitude!,
       );
       scheduleDistanceUpdate();
     } else {
-      // fallback - locate user
       await locateUserPosition();
     }
 
@@ -1055,20 +1013,6 @@ class _RequestRideState extends State<RequestRide> {
       },
     );
   }
-
-  // Future<void> retrieveOnlineDriversInformation(
-  //   List onlineNearestDriverList,
-  // ) async {
-  //   driversList.clear();
-
-  //   for (int i = 0; i < onlineNearestDriverList.length; i++) {
-  //     final snap = await FirebaseFirestore.instance
-  //         .collection("profiles")
-  //         .doc(onlineNearestDriverList[i].driverId)
-  //         .get();
-  //     driversList.add(Profile.fromFirestore(snap));
-  //   }
-  // }
 
   Future<void> retrieveOnlineDriversInformation(
     List<ActiveNearbyAvailableDriver> onlineNearestDriverList,
@@ -1455,7 +1399,12 @@ class _RequestRideState extends State<RequestRide> {
   }
 
   Future<void> _onExpandSearchAccepted() async {
-    if (userCurrentPosition == null || _isExpandingSearch) return;
+    // if (userCurrentPosition == null || _isExpandingSearch) return;
+    final pickup = Provider.of<AppInfo>(
+      context,
+      listen: false,
+    ).userPickUpLocation;
+    if (pickup == null || _isExpandingSearch) return;
 
     _isExpandingSearch = true;
 
@@ -1464,8 +1413,10 @@ class _RequestRideState extends State<RequestRide> {
     _noDriversFound = false;
 
     initializeNearbyDriverListener(
-      centerLat: userCurrentPosition!.latitude,
-      centerLng: userCurrentPosition!.longitude,
+      // centerLat: userCurrentPosition!.latitude,
+      // centerLng: userCurrentPosition!.longitude,
+      centerLat: pickup.locationLatitude!,
+      centerLng: pickup.locationLongitude!,
       radiusKm: _expandedRadiusKm,
     );
 
@@ -1528,7 +1479,11 @@ class _RequestRideState extends State<RequestRide> {
     newGoogleMapController?.dispose();
     newGoogleMapController = null;
     clearDriverCache();
-    markersSet.clear();
+    // markersSet.clear();
+    _pickupMarker = null;
+    _destinationMarker = null;
+    _driverMarkers.clear();
+    // _rebuildMarkers();
     circlesSet.clear();
     polylineSet.clear();
     pLineCoordinateList.clear();
@@ -1542,123 +1497,358 @@ class _RequestRideState extends State<RequestRide> {
     super.dispose();
   }
 
+  bool get selectingOrigin => isOriginSelected[0];
   // ───────────────────────────────────────────
   // Map tap handling — change pickup to tapped location
   // ───────────────────────────────────────────
+
   Future<void> _onMapTap(LatLng latlng) async {
-    // get address from latlng using your helper
-    final humanAddress = await AppMethods.getAddressFromLatLng(latlng, context);
-
-    // update provider's pickup
-    final userPickup = Direction()
-      ..locationLatitude = latlng.latitude
-      ..locationLongitude = latlng.longitude
-      ..locationName = humanAddress;
     if (!mounted) return;
-    Provider.of<AppInfo>(
-      context,
-      listen: false,
-    ).updatePickUpLocationAddress(userPickup);
 
-    // update local userCurrentPosition and user marker
-    userCurrentPosition = Position(
-      latitude: latlng.latitude,
-      longitude: latlng.longitude,
-      timestamp: DateTime.now(),
-      accuracy: 0,
-      altitude: 0,
-      heading: 0,
-      speed: 0,
-      speedAccuracy: 0,
-      altitudeAccuracy: 0,
-      headingAccuracy: 0,
-    );
-    _addOrUpdateUserMarker(latlng);
+    setState(() => _isMapLoading = true);
 
-    // re-run driver query centered on new pickup
-    initializeNearbyDriverListener(
-      centerLat: latlng.latitude,
-      centerLng: latlng.longitude,
-    );
+    try {
+      final direction = await AppMethods.getAddressFromLatLng(latlng);
 
-    Future.delayed(const Duration(seconds: 1), () {
-      updateDriversRoadDistance();
-    });
-  }
+      if (direction == null) return;
 
-  Future<void> openPickupSearch() async {
-    final Direction? pickedLocation = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const SearchOriginScreen()),
-    );
+      if (selectingOrigin) {
+        // 🟢 PICKUP MODE
+        Provider.of<AppInfo>(
+          context,
+          listen: false,
+        ).updatePickUpLocationAddress(direction);
 
-    if (pickedLocation != null) {
-      // update provider's pickup
-      final userPickup = Direction()
-        ..locationLatitude = pickedLocation.locationLatitude
-        ..locationLongitude = pickedLocation.locationLongitude
-        ..locationName = pickedLocation.locationName;
-      if (!mounted) return;
-      Provider.of<AppInfo>(
+        _addOrUpdateUserMarker(latlng);
+
+        initializeNearbyDriverListener(
+          centerLat: latlng.latitude,
+          centerLng: latlng.longitude,
+        );
+      } else {
+        // 🔴 DESTINATION MODE
+        Provider.of<AppInfo>(
+          context,
+          listen: false,
+        ).updateDropOffLocationAddress(direction);
+
+        _addOrUpdateDestinationMarker(latlng);
+      }
+      final pickup = Provider.of<AppInfo>(
         context,
         listen: false,
-      ).updatePickUpLocationAddress(userPickup);
+      ).userPickUpLocation;
 
-      // update local userCurrentPosition and user marker
-      userCurrentPosition = Position(
-        latitude: pickedLocation.locationLatitude!,
-        longitude: pickedLocation.locationLongitude!,
-        timestamp: DateTime.now(),
-        accuracy: 0,
-        altitude: 0,
-        heading: 0,
-        speed: 0,
-        speedAccuracy: 0,
-        altitudeAccuracy: 0,
-        headingAccuracy: 0,
-      );
+      final destination = Provider.of<AppInfo>(
+        context,
+        listen: false,
+      ).userDropOffLocation;
 
-      _addOrUpdateUserMarker(
-        LatLng(
-          pickedLocation.locationLatitude!,
-          pickedLocation.locationLongitude!,
-        ),
-      );
-
-      final controller = await _controllerGoogleMap.future;
-
-      controller.animateCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(
-            target: LatLng(
-              pickedLocation.locationLatitude!,
-              pickedLocation.locationLongitude!,
-            ),
-            zoom: 15,
-          ),
-        ),
-      );
-
-      // re-run driver query centered on new pickup
-      initializeNearbyDriverListener(
-        centerLat: pickedLocation.locationLatitude!,
-        centerLng: pickedLocation.locationLongitude!,
-      );
-
-      scheduleDistanceUpdate();
-
-      await drawPolyLineFromOriginToDestination(
-        Provider.of<ThemeProvider>(context, listen: false).isDarkMode,
-      );
+      if (pickup != null && destination != null) {
+        await drawPolyLineFromOriginToDestination(
+          Provider.of<ThemeProvider>(context, listen: false).isDarkMode,
+        );
+      }
+    } catch (e) {
+      debugPrint("Map tap error: $e");
+    } finally {
+      if (mounted) {
+        setState(() => _isMapLoading = false);
+      }
     }
   }
 
+  void _addOrUpdateDestinationMarker(LatLng latlng) {
+    _destinationMarker = Marker(
+      markerId: const MarkerId("destinationId"),
+      position: latlng,
+      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+    );
+
+    _rebuildMarkers();
+  }
+
+  Widget _buildSearchOverlay() {
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
+    return Material(
+      color: Colors.black45, // semi-transparent overlay
+      child: SafeArea(
+        child: Column(
+          children: [
+            // Top search bar
+            Container(
+              padding: const EdgeInsets.all(12),
+              margin: const EdgeInsets.symmetric(horizontal: 12),
+              decoration: BoxDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8),
+                  topRight: Radius.circular(8),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _searchController,
+                      autofocus: true,
+                      autocorrect: false,
+                      decoration: InputDecoration(
+                        hintText: _isPickupSearch
+                            ? AppLocalizations.of(context)!.searchPickupLocation
+                            : AppLocalizations.of(
+                                context,
+                              )!.searchDropoffLocation,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        prefixIcon: Icon(Icons.search),
+                      ),
+                      onChanged: (value) => _searchPlaces(value),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () {
+                      setState(() {
+                        _showSearchOverlay = false;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+
+            // Search results list
+            Expanded(
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(
+                  color: isDark
+                      ? AppColors.darkAccent.withValues(alpha: 0.9)
+                      : AppColors.lightAccent.withValues(alpha: 0.95),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(12),
+                    bottomRight: Radius.circular(12),
+                  ),
+                ),
+                child: (_searchResults.isNotEmpty)
+                    ? ListView.separated(
+                        separatorBuilder: (_, _) => Divider(
+                          height: 0,
+                          thickness: 0.5,
+                          color: isDark
+                              ? AppColors.darkLayer
+                              : AppColors.lightAccent,
+                        ),
+                        itemCount: _searchResults.length,
+                        itemBuilder: (_, index) {
+                          final place = _searchResults[index];
+                          return ListTile(
+                            title: Text(
+                              place.mainText ?? '',
+                              style: TextStyle(fontWeight: FontWeight.w500),
+                            ),
+                            subtitle: Text(place.secondaryText ?? ''),
+                            onTap: () => _selectPlace(place),
+                          );
+                        },
+                      )
+                    : Center(
+                        child: Text(
+                          AppLocalizations.of(context)!.noResultsFound,
+                          // "No results found",
+                          style: TextStyle(
+                            color: isDark ? Colors.white70 : Colors.black54,
+                          ),
+                        ),
+                      ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _searchPlaces(String inputText) async {
+    if (inputText.length < 2) {
+      setState(() => _searchResults.clear());
+      return;
+    }
+
+    String url =
+        "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$inputText&key=$apiKey&components=country:tr|country:cy|country:ng";
+
+    var response = await RequestAssistant.receiveRequest(url);
+
+    if (response == 'Error fetching data. No Response') return;
+
+    if (response['status'] == 'OK') {
+      var predictions = response['predictions'] as List;
+      setState(() {
+        _searchResults = predictions
+            .map((json) => PredictedPlaces.fromJson(json))
+            .toList();
+      });
+    } else {
+      setState(() => _searchResults.clear());
+    }
+  }
+
+  Future<void> _selectPlace(PredictedPlaces place) async {
+    Direction? direction = await _getPlaceDetails(place.placeId!);
+
+    if (direction == null) return;
+
+    if (_isPickupSearch) {
+      Provider.of<AppInfo>(
+        context,
+        listen: false,
+      ).updatePickUpLocationAddress(direction);
+      _addOrUpdateUserMarker(
+        LatLng(direction.locationLatitude!, direction.locationLongitude!),
+      );
+
+      initializeNearbyDriverListener(
+        centerLat: direction.locationLatitude!,
+        centerLng: direction.locationLongitude!,
+      );
+    } else {
+      Provider.of<AppInfo>(
+        context,
+        listen: false,
+      ).updateDropOffLocationAddress(direction);
+    }
+
+    setState(() {
+      _showSearchOverlay = false;
+      _searchController.clear();
+      _searchResults.clear();
+    });
+
+    final controller = await _controllerGoogleMap.future;
+
+    controller.animateCamera(
+      CameraUpdate.newLatLngZoom(
+        LatLng(direction.locationLatitude!, direction.locationLongitude!),
+        15,
+      ),
+    );
+
+    await drawPolyLineFromOriginToDestination(
+      Provider.of<ThemeProvider>(context, listen: false).isDarkMode,
+    );
+  }
+
+  Future<Direction?> _getPlaceDetails(String placeId) async {
+    String url =
+        "https://maps.googleapis.com/maps/api/place/details/json"
+        "?place_id=$placeId"
+        "&fields=geometry,name,formatted_address"
+        "&key=$apiKey";
+
+    var response = await RequestAssistant.receiveRequest(url);
+
+    if (response == 'Error fetching data. No Response') return null;
+
+    if (response['status'] == 'OK') {
+      var result = response['result'];
+
+      double lat = result['geometry']['location']['lat'];
+      double lng = result['geometry']['location']['lng'];
+      String name = result['name'];
+      String address = result['formatted_address'];
+
+      debugPrint("Address: $address");
+
+      Direction direction = Direction();
+      direction.locationLatitude = lat;
+      direction.locationLongitude = lng;
+      direction.locationName = name;
+      direction.locationId = placeId;
+
+      return direction;
+    }
+
+    return null;
+  }
+
+  Widget _buildPremiumLoadingOverlay() {
+    return AnimatedOpacity(
+      duration: const Duration(milliseconds: 250),
+      opacity: _isMapLoading ? 1 : 0,
+      child: Container(
+        color: Colors.black.withOpacity(0.35),
+        child: Center(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: 28,
+                  width: 28,
+                  child: CircularProgressIndicator(strokeWidth: 3),
+                ),
+                SizedBox(height: 16),
+                Text(
+                  AppLocalizations.of(context)!.pleaseWait,
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMyLocationButton() {
+    return FloatingActionButton(
+      mini: true,
+      backgroundColor: Colors.white,
+      onPressed: _goToMyLocation,
+      child: const Icon(Icons.my_location, color: Colors.black),
+    );
+  }
+
+  Future<void> _goToMyLocation() async {
+    final position = await Geolocator.getCurrentPosition(
+      locationSettings: getLocationSetting(),
+    );
+
+    final controller = await _controllerGoogleMap.future;
+    controller.animateCamera(
+      CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(position.latitude, position.longitude),
+          zoom: 15,
+        ),
+      ),
+    );
+  }
+
+  List<bool> isOriginSelected = [true, false];
   // ───────────────────────────────────────────
   // UI
   // ───────────────────────────────────────────
   @override
   Widget build(BuildContext context) {
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+    final isAndroid = Platform.isAndroid == true;
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -1667,266 +1857,297 @@ class _RequestRideState extends State<RequestRide> {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: Stack(
           children: [
-            GoogleMap(
-              mapType: MapType.normal,
-              myLocationEnabled: false,
-              zoomGesturesEnabled: true,
-              zoomControlsEnabled: true,
-              style: isDark ? _mapStyle : null,
-              initialCameraPosition: _kGooglePlex,
-              polylines: polylineSet,
-              circles: circlesSet,
-              markers: markersSet,
-              onMapCreated: (controller) {
-                if (!_controllerGoogleMap.isCompleted) {
-                  _controllerGoogleMap.complete(controller);
-                }
-                newGoogleMapController = controller;
-                setState(() => bottomPaddingOfMap = 200);
-                locateUserPosition();
-              },
-              onTap: (argument) async {
-                await _onMapTap(LatLng(argument.latitude, argument.longitude));
-              },
+            Positioned.fill(
+              child: GoogleMap(
+                padding: EdgeInsets.only(
+                  top: 120, // pushes myLocation button down
+                  // bottom: bottomPaddingOfMap,
+                  bottom: MediaQuery.of(context).padding.bottom,
+                ),
+                mapType: MapType.normal,
+                myLocationEnabled: true,
+                myLocationButtonEnabled: isAndroid ? false : true,
+                zoomGesturesEnabled: true,
+                zoomControlsEnabled: true,
+                style: isDark ? _mapStyle : null,
+                initialCameraPosition: _kGooglePlex,
+                polylines: polylineSet,
+                circles: circlesSet,
+                markers: markersSet,
+                onMapCreated: (controller) {
+                  if (!_controllerGoogleMap.isCompleted) {
+                    _controllerGoogleMap.complete(controller);
+                  }
+                  newGoogleMapController = controller;
+                  setState(() => bottomPaddingOfMap = 200);
+                  locateUserPosition();
+                },
+                onTap: (argument) async {
+                  HapticFeedback.lightImpact();
+
+                  await _onMapTap(
+                    LatLng(argument.latitude, argument.longitude),
+                  );
+                },
+              ),
+            ),
+
+            if (isAndroid)
+              Positioned(
+                bottom: 250,
+                right: 16,
+                child: _buildMyLocationButton(),
+              ),
+
+            Positioned(
+              bottom: MediaQuery.of(context).padding.bottom + 10,
+              left: 0,
+              right: 0,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: _buildToggle(),
+              ),
             ),
 
             // Top UI (pickup/destination + request button) — kept your existing layout outline
             Positioned(
               left: 0,
               right: 0,
-              top: 40,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 50, 20, 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.border),
-                        borderRadius: BorderRadius.circular(12),
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
-                              color: Theme.of(
-                                context,
-                              ).scaffoldBackgroundColor.withValues(alpha: 0.5),
-                              // color: Colors.red,
-                            ),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(5),
-                                  child: InkWell(
-                                    onTap: openPickupSearch,
-                                    child: Row(
-                                      children: [
-                                        Iconify(
-                                          Ic.my_location,
-                                          color: isDark
-                                              ? AppColors.darkLayer
-                                              : AppColors.primary,
-                                        ),
-                                        SizedBox(width: 10),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                AppLocalizations.of(
-                                                  context,
-                                                )!.from,
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  color: isDark
-                                                      ? AppColors.darkLayer
-                                                      : AppColors.primary,
-                                                ),
-                                              ),
-                                              Text(
-                                                Provider.of<AppInfo>(
-                                                          context,
-                                                        ).userPickUpLocation !=
-                                                        null
-                                                    ? (Provider.of<AppInfo>(
-                                                            context,
-                                                          )
-                                                          .userPickUpLocation!
-                                                          .locationName!)
-                                                    : AppLocalizations.of(
-                                                        context,
-                                                      )!.unknownAddress,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 5),
-                                Divider(
-                                  height: 1,
-                                  thickness: 1,
-                                  color: isDark
-                                      ? AppColors.darkLayer
-                                      : AppColors.primary,
-                                ),
-                                SizedBox(height: 5),
-                                Padding(
-                                  padding: const EdgeInsets.all(5),
-                                  child: InkWell(
-                                    onTap: () async {
-                                      var responseFromSearchScreen =
-                                          await Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (c) =>
-                                                  SearchPlacesScreen(),
-                                            ),
-                                          );
-
-                                      if (responseFromSearchScreen ==
-                                          'obtainedDropOff') {
+              top: 0,
+              child: SafeArea(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: AppColors.border),
+                          borderRadius: BorderRadius.circular(12),
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6),
+                                color: Theme.of(context).scaffoldBackgroundColor
+                                    .withValues(alpha: 0.5),
+                                // color: Colors.red,
+                              ),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: InkWell(
+                                      // onTap: openPickupSearch,
+                                      onTap: () {
                                         setState(() {
-                                          // do something
+                                          _isPickupSearch =
+                                              true; // true = pickup, false = destination
+                                          _searchController.clear();
+                                          _searchResults.clear();
+                                          _showSearchOverlay = true;
                                         });
-                                      }
+                                      },
 
-                                      await drawPolyLineFromOriginToDestination(
-                                        isDark,
-                                      );
-                                    },
-
-                                    child: Row(
-                                      children: [
-                                        Iconify(
-                                          Ic.location_on,
-                                          color: isDark
-                                              ? AppColors.darkLayer
-                                              : AppColors.primary,
-                                        ),
-                                        SizedBox(width: 10),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                AppLocalizations.of(
-                                                  context,
-                                                )!.to,
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w500,
-                                                  color: isDark
-                                                      ? AppColors.darkLayer
-                                                      : AppColors.primary,
-                                                ),
-                                              ),
-                                              Text(
-                                                Provider.of<AppInfo>(
-                                                          context,
-                                                        ).userDropOffLocation !=
-                                                        null
-                                                    ? (Provider.of<AppInfo>(
-                                                            context,
-                                                          )
-                                                          .userDropOffLocation!
-                                                          .locationName!)
-                                                    : AppLocalizations.of(
-                                                        context,
-                                                      )!.enterDestination,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ],
+                                      child: Row(
+                                        children: [
+                                          Iconify(
+                                            Ic.my_location,
+                                            color: isDark
+                                                ? AppColors.darkLayer
+                                                : AppColors.primary,
                                           ),
-                                        ),
-                                      ],
+                                          SizedBox(width: 10),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  AppLocalizations.of(
+                                                    context,
+                                                  )!.from,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    color: isDark
+                                                        ? AppColors.darkLayer
+                                                        : AppColors.primary,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  Provider.of<AppInfo>(
+                                                            context,
+                                                          ).userPickUpLocation !=
+                                                          null
+                                                      ? (Provider.of<AppInfo>(
+                                                              context,
+                                                            )
+                                                            .userPickUpLocation!
+                                                            .locationName!)
+                                                      : AppLocalizations.of(
+                                                          context,
+                                                        )!.unknownAddress,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 5),
-                          ElevatedButton(
-                            onPressed: () {
-                              if (Provider.of<AppInfo>(
-                                        context,
-                                        listen: false,
-                                      ).userDropOffLocation !=
-                                      null &&
-                                  Provider.of<AppInfo>(
-                                        context,
-                                        listen: false,
-                                      ).userPickUpLocation !=
-                                      null) {
-                                saveRideRequestInformation();
-                              } else {
-                                final snackBarPickup = SnackBar(
-                                  content: Text(
-                                    AppLocalizations.of(
-                                      context,
-                                    )!.pleaseEnterPickupAddress,
+                                  SizedBox(height: 5),
+                                  Divider(
+                                    height: 1,
+                                    thickness: 1,
+                                    color: isDark
+                                        ? AppColors.darkLayer
+                                        : AppColors.primary,
                                   ),
-                                  duration: const Duration(seconds: 3),
-                                );
-                                final snackBarDestination = SnackBar(
-                                  content: Text(
-                                    AppLocalizations.of(
-                                      context,
-                                    )!.pleaseEnterDestination,
-                                  ),
-                                  duration: const Duration(seconds: 3),
-                                );
+                                  SizedBox(height: 5),
+                                  Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          _isPickupSearch = false;
+                                          _searchController.clear();
+                                          _searchResults.clear();
+                                          _showSearchOverlay = true;
+                                        });
+                                      },
 
-                                if (Provider.of<AppInfo>(
-                                      context,
-                                      listen: false,
-                                    ).userPickUpLocation ==
-                                    null) {
-                                  ScaffoldMessenger.of(
-                                    context,
-                                  ).showSnackBar(snackBarPickup);
-                                } else if (Provider.of<AppInfo>(
-                                      context,
-                                      listen: false,
-                                    ).userDropOffLocation ==
-                                    null) {
-                                  ScaffoldMessenger.of(
-                                    context,
-                                  ).showSnackBar(snackBarDestination);
-                                }
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: isDark
-                                  ? AppColors.darkLayer
-                                  : AppColors.primary,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                  4.0,
-                                ), // Adjust the radius as needed
+                                      child: Row(
+                                        children: [
+                                          Iconify(
+                                            Ic.location_on,
+                                            color: isDark
+                                                ? AppColors.darkLayer
+                                                : AppColors.primary,
+                                          ),
+                                          SizedBox(width: 10),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  AppLocalizations.of(
+                                                    context,
+                                                  )!.to,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    color: isDark
+                                                        ? AppColors.darkLayer
+                                                        : AppColors.primary,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  Provider.of<AppInfo>(
+                                                            context,
+                                                          ).userDropOffLocation !=
+                                                          null
+                                                      ? (Provider.of<AppInfo>(
+                                                              context,
+                                                            )
+                                                            .userDropOffLocation!
+                                                            .locationName!)
+                                                      : AppLocalizations.of(
+                                                          context,
+                                                        )!.enterDestination,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            child: Text(
-                              AppLocalizations.of(context)!.requestARide,
-                              style: TextStyle(color: Colors.white),
+                            SizedBox(height: 5),
+                            ElevatedButton(
+                              onPressed: () {
+                                if (Provider.of<AppInfo>(
+                                          context,
+                                          listen: false,
+                                        ).userDropOffLocation !=
+                                        null &&
+                                    Provider.of<AppInfo>(
+                                          context,
+                                          listen: false,
+                                        ).userPickUpLocation !=
+                                        null) {
+                                  saveRideRequestInformation();
+                                } else {
+                                  final snackBarPickup = SnackBar(
+                                    content: Text(
+                                      AppLocalizations.of(
+                                        context,
+                                      )!.pleaseEnterPickupAddress,
+                                    ),
+                                    duration: const Duration(seconds: 3),
+                                  );
+                                  final snackBarDestination = SnackBar(
+                                    content: Text(
+                                      AppLocalizations.of(
+                                        context,
+                                      )!.pleaseEnterDestination,
+                                    ),
+                                    duration: const Duration(seconds: 3),
+                                  );
+
+                                  if (Provider.of<AppInfo>(
+                                        context,
+                                        listen: false,
+                                      ).userPickUpLocation ==
+                                      null) {
+                                    ScaffoldMessenger.of(
+                                      context,
+                                    ).showSnackBar(snackBarPickup);
+                                  } else if (Provider.of<AppInfo>(
+                                        context,
+                                        listen: false,
+                                      ).userDropOffLocation ==
+                                      null) {
+                                    ScaffoldMessenger.of(
+                                      context,
+                                    ).showSnackBar(snackBarDestination);
+                                  }
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: isDark
+                                    ? AppColors.darkLayer
+                                    : AppColors.primary,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    4.0,
+                                  ), // Adjust the radius as needed
+                                ),
+                              ),
+                              child: Text(
+                                AppLocalizations.of(context)!.requestARide,
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
+            if (_showSearchOverlay)
+              Positioned.fill(child: _buildSearchOverlay()),
 
             // Searching container (bottom)
             Positioned(
@@ -2033,9 +2254,71 @@ class _RequestRideState extends State<RequestRide> {
                 ),
               ),
             ),
+            if (_isMapLoading) _buildPremiumLoadingOverlay(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildToggle() {
+    bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+    final isPickup = isOriginSelected[0];
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 500),
+          child: Text(
+            isPickup
+                ? AppLocalizations.of(context)!.tapMapToSetPickupLocation
+                : AppLocalizations.of(context)!.tapMapToSetDestination,
+            key: ValueKey(isPickup),
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+              // color: AppColors.tertiary,
+              // color: Colors.grey.shade700,
+              color: isDark ? Colors.white : Colors.black54,
+            ),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Container(
+          padding: const EdgeInsets.all(6),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(40),
+            boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 8)],
+          ),
+          child: ToggleButtons(
+            isSelected: isOriginSelected,
+            onPressed: (int index) {
+              HapticFeedback.selectionClick();
+              setState(() {
+                for (int i = 0; i < isOriginSelected.length; i++) {
+                  isOriginSelected[i] = i == index;
+                }
+              });
+            },
+            borderRadius: BorderRadius.circular(30),
+            borderWidth: 0,
+            selectedColor: AppColors.lightAccent,
+            fillColor: AppColors.primary,
+            color: AppColors.border,
+            children: const [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Icon(Icons.trip_origin),
+                // child: Iconify(Ic.my_location),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Icon(Icons.location_on),
+                // child: Iconify(Ic.location_on),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

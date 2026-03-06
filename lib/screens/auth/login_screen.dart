@@ -11,13 +11,12 @@ import 'package:kipgo/screens/widgets/change_language_mini_widget.dart';
 import 'package:kipgo/screens/widgets/error_message.dart';
 import 'package:kipgo/screens/widgets/input_decorator.dart';
 import 'package:kipgo/services/auth_service.dart';
-import 'package:kipgo/services/role_based_auth_gate.dart';
 import 'package:kipgo/utils/colors.dart';
 
-import 'signup_screen.dart';
-
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  final VoidCallback onSignupPressed;
+
+  const LoginScreen({super.key, required this.onSignupPressed});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -51,12 +50,12 @@ class _LoginScreenState extends State<LoginScreen> {
         isLoading = false;
       });
 
-      if (mounted) {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => RoleBasedAuthGate()),
-          (route) => false,
-        );
-      }
+      // if (mounted) {
+      //   Navigator.of(context).pushAndRemoveUntil(
+      //     MaterialPageRoute(builder: (context) => RoleBasedAuthGate()),
+      //     (route) => false,
+      //   );
+      // }
     } catch (e) {
       localErrorMessage = e.toString().replaceFirst('Exception: ', '');
       setState(() => isLoading = false);
@@ -228,14 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(height: 20),
                         TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => const SignupScreen(),
-                              ),
-                            );
-                          },
+                          onPressed: widget.onSignupPressed,
                           child: Text(
                             AppLocalizations.of(context)!.dontHaveAnAccount,
                             style: TextStyle(color: Colors.black),

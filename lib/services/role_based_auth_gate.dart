@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kipgo/screens/auth/profile_error_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:kipgo/controllers/profile_provider.dart';
 import 'package:kipgo/screens/homes/customer_home.dart';
 import 'package:kipgo/screens/homes/driver_home.dart';
-import 'package:kipgo/screens/auth/login_screen.dart';
 
 class RoleBasedAuthGate extends StatelessWidget {
   const RoleBasedAuthGate({super.key});
@@ -18,12 +18,18 @@ class RoleBasedAuthGate extends StatelessWidget {
       );
     }
 
-    final profile = profileProvider.profile;
+    // final profile = profileProvider.profile;
 
-    if (profile == null) {
-      return const LoginScreen();
+    if (profileProvider.profile == null) {
+      return ProfileErrorScreen(); // NOT LoginScreen
     }
 
-    return profile.role == 'driver' ? const DriverHome() : const CustomerHome();
+    // if (profile == null) {
+    //   return const LoginScreen();
+    // }
+
+    return profileProvider.profile!.role == 'driver'
+        ? const DriverHome()
+        : const CustomerHome();
   }
 }

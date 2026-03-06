@@ -1060,4 +1060,45 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get dropoffAddress => 'Адрес назначения';
+
+  @override
+  String get verifyYourEmail => 'Подтвердите свою электронную почту';
+
+  @override
+  String get ifYouDontSee =>
+      'Если вы не видите письмо, проверьте папку «Спам» или «Нежелательная почта».';
+
+  @override
+  String get pleaseVerifyYourEmail =>
+      'Пожалуйста, подтвердите адрес электронной почты, чтобы продолжить.';
+
+  @override
+  String get areYouEnjoyingKipgo => 'Вам нравится Kipgo?';
+
+  @override
+  String get weLoveToHear => 'Нам важно ваше мнение!';
+
+  @override
+  String get notReally => 'Не совсем';
+
+  @override
+  String get yes => 'Да';
+
+  @override
+  String get sendFeedback => 'Отправить отзыв';
+
+  @override
+  String get tellUsWhatWeCanImprove => 'Расскажите, что мы можем улучшить...';
+
+  @override
+  String get thanksForYourFeedback => 'Спасибо за ваш отзыв ❤️';
+
+  @override
+  String get noResultsFound => 'Ничего не найдено';
+
+  @override
+  String get tapMapToSetPickupLocation => 'Нажмите на карту для подачи';
+
+  @override
+  String get tapMapToSetDestination => 'Нажмите на карту для назначения';
 }

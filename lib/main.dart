@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:kipgo/controllers/app_review_provider.dart';
 import 'package:kipgo/controllers/drive_history_provider.dart';
 import 'package:kipgo/controllers/driver_ride_provider.dart';
 import 'package:kipgo/controllers/driver_status_provider.dart';
@@ -77,10 +78,10 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => AppInfo()),
         ChangeNotifierProvider(create: (_) => RideHistoryProvider()),
         ChangeNotifierProvider(create: (_) => DriveHistoryProvider()),
-        // ProfileProvider will initialize its auth listener lazily
         ChangeNotifierProvider(create: (_) => ProfileProvider()),
         ChangeNotifierProvider(create: (_) => DriverStatusProvider()),
         ChangeNotifierProvider(create: (_) => DriverRideProvider()),
+        ChangeNotifierProvider(create: (_) => AppReviewProvider()),
       ],
       child: const KipGo(),
     ),
@@ -129,6 +130,8 @@ class _KipGoState extends State<KipGo> {
 
       // 👤 Auth listener
       context.read<ProfileProvider>().initAuthListener();
+
+      context.read<AppReviewProvider>().checkAndTriggerReview();
     });
   }
 

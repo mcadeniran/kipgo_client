@@ -50,6 +50,30 @@ class _RideRequestSheetContentState extends State<_RideRequestSheetContent> {
     throw Exception("No valid context available");
   }
 
+  Future<void> _resetDriverToIdle() async {
+    try {
+      final driverId = Provider.of<ProfileProvider>(
+        navigatorKey.currentContext!,
+        listen: false,
+      ).profile!.id;
+
+      await FirebaseDatabase.instance.ref("drivers/$driverId").update({
+        "status": "idle",
+        "currentRideId": null,
+        "pendingSince": null,
+      });
+
+      await FirebaseFirestore.instance
+          .collection("profiles")
+          .doc(driverId)
+          .update({"newRideStatus": "idle"});
+
+      debugPrint("✅ Driver reset to idle");
+    } catch (e) {
+      debugPrint("❌ Failed to reset driver: $e");
+    }
+  }
+
   Future<bool> _isRideStillAvailable() async {
     final ref = FirebaseDatabase.instance.ref(
       "All Ride Requests/${widget.ride.rideRequestId}",
@@ -57,7 +81,9 @@ class _RideRequestSheetContentState extends State<_RideRequestSheetContent> {
 
     final snapshot = await ref.get();
 
-    if (!snapshot.exists) return false;
+    if (!snapshot.exists) {
+      return false;
+    }
 
     return true;
   }
@@ -74,6 +100,8 @@ class _RideRequestSheetContentState extends State<_RideRequestSheetContent> {
   }
 
   Future<void> _showRideCancelledDialog() async {
+    await _resetDriverToIdle();
+
     await _showSingleDialog(
       title: AppLocalizations.of(safeContext)!.rideCancelled,
       message: AppLocalizations.of(safeContext)!.riderHasCancelledTheRequest,
@@ -87,15 +115,26 @@ class _RideRequestSheetContentState extends State<_RideRequestSheetContent> {
     final isAvailable = await _isRideStillAvailable();
 
     if (!isAvailable) {
+      await _resetDriverToIdle();
       await _showRideCancelledDialog();
       return;
     }
+
+    final driverId = Provider.of<ProfileProvider>(
+      context,
+      listen: false,
+    ).profile!.id;
+
     await FirebaseDatabase.instance
         .ref('All Ride Requests/${widget.ride.rideRequestId}')
         .update({
           "proposedFare": enteredFare, // e.g. 1500
           "fareStatus": "waiting_for_rider",
         });
+
+    await FirebaseDatabase.instance.ref("drivers/$driverId").update({
+      "status": "fare_proposed",
+    });
   }
 
   void listenForRiderFareAcceptance() {
@@ -425,10 +464,11 @@ class _RideRequestSheetContentState extends State<_RideRequestSheetContent> {
                           widget.ride,
                         );
                       },
-                      onRejected: () {
+                      onRejected: () async {
                         _closeProgressDialogSafely();
                         FareStatusListener.stop();
                         // _showFareRejectedDialog();
+                        await _resetDriverToIdle();
                         PushNotificationSystem().showFareRejectedDialog();
                       },
                     );
@@ -483,6 +523,7 @@ class _RideRequestSheetContentState extends State<_RideRequestSheetContent> {
       await FirebaseDatabase.instance.ref("drivers/$driverId").update({
         "status": "idle",
         "currentRideId": null,
+        "pendingSince": null,
       });
 
       Navigator.of(navigatorKey.currentContext!).pop();
@@ -516,7 +557,10 @@ class _RideRequestSheetContentState extends State<_RideRequestSheetContent> {
           .ref("All Ride Requests/$rideRequestId")
           .get();
 
-      if (!rideSnapshot.exists) return;
+      if (!rideSnapshot.exists) {
+        await _resetDriverToIdle(); // 🔥
+        return;
+      }
 
       // Optionally set driver offline
       await Provider.of<DriverStatusProvider>(

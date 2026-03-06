@@ -2049,6 +2049,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dropoff Address'**
   String get dropoffAddress;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your email'**
+  String get verifyYourEmail;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'If you don\'t see the email, please check your spam or junk folder.'**
+  String get ifYouDontSee;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Please verify your email address to continue.'**
+  String get pleaseVerifyYourEmail;
+
+  /// Alert
+  ///
+  /// In en, this message translates to:
+  /// **'Are you enjoying Kipgo?'**
+  String get areYouEnjoyingKipgo;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'We’d love to hear your feedback!'**
+  String get weLoveToHear;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Not Really'**
+  String get notReally;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yes;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Send Feedback'**
+  String get sendFeedback;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us what we can improve...'**
+  String get tellUsWhatWeCanImprove;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks for your feedback ❤️'**
+  String get thanksForYourFeedback;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get noResultsFound;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Tap map for pickup'**
+  String get tapMapToSetPickupLocation;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Tap map for destination'**
+  String get tapMapToSetDestination;
 }
 
 class _AppLocalizationsDelegate

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/carbon.dart';
+import 'package:kipgo/screens/auth/auth_screen.dart';
 
 import 'package:provider/provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
@@ -20,7 +21,6 @@ import 'package:kipgo/screens/widgets/language_picker_widget.dart';
 import 'package:kipgo/screens/widgets/setting_widget.dart';
 import 'package:kipgo/services/auth_service.dart';
 import 'package:kipgo/utils/colors.dart';
-import 'auth/login_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -44,7 +44,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (!mounted) return;
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(builder: (_) => const LoginScreen()),
+      MaterialPageRoute(builder: (_) => const AuthScreen()),
       (route) => false,
     );
   }

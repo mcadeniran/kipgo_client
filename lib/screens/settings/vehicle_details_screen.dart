@@ -281,7 +281,7 @@ class _VehicleDetailsScreenState extends State<VehicleDetailsScreen> {
                             return AppLocalizations.of(
                               context,
                             )!.carRegistrationNumberRequired;
-                          } else if (value != null && value.length < 6) {
+                          } else if (value != null && value.length < 5) {
                             return AppLocalizations.of(
                               context,
                             )!.carRegistrationNumberLengthError;

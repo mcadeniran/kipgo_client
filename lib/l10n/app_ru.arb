@@ -323,5 +323,18 @@
   "uploadImage": "Загрузить изображение",
   "deleteProfilePicture": "Удалить фото профиля",
   "pickupAddress": "Адрес подачи",
-  "dropoffAddress": "Адрес назначения"
+  "dropoffAddress": "Адрес назначения",
+  "verifyYourEmail": "Подтвердите свою электронную почту",
+  "ifYouDontSee": "Если вы не видите письмо, проверьте папку «Спам» или «Нежелательная почта».",
+  "pleaseVerifyYourEmail": "Пожалуйста, подтвердите адрес электронной почты, чтобы продолжить.",
+  "areYouEnjoyingKipgo": "Вам нравится Kipgo?",
+  "weLoveToHear": "Нам важно ваше мнение!",
+  "notReally": "Не совсем",
+  "yes": "Да",
+  "sendFeedback": "Отправить отзыв",
+  "tellUsWhatWeCanImprove": "Расскажите, что мы можем улучшить...",
+  "thanksForYourFeedback": "Спасибо за ваш отзыв ❤️",
+  "noResultsFound": "Ничего не найдено",
+  "tapMapToSetPickupLocation": "Нажмите на карту для подачи",
+  "tapMapToSetDestination": "Нажмите на карту для назначения"
 }

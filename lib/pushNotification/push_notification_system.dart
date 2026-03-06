@@ -229,6 +229,7 @@ class PushNotificationSystem {
         await FirebaseDatabase.instance.ref("drivers/$uid").update({
           "status": "idle",
           "currentRideId": null,
+          "pendingSince": null,
         });
       }
     } catch (e, st) {

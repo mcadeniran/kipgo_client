@@ -35,6 +35,8 @@ class _AppBarWidgetState extends State<AppBarWidget> {
       iconTheme: IconThemeData(color: Colors.white),
       actions: [widget.showLanguage ? LanguageWidget() : SizedBox.shrink()],
       actionsPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      elevation: 8,
+      // leadingWidth: 0,
       // toolbarHeight: 50,
     );
   }

@@ -15,7 +15,7 @@ InputDecoration inputDecoration({
       : false; // Force light theme when useTheme is false
 
   return InputDecoration(
-    hintText: hint,
+    // hintText: hint,
     prefixIcon: prefixIcon != null
         ? Padding(
             padding: const EdgeInsets.all(14.0),
@@ -37,7 +37,7 @@ InputDecoration inputDecoration({
     filled: true,
     fillColor: isDark
         ? const Color.fromARGB(255, 15, 15, 42)
-        : Colors.grey.shade100,
+        : AppColors.lightLayer.withValues(alpha: 0.25),
     floatingLabelAlignment: FloatingLabelAlignment.start,
     prefixIconColor: AppColors.primary,
     border: const OutlineInputBorder(

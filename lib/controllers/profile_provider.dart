@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../models/profile.dart';
@@ -12,8 +14,55 @@ class ProfileProvider extends ChangeNotifier {
   bool _isLoading = true;
   bool get isLoading => _isLoading;
 
+  bool _initialized = false;
+
+  StreamSubscription<Profile?>? _profileSubscription;
+
+  // Stream and update profile in real-time
+  void _listenToProfile(String uid) {
+    _isLoading = true;
+    notifyListeners();
+
+    _profileSubscription?.cancel();
+
+    _profileSubscription = _authService
+        .streamProfile(uid)
+        .listen(
+          (profile) {
+            _profile = profile;
+            _isLoading = false;
+            notifyListeners();
+          },
+          onError: (error) {
+            _profile = null;
+            _isLoading = false;
+            notifyListeners();
+          },
+        );
+  }
+
+  // void _listenToProfile(String uid) {
+  //   _isLoading = true;
+  //   notifyListeners();
+
+  //   _authService.streamProfile(uid).listen((profile) {
+  //     _profile = profile;
+  //     _isLoading = false;
+  //     notifyListeners();
+  //   });
+  // }
+
+  Future<void> reloadProfile() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    _listenToProfile(user.uid);
+  }
+
   // Listen to auth changes and load profile
   void initAuthListener() {
+    if (_initialized) return;
+    _initialized = true;
     FirebaseAuth.instance.authStateChanges().listen((user) {
       if (user != null) {
         _listenToProfile(user.uid);
@@ -21,18 +70,6 @@ class ProfileProvider extends ChangeNotifier {
         _profile = null;
         notifyListeners();
       }
-    });
-  }
-
-  // Stream and update profile in real-time
-  void _listenToProfile(String uid) {
-    _isLoading = true;
-    notifyListeners();
-
-    _authService.streamProfile(uid).listen((profile) {
-      _profile = profile;
-      _isLoading = false;
-      notifyListeners();
     });
   }
 

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:kipgo/controllers/app_review_provider.dart';
 import 'package:kipgo/controllers/profile_provider.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/main.dart';
@@ -81,6 +82,8 @@ class AppInfo extends ChangeNotifier {
         final ctx = navigatorKey.currentState?.overlay?.context;
         if (ctx != null && !_hasShownDialogFor(rideId)) {
           _markDialogShown(rideId);
+          // setRideRatingVisible(true);
+          ctx.read<AppReviewProvider>().setRideRatingVisible(true);
 
           WidgetsBinding.instance.addPostFrameCallback((_) {
             showDialog(
@@ -119,14 +122,24 @@ class AppInfo extends ChangeNotifier {
                       .child("All Ride Requests")
                       .child(rideId);
 
+                  // setRideRatingVisible(false);
+                  ctx.read<AppReviewProvider>().setRideRatingVisible(false);
+
                   await rideRef.update({"isRated": true});
 
                   // ✅ Stop listener & clear active ride
                   stopActiveRideListener();
+
+                  // _checkAndShowAppRating();
+                  ctx.read<AppReviewProvider>().checkAndTriggerReview();
                 },
                 onCancel: () {
+                  // setRideRatingVisible(false);
+                  ctx.read<AppReviewProvider>().setRideRatingVisible(false);
                   // 👈 Handle cancellation
                   stopActiveRideListener(); // ✅ Stop listening!
+                  // _checkAndShowAppRating();
+                  ctx.read<AppReviewProvider>().checkAndTriggerReview();
                 },
               ),
             );

@@ -323,5 +323,18 @@
   "uploadImage": "Fotoğraf Yükle",
   "deleteProfilePicture": "Profil Fotoğrafını Sil",
   "pickupAddress": "Alış Adresi",
-  "dropoffAddress": "Bırakma Adresi"
+  "dropoffAddress": "Bırakma Adresi",
+  "verifyYourEmail": "E-postanızı doğrulayın",
+  "ifYouDontSee": "E-postayı göremiyorsanız, lütfen spam veya gereksiz posta klasörünüzü kontrol edin.",
+  "pleaseVerifyYourEmail": "Devam etmek için lütfen e-posta adresinizi doğrulayın.",
+  "areYouEnjoyingKipgo": "Kipgo’dan memnun musunuz?",
+  "weLoveToHear": "Geri bildiriminizi duymaktan memnuniyet duyarız!",
+  "notReally": "Pek sayılmaz",
+  "yes": "Evet",
+  "sendFeedback": "Geri Bildirim Gönder",
+  "tellUsWhatWeCanImprove": "Neleri geliştirebiliriz, bize yazın...",
+  "thanksForYourFeedback": "Geri bildiriminiz için teşekkürler ❤️",
+  "noResultsFound": "Sonuç bulunamadı",
+  "tapMapToSetPickupLocation": "Alış için haritaya dokun",
+  "tapMapToSetDestination": "Varış için haritaya dokun"
 }

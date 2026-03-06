@@ -1042,4 +1042,45 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dropoffAddress => 'Dropoff Address';
+
+  @override
+  String get verifyYourEmail => 'Verify your email';
+
+  @override
+  String get ifYouDontSee =>
+      'If you don\'t see the email, please check your spam or junk folder.';
+
+  @override
+  String get pleaseVerifyYourEmail =>
+      'Please verify your email address to continue.';
+
+  @override
+  String get areYouEnjoyingKipgo => 'Are you enjoying Kipgo?';
+
+  @override
+  String get weLoveToHear => 'We’d love to hear your feedback!';
+
+  @override
+  String get notReally => 'Not Really';
+
+  @override
+  String get yes => 'Yes';
+
+  @override
+  String get sendFeedback => 'Send Feedback';
+
+  @override
+  String get tellUsWhatWeCanImprove => 'Tell us what we can improve...';
+
+  @override
+  String get thanksForYourFeedback => 'Thanks for your feedback ❤️';
+
+  @override
+  String get noResultsFound => 'No results found';
+
+  @override
+  String get tapMapToSetPickupLocation => 'Tap map for pickup';
+
+  @override
+  String get tapMapToSetDestination => 'Tap map for destination';
 }

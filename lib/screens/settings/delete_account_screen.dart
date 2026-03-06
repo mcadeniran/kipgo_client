@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
-import 'package:kipgo/screens/auth/login_screen.dart';
+import 'package:kipgo/screens/auth/auth_screen.dart';
 import 'package:kipgo/screens/widgets/app_bar_widget.dart';
 import 'package:kipgo/screens/widgets/error_message.dart';
 import 'package:kipgo/screens/widgets/input_decorator.dart';
@@ -45,7 +45,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
           if (!mounted) return;
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (c) => const LoginScreen()),
+            MaterialPageRoute(builder: (c) => const AuthScreen()),
             (route) => false,
           );
         });

@@ -1326,5 +1326,57 @@
   "dropoffAddress": "Dropoff Address",
   "@dropoffAddress": {
     "description": "Info"
+  },
+  "verifyYourEmail": "Verify your email",
+  "@verifyYourEmail": {
+    "description": "Info"
+  },
+  "ifYouDontSee": "If you don't see the email, please check your spam or junk folder.",
+  "@ifYouDontSee": {
+    "description": "Info"
+  },
+  "pleaseVerifyYourEmail": "Please verify your email address to continue.",
+  "@pleaseVerifyYourEmail": {
+    "description": "Info"
+  },
+  "areYouEnjoyingKipgo": "Are you enjoying Kipgo?",
+  "@areYouEnjoyingKipgo": {
+    "description": "Alert"
+  },
+  "weLoveToHear": "We’d love to hear your feedback!",
+  "@weLoveToHear": {
+    "description": "Info"
+  },
+  "notReally": "Not Really",
+  "@notReally": {
+    "description": "Action"
+  },
+  "yes": "Yes",
+  "@yes": {
+    "description": "Action"
+  },
+  "sendFeedback": "Send Feedback",
+  "@sendFeedback": {
+    "description": "Title"
+  },
+  "tellUsWhatWeCanImprove": "Tell us what we can improve...",
+  "@tellUsWhatWeCanImprove": {
+    "description": "Info"
+  },
+  "thanksForYourFeedback": "Thanks for your feedback ❤️",
+  "@thanksForYourFeedback": {
+    "description": "Info"
+  },
+  "noResultsFound": "No results found",
+  "@noResultsFound": {
+    "description": "Info"
+  },
+  "tapMapToSetPickupLocation": "Tap map for pickup",
+  "@tapMapToSetPickupLocation": {
+    "description": "Info"
+  },
+  "tapMapToSetDestination": "Tap map for destination",
+  "@tapMapToSetDestination": {
+    "description": "Info"
   }
 }

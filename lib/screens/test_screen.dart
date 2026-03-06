@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
-import 'package:kipgo/screens/widgets/input_decorator.dart';
+import 'package:kipgo/main.dart';
+import 'package:kipgo/screens/widgets/feedback_screen_widget.dart';
 import 'package:kipgo/utils/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +23,7 @@ class _TestScreenState extends State<TestScreen> {
       backgroundColor: AppColors.primary,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         title: Text(
           'KIPGO DRIVER',
           style: GoogleFonts.poppins(
@@ -42,238 +43,73 @@ class _TestScreenState extends State<TestScreen> {
         child: Center(
           child: ElevatedButton(
             onPressed: () => showModalBottomSheet(
+              backgroundColor: isDark
+                  ? AppColors.darkAccent
+                  : AppColors.lightAccent,
               isScrollControlled: true,
               context: context,
               builder: (context) {
-                return SingleChildScrollView(
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 32,
+                  ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Image.asset(
-                        'assets/images/taksi.png',
-                        width: 80,
-                        height: 80,
-                      ),
-                      SizedBox(height: 0),
                       Text(
-                        AppLocalizations.of(context)!.newRideRequest,
-                        style: Theme.of(context).textTheme.headlineSmall!
-                            .copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(height: 14),
-                      Divider(height: 2, thickness: 2, color: AppColors.border),
-
-                      // ORIGIN + DESTINATION
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 12,
-                          // horizontal: 12,
-                        ),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12.0,
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Image.asset(
-                                    'assets/images/origin.png',
-                                    color: isDark
-                                        ? Colors.tealAccent
-                                        : AppColors.primary,
-                                    width: 30,
-                                    height: 30,
-                                  ),
-                                  SizedBox(width: 10),
-                                  Expanded(
-                                    child: Text(
-                                      "Court House",
-                                      style: TextStyle(fontSize: 14),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 12),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12.0,
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Image.asset(
-                                    'assets/images/destination.png',
-                                    color: AppColors.tertiary,
-                                    width: 30,
-                                    height: 30,
-                                  ),
-                                  SizedBox(width: 10),
-                                  Expanded(
-                                    child: Text(
-                                      "Federal Prison",
-                                      style: TextStyle(fontSize: 14),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Divider(
-                              height: 2,
-                              thickness: 2,
-                              color: AppColors.border,
-                            ),
-                            SizedBox(height: 10),
-                            Column(
-                              children: [
-                                Text(
-                                  "Estimated Details To Pickup",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 8,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      _InfoChip(
-                                        icon: Icons.social_distance,
-                                        label:
-                                            "${8.5565.toStringAsFixed(1)} km",
-                                      ),
-                                      _InfoChip(
-                                        icon: Icons.timer,
-                                        label: "${12} mins",
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Text(
-                                  "Estimated Details To Dropoff",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 8,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      _InfoChip(
-                                        icon: Icons.social_distance,
-                                        label:
-                                            "${8.5565.toStringAsFixed(1)} km",
-                                      ),
-                                      _InfoChip(
-                                        icon: Icons.timer,
-                                        label: "${12} mins",
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      Divider(height: 2, thickness: 2, color: AppColors.border),
-                      SizedBox(height: 10),
-
-                      // ENTER FARE
-                      Text(
-                        AppLocalizations.of(context)!.enterFare,
+                        AppLocalizations.of(context)!.areYouEnjoyingKipgo,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                        child: TextFormField(
-                          controller: priceController,
-                          keyboardType: TextInputType.number,
-                          decoration: inputDecoration(
-                            context: context,
-                            hint: AppLocalizations.of(context)!.enterPrice,
-                          ),
-                          validator: (value) {
-                            if (value == null || value.trim().isEmpty) {
-                              return AppLocalizations.of(
-                                context,
-                              )!.priceCannotBeEmpty;
-                            }
-
-                            final cleaned = value.replaceAll(",", "").trim();
-                            final amount = double.tryParse(cleaned);
-
-                            if (amount == null) {
-                              return AppLocalizations.of(context)!.invalidFare;
-                            }
-                            if (amount < 1) {
-                              return AppLocalizations.of(
-                                context,
-                              )!.fareCannotBeLessThan;
-                            }
-                            return null;
-                          },
-                        ),
+                      const SizedBox(height: 12),
+                      Text(
+                        AppLocalizations.of(context)!.weLoveToHear,
+                        textAlign: TextAlign.center,
                       ),
+                      const SizedBox(height: 28),
 
-                      // BUTTONS
-                      Padding(
-                        padding: EdgeInsets.all(14),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                              onPressed: null,
-                              style: ElevatedButton.styleFrom(
+                      Row(
+                        children: [
+                          Expanded(
+                            child: OutlinedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.push(
+                                  navigatorKey.currentContext!,
+                                  MaterialPageRoute(
+                                    builder: (_) => const FeedbackScreen(),
+                                  ),
+                                );
+                              },
+                              style: OutlinedButton.styleFrom(
                                 backgroundColor: AppColors.tertiary,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
+                                foregroundColor: Colors.white,
                               ),
                               child: Text(
-                                AppLocalizations.of(context)!.reject,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                ),
+                                AppLocalizations.of(context)!.notReally,
                               ),
                             ),
-                            SizedBox(width: 10),
-                            ElevatedButton(
-                              onPressed: null,
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                Navigator.pop(context);
+                                // await context
+                                //     .read<AppReviewProvider>()
+                                //     .openStoreReview();
+                              },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
+                                foregroundColor: Colors.white,
                               ),
-                              child: Text(
-                                AppLocalizations.of(context)!.accept,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                ),
-                              ),
+                              child: Text(AppLocalizations.of(context)!.yes),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -284,21 +120,6 @@ class _TestScreenState extends State<TestScreen> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _InfoChip extends StatelessWidget {
-  final IconData icon;
-  final String label;
-
-  const _InfoChip({required this.icon, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Chip(
-      avatar: Icon(icon, size: 18),
-      label: Text(label, style: const TextStyle(fontSize: 14)),
     );
   }
 }
