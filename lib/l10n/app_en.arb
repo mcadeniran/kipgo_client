@@ -1378,5 +1378,722 @@
   "tapMapToSetDestination": "Tap map for destination",
   "@tapMapToSetDestination": {
     "description": "Info"
+  },
+  "kipgoApps": "KIPGO APPS",
+  "@kipgoApps": {
+    "description": "Title"
+  },
+  "takeATaxi": "Take a taxi",
+  "@takeATaxi": {
+    "description": "Action"
+  },
+  "rentACar": "Rent a car",
+  "@rentACar": {
+    "description": "Action"
+  },
+  "kipgoRentals": "KIPGO RENTALS",
+  "@kipgoRentals": {
+    "description": "Title"
+  },
+  "amountPerDay": "{amount}/day",
+  "@amountPerDay": {
+    "description": "Info",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "browseByCategory": "Browse by Category",
+  "@browseByCategory": {
+    "description": "Info"
+  },
+  "all": "All",
+  "@all": {
+    "description": "Action"
+  },
+  "economy": "Economy",
+  "@economy": {
+    "description": "Action"
+  },
+  "sedan": "Sedan",
+  "@sedan": {
+    "description": "Action"
+  },
+  "suv": "SUV",
+  "@suv": {
+    "description": "Action"
+  },
+  "luxury": "Luxury",
+  "@luxury": {
+    "description": "Action"
+  },
+  "sports": "Sports",
+  "@sports": {
+    "description": "Action"
+  },
+  "pickup": "Pickup",
+  "@pickup": {
+    "description": "Action"
+  },
+  "van": "Van",
+  "@van": {
+    "description": "Action"
+  },
+  "featuredCars": "Featured Cars",
+  "@featuredCars": {
+    "description": "Info"
+  },
+  "petrol": "Petrol",
+  "@petrol": {
+    "description": "Info"
+  },
+  "diesel": "Diesel",
+  "@diesel": {
+    "description": "Info"
+  },
+  "electric": "Electric",
+  "@electric": {
+    "description": "Info"
+  },
+  "hybrid": "Hybrid",
+  "@hybrid": {
+    "description": "Info"
+  },
+  "manual": "Manual",
+  "@manual": {
+    "description": "Info"
+  },
+  "automatic": "Automatic",
+  "@automatic": {
+    "description": "Info"
+  },
+  "unknown": "Unknown",
+  "@unknown": {
+    "description": "Info"
+  },
+  "featuredRentalCompanies": "Featured Rental Companies",
+  "@featuredRentalCompanies": {
+    "description": "Title"
+  },
+  "browseCars": "Browse Cars →",
+  "@browseCars": {
+    "description": "Info"
+  },
+  "bookNow": "Book Now",
+  "@bookNow": {
+    "description": "Action"
+  },
+  "singleReview": "{count} review",
+  "@singleReview": {
+    "description": "Info",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "multiReviews": "{count} reviews",
+  "@multiReviews": {
+    "description": "Info",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "rentalRules": "Rental rules",
+  "@rentalRules": {
+    "description": "Info"
+  },
+  "seats": "{count} Seats",
+  "@seats": {
+    "description": "Info",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "features": "Features",
+  "@features": {
+    "description": "Info"
+  },
+  "securityDeposit": "Security Deposit",
+  "@securityDeposit": {
+    "description": "Info"
+  },
+  "fuelPolicy": "Fuel Policy",
+  "@fuelPolicy": {
+    "description": "Info"
+  },
+  "mileageLimit": "Mileage Limit",
+  "@mileageLimit": {
+    "description": "Info"
+  },
+  "insurance": "Insurance",
+  "@insurance": {
+    "description": "Info"
+  },
+  "lateReturn": "Late Return",
+  "@lateReturn": {
+    "description": "Info"
+  },
+  "cancellation": "Cancellation",
+  "@cancellation": {
+    "description": "Info"
+  },
+  "noReviewsYet": "No reviews yet",
+  "@noReviewsYet": {
+    "description": "Info"
+  },
+  "viewAll": "View All",
+  "@viewAll": {
+    "description": "Info"
+  },
+  "noComment": "No comment",
+  "@noComment": {
+    "description": "Info"
+  },
+  "reviewsInitCap": "Reviews",
+  "@reviewsInitCap": {
+    "description": "Info"
+  },
+  "allDriverDocumentsAreRequired": "All driver documents are required",
+  "@allDriverDocumentsAreRequired": {
+    "description": "Warning"
+  },
+  "invalidRentalPeriod": "Invalid rental period",
+  "@invalidRentalPeriod": {
+    "description": "Warning"
+  },
+  "rentalMustBeAtLeast1Day": "Rental must be at least 1 day",
+  "@rentalMustBeAtLeast1Day": {
+    "description": "Warning"
+  },
+  "deliveryAddressIsRequired": "Delivery address is required",
+  "@deliveryAddressIsRequired": {
+    "description": "Warning"
+  },
+  "bookingDetails": "Booking Details",
+  "@bookingDetails": {
+    "description": "Title"
+  },
+  "driversDocuments": "Driver's Documents",
+  "@driversDocuments": {
+    "description": "Title"
+  },
+  "schedule": "Schedule",
+  "@schedule": {
+    "description": "Title"
+  },
+  "summary": "Summary",
+  "@summary": {
+    "description": "Title"
+  },
+  "back": "Back",
+  "@back": {
+    "description": "Action"
+  },
+  "confirmBooking": "Confirm Booking",
+  "@confirmBooking": {
+    "description": "Action"
+  },
+  "continueAction": "Continue",
+  "@continueAction": {
+    "description": "Action"
+  },
+  "addNewDriver": "Add new driver",
+  "@addNewDriver": {
+    "description": "Info"
+  },
+  "fullNameIsRequired": "Full name is required",
+  "@fullNameIsRequired": {
+    "description": "Warning"
+  },
+  "nameIsTooShort": "Name is too short",
+  "@nameIsTooShort": {
+    "description": "Warning"
+  },
+  "fullName": "Full Name",
+  "@fullName": {
+    "description": "Label"
+  },
+  "emailIsRequired": "Email is required",
+  "@emailIsRequired": {
+    "description": "Label"
+  },
+  "invalidEmail": "Invalid email",
+  "@invalidEmail": {
+    "description": "Warning"
+  },
+  "phoneIsRequired": "Phone is required",
+  "@phoneIsRequired": {
+    "description": "Warning"
+  },
+  "invalidPhoneNumber": "Invalid phone number",
+  "@invalidPhoneNumber": {
+    "description": "Warning"
+  },
+  "dateOfBirthIsRequired": "Date of birth is required",
+  "@dateOfBirthIsRequired": {
+    "description": "Warning"
+  },
+  "dateOfBirth": "Date of Birth",
+  "@dateOfBirth": {
+    "description": "Label"
+  },
+  "gender": "Gender",
+  "@gender": {
+    "description": "Label"
+  },
+  "uploadTitle": "Upload {title}",
+  "@uploadTitle": {
+    "description": "Warning",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "licenseFront": "License Front",
+  "@licenseFront": {
+    "description": "Info"
+  },
+  "licenseBack": "License Back",
+  "@licenseBack": {
+    "description": "Info"
+  },
+  "governmentID": "Government ID",
+  "@governmentID": {
+    "description": "Info"
+  },
+  "rentalDate": "Rental Date",
+  "@rentalDate": {
+    "description": "Info"
+  },
+  "singleRentalDay": "{day} Day",
+  "@singleRentalDay": {
+    "description": "Info",
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "multiRentalDay": "{days} Days",
+  "@multiRentalDay": {
+    "description": "Info",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "dailyPricexDays": "₺{dailyPrice} x {rentalDays} days",
+  "@dailyPricexDays": {
+    "description": "Info",
+    "placeholders": {
+      "dailyPrice": {
+        "type": "int"
+      },
+      "rentalDays": {
+        "type": "int"
+      }
+    }
+  },
+  "receiveVia": "Receive Via",
+  "@receiveVia": {
+    "description": "Info"
+  },
+  "additionalNote": "Additional Note",
+  "@additionalNote": {
+    "description": "Info"
+  },
+  "deliveryFee": "Delivery Fee",
+  "@deliveryFee": {
+    "description": "Info"
+  },
+  "delivery": "Delivery",
+  "@delivery": {
+    "description": "Info"
+  },
+  "deliveryAddress": "Delivery Address",
+  "@deliveryAddress": {
+    "description": "Info"
+  },
+  "enterDeliveryAddress": "Enter delivery address",
+  "@enterDeliveryAddress": {
+    "description": "Info"
+  },
+  "notUploaded": "Not uploaded",
+  "@notUploaded": {
+    "description": "Warning"
+  },
+  "view": "View",
+  "@view": {
+    "description": "Info"
+  },
+  "name": "Name",
+  "@name": {
+    "description": "Info"
+  },
+  "id": "ID",
+  "@id": {
+    "description": "Info"
+  },
+  "carDetails": "Car Details",
+  "@carDetails": {
+    "description": "Info"
+  },
+  "seatsLabel": "Seats",
+  "@seatsLabel": {
+    "description": "Info"
+  },
+  "transmission": "Transmission",
+  "@transmission": {
+    "description": "Info"
+  },
+  "fuel": "Fuel",
+  "@fuel": {
+    "description": "Info"
+  },
+  "pickupDate": "Pickup Date",
+  "@pickupDate": {
+    "description": "Info"
+  },
+  "dropoffDate": "Dropoff Date",
+  "@dropoffDate": {
+    "description": "Info"
+  },
+  "totalDuration": "Total Duration",
+  "@totalDuration": {
+    "description": "Info"
+  },
+  "deliveryType": "Delivery Type",
+  "@deliveryType": {
+    "description": "Info"
+  },
+  "priceDetails": "Price Details",
+  "@priceDetails": {
+    "description": "Info"
+  },
+  "rentalPrice": "Rental Price",
+  "@rentalPrice": {
+    "description": "Info"
+  },
+  "deliveryPrice": "Delivery Price",
+  "@deliveryPrice": {
+    "description": "Info"
+  },
+  "depositRefundable": "Deposit (Refundable)",
+  "@depositRefundable": {
+    "description": "Info"
+  },
+  "totalPreTax": "Total (Pre-Tax)",
+  "@totalPreTax": {
+    "description": "Info"
+  },
+  "tax": "Tax",
+  "@tax": {
+    "description": "Info"
+  },
+  "grandTotal": "Grand Total",
+  "@grandTotal": {
+    "description": "Info"
+  },
+  "minimumRentalDuration": "Minimum rental duration is {days} days",
+  "@minimumRentalDuration": {
+    "description": "Warning",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "selectRentalPeriod": "Select Rental Period",
+  "@selectRentalPeriod": {
+    "description": "Info"
+  },
+  "dropoff": "Drop-off",
+  "@dropoff": {
+    "description": "Info"
+  },
+  "driversDetails": "Driver's Details",
+  "@driversDetails": {
+    "description": "Info"
+  },
+  "driverLicenseFront": "Driver License (Front)",
+  "@driverLicenseFront": {
+    "description": "Info"
+  },
+  "driverLicenseBack": "Driver License (Back)",
+  "@driverLicenseBack": {
+    "description": "Info"
+  },
+  "male": "Male",
+  "@male": {
+    "description": "Info"
+  },
+  "female": "Female",
+  "@female": {
+    "description": "Info"
+  },
+  "others": "Others",
+  "@others": {
+    "description": "Info"
+  },
+  "pickUp": "Pick-up",
+  "@pickUp": {
+    "description": "Info"
+  },
+  "bookingConfirmed": "Booking Confirmed",
+  "@bookingConfirmed": {
+    "description": "Title"
+  },
+  "bookingSuccessful": "Booking Successful!",
+  "@bookingSuccessful": {
+    "description": "info"
+  },
+  "yourBookingHasBeenReceived": "Your booking has been received.\nWe will confirm it shortly.",
+  "@yourBookingHasBeenReceived": {
+    "description": "Info"
+  },
+  "invoiceNumber": "Invoice Number",
+  "@invoiceNumber": {
+    "description": "Info"
+  },
+  "viewMyBookings": "View My Bookings",
+  "@viewMyBookings": {
+    "description": "Action"
+  },
+  "backToHome": "Back to Home",
+  "@backToHome": {
+    "description": "Action"
+  },
+  "bookingHistory": "Booking History",
+  "@bookingHistory": {
+    "description": "Title"
+  },
+  "upcoming": "Upcoming",
+  "@upcoming": {
+    "description": "Tab"
+  },
+  "active": "Active",
+  "@active": {
+    "description": "Tab"
+  },
+  "past": "Past",
+  "@past": {
+    "description": "Tab"
+  },
+  "ongoing": "Ongoing",
+  "@ongoing": {
+    "description": "Info"
+  },
+  "completed": "Completed",
+  "@completed": {
+    "description": "Info"
+  },
+  "noBookingsHere": "No bookings here",
+  "@noBookingsHere": {
+    "description": "Info"
+  },
+  "rateNow": "Rate Now",
+  "@rateNow": {
+    "description": "Info"
+  },
+  "ref": "REF",
+  "@ref": {
+    "description": "Info"
+  },
+  "totalPaid": "Total Paid",
+  "@totalPaid": {
+    "description": "Info"
+  },
+  "totalDue": "Total Due",
+  "@totalDue": {
+    "description": "Info"
+  },
+  "viewDetails": "View Details",
+  "@viewDetails": {
+    "description": "Info"
+  },
+  "bookingNotFound": "Booking not found",
+  "@bookingNotFound": {
+    "description": "Info"
+  },
+  "viewOnMap": "View on map",
+  "@viewOnMap": {
+    "description": "Action"
+  },
+  "bookingTimeline": "Booking Timeline",
+  "@bookingTimeline": {
+    "description": "Info"
+  },
+  "rejectionDetails": "Rejection Details",
+  "@rejectionDetails": {
+    "description": "Info"
+  },
+  "rejectionNote": "Rejection Note",
+  "@rejectionNote": {
+    "description": "Info"
+  },
+  "noReasonProvided": "No reason provided",
+  "@noReasonProvided": {
+    "description": "Info"
+  },
+  "bookingPlaced": "Booking Placed",
+  "@bookingPlaced": {
+    "description": "Info"
+  },
+  "rateYourExperience": "Rate Your Experience",
+  "@rateYourExperience": {
+    "description": "Info"
+  },
+  "rateCar": "Rate Car",
+  "@rateCar": {
+    "description": "Info"
+  },
+  "rateCompany": "Rate Company",
+  "@rateCompany": {
+    "description": "Info"
+  },
+  "writeAReview": "Write a review...",
+  "@writeAReview": {
+    "description": "Info"
+  },
+  "searchBrandOrModel": "Search brand or model...",
+  "@searchBrandOrModel": {
+    "description": "Label"
+  },
+  "noCarsFound": "No cars found",
+  "@noCarsFound": {
+    "description": "Info"
+  },
+  "distanceKM": "{distance} km",
+  "@distanceKM": {
+    "description": "Info",
+    "placeholders": {
+      "distance": {
+        "type": "int"
+      }
+    }
+  },
+  "clearAll": "Clear All",
+  "@clearAll": {
+    "description": "Action"
+  },
+  "newest": "Newest",
+  "@newest": {
+    "description": "Action"
+  },
+  "nearest": "Nearest",
+  "@nearest": {
+    "description": "Action"
+  },
+  "priceUp": "Price ↑",
+  "@priceUp": {
+    "description": "Action"
+  },
+  "priceDown": "Price ↓",
+  "@priceDown": {
+    "description": "Action"
+  },
+  "filters": "Filters",
+  "@filters": {
+    "description": "Info"
+  },
+  "distanceInKM": "Distance (KM)",
+  "@distanceInKM": {
+    "description": "Info"
+  },
+  "priceRange": "Price Range",
+  "@priceRange": {
+    "description": "Info"
+  },
+  "fuelType": "Fuel Type",
+  "@fuelType": {
+    "description": "Info"
+  },
+  "applyFilters": "Apply Filters",
+  "@applyFilters": {
+    "description": "Action"
+  },
+  "locationServicesAreDisabled": "Location services are disabled",
+  "@locationServicesAreDisabled": {
+    "description": "Warning"
+  },
+  "notifications": "Notifications",
+  "@notifications": {
+    "description": "Title"
+  },
+  "noNotification": "No notification",
+  "@noNotification": {
+    "description": "Info"
+  },
+  "bookingStartedTitle": "Trip Started",
+  "@bookingStartedTitle": {
+    "description": "Title"
+  },
+  "bookingCompletedTitle": "Trip Completed",
+  "@bookingCompletedTitle": {
+    "description": "Title"
+  },
+  "bookingRejectedTitle": "Booking Rejected",
+  "@bookingRejectedTitle": {
+    "description": "Title"
+  },
+  "bookingCancelledTitle": "Booking Cancelled",
+  "@bookingCancelledTitle": {
+    "description": "Title"
+  },
+  "bookingApprovedTitle": "Booking Approved",
+  "@bookingApprovedTitle": {
+    "description": "Title"
+  },
+  "bookingUnknownTitle": "Booking update",
+  "@bookingUnknownTitle": {
+    "description": "Title"
+  },
+  "bookingApprovedMessage": "{shopName} approved your booking for {carName}.",
+  "@bookingApprovedMessage": {
+    "description": "Message",
+    "placeholders": {
+      "shopName": {
+        "type": "String"
+      },
+      "carName": {
+        "type": "String"
+      }
+    }
+  },
+  "bookingOngoingMessage": "Your rental is now ongoing.",
+  "@bookingOngoingMessage": {
+    "description": "Message"
+  },
+  "bookingCompletedMessage": "Your booking has been completed.",
+  "@bookingCompletedMessage": {
+    "description": "Message"
+  },
+  "bookingRejectedMessage": "Your booking was rejected.",
+  "@bookingRejectedMessage": {
+    "description": "Message"
+  },
+  "bookingCancelledMessage": "Your booking has been cancelled.",
+  "@bookingCancelledMessage": {
+    "description": "Message"
+  },
+  "bookingUnknownMessage": "Your booking status changed.",
+  "@bookingUnknownMessage": {
+    "description": "Message"
+  },
+  "chooseFromGallery": "Choose from gallery",
+  "@chooseFromGallery": {
+    "description": "Info"
+  },
+  "takeAPhoto": "Take a photo",
+  "@takeAPhoto": {
+    "description": "Info"
   }
 }

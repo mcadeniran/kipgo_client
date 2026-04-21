@@ -65,6 +65,8 @@
 	<string>Kipgo needs continuous access to your location to receive ride requests even when the app is backgrounded.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Kipgo needs your location to connect you with riders nearby.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>KIPGO needs camera access to take document photos</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To enable photo uploads, KIPGO requires access to your photo library.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

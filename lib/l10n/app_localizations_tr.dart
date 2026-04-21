@@ -1087,4 +1087,519 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get tapMapToSetDestination => 'Varış için haritaya dokun';
+
+  @override
+  String get kipgoApps => 'KIPGO Uygulamaları';
+
+  @override
+  String get takeATaxi => 'Taksi çağır';
+
+  @override
+  String get rentACar => 'Araç kirala';
+
+  @override
+  String get kipgoRentals => 'KIPGO Kiralama';
+
+  @override
+  String amountPerDay(String amount) {
+    return 'Günlük $amount';
+  }
+
+  @override
+  String get browseByCategory => 'Kategoriye göre keşfet';
+
+  @override
+  String get all => 'Tümü';
+
+  @override
+  String get economy => 'Ekonomi';
+
+  @override
+  String get sedan => 'Sedan';
+
+  @override
+  String get suv => 'SUV';
+
+  @override
+  String get luxury => 'Lüks';
+
+  @override
+  String get sports => 'Spor';
+
+  @override
+  String get pickup => 'Pickup';
+
+  @override
+  String get van => 'Van';
+
+  @override
+  String get featuredCars => 'Öne çıkan araçlar';
+
+  @override
+  String get petrol => 'Benzinli';
+
+  @override
+  String get diesel => 'Dizel';
+
+  @override
+  String get electric => 'Elektrikli';
+
+  @override
+  String get hybrid => 'Hibrit';
+
+  @override
+  String get manual => 'Manuel';
+
+  @override
+  String get automatic => 'Otomatik';
+
+  @override
+  String get unknown => 'Bilinmiyor';
+
+  @override
+  String get featuredRentalCompanies => 'Öne çıkan kiralama şirketleri';
+
+  @override
+  String get browseCars => 'Araçlara göz at →';
+
+  @override
+  String get bookNow => 'Rezerve et';
+
+  @override
+  String singleReview(int count) {
+    return '$count yorum';
+  }
+
+  @override
+  String multiReviews(int count) {
+    return '$count yorum';
+  }
+
+  @override
+  String get rentalRules => 'Kiralama kuralları';
+
+  @override
+  String seats(int count) {
+    return '$count koltuk';
+  }
+
+  @override
+  String get features => 'Özellikler';
+
+  @override
+  String get securityDeposit => 'Depozito';
+
+  @override
+  String get fuelPolicy => 'Yakıt politikası';
+
+  @override
+  String get mileageLimit => 'Kilometre sınırı';
+
+  @override
+  String get insurance => 'Sigorta';
+
+  @override
+  String get lateReturn => 'Geç teslim';
+
+  @override
+  String get cancellation => 'İptal';
+
+  @override
+  String get noReviewsYet => 'Henüz yorum yok';
+
+  @override
+  String get viewAll => 'Tümünü gör';
+
+  @override
+  String get noComment => 'Yorum yok';
+
+  @override
+  String get reviewsInitCap => 'Yorumlar';
+
+  @override
+  String get allDriverDocumentsAreRequired => 'Tüm sürücü belgeleri gereklidir';
+
+  @override
+  String get invalidRentalPeriod => 'Geçersiz kiralama süresi';
+
+  @override
+  String get rentalMustBeAtLeast1Day => 'En az 1 gün kiralama yapılmalıdır';
+
+  @override
+  String get deliveryAddressIsRequired => 'Teslimat adresi gereklidir';
+
+  @override
+  String get bookingDetails => 'Rezervasyon detayları';
+
+  @override
+  String get driversDocuments => 'Sürücü belgeleri';
+
+  @override
+  String get schedule => 'Program';
+
+  @override
+  String get summary => 'Özet';
+
+  @override
+  String get back => 'Geri';
+
+  @override
+  String get confirmBooking => 'Onayla';
+
+  @override
+  String get continueAction => 'Devam et';
+
+  @override
+  String get addNewDriver => 'Yeni sürücü ekle';
+
+  @override
+  String get fullNameIsRequired => 'Ad soyad gerekli';
+
+  @override
+  String get nameIsTooShort => 'İsim çok kısa';
+
+  @override
+  String get fullName => 'Ad Soyad';
+
+  @override
+  String get emailIsRequired => 'E-posta gerekli';
+
+  @override
+  String get invalidEmail => 'Geçersiz e-posta';
+
+  @override
+  String get phoneIsRequired => 'Telefon gerekli';
+
+  @override
+  String get invalidPhoneNumber => 'Geçersiz telefon numarası';
+
+  @override
+  String get dateOfBirthIsRequired => 'Doğum tarihi gerekli';
+
+  @override
+  String get dateOfBirth => 'Doğum tarihi';
+
+  @override
+  String get gender => 'Cinsiyet';
+
+  @override
+  String uploadTitle(String title) {
+    return '$title yükle';
+  }
+
+  @override
+  String get licenseFront => 'Ehliyet (ön)';
+
+  @override
+  String get licenseBack => 'Ehliyet (arka)';
+
+  @override
+  String get governmentID => 'Kimlik';
+
+  @override
+  String get rentalDate => 'Kiralama tarihi';
+
+  @override
+  String singleRentalDay(int day) {
+    return '$day gün';
+  }
+
+  @override
+  String multiRentalDay(int days) {
+    return '$days gün';
+  }
+
+  @override
+  String dailyPricexDays(int dailyPrice, int rentalDays) {
+    return '₺$dailyPrice × $rentalDays gün';
+  }
+
+  @override
+  String get receiveVia => 'Teslim alma yöntemi';
+
+  @override
+  String get additionalNote => 'Ek not';
+
+  @override
+  String get deliveryFee => 'Teslimat ücreti';
+
+  @override
+  String get delivery => 'Teslimat';
+
+  @override
+  String get deliveryAddress => 'Teslimat adresi';
+
+  @override
+  String get enterDeliveryAddress => 'Teslimat adresini girin';
+
+  @override
+  String get notUploaded => 'Yüklenmedi';
+
+  @override
+  String get view => 'Görüntüle';
+
+  @override
+  String get name => 'Ad';
+
+  @override
+  String get id => 'Kimlik';
+
+  @override
+  String get carDetails => 'Araç detayları';
+
+  @override
+  String get seatsLabel => 'Koltuk';
+
+  @override
+  String get transmission => 'Vites';
+
+  @override
+  String get fuel => 'Yakıt';
+
+  @override
+  String get pickupDate => 'Alış tarihi';
+
+  @override
+  String get dropoffDate => 'İade tarihi';
+
+  @override
+  String get totalDuration => 'Toplam süre';
+
+  @override
+  String get deliveryType => 'Teslimat türü';
+
+  @override
+  String get priceDetails => 'Fiyat detayları';
+
+  @override
+  String get rentalPrice => 'Kiralama ücreti';
+
+  @override
+  String get deliveryPrice => 'Teslimat ücreti';
+
+  @override
+  String get depositRefundable => 'Depozito (iade edilir)';
+
+  @override
+  String get totalPreTax => 'Toplam (vergi hariç)';
+
+  @override
+  String get tax => 'Vergi';
+
+  @override
+  String get grandTotal => 'Genel toplam';
+
+  @override
+  String minimumRentalDuration(int days) {
+    return 'Minimum kiralama süresi: $days gün';
+  }
+
+  @override
+  String get selectRentalPeriod => 'Kiralama süresini seçin';
+
+  @override
+  String get dropoff => 'İade';
+
+  @override
+  String get driversDetails => 'Sürücü bilgileri';
+
+  @override
+  String get driverLicenseFront => 'Ehliyet (ön)';
+
+  @override
+  String get driverLicenseBack => 'Ehliyet (arka)';
+
+  @override
+  String get male => 'Erkek';
+
+  @override
+  String get female => 'Kadın';
+
+  @override
+  String get others => 'Diğer';
+
+  @override
+  String get pickUp => 'Teslim alma';
+
+  @override
+  String get bookingConfirmed => 'Rezervasyon onaylandı';
+
+  @override
+  String get bookingSuccessful => 'Rezervasyon başarılı!';
+
+  @override
+  String get yourBookingHasBeenReceived =>
+      'Rezervasyonunuz alındı.\nKısa süre içinde onaylanacaktır.';
+
+  @override
+  String get invoiceNumber => 'Fatura Numarası';
+
+  @override
+  String get viewMyBookings => 'Rezervasyonlarım';
+
+  @override
+  String get backToHome => 'Ana sayfaya dön';
+
+  @override
+  String get bookingHistory => 'Rezervasyon geçmişi';
+
+  @override
+  String get upcoming => 'Yaklaşan';
+
+  @override
+  String get active => 'Aktif';
+
+  @override
+  String get past => 'Geçmiş';
+
+  @override
+  String get ongoing => 'Devam eden';
+
+  @override
+  String get completed => 'Tamamlandı';
+
+  @override
+  String get noBookingsHere => 'Rezervasyon yok';
+
+  @override
+  String get rateNow => 'Değerlendir';
+
+  @override
+  String get ref => 'No';
+
+  @override
+  String get totalPaid => 'Ödenen';
+
+  @override
+  String get totalDue => 'Ödenecek';
+
+  @override
+  String get viewDetails => 'Detayları gör';
+
+  @override
+  String get bookingNotFound => 'Rezervasyon bulunamadı';
+
+  @override
+  String get viewOnMap => 'Haritada göster';
+
+  @override
+  String get bookingTimeline => 'Rezervasyon süreci';
+
+  @override
+  String get rejectionDetails => 'Red nedeni';
+
+  @override
+  String get rejectionNote => 'Açıklama';
+
+  @override
+  String get noReasonProvided => 'Sebep belirtilmedi';
+
+  @override
+  String get bookingPlaced => 'Rezervasyon oluşturuldu';
+
+  @override
+  String get rateYourExperience => 'Deneyimini değerlendir';
+
+  @override
+  String get rateCar => 'Aracı değerlendir';
+
+  @override
+  String get rateCompany => 'Şirketi değerlendir';
+
+  @override
+  String get writeAReview => 'Yorum yaz...';
+
+  @override
+  String get searchBrandOrModel => 'Marka veya model ara...';
+
+  @override
+  String get noCarsFound => 'Araç bulunamadı';
+
+  @override
+  String distanceKM(int distance) {
+    return '$distance km';
+  }
+
+  @override
+  String get clearAll => 'Temizle';
+
+  @override
+  String get newest => 'En yeni';
+
+  @override
+  String get nearest => 'En yakın';
+
+  @override
+  String get priceUp => 'Fiyat ↑';
+
+  @override
+  String get priceDown => 'Fiyat ↓';
+
+  @override
+  String get filters => 'Filtreler';
+
+  @override
+  String get distanceInKM => 'Mesafe (km)';
+
+  @override
+  String get priceRange => 'Fiyat aralığı';
+
+  @override
+  String get fuelType => 'Yakıt türü';
+
+  @override
+  String get applyFilters => 'Uygula';
+
+  @override
+  String get locationServicesAreDisabled => 'Konum hizmetleri kapalı';
+
+  @override
+  String get notifications => 'Bildirimler';
+
+  @override
+  String get noNotification => 'Bildirim yok';
+
+  @override
+  String get bookingStartedTitle => 'Yolculuk başladı';
+
+  @override
+  String get bookingCompletedTitle => 'Yolculuk tamamlandı';
+
+  @override
+  String get bookingRejectedTitle => 'Rezervasyon reddedildi';
+
+  @override
+  String get bookingCancelledTitle => 'Rezervasyon iptal edildi';
+
+  @override
+  String get bookingApprovedTitle => 'Rezervasyon onaylandı';
+
+  @override
+  String get bookingUnknownTitle => 'Rezervasyon güncellemesi';
+
+  @override
+  String bookingApprovedMessage(String shopName, String carName) {
+    return '$shopName, $carName için rezervasyonunuzu onayladı.';
+  }
+
+  @override
+  String get bookingOngoingMessage => 'Kiralama başladı.';
+
+  @override
+  String get bookingCompletedMessage => 'Rezervasyon tamamlandı.';
+
+  @override
+  String get bookingRejectedMessage => 'Rezervasyon reddedildi.';
+
+  @override
+  String get bookingCancelledMessage => 'Rezervasyon iptal edildi.';
+
+  @override
+  String get bookingUnknownMessage => 'Rezervasyon durumu değişti.';
+
+  @override
+  String get chooseFromGallery => 'Galeriden seç';
+
+  @override
+  String get takeAPhoto => 'Fotoğraf çek';
 }

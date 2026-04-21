@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:kipgo/screens/rental/widgets/car_booking_page.dart'
+import 'package:kipgo/l10n/app_localizations.dart';
+import 'package:kipgo/screens/rental/car_booking/car_booking_page.dart'
     show DeliveryType;
-import 'package:kipgo/screens/rental/widgets/car_delivery_widget.dart';
-import 'package:kipgo/screens/rental/widgets/schedule_selector.dart';
+import 'package:kipgo/screens/rental/car_booking/car_delivery_widget.dart';
+import 'package:kipgo/screens/rental/car_booking/schedule_selector.dart';
 import 'package:kipgo/screens/widgets/input_decorator.dart';
 
 class ScheduleBookingDetails extends StatelessWidget {
@@ -36,15 +37,16 @@ class ScheduleBookingDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations loc = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Rental Date", style: Theme.of(context).textTheme.titleMedium),
+        Text(loc.rentalDate, style: Theme.of(context).textTheme.titleMedium),
         SizedBox(height: 10),
         ScheduleSelector(
           pickupDate: pickupDate,
           dropoffDate: dropoffDate,
-          dailyPrice: 1200,
+          dailyPrice: dailyPrice.toInt(),
           minimumRentalDays: 3,
           onChanged: onDateChanged,
         ),
@@ -56,7 +58,7 @@ class ScheduleBookingDetails extends StatelessWidget {
                 const Icon(Icons.calendar_month, size: 18),
                 const SizedBox(width: 6),
                 Text(
-                  "$rentalDays Day${rentalDays > 1 ? 's' : ''}",
+                  loc.multiRentalDay(rentalDays),
                   style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
               ],
@@ -76,12 +78,12 @@ class ScheduleBookingDetails extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         Text(
-          "₺$dailyPrice x $rentalDays days",
+          "₺$dailyPrice x ${loc.multiRentalDay(rentalDays)}",
           style: const TextStyle(fontSize: 12, color: Colors.grey),
         ),
 
         SizedBox(height: 15),
-        Text("Receive Via", style: Theme.of(context).textTheme.titleMedium),
+        Text(loc.receiveVia, style: Theme.of(context).textTheme.titleMedium),
         SizedBox(height: 10),
         CarDeliveryWidget(
           deliveryType: deliveryType,
@@ -95,7 +97,7 @@ class ScheduleBookingDetails extends StatelessWidget {
           maxLines: 2,
           decoration: inputDecoration(
             context: context,
-            hint: "Additional note",
+            hint: loc.additionalNote,
           ),
         ),
       ],

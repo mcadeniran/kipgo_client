@@ -1083,4 +1083,520 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tapMapToSetDestination => 'Tap map for destination';
+
+  @override
+  String get kipgoApps => 'KIPGO APPS';
+
+  @override
+  String get takeATaxi => 'Take a taxi';
+
+  @override
+  String get rentACar => 'Rent a car';
+
+  @override
+  String get kipgoRentals => 'KIPGO RENTALS';
+
+  @override
+  String amountPerDay(String amount) {
+    return '$amount/day';
+  }
+
+  @override
+  String get browseByCategory => 'Browse by Category';
+
+  @override
+  String get all => 'All';
+
+  @override
+  String get economy => 'Economy';
+
+  @override
+  String get sedan => 'Sedan';
+
+  @override
+  String get suv => 'SUV';
+
+  @override
+  String get luxury => 'Luxury';
+
+  @override
+  String get sports => 'Sports';
+
+  @override
+  String get pickup => 'Pickup';
+
+  @override
+  String get van => 'Van';
+
+  @override
+  String get featuredCars => 'Featured Cars';
+
+  @override
+  String get petrol => 'Petrol';
+
+  @override
+  String get diesel => 'Diesel';
+
+  @override
+  String get electric => 'Electric';
+
+  @override
+  String get hybrid => 'Hybrid';
+
+  @override
+  String get manual => 'Manual';
+
+  @override
+  String get automatic => 'Automatic';
+
+  @override
+  String get unknown => 'Unknown';
+
+  @override
+  String get featuredRentalCompanies => 'Featured Rental Companies';
+
+  @override
+  String get browseCars => 'Browse Cars →';
+
+  @override
+  String get bookNow => 'Book Now';
+
+  @override
+  String singleReview(int count) {
+    return '$count review';
+  }
+
+  @override
+  String multiReviews(int count) {
+    return '$count reviews';
+  }
+
+  @override
+  String get rentalRules => 'Rental rules';
+
+  @override
+  String seats(int count) {
+    return '$count Seats';
+  }
+
+  @override
+  String get features => 'Features';
+
+  @override
+  String get securityDeposit => 'Security Deposit';
+
+  @override
+  String get fuelPolicy => 'Fuel Policy';
+
+  @override
+  String get mileageLimit => 'Mileage Limit';
+
+  @override
+  String get insurance => 'Insurance';
+
+  @override
+  String get lateReturn => 'Late Return';
+
+  @override
+  String get cancellation => 'Cancellation';
+
+  @override
+  String get noReviewsYet => 'No reviews yet';
+
+  @override
+  String get viewAll => 'View All';
+
+  @override
+  String get noComment => 'No comment';
+
+  @override
+  String get reviewsInitCap => 'Reviews';
+
+  @override
+  String get allDriverDocumentsAreRequired =>
+      'All driver documents are required';
+
+  @override
+  String get invalidRentalPeriod => 'Invalid rental period';
+
+  @override
+  String get rentalMustBeAtLeast1Day => 'Rental must be at least 1 day';
+
+  @override
+  String get deliveryAddressIsRequired => 'Delivery address is required';
+
+  @override
+  String get bookingDetails => 'Booking Details';
+
+  @override
+  String get driversDocuments => 'Driver\'s Documents';
+
+  @override
+  String get schedule => 'Schedule';
+
+  @override
+  String get summary => 'Summary';
+
+  @override
+  String get back => 'Back';
+
+  @override
+  String get confirmBooking => 'Confirm Booking';
+
+  @override
+  String get continueAction => 'Continue';
+
+  @override
+  String get addNewDriver => 'Add new driver';
+
+  @override
+  String get fullNameIsRequired => 'Full name is required';
+
+  @override
+  String get nameIsTooShort => 'Name is too short';
+
+  @override
+  String get fullName => 'Full Name';
+
+  @override
+  String get emailIsRequired => 'Email is required';
+
+  @override
+  String get invalidEmail => 'Invalid email';
+
+  @override
+  String get phoneIsRequired => 'Phone is required';
+
+  @override
+  String get invalidPhoneNumber => 'Invalid phone number';
+
+  @override
+  String get dateOfBirthIsRequired => 'Date of birth is required';
+
+  @override
+  String get dateOfBirth => 'Date of Birth';
+
+  @override
+  String get gender => 'Gender';
+
+  @override
+  String uploadTitle(String title) {
+    return 'Upload $title';
+  }
+
+  @override
+  String get licenseFront => 'License Front';
+
+  @override
+  String get licenseBack => 'License Back';
+
+  @override
+  String get governmentID => 'Government ID';
+
+  @override
+  String get rentalDate => 'Rental Date';
+
+  @override
+  String singleRentalDay(int day) {
+    return '$day Day';
+  }
+
+  @override
+  String multiRentalDay(int days) {
+    return '$days Days';
+  }
+
+  @override
+  String dailyPricexDays(int dailyPrice, int rentalDays) {
+    return '₺$dailyPrice x $rentalDays days';
+  }
+
+  @override
+  String get receiveVia => 'Receive Via';
+
+  @override
+  String get additionalNote => 'Additional Note';
+
+  @override
+  String get deliveryFee => 'Delivery Fee';
+
+  @override
+  String get delivery => 'Delivery';
+
+  @override
+  String get deliveryAddress => 'Delivery Address';
+
+  @override
+  String get enterDeliveryAddress => 'Enter delivery address';
+
+  @override
+  String get notUploaded => 'Not uploaded';
+
+  @override
+  String get view => 'View';
+
+  @override
+  String get name => 'Name';
+
+  @override
+  String get id => 'ID';
+
+  @override
+  String get carDetails => 'Car Details';
+
+  @override
+  String get seatsLabel => 'Seats';
+
+  @override
+  String get transmission => 'Transmission';
+
+  @override
+  String get fuel => 'Fuel';
+
+  @override
+  String get pickupDate => 'Pickup Date';
+
+  @override
+  String get dropoffDate => 'Dropoff Date';
+
+  @override
+  String get totalDuration => 'Total Duration';
+
+  @override
+  String get deliveryType => 'Delivery Type';
+
+  @override
+  String get priceDetails => 'Price Details';
+
+  @override
+  String get rentalPrice => 'Rental Price';
+
+  @override
+  String get deliveryPrice => 'Delivery Price';
+
+  @override
+  String get depositRefundable => 'Deposit (Refundable)';
+
+  @override
+  String get totalPreTax => 'Total (Pre-Tax)';
+
+  @override
+  String get tax => 'Tax';
+
+  @override
+  String get grandTotal => 'Grand Total';
+
+  @override
+  String minimumRentalDuration(int days) {
+    return 'Minimum rental duration is $days days';
+  }
+
+  @override
+  String get selectRentalPeriod => 'Select Rental Period';
+
+  @override
+  String get dropoff => 'Drop-off';
+
+  @override
+  String get driversDetails => 'Driver\'s Details';
+
+  @override
+  String get driverLicenseFront => 'Driver License (Front)';
+
+  @override
+  String get driverLicenseBack => 'Driver License (Back)';
+
+  @override
+  String get male => 'Male';
+
+  @override
+  String get female => 'Female';
+
+  @override
+  String get others => 'Others';
+
+  @override
+  String get pickUp => 'Pick-up';
+
+  @override
+  String get bookingConfirmed => 'Booking Confirmed';
+
+  @override
+  String get bookingSuccessful => 'Booking Successful!';
+
+  @override
+  String get yourBookingHasBeenReceived =>
+      'Your booking has been received.\nWe will confirm it shortly.';
+
+  @override
+  String get invoiceNumber => 'Invoice Number';
+
+  @override
+  String get viewMyBookings => 'View My Bookings';
+
+  @override
+  String get backToHome => 'Back to Home';
+
+  @override
+  String get bookingHistory => 'Booking History';
+
+  @override
+  String get upcoming => 'Upcoming';
+
+  @override
+  String get active => 'Active';
+
+  @override
+  String get past => 'Past';
+
+  @override
+  String get ongoing => 'Ongoing';
+
+  @override
+  String get completed => 'Completed';
+
+  @override
+  String get noBookingsHere => 'No bookings here';
+
+  @override
+  String get rateNow => 'Rate Now';
+
+  @override
+  String get ref => 'REF';
+
+  @override
+  String get totalPaid => 'Total Paid';
+
+  @override
+  String get totalDue => 'Total Due';
+
+  @override
+  String get viewDetails => 'View Details';
+
+  @override
+  String get bookingNotFound => 'Booking not found';
+
+  @override
+  String get viewOnMap => 'View on map';
+
+  @override
+  String get bookingTimeline => 'Booking Timeline';
+
+  @override
+  String get rejectionDetails => 'Rejection Details';
+
+  @override
+  String get rejectionNote => 'Rejection Note';
+
+  @override
+  String get noReasonProvided => 'No reason provided';
+
+  @override
+  String get bookingPlaced => 'Booking Placed';
+
+  @override
+  String get rateYourExperience => 'Rate Your Experience';
+
+  @override
+  String get rateCar => 'Rate Car';
+
+  @override
+  String get rateCompany => 'Rate Company';
+
+  @override
+  String get writeAReview => 'Write a review...';
+
+  @override
+  String get searchBrandOrModel => 'Search brand or model...';
+
+  @override
+  String get noCarsFound => 'No cars found';
+
+  @override
+  String distanceKM(int distance) {
+    return '$distance km';
+  }
+
+  @override
+  String get clearAll => 'Clear All';
+
+  @override
+  String get newest => 'Newest';
+
+  @override
+  String get nearest => 'Nearest';
+
+  @override
+  String get priceUp => 'Price ↑';
+
+  @override
+  String get priceDown => 'Price ↓';
+
+  @override
+  String get filters => 'Filters';
+
+  @override
+  String get distanceInKM => 'Distance (KM)';
+
+  @override
+  String get priceRange => 'Price Range';
+
+  @override
+  String get fuelType => 'Fuel Type';
+
+  @override
+  String get applyFilters => 'Apply Filters';
+
+  @override
+  String get locationServicesAreDisabled => 'Location services are disabled';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get noNotification => 'No notification';
+
+  @override
+  String get bookingStartedTitle => 'Trip Started';
+
+  @override
+  String get bookingCompletedTitle => 'Trip Completed';
+
+  @override
+  String get bookingRejectedTitle => 'Booking Rejected';
+
+  @override
+  String get bookingCancelledTitle => 'Booking Cancelled';
+
+  @override
+  String get bookingApprovedTitle => 'Booking Approved';
+
+  @override
+  String get bookingUnknownTitle => 'Booking update';
+
+  @override
+  String bookingApprovedMessage(String shopName, String carName) {
+    return '$shopName approved your booking for $carName.';
+  }
+
+  @override
+  String get bookingOngoingMessage => 'Your rental is now ongoing.';
+
+  @override
+  String get bookingCompletedMessage => 'Your booking has been completed.';
+
+  @override
+  String get bookingRejectedMessage => 'Your booking was rejected.';
+
+  @override
+  String get bookingCancelledMessage => 'Your booking has been cancelled.';
+
+  @override
+  String get bookingUnknownMessage => 'Your booking status changed.';
+
+  @override
+  String get chooseFromGallery => 'Choose from gallery';
+
+  @override
+  String get takeAPhoto => 'Take a photo';
 }

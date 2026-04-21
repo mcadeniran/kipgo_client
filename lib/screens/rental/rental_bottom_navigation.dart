@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/ic.dart';
+import 'package:kipgo/controllers/inapp_notification_provider.dart';
+import 'package:kipgo/controllers/profile_provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
+import 'package:kipgo/models/profile.dart';
 import 'package:kipgo/screens/rental/bookings/bookings_history.dart';
 import 'package:kipgo/screens/rental/home/rental_home.dart';
 import 'package:kipgo/screens/settings_screen.dart';
@@ -9,20 +12,39 @@ import 'package:kipgo/utils/colors.dart';
 import 'package:provider/provider.dart';
 
 class RentalBottomNavigation extends StatefulWidget {
-  const RentalBottomNavigation({super.key});
+  final int initialIndex;
+  const RentalBottomNavigation({super.key, this.initialIndex = 0});
 
   @override
   State<RentalBottomNavigation> createState() => _RentalBottomNavigationState();
 }
 
 class _RentalBottomNavigationState extends State<RentalBottomNavigation> {
-  int index = 0;
+  late int index;
+
   final screens = [RentalHome(), BookingsHistory(), SettingsScreen()];
+
+  @override
+  void initState() {
+    super.initState();
+    index = widget.initialIndex;
+    Profile user = Provider.of<ProfileProvider>(
+      context,
+      listen: false,
+    ).profile!;
+
+    Provider.of<InAppNotificationProvider>(
+      context,
+      listen: false,
+    ).listenToNotifications(user.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
     return Scaffold(
-      body: screens[index],
+      body: IndexedStack(index: index, children: screens),
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,

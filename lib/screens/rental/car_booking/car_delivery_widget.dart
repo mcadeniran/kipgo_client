@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
-import 'package:kipgo/screens/rental/widgets/car_booking_page.dart'
+import 'package:kipgo/l10n/app_localizations.dart';
+import 'package:kipgo/screens/rental/car_booking/car_booking_page.dart'
     show DeliveryType;
 import 'package:kipgo/screens/widgets/input_decorator.dart';
 import 'package:kipgo/utils/colors.dart';
@@ -24,10 +25,11 @@ class CarDeliveryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+    final AppLocalizations loc = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildDeliverySelector(isDark),
+        _buildDeliverySelector(context, isDark),
 
         _buildDeliveryAddressField(context),
 
@@ -37,8 +39,8 @@ class CarDeliveryWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                "Delivery Fee",
+              Text(
+                loc.deliveryFee,
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
               Text(
@@ -61,7 +63,7 @@ class CarDeliveryWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildDeliverySelector(bool isDark) {
+  Widget _buildDeliverySelector(BuildContext context, bool isDark) {
     return Container(
       padding: const EdgeInsets.all(6),
       decoration: BoxDecoration(
@@ -73,13 +75,13 @@ class CarDeliveryWidget extends StatelessWidget {
       child: Row(
         children: [
           _buildDeliverySegment(
-            title: "Pickup",
+            title: AppLocalizations.of(context)!.pickUp,
             icon: Icons.store_mall_directory_outlined,
             type: DeliveryType.pickup,
             isDark: isDark,
           ),
           _buildDeliverySegment(
-            title: "Delivery",
+            title: AppLocalizations.of(context)!.delivery,
             icon: Icons.local_shipping_outlined,
             type: DeliveryType.delivery,
             isDark: isDark,
@@ -147,16 +149,23 @@ class CarDeliveryWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 16),
-        const Text(
-          "Delivery Address",
+        Text(
+          AppLocalizations.of(context)!.deliveryAddress,
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 8),
         TextFormField(
           controller: deliveryAddress,
+          validator: (value) {
+            if (deliveryType == DeliveryType.delivery &&
+                (value == null || value.trim().isEmpty)) {
+              return AppLocalizations.of(context)!.deliveryAddressIsRequired;
+            }
+            return null;
+          },
           decoration: inputDecoration(
             context: context,
-            hint: "Enter delivery address",
+            hint: AppLocalizations.of(context)!.enterDeliveryAddress,
           ),
           maxLines: 2,
         ),

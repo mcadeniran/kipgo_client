@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kipgo/controllers/locale_provider.dart';
+import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/utils/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -21,10 +22,11 @@ class ScheduleSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations loc = AppLocalizations.of(context)!;
     void showMinimumError() {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("Minimum rental duration is $minimumRentalDays days"),
+          content: Text(loc.minimumRentalDuration(minimumRentalDays)),
           backgroundColor: Colors.red,
         ),
       );
@@ -38,7 +40,7 @@ class ScheduleSelector extends StatelessWidget {
         lastDate: DateTime(2100),
         initialDateRange: DateTimeRange(start: pickupDate, end: dropoffDate),
         locale: locale,
-        helpText: 'Select Rental Period',
+        helpText: loc.selectRentalPeriod,
         barrierColor: AppColors.primary,
         builder: (context, child) => Theme(
           data: ThemeData().copyWith(
@@ -61,14 +63,54 @@ class ScheduleSelector extends StatelessWidget {
           showMinimumError();
           return;
         }
-        int totalPrice = selectedDays * dailyPrice;
 
-        onChanged(picked.start, picked.end, totalPrice);
+        // PICKUP TIME
+        final pickupTime = await showTimePicker(
+          context: context,
+          initialTime: TimeOfDay(hour: 9, minute: 0),
+        );
+
+        if (pickupTime == null) return;
+
+        // DROPOFF TIME
+        final dropoffTime = await showTimePicker(
+          context: context,
+          initialTime: pickupTime,
+        );
+
+        if (dropoffTime == null) return;
+
+        final pickupDateTime = DateTime(
+          picked.start.year,
+          picked.start.month,
+          picked.start.day,
+          pickupTime.hour,
+          pickupTime.minute,
+        );
+
+        final dropoffDateTime = DateTime(
+          picked.end.year,
+          picked.end.month,
+          picked.end.day,
+          dropoffTime.hour,
+          dropoffTime.minute,
+        );
+
+        // int totalPrice = selectedDays * dailyPrice;
+        final duration = dropoffDateTime.difference(pickupDateTime);
+        final totalDays = duration.inHours / 24;
+        final chargeableDays = totalDays.ceil();
+
+        int totalPrice = chargeableDays * dailyPrice;
+
+        onChanged(pickupDateTime, dropoffDateTime, totalPrice);
       }
     }
 
     String formatDate(DateTime date) {
-      return DateFormat('EEE, MMM d').format(date);
+      final locale = Provider.of<LocaleProvider>(context, listen: false).locale;
+      // return DateFormat('EEE, MMM d').format(date);
+      return DateFormat('EEE, MMM d • HH:mm', '$locale').format(date);
     }
 
     return Column(
@@ -84,7 +126,7 @@ class ScheduleSelector extends StatelessWidget {
               children: [
                 Expanded(
                   child: _SegmentBox(
-                    title: "Pickup",
+                    title: loc.pickUp,
                     value: formatDate(pickupDate),
                     color: AppColors.primary,
                   ),
@@ -92,7 +134,7 @@ class ScheduleSelector extends StatelessWidget {
                 const SizedBox(width: 6),
                 Expanded(
                   child: _SegmentBox(
-                    title: "Drop-off",
+                    title: loc.dropoff,
                     value: formatDate(dropoffDate),
                     color: AppColors.tertiary,
                   ),

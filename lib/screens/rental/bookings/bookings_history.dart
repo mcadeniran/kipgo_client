@@ -1,29 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kipgo/controllers/booking_provider.dart';
+import 'package:kipgo/controllers/profile_provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
-import 'package:kipgo/screens/rental/bookings/widgets/all_bookings.dart';
-import 'package:kipgo/screens/rental/bookings/widgets/approved_booking.dart';
-import 'package:kipgo/screens/rental/bookings/widgets/cancelled_booking.dart';
-import 'package:kipgo/screens/rental/bookings/widgets/completed_booking.dart';
-import 'package:kipgo/screens/rental/bookings/widgets/pending_booking.dart';
-import 'package:kipgo/screens/rental/bookings/widgets/rejected_booking.dart';
+import 'package:kipgo/l10n/app_localizations.dart';
+import 'package:kipgo/screens/rental/bookings/booking_history_tab.dart';
 import 'package:kipgo/screens/widgets/language_widget.dart';
 import 'package:kipgo/utils/colors.dart';
 import 'package:provider/provider.dart';
 
-class BookingsHistory extends StatelessWidget {
+enum BookingSection { upcoming, active, past, cancelled }
+
+class BookingsHistory extends StatefulWidget {
   const BookingsHistory({super.key});
+
+  @override
+  State<BookingsHistory> createState() => _BookingsHistoryState();
+}
+
+class _BookingsHistoryState extends State<BookingsHistory> {
+  @override
+  void initState() {
+    super.initState();
+
+    final uid = context.read<ProfileProvider>().profile!.id;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // context.read<BookingProvider>().loadBookings(uid);
+      context.read<BookingProvider>().listenToUserBookings(uid);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+    AppLocalizations loc = AppLocalizations.of(context)!;
     return DefaultTabController(
-      length: 6,
+      length: 4,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.primary,
           title: Text(
-            'Booking History',
+            loc.bookingHistory,
             style: GoogleFonts.poppins(
               fontWeight: FontWeight.bold,
               color: Colors.white,
@@ -43,12 +61,10 @@ class BookingsHistory extends StatelessWidget {
             padding: EdgeInsets.all(0),
             tabAlignment: TabAlignment.start,
             tabs: [
-              Tab(text: 'All'),
-              Tab(text: 'Pending'),
-              Tab(text: 'Approved'),
-              Tab(text: 'Rejected'),
-              Tab(text: 'Completed'),
-              Tab(text: 'Cancelled'),
+              Tab(text: loc.upcoming),
+              Tab(text: loc.active),
+              Tab(text: loc.past),
+              Tab(text: loc.cancelled),
             ],
           ),
         ),
@@ -62,12 +78,10 @@ class BookingsHistory extends StatelessWidget {
           ),
           child: TabBarView(
             children: [
-              AllBookings(),
-              PendingBooking(),
-              ApprovedBooking(),
-              RejectedBooking(),
-              CompletedBooking(),
-              CancelledBooking(),
+              BookingHistoryTab(section: BookingSection.upcoming),
+              BookingHistoryTab(section: BookingSection.active),
+              BookingHistoryTab(section: BookingSection.past),
+              BookingHistoryTab(section: BookingSection.cancelled),
             ],
           ),
         ),

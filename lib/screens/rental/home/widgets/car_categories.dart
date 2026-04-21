@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kipgo/l10n/app_localizations.dart';
+import 'package:kipgo/screens/rental/home/widgets/cars_category_page.dart';
+import 'package:kipgo/utils/car_properties_translations.dart';
 import 'package:provider/provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
 import 'package:kipgo/utils/colors.dart';
@@ -17,12 +20,13 @@ class _CarCategoriesState extends State<CarCategories> {
 
   final List<Map<String, dynamic>> categories = [
     {"title": "All", "icon": Icons.apps},
-    {"title": "SUV", "icon": Icons.directions_car},
-    {"title": "Sedan", "icon": Icons.airport_shuttle},
+    {"title": "Economy", "icon": Icons.attach_money},
+    {"title": "Sedan", "icon": Icons.directions_car},
+    {"title": "SUV", "icon": Icons.sports_motorsports},
     {"title": "Luxury", "icon": Icons.star},
-    {"title": "Electric", "icon": Icons.electric_car},
-    {"title": "Van", "icon": Icons.airport_shuttle_outlined},
+    {"title": "Sports", "icon": Icons.flash_on},
     {"title": "Pickup", "icon": Icons.local_shipping},
+    {"title": "Van", "icon": Icons.airport_shuttle},
   ];
 
   int selectedIndex = 0;
@@ -35,7 +39,7 @@ class _CarCategoriesState extends State<CarCategories> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Browse by Category",
+          AppLocalizations.of(context)!.browseByCategory,
           style: Theme.of(context).textTheme.titleMedium,
         ),
         const SizedBox(height: 16),
@@ -56,9 +60,20 @@ class _CarCategoriesState extends State<CarCategories> {
                     selectedIndex = index;
                   });
 
+                  final selectedCategory = category["title"];
+
                   if (widget.onCategorySelected != null) {
-                    widget.onCategorySelected!(category["title"]);
+                    widget.onCategorySelected!(selectedCategory);
                   }
+
+                  // Navigate to category page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) =>
+                          CarsCategoryPage(category: selectedCategory),
+                    ),
+                  );
                 },
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 250),
@@ -70,18 +85,19 @@ class _CarCategoriesState extends State<CarCategories> {
                     color: isSelected
                         ? AppColors.primary
                         : isDark
-                        ? AppColors.darkAccent
+                        ? AppColors.darkLayer
+                        // ? AppColors.darkAccent
                         : Colors.white,
                     boxShadow: [
                       if (isSelected)
                         BoxShadow(
-                          color: AppColors.primary.withOpacity(0.35),
+                          color: AppColors.primary.withValues(alpha: .35),
                           blurRadius: 20,
                           offset: const Offset(0, 10),
                         )
                       else
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.04),
+                          color: Colors.black.withValues(alpha: .04),
                           blurRadius: 10,
                           offset: const Offset(0, 5),
                         ),
@@ -98,19 +114,21 @@ class _CarCategoriesState extends State<CarCategories> {
                           shape: BoxShape.circle,
                           color: isSelected
                               ? Colors.white
-                              : AppColors.primary.withOpacity(0.08),
+                              : AppColors.primary.withValues(alpha: .08),
                         ),
                         child: Icon(
                           category["icon"],
                           size: 22,
                           color: isSelected
                               ? AppColors.primary
+                              : isDark
+                              ? Colors.white
                               : AppColors.primary,
                         ),
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        category["title"],
+                        carPropertiesTranslations(context, category["title"]),
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,

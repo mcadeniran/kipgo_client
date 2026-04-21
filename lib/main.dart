@@ -8,11 +8,17 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:kipgo/controllers/app_review_provider.dart';
+import 'package:kipgo/controllers/booking_provider.dart';
+import 'package:kipgo/controllers/bottom_nav_provider.dart';
+import 'package:kipgo/controllers/car_provider.dart';
+import 'package:kipgo/controllers/car_rating_provider.dart';
 import 'package:kipgo/controllers/drive_history_provider.dart';
 import 'package:kipgo/controllers/driver_ride_provider.dart';
 import 'package:kipgo/controllers/driver_status_provider.dart';
+import 'package:kipgo/controllers/inapp_notification_provider.dart';
 import 'package:kipgo/controllers/locale_provider.dart';
 import 'package:kipgo/controllers/notification_service.dart';
+import 'package:kipgo/controllers/rental_shop_provider.dart';
 import 'package:kipgo/controllers/ride_history_provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
 import 'package:kipgo/controllers/profile_provider.dart';
@@ -23,7 +29,7 @@ import 'package:kipgo/l10n/l10n.dart';
 import 'package:kipgo/pushNotification/push_notification_system.dart';
 import 'package:kipgo/screens/homes/customer_home.dart';
 import 'package:kipgo/screens/homes/driver_home.dart';
-import 'package:kipgo/services/auth_gate.dart';
+import 'package:kipgo/services/app_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
@@ -82,6 +88,19 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => DriverStatusProvider()),
         ChangeNotifierProvider(create: (_) => DriverRideProvider()),
         ChangeNotifierProvider(create: (_) => AppReviewProvider()),
+        // ChangeNotifierProvider(create: (_) => CarProvider()),
+        ChangeNotifierProvider(create: (_) => RentalShopProvider()),
+        ChangeNotifierProxyProvider<RentalShopProvider, CarProvider>(
+          create: (_) => CarProvider(),
+          update: (_, shopProvider, carProvider) {
+            carProvider!.setShopProvider(shopProvider);
+            return carProvider;
+          },
+        ),
+        ChangeNotifierProvider(create: (_) => BookingProvider()),
+        ChangeNotifierProvider(create: (_) => BottomNavProvider()),
+        ChangeNotifierProvider(create: (_) => CarRatingProvider()),
+        ChangeNotifierProvider(create: (_) => InAppNotificationProvider()),
       ],
       child: const KipGo(),
     ),
@@ -97,9 +116,6 @@ class KipGo extends StatefulWidget {
 
 class _KipGoState extends State<KipGo> {
   final PushNotificationSystem pushSystem = PushNotificationSystem();
-  // final notificationService = NotificationService(
-  //   flutterLocalNotificationsPlugin,
-  // );
 
   @override
   void initState() {
@@ -113,9 +129,6 @@ class _KipGoState extends State<KipGo> {
             AndroidFlutterLocalNotificationsPlugin
           >()
           ?.createNotificationChannel(channel);
-
-      // await notificationService.initNotification();
-      // NotificationService().init(flutterLocalNotificationsPlugin);
 
       await _ensureNotificationPermission();
 
@@ -132,6 +145,9 @@ class _KipGoState extends State<KipGo> {
       context.read<ProfileProvider>().initAuthListener();
 
       context.read<AppReviewProvider>().checkAndTriggerReview();
+
+      context.read<CarProvider>().listenToCars();
+      context.read<RentalShopProvider>().listenToRentalShops();
     });
   }
 
@@ -164,7 +180,8 @@ class _KipGoState extends State<KipGo> {
       themeMode: themeProvider.themeMode,
       theme: MyThemes.lightTheme,
       darkTheme: MyThemes.darkTheme,
-      home: const AuthGate(),
+      // home: const _AuthGateWrapper(),
+      home: const AppRouter(),
       routes: {
         '/customer_home': (_) => const CustomerHome(),
         '/driver_home': (_) => const DriverHome(),

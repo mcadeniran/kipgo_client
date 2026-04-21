@@ -135,35 +135,34 @@ class _SignupScreenState extends State<SignupScreen> {
                     autovalidateMode: AutovalidateMode.onUnfocus,
                     child: Column(
                       children: [
-                        Theme(
-                          data: ThemeData.light(), // 👈 forces light theme
-                          child: DropdownButtonFormField<String>(
-                            value: role,
-                            decoration: InputDecoration(
-                              labelText: AppLocalizations.of(context)!.useAppAs,
-                            ),
-                            style: TextStyle(
-                              color: Colors.black87, // Text color
-                              fontSize: 14, // Font size
-                            ),
-                            items: [
-                              DropdownMenuItem(
-                                value: 'rider',
-                                child: Text(
-                                  AppLocalizations.of(context)!.rider,
-                                ),
-                              ),
-                              DropdownMenuItem(
-                                value: 'driver',
-                                child: Text(
-                                  AppLocalizations.of(context)!.driver,
-                                ),
-                              ),
-                            ],
-                            onChanged: (val) => setState(() => role = val!),
-                          ),
-                        ),
-
+                        // Theme(
+                        //   data: ThemeData.light(), // 👈 forces light theme
+                        //   child: DropdownButtonFormField<String>(
+                        //     value: role,
+                        //     decoration: InputDecoration(
+                        //       labelText: AppLocalizations.of(context)!.useAppAs,
+                        //     ),
+                        //     style: TextStyle(
+                        //       color: Colors.black87, // Text color
+                        //       fontSize: 14, // Font size
+                        //     ),
+                        //     items: [
+                        //       DropdownMenuItem(
+                        //         value: 'rider',
+                        //         child: Text(
+                        //           AppLocalizations.of(context)!.rider,
+                        //         ),
+                        //       ),
+                        //       DropdownMenuItem(
+                        //         value: 'driver',
+                        //         child: Text(
+                        //           AppLocalizations.of(context)!.driver,
+                        //         ),
+                        //       ),
+                        //     ],
+                        //     onChanged: (val) => setState(() => role = val!),
+                        //   ),
+                        // ),
                         const SizedBox(height: 12),
                         TextFormField(
                           controller: nameController,

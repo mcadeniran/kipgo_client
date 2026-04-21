@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/carbon.dart';
+// import 'package:kipgo/screens/auth/app_selection.dart';
 import 'package:kipgo/screens/auth/auth_screen.dart';
 
 import 'package:provider/provider.dart';
@@ -41,6 +42,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void logout() async {
     await authService.logout();
+    // context.read<ProfileProvider>().clear();
     if (!mounted) return;
     Navigator.pushAndRemoveUntil(
       context,
@@ -313,17 +315,55 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 ChangeThemeButtonWidget(),
                               ],
                             ),
-                            Divider(
-                              height: 0,
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                              thickness: 0.8,
-                            ),
-                            // SettingWidget(
-                            //   title: AppLocalizations.of(
-                            //     context,
-                            //   )!.enableNotifications,
-                            //   icon: Icons.notifications_none,
-                            //   page: const DeleteAccountScreen(),
+                            // Divider(
+                            //   height: 0,
+                            //   color: Theme.of(context).scaffoldBackgroundColor,
+                            //   thickness: 0.8,
+                            // ),
+                            // InkWell(
+                            //   onTap: () {
+                            //     Navigator.pushAndRemoveUntil(
+                            //       context,
+                            //       MaterialPageRoute<void>(
+                            //         builder: (context) => const AppSelection(),
+                            //       ),
+                            //       (Route<dynamic> route) => false,
+                            //     );
+                            //   },
+                            //   child: Row(
+                            //     mainAxisAlignment:
+                            //         MainAxisAlignment.spaceBetween,
+                            //     children: [
+                            //       Row(
+                            //         children: [
+                            //           Icon(
+                            //             Icons.swipe_vertical_sharp,
+                            //             size: 18,
+                            //           ),
+                            //           const SizedBox(width: 12),
+                            //           Text(
+                            //             'Switch App',
+                            //             style: Theme.of(
+                            //               context,
+                            //             ).textTheme.bodyMedium,
+                            //           ),
+                            //         ],
+                            //       ),
+                            //       IconButton(
+                            //         onPressed: () {
+                            //           Navigator.pushAndRemoveUntil(
+                            //             context,
+                            //             MaterialPageRoute<void>(
+                            //               builder: (context) =>
+                            //                   const AppSelection(),
+                            //             ),
+                            //             (Route<dynamic> route) => false,
+                            //           );
+                            //         },
+                            //         icon: Icon(Icons.chevron_right),
+                            //       ),
+                            //     ],
+                            //   ),
                             // ),
                           ],
                         ),
@@ -355,16 +395,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               icon: Icons.chat_bubble_outline,
                               page: const SupportChatScreen(),
                             ),
-                            Divider(
-                              height: 0,
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                              thickness: 0.8,
-                            ),
-                            // SettingWidget(
-                            //   title: AppLocalizations.of(context)!.contactUs,
-                            //   icon: Icons.contact_support,
-                            //   page: const ContactUsScreen(),
-                            // ),
                             Divider(
                               height: 0,
                               color: Theme.of(context).scaffoldBackgroundColor,

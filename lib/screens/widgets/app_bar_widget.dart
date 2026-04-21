@@ -6,10 +6,12 @@ import 'package:kipgo/utils/colors.dart';
 class AppBarWidget extends StatefulWidget implements PreferredSizeWidget {
   final String title;
   final bool showLanguage;
+  final List<Widget>? actions;
   const AppBarWidget({
     super.key,
     required this.title,
     this.showLanguage = true,
+    this.actions,
   });
 
   @override
@@ -33,11 +35,13 @@ class _AppBarWidgetState extends State<AppBarWidget> {
         ),
       ),
       iconTheme: IconThemeData(color: Colors.white),
-      actions: [widget.showLanguage ? LanguageWidget() : SizedBox.shrink()],
+      actions: [
+        if (widget.showLanguage) const LanguageWidget(),
+
+        if (widget.actions != null) ...widget.actions!,
+      ],
       actionsPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       elevation: 8,
-      // leadingWidth: 0,
-      // toolbarHeight: 50,
     );
   }
 }

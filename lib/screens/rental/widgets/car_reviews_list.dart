@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
+import 'package:kipgo/l10n/app_localizations.dart';
+import 'package:kipgo/models/car_rating_model.dart';
 import 'package:kipgo/screens/widgets/app_bar_widget.dart';
 import 'package:kipgo/utils/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class CarReviewsList extends StatelessWidget {
-  const CarReviewsList({super.key});
+  final List<CarRatingModel> ratings;
+  const CarReviewsList({super.key, required this.ratings});
 
   @override
   Widget build(BuildContext context) {
     bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
     return Scaffold(
-      appBar: AppBarWidget(title: 'Reviews'),
+      appBar: AppBarWidget(title: AppLocalizations.of(context)!.reviewsInitCap),
       backgroundColor: AppColors.primary,
       body: Container(
         width: double.maxFinite,
@@ -32,8 +36,10 @@ class CarReviewsList extends StatelessWidget {
           separatorBuilder: (context, _) {
             return SizedBox(height: 10);
           },
-          itemCount: 20,
+          itemCount: ratings.length,
           itemBuilder: (context, index) {
+            final rating = ratings[index];
+
             return Container(
               padding: EdgeInsets.all(12),
               width: double.maxFinite,
@@ -45,45 +51,51 @@ class CarReviewsList extends StatelessWidget {
                 color: isDark ? AppColors.darkAccent : AppColors.lightAccent,
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CircleAvatar(
-                            radius: 25,
-                            backgroundColor: AppColors.primary,
-                            backgroundImage: AssetImage(
-                              'assets/images/user.jpeg',
-                            ),
+                            radius: 28,
+                            foregroundImage: NetworkImage(rating.userImage),
                           ),
-                          SizedBox(width: 5),
-                          Text(
-                            "Jack Sparrow",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
+                          SizedBox(width: 8),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                rating.userName,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              StarRating(
+                                rating: rating.carRating,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                color: Colors.amber,
+                                size: 18,
+                              ),
+                            ],
                           ),
                         ],
                       ),
                       Text(
-                        '4 days ago',
+                        timeago.format(rating.createdAt),
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ],
                   ),
-                  SizedBox(height: 5),
-                  StarRating(
-                    rating: 5,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    color: Colors.amber,
-                    size: 18,
-                  ),
                   SizedBox(height: 10),
                   Text(
-                    "The rental car was clean, reliable, and the service was quick and efficient. Overall, the experience was hassle-free and enjoyable.",
+                    rating.review == ''
+                        ? AppLocalizations.of(context)!.noComment
+                        : rating.review,
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       color: Theme.of(
                         context,

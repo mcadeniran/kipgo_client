@@ -6,9 +6,11 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:kipgo/controllers/notification_service.dart';
 import 'package:kipgo/controllers/ringtone_service.dart';
+import 'package:kipgo/helpers/message_title_helper.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/main.dart';
 import 'package:kipgo/pushNotification/notification_dialog_box.dart';
+import 'package:kipgo/screens/rental/bookings/widgets/booking_details_page.dart';
 import 'package:kipgo/screens/rides/drivers/new_trip_screen.dart';
 import 'package:kipgo/screens/settings/vehicle_details_screen.dart';
 import 'package:provider/provider.dart';
@@ -109,8 +111,41 @@ class PushNotificationSystem {
       } else {
         _showDialog(title, body);
       }
+    } else if (notificationType == 'bookingUpdate') {
+      _handleBookingNotification(remoteMessage, context, fromUserTap);
     } else {
       debugPrint('UNKNOWN NOTIFICATION TYPE RECEIVED');
+    }
+
+    if (!fromUserTap) {
+      NotificationService().showNotification(
+        title: remoteMessage.notification?.title ?? remoteMessage.data['title'],
+        body: remoteMessage.notification?.body ?? remoteMessage.data['body'],
+      );
+    }
+  }
+
+  void _handleBookingNotification(
+    RemoteMessage remoteMessage,
+    BuildContext context,
+    bool fromUserTap,
+  ) {
+    final bookingId = remoteMessage.data['bookingId'];
+    final status = remoteMessage.data['status'];
+    final shopName = remoteMessage.data['shopName'];
+    final carName = remoteMessage.data['carName'];
+
+    if (bookingId == null || status == null) {
+      debugPrint("⚠️ Invalid booking notification payload");
+      return;
+    }
+
+    debugPrint("📦 Booking update received: $status");
+
+    if (fromUserTap) {
+      _navigateToBooking(context, bookingId, status);
+    } else {
+      _showBookingDialog(status, shopName, carName, bookingId);
     }
   }
 
@@ -351,6 +386,89 @@ class PushNotificationSystem {
           .doc(userId)
           .update({'token': fcmToken});
     }
+  }
+
+  void _navigateToBooking(
+    BuildContext context,
+    String bookingId,
+    String status,
+  ) {
+    switch (status) {
+      case 'approved':
+      case 'ongoing':
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => BookingDetailsPage(bookingId: bookingId),
+          ),
+        );
+        break;
+
+      case 'completed':
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => BookingDetailsPage(bookingId: bookingId),
+          ),
+        );
+        break;
+
+      case 'rejected':
+      case 'cancelled':
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => BookingDetailsPage(bookingId: bookingId),
+          ),
+        );
+        break;
+
+      default:
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => BookingDetailsPage(bookingId: bookingId),
+          ),
+        );
+    }
+  }
+
+  void _showBookingDialog(
+    String status,
+    String? shopName,
+    String? carName,
+    String bookingId,
+  ) {
+    final ctx = navigatorKey.currentState?.overlay?.context;
+    if (ctx == null || _isDialogShowing) return;
+
+    _isDialogShowing = true;
+
+    final title = getBookingTitle(ctx, status);
+    final message = getBookingMessage(ctx, status, shopName, carName);
+
+    showDialog(
+      context: ctx,
+      barrierDismissible: false,
+      builder: (_) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              _isDialogShowing = false;
+            },
+            child: Text(AppLocalizations.of(ctx)!.ok),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              _isDialogShowing = false;
+              _navigateToBooking(ctx, bookingId, status);
+            },
+            child: Text(AppLocalizations.of(ctx)!.view),
+          ),
+        ],
+      ),
+    );
   }
 
   void initTokenRefreshListener(BuildContext context) {

@@ -1,115 +1,156 @@
 import 'package:flutter/material.dart';
+import 'package:kipgo/controllers/car_rating_provider.dart';
+import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/screens/rental/widgets/car_reviews_list.dart';
 import 'package:kipgo/utils/colors.dart';
+import 'package:provider/provider.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class ReviewsWidget extends StatelessWidget {
-  const ReviewsWidget({super.key});
+  final String carId;
+  const ReviewsWidget({super.key, required this.carId});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Consumer<CarRatingProvider>(
+      builder: (context, provider, _) {
+        if (provider.loading) {
+          return const CircularProgressIndicator.adaptive();
+        }
+
+        if (provider.ratings.isEmpty) {
+          return Text(AppLocalizations.of(context)!.noReviewsYet);
+        }
+        return Column(
           children: [
-            Text(
-              "Reviews (125)",
-              style: Theme.of(context).textTheme.titleMedium,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "${AppLocalizations.of(context)!.reviewsInitCap} (${provider.ratings.length})",
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            CarReviewsList(ratings: provider.ratings),
+                      ),
+                    );
+                  },
+                  child: Text(AppLocalizations.of(context)!.viewAll),
+                ),
+              ],
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const CarReviewsList()),
-                );
-              },
-              child: Text("See All"),
+            SizedBox(
+              height: 100,
+              child: ListView.separated(
+                separatorBuilder: (context, index) => SizedBox(width: 8),
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: provider.ratings.length > 5
+                    ? 5
+                    : provider.ratings.length,
+                itemBuilder: (context, index) {
+                  final rating = provider.ratings[index];
+
+                  return Container(
+                    padding: EdgeInsets.all(4),
+                    width: provider.ratings.length == 1
+                        ? MediaQuery.of(context).size.width - 24
+                        : MediaQuery.of(context).size.width * 0.6,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColors.border),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CircleAvatar(
+                                  radius: 18,
+                                  foregroundImage: NetworkImage(
+                                    rating.userImage,
+                                  ),
+                                ),
+                                SizedBox(width: 5),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      rating.userName,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    // SizedBox(height: 2),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          rating.carRating.toString(),
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                        SizedBox(width: 2),
+                                        Icon(
+                                          Icons.star_rounded,
+                                          color: Colors.amber,
+                                          size: 16,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Text(
+                              timeago.format(rating.createdAt),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey.shade500,
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 8),
+                        Expanded(
+                          child: Text(
+                            rating.review == ''
+                                ? AppLocalizations.of(context)!.noComment
+                                : rating.review,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 3,
+                            style: Theme.of(context).textTheme.bodySmall!
+                                .copyWith(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .color!
+                                      .withValues(alpha: 0.7),
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ],
-        ),
-        SizedBox(
-          height: 100,
-          child: Center(
-            child: ListView.separated(
-              separatorBuilder: (context, index) => SizedBox(width: 10),
-              itemCount: 5,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return Container(
-                  padding: EdgeInsets.all(4),
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.border),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                radius: 15,
-                                backgroundColor: AppColors.primary,
-                                backgroundImage: AssetImage(
-                                  'assets/images/user.jpeg',
-                                ),
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                "Jack Sparrow",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                "5.0",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12,
-                                ),
-                              ),
-                              SizedBox(width: 2),
-                              Icon(
-                                Icons.star_rounded,
-                                color: Colors.amber,
-                                size: 16,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                      Expanded(
-                        child: Text(
-                          "The rental car was clean, reliable, and the service was quick and efficient. Overall, the experience was hassle-free and enjoyable.",
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 3,
-                          style: Theme.of(context).textTheme.bodySmall!
-                              .copyWith(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .color!
-                                    .withValues(alpha: 0.7),
-                              ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-      ],
+        );
+      },
     );
   }
 }

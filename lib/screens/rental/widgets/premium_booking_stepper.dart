@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
+import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/models/booking_step.dart';
 import 'package:kipgo/utils/colors.dart';
 import 'package:provider/provider.dart';
 
 class PremiumBookingStepper extends StatefulWidget {
   final List<BookingStep> steps;
+  final Future<void> Function() onConfirmBooking;
+  final bool isLoading;
+  final GlobalKey<FormState> driverFormKey;
+  final bool Function() validateDocuments;
+  final bool Function() validateScheduleStep;
 
-  const PremiumBookingStepper({super.key, required this.steps});
+  const PremiumBookingStepper({
+    super.key,
+    required this.steps,
+    required this.onConfirmBooking,
+    required this.isLoading,
+    required this.driverFormKey,
+    required this.validateDocuments,
+    required this.validateScheduleStep,
+  });
 
   @override
   State<PremiumBookingStepper> createState() => _PremiumBookingStepperState();
@@ -16,11 +30,36 @@ class PremiumBookingStepper extends StatefulWidget {
 class _PremiumBookingStepperState extends State<PremiumBookingStepper> {
   int currentStep = 0;
 
-  void nextStep() {
+  bool validateDriverStep() {
+    if (!widget.driverFormKey.currentState!.validate()) {
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> nextStep() async {
+    // 🔹 STEP 0 → Driver
+    if (currentStep == 0) {
+      if (!validateDriverStep()) return;
+    }
+
+    // 🔹 STEP 1 → Documents
+    if (currentStep == 1) {
+      if (!widget.validateDocuments()) return;
+    }
+
+    // 🔹 STEP 2 → Schedule
+    if (currentStep == 2) {
+      if (!widget.validateScheduleStep()) return;
+    }
+
+    // 🔹 Move forward
     if (currentStep < widget.steps.length - 1) {
       setState(() => currentStep++);
-    } else if (currentStep == widget.steps.length - 1) {
-      print("DONE");
+    }
+    // 🔹 Final step → Confirm booking
+    else {
+      await widget.onConfirmBooking();
     }
   }
 
@@ -32,7 +71,8 @@ class _PremiumBookingStepperState extends State<PremiumBookingStepper> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Padding(
+      padding: EdgeInsets.only(bottom: 20), // move up with keyboard
       child: Column(
         children: [
           _buildStepHeader(),
@@ -45,7 +85,7 @@ class _PremiumBookingStepperState extends State<PremiumBookingStepper> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           _buildControls(),
         ],
       ),
@@ -198,7 +238,7 @@ class _PremiumBookingStepperState extends State<PremiumBookingStepper> {
                 ),
               ),
               onPressed: previousStep,
-              child: const Text("Back"),
+              child: Text(AppLocalizations.of(context)!.back),
             ),
           ),
         if (currentStep > 0) const SizedBox(width: 12),
@@ -214,11 +254,11 @@ class _PremiumBookingStepperState extends State<PremiumBookingStepper> {
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
-            onPressed: nextStep,
+            onPressed: (widget.isLoading) ? null : nextStep,
             child: Text(
               currentStep == widget.steps.length - 1
-                  ? "Confirm Booking"
-                  : "Continue",
+                  ? AppLocalizations.of(context)!.confirmBooking
+                  : AppLocalizations.of(context)!.continueAction,
             ),
           ),
         ),

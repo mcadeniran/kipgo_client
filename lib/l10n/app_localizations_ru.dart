@@ -1101,4 +1101,520 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get tapMapToSetDestination => 'Нажмите на карту для назначения';
+
+  @override
+  String get kipgoApps => 'Приложения KIPGO';
+
+  @override
+  String get takeATaxi => 'Вызвать такси';
+
+  @override
+  String get rentACar => 'Арендовать автомобиль';
+
+  @override
+  String get kipgoRentals => 'KIPGO Аренда';
+
+  @override
+  String amountPerDay(String amount) {
+    return '$amount/день';
+  }
+
+  @override
+  String get browseByCategory => 'Поиск по категориям';
+
+  @override
+  String get all => 'Все';
+
+  @override
+  String get economy => 'Эконом';
+
+  @override
+  String get sedan => 'Седан';
+
+  @override
+  String get suv => 'Внедорожник';
+
+  @override
+  String get luxury => 'Люкс';
+
+  @override
+  String get sports => 'Спорт';
+
+  @override
+  String get pickup => 'Пикап';
+
+  @override
+  String get van => 'Фургон';
+
+  @override
+  String get featuredCars => 'Рекомендуемые авто';
+
+  @override
+  String get petrol => 'Бензиновый';
+
+  @override
+  String get diesel => 'Дизельный';
+
+  @override
+  String get electric => 'Электрический';
+
+  @override
+  String get hybrid => 'Гибридный';
+
+  @override
+  String get manual => 'Механическая';
+
+  @override
+  String get automatic => 'Автоматическая';
+
+  @override
+  String get unknown => 'Неизвестно';
+
+  @override
+  String get featuredRentalCompanies => 'Рекомендуемые компании';
+
+  @override
+  String get browseCars => 'Смотреть авто →';
+
+  @override
+  String get bookNow => 'Забронировать';
+
+  @override
+  String singleReview(int count) {
+    return '$count отзыв';
+  }
+
+  @override
+  String multiReviews(int count) {
+    return '$count отзывов';
+  }
+
+  @override
+  String get rentalRules => 'Условия аренды';
+
+  @override
+  String seats(int count) {
+    return '$count мест';
+  }
+
+  @override
+  String get features => 'Характеристики';
+
+  @override
+  String get securityDeposit => 'Залог';
+
+  @override
+  String get fuelPolicy => 'Топливная политика';
+
+  @override
+  String get mileageLimit => 'Лимит пробега';
+
+  @override
+  String get insurance => 'Страховка';
+
+  @override
+  String get lateReturn => 'Поздний возврат';
+
+  @override
+  String get cancellation => 'Отмена';
+
+  @override
+  String get noReviewsYet => 'Пока нет отзывов';
+
+  @override
+  String get viewAll => 'Смотреть все';
+
+  @override
+  String get noComment => 'Без комментария';
+
+  @override
+  String get reviewsInitCap => 'Отзывы';
+
+  @override
+  String get allDriverDocumentsAreRequired =>
+      'Все документы водителя обязательны';
+
+  @override
+  String get invalidRentalPeriod => 'Неверный период аренды';
+
+  @override
+  String get rentalMustBeAtLeast1Day => 'Минимум 1 день аренды';
+
+  @override
+  String get deliveryAddressIsRequired => 'Адрес доставки обязателен';
+
+  @override
+  String get bookingDetails => 'Детали брони';
+
+  @override
+  String get driversDocuments => 'Документы водителя';
+
+  @override
+  String get schedule => 'Расписание';
+
+  @override
+  String get summary => 'Итог';
+
+  @override
+  String get back => 'Назад';
+
+  @override
+  String get confirmBooking => 'Подтвердить';
+
+  @override
+  String get continueAction => 'Далее';
+
+  @override
+  String get addNewDriver => 'Добавить водителя';
+
+  @override
+  String get fullNameIsRequired => 'Введите полное имя';
+
+  @override
+  String get nameIsTooShort => 'Имя слишком короткое';
+
+  @override
+  String get fullName => 'Полное имя';
+
+  @override
+  String get emailIsRequired => 'Введите email';
+
+  @override
+  String get invalidEmail => 'Неверный email';
+
+  @override
+  String get phoneIsRequired => 'Введите телефон';
+
+  @override
+  String get invalidPhoneNumber => 'Неверный номер';
+
+  @override
+  String get dateOfBirthIsRequired => 'Укажите дату рождения';
+
+  @override
+  String get dateOfBirth => 'Дата рождения';
+
+  @override
+  String get gender => 'Пол';
+
+  @override
+  String uploadTitle(String title) {
+    return 'Загрузить $title';
+  }
+
+  @override
+  String get licenseFront => 'Права (лицевая)';
+
+  @override
+  String get licenseBack => 'Права (обратная)';
+
+  @override
+  String get governmentID => 'Удостоверение личности';
+
+  @override
+  String get rentalDate => 'Дата аренды';
+
+  @override
+  String singleRentalDay(int day) {
+    return '$day день';
+  }
+
+  @override
+  String multiRentalDay(int days) {
+    return '$days дней';
+  }
+
+  @override
+  String dailyPricexDays(int dailyPrice, int rentalDays) {
+    return '₺$dailyPrice × $rentalDays дн.';
+  }
+
+  @override
+  String get receiveVia => 'Способ получения';
+
+  @override
+  String get additionalNote => 'Комментарий';
+
+  @override
+  String get deliveryFee => 'Стоимость доставки';
+
+  @override
+  String get delivery => 'Доставка';
+
+  @override
+  String get deliveryAddress => 'Адрес доставки';
+
+  @override
+  String get enterDeliveryAddress => 'Введите адрес доставки';
+
+  @override
+  String get notUploaded => 'Не загружено';
+
+  @override
+  String get view => 'Открыть';
+
+  @override
+  String get name => 'Имя';
+
+  @override
+  String get id => 'ID';
+
+  @override
+  String get carDetails => 'Детали авто';
+
+  @override
+  String get seatsLabel => 'Мест';
+
+  @override
+  String get transmission => 'Коробка';
+
+  @override
+  String get fuel => 'Топливо';
+
+  @override
+  String get pickupDate => 'Дата получения';
+
+  @override
+  String get dropoffDate => 'Дата возврата';
+
+  @override
+  String get totalDuration => 'Срок аренды';
+
+  @override
+  String get deliveryType => 'Тип доставки';
+
+  @override
+  String get priceDetails => 'Детали цены';
+
+  @override
+  String get rentalPrice => 'Стоимость аренды';
+
+  @override
+  String get deliveryPrice => 'Стоимость доставки';
+
+  @override
+  String get depositRefundable => 'Залог (возвратный)';
+
+  @override
+  String get totalPreTax => 'Итого (без налога)';
+
+  @override
+  String get tax => 'Налог';
+
+  @override
+  String get grandTotal => 'Итого';
+
+  @override
+  String minimumRentalDuration(int days) {
+    return 'Минимальный срок — $days дн.';
+  }
+
+  @override
+  String get selectRentalPeriod => 'Выберите период аренды';
+
+  @override
+  String get dropoff => 'Возврат';
+
+  @override
+  String get driversDetails => 'Данные водителя';
+
+  @override
+  String get driverLicenseFront => 'Права (лицевая)';
+
+  @override
+  String get driverLicenseBack => 'Права (обратная)';
+
+  @override
+  String get male => 'Мужской';
+
+  @override
+  String get female => 'Женский';
+
+  @override
+  String get others => 'Другое';
+
+  @override
+  String get pickUp => 'Самовывоз';
+
+  @override
+  String get bookingConfirmed => 'Бронирование подтверждено';
+
+  @override
+  String get bookingSuccessful => 'Бронирование прошло успешно!';
+
+  @override
+  String get yourBookingHasBeenReceived =>
+      'Ваше бронирование получено.\nМы подтвердим его в ближайшее время.';
+
+  @override
+  String get invoiceNumber => 'Номер счета';
+
+  @override
+  String get viewMyBookings => 'Мои бронирования';
+
+  @override
+  String get backToHome => 'На главную';
+
+  @override
+  String get bookingHistory => 'История бронирований';
+
+  @override
+  String get upcoming => 'Предстоящие';
+
+  @override
+  String get active => 'Активные';
+
+  @override
+  String get past => 'Прошедшие';
+
+  @override
+  String get ongoing => 'В процессе';
+
+  @override
+  String get completed => 'Завершено';
+
+  @override
+  String get noBookingsHere => 'Нет бронирований';
+
+  @override
+  String get rateNow => 'Оценить';
+
+  @override
+  String get ref => '№';
+
+  @override
+  String get totalPaid => 'Оплачено';
+
+  @override
+  String get totalDue => 'К оплате';
+
+  @override
+  String get viewDetails => 'Подробнее';
+
+  @override
+  String get bookingNotFound => 'Бронирование не найдено';
+
+  @override
+  String get viewOnMap => 'Показать на карте';
+
+  @override
+  String get bookingTimeline => 'Ход бронирования';
+
+  @override
+  String get rejectionDetails => 'Причина отклонения';
+
+  @override
+  String get rejectionNote => 'Комментарий';
+
+  @override
+  String get noReasonProvided => 'Причина не указана';
+
+  @override
+  String get bookingPlaced => 'Бронирование создано';
+
+  @override
+  String get rateYourExperience => 'Оцените поездку';
+
+  @override
+  String get rateCar => 'Оценить авто';
+
+  @override
+  String get rateCompany => 'Оценить компанию';
+
+  @override
+  String get writeAReview => 'Напишите отзыв...';
+
+  @override
+  String get searchBrandOrModel => 'Поиск марки или модели...';
+
+  @override
+  String get noCarsFound => 'Авто не найдены';
+
+  @override
+  String distanceKM(int distance) {
+    return '$distance км';
+  }
+
+  @override
+  String get clearAll => 'Сбросить';
+
+  @override
+  String get newest => 'Сначала новые';
+
+  @override
+  String get nearest => 'Ближайшие';
+
+  @override
+  String get priceUp => 'Цена ↑';
+
+  @override
+  String get priceDown => 'Цена ↓';
+
+  @override
+  String get filters => 'Фильтры';
+
+  @override
+  String get distanceInKM => 'Расстояние (км)';
+
+  @override
+  String get priceRange => 'Диапазон цен';
+
+  @override
+  String get fuelType => 'Тип топлива';
+
+  @override
+  String get applyFilters => 'Применить';
+
+  @override
+  String get locationServicesAreDisabled => 'Службы геолокации отключены';
+
+  @override
+  String get notifications => 'Уведомления';
+
+  @override
+  String get noNotification => 'Нет уведомлений';
+
+  @override
+  String get bookingStartedTitle => 'Поездка началась';
+
+  @override
+  String get bookingCompletedTitle => 'Поездка завершена';
+
+  @override
+  String get bookingRejectedTitle => 'Бронирование отклонено';
+
+  @override
+  String get bookingCancelledTitle => 'Бронирование отменено';
+
+  @override
+  String get bookingApprovedTitle => 'Бронирование подтверждено';
+
+  @override
+  String get bookingUnknownTitle => 'Обновление бронирования';
+
+  @override
+  String bookingApprovedMessage(String shopName, String carName) {
+    return '$shopName подтвердил бронирование $carName.';
+  }
+
+  @override
+  String get bookingOngoingMessage => 'Аренда началась.';
+
+  @override
+  String get bookingCompletedMessage => 'Бронирование завершено.';
+
+  @override
+  String get bookingRejectedMessage => 'Бронирование отклонено.';
+
+  @override
+  String get bookingCancelledMessage => 'Бронирование отменено.';
+
+  @override
+  String get bookingUnknownMessage => 'Статус бронирования изменился.';
+
+  @override
+  String get chooseFromGallery => 'Из галереи';
+
+  @override
+  String get takeAPhoto => 'Сделать фото';
 }

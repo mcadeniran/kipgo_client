@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
+import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/screens/rental/rental_bottom_navigation.dart';
 import 'package:kipgo/screens/widgets/ads_carousel_widget.dart';
 import 'package:kipgo/screens/widgets/app_bar_widget.dart';
@@ -14,7 +15,10 @@ class AppSelection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarWidget(title: 'KIGPO APPS', showLanguage: false),
+      appBar: AppBarWidget(
+        title: AppLocalizations.of(context)!.kipgoApps,
+        showLanguage: true,
+      ),
       backgroundColor: AppColors.primary,
       body: Container(
         height: double.maxFinite,
@@ -42,27 +46,29 @@ class AppSelection extends StatelessWidget {
                 children: [
                   _buildOptionCard(
                     context,
-                    title: 'TAXI',
+                    title: AppLocalizations.of(context)!.takeATaxi,
                     icon: Icons.local_taxi_outlined,
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(
-                          builder: (_) => const RoleBasedAuthGate(),
+                        MaterialPageRoute<void>(
+                          builder: (context) => const RoleBasedAuthGate(),
                         ),
+                        (Route<dynamic> route) => false,
                       );
                     },
                   ),
                   _buildOptionCard(
                     context,
-                    title: 'RENTAL',
+                    title: AppLocalizations.of(context)!.rentACar,
                     icon: Icons.car_rental_outlined,
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(
-                          builder: (_) => const RentalBottomNavigation(),
+                        MaterialPageRoute<void>(
+                          builder: (context) => const RentalBottomNavigation(),
                         ),
+                        (Route<dynamic> route) => false,
                       );
                     },
                   ),

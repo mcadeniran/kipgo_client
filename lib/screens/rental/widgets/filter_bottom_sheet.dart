@@ -31,16 +31,19 @@ class FilterBottomSheet extends StatelessWidget {
               end: Alignment.bottomRight,
               colors: isDark
                   ? [
-                      Colors.white.withOpacity(0.08),
-                      Colors.white.withOpacity(0.02),
+                      Colors.white.withValues(alpha: .08),
+                      Colors.white.withValues(alpha: .02),
                     ]
                   : [
-                      Colors.white.withOpacity(0.6),
-                      Colors.white.withOpacity(0.3),
+                      Colors.white.withValues(alpha: .6),
+                      Colors.white.withValues(alpha: .3),
                     ],
             ),
             borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
-            border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: .2),
+              width: 1,
+            ),
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -51,7 +54,7 @@ class FilterBottomSheet extends StatelessWidget {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.5),
+                    color: Colors.white.withValues(alpha: .5),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -74,8 +77,8 @@ class FilterBottomSheet extends StatelessWidget {
                   return ChoiceChip(
                     label: Text(category),
                     selected: isSelected,
-                    selectedColor: Colors.white.withOpacity(0.3),
-                    backgroundColor: Colors.white.withOpacity(0.1),
+                    selectedColor: Colors.white.withValues(alpha: .3),
+                    backgroundColor: Colors.white.withValues(alpha: .1),
                     // labelStyle: const TextStyle(color: Colors.white),
                     onSelected: (_) => onApply(category),
                   );

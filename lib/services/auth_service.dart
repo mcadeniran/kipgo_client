@@ -252,35 +252,4 @@ class AuthService {
       }
     }
   }
-
-  // Future<void> updateUsername({required String username}) async {
-  //   await currentUser!.updateDisplayName(username);
-
-  //   // Also update in Firestore
-  //   await firestore.collection('profiles').doc(currentUser!.uid).update({
-  //     'username': username,
-  //   });
-  // }
-
-  // Future<void> deleteAccount({
-  //   required String email,
-  //   required String password,
-  // }) async {
-  //   AuthCredential credential = EmailAuthProvider.credential(
-  //     email: email,
-  //     password: password,
-  //   );
-
-  //   // Reauthenticate
-  //   await currentUser!.reauthenticateWithCredential(credential);
-
-  //   // Delete Firestore profile
-  //   await firestore.collection('profiles').doc(currentUser!.uid).delete();
-
-  //   // Delete Firebase Auth account
-  //   await currentUser!.delete();
-
-  //   // Sign out
-  //   await firebaseAuth.signOut();
-  // }
 }

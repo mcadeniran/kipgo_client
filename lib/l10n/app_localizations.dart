@@ -2127,6 +2127,990 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tap map for destination'**
   String get tapMapToSetDestination;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'KIPGO APPS'**
+  String get kipgoApps;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Take a taxi'**
+  String get takeATaxi;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Rent a car'**
+  String get rentACar;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'KIPGO RENTALS'**
+  String get kipgoRentals;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'{amount}/day'**
+  String amountPerDay(String amount);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Browse by Category'**
+  String get browseByCategory;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Economy'**
+  String get economy;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Sedan'**
+  String get sedan;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'SUV'**
+  String get suv;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Luxury'**
+  String get luxury;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Sports'**
+  String get sports;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup'**
+  String get pickup;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Van'**
+  String get van;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Featured Cars'**
+  String get featuredCars;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Petrol'**
+  String get petrol;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Diesel'**
+  String get diesel;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Electric'**
+  String get electric;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Hybrid'**
+  String get hybrid;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Manual'**
+  String get manual;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic'**
+  String get automatic;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get unknown;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Featured Rental Companies'**
+  String get featuredRentalCompanies;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Browse Cars →'**
+  String get browseCars;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Book Now'**
+  String get bookNow;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'{count} review'**
+  String singleReview(int count);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'{count} reviews'**
+  String multiReviews(int count);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rental rules'**
+  String get rentalRules;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Seats'**
+  String seats(int count);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Features'**
+  String get features;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Security Deposit'**
+  String get securityDeposit;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel Policy'**
+  String get fuelPolicy;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Mileage Limit'**
+  String get mileageLimit;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Insurance'**
+  String get insurance;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Late Return'**
+  String get lateReturn;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Cancellation'**
+  String get cancellation;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No reviews yet'**
+  String get noReviewsYet;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'View All'**
+  String get viewAll;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No comment'**
+  String get noComment;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Reviews'**
+  String get reviewsInitCap;
+
+  /// Warning
+  ///
+  /// In en, this message translates to:
+  /// **'All driver documents are required'**
+  String get allDriverDocumentsAreRequired;
+
+  /// Warning
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid rental period'**
+  String get invalidRentalPeriod;
+
+  /// Warning
+  ///
+  /// In en, this message translates to:
+  /// **'Rental must be at least 1 day'**
+  String get rentalMustBeAtLeast1Day;
+
+  /// Warning
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery address is required'**
+  String get deliveryAddressIsRequired;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Details'**
+  String get bookingDetails;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Driver\'s Documents'**
+  String get driversDocuments;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule'**
+  String get schedule;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get summary;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Booking'**
+  String get confirmBooking;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueAction;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Add new driver'**
+  String get addNewDriver;
+
+  /// Warning
+  ///
+  /// In en, this message translates to:
+  /// **'Full name is required'**
+  String get fullNameIsRequired;
+
+  /// Warning
+  ///
+  /// In en, this message translates to:
+  /// **'Name is too short'**
+  String get nameIsTooShort;
+
+  /// Label
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get fullName;
+
+  /// Label
+  ///
+  /// In en, this message translates to:
+  /// **'Email is required'**
+  String get emailIsRequired;
+
+  /// Warning
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email'**
+  String get invalidEmail;
+
+  /// Warning
+  ///
+  /// In en, this message translates to:
+  /// **'Phone is required'**
+  String get phoneIsRequired;
+
+  /// Warning
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid phone number'**
+  String get invalidPhoneNumber;
+
+  /// Warning
+  ///
+  /// In en, this message translates to:
+  /// **'Date of birth is required'**
+  String get dateOfBirthIsRequired;
+
+  /// Label
+  ///
+  /// In en, this message translates to:
+  /// **'Date of Birth'**
+  String get dateOfBirth;
+
+  /// Label
+  ///
+  /// In en, this message translates to:
+  /// **'Gender'**
+  String get gender;
+
+  /// Warning
+  ///
+  /// In en, this message translates to:
+  /// **'Upload {title}'**
+  String uploadTitle(String title);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'License Front'**
+  String get licenseFront;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'License Back'**
+  String get licenseBack;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Government ID'**
+  String get governmentID;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rental Date'**
+  String get rentalDate;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'{day} Day'**
+  String singleRentalDay(int day);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'{days} Days'**
+  String multiRentalDay(int days);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'₺{dailyPrice} x {rentalDays} days'**
+  String dailyPricexDays(int dailyPrice, int rentalDays);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Receive Via'**
+  String get receiveVia;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Additional Note'**
+  String get additionalNote;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery Fee'**
+  String get deliveryFee;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery'**
+  String get delivery;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery Address'**
+  String get deliveryAddress;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Enter delivery address'**
+  String get enterDeliveryAddress;
+
+  /// Warning
+  ///
+  /// In en, this message translates to:
+  /// **'Not uploaded'**
+  String get notUploaded;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'View'**
+  String get view;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get name;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'ID'**
+  String get id;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Car Details'**
+  String get carDetails;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Seats'**
+  String get seatsLabel;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Transmission'**
+  String get transmission;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel'**
+  String get fuel;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup Date'**
+  String get pickupDate;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Dropoff Date'**
+  String get dropoffDate;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Total Duration'**
+  String get totalDuration;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery Type'**
+  String get deliveryType;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Price Details'**
+  String get priceDetails;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rental Price'**
+  String get rentalPrice;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery Price'**
+  String get deliveryPrice;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Deposit (Refundable)'**
+  String get depositRefundable;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Total (Pre-Tax)'**
+  String get totalPreTax;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Tax'**
+  String get tax;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Grand Total'**
+  String get grandTotal;
+
+  /// Warning
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum rental duration is {days} days'**
+  String minimumRentalDuration(int days);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Select Rental Period'**
+  String get selectRentalPeriod;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Drop-off'**
+  String get dropoff;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Driver\'s Details'**
+  String get driversDetails;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Driver License (Front)'**
+  String get driverLicenseFront;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Driver License (Back)'**
+  String get driverLicenseBack;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get male;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get female;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Others'**
+  String get others;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Pick-up'**
+  String get pickUp;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Confirmed'**
+  String get bookingConfirmed;
+
+  /// info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Successful!'**
+  String get bookingSuccessful;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your booking has been received.\nWe will confirm it shortly.'**
+  String get yourBookingHasBeenReceived;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Invoice Number'**
+  String get invoiceNumber;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'View My Bookings'**
+  String get viewMyBookings;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Home'**
+  String get backToHome;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Booking History'**
+  String get bookingHistory;
+
+  /// Tab
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get upcoming;
+
+  /// Tab
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get active;
+
+  /// Tab
+  ///
+  /// In en, this message translates to:
+  /// **'Past'**
+  String get past;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Ongoing'**
+  String get ongoing;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get completed;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No bookings here'**
+  String get noBookingsHere;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rate Now'**
+  String get rateNow;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'REF'**
+  String get ref;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Total Paid'**
+  String get totalPaid;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Total Due'**
+  String get totalDue;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'View Details'**
+  String get viewDetails;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking not found'**
+  String get bookingNotFound;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'View on map'**
+  String get viewOnMap;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Timeline'**
+  String get bookingTimeline;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rejection Details'**
+  String get rejectionDetails;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rejection Note'**
+  String get rejectionNote;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No reason provided'**
+  String get noReasonProvided;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Placed'**
+  String get bookingPlaced;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rate Your Experience'**
+  String get rateYourExperience;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rate Car'**
+  String get rateCar;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rate Company'**
+  String get rateCompany;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Write a review...'**
+  String get writeAReview;
+
+  /// Label
+  ///
+  /// In en, this message translates to:
+  /// **'Search brand or model...'**
+  String get searchBrandOrModel;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No cars found'**
+  String get noCarsFound;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'{distance} km'**
+  String distanceKM(int distance);
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All'**
+  String get clearAll;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Newest'**
+  String get newest;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Nearest'**
+  String get nearest;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Price ↑'**
+  String get priceUp;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Price ↓'**
+  String get priceDown;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Filters'**
+  String get filters;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Distance (KM)'**
+  String get distanceInKM;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Price Range'**
+  String get priceRange;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel Type'**
+  String get fuelType;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Apply Filters'**
+  String get applyFilters;
+
+  /// Warning
+  ///
+  /// In en, this message translates to:
+  /// **'Location services are disabled'**
+  String get locationServicesAreDisabled;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No notification'**
+  String get noNotification;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Trip Started'**
+  String get bookingStartedTitle;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Trip Completed'**
+  String get bookingCompletedTitle;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Rejected'**
+  String get bookingRejectedTitle;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Cancelled'**
+  String get bookingCancelledTitle;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Approved'**
+  String get bookingApprovedTitle;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Booking update'**
+  String get bookingUnknownTitle;
+
+  /// Message
+  ///
+  /// In en, this message translates to:
+  /// **'{shopName} approved your booking for {carName}.'**
+  String bookingApprovedMessage(String shopName, String carName);
+
+  /// Message
+  ///
+  /// In en, this message translates to:
+  /// **'Your rental is now ongoing.'**
+  String get bookingOngoingMessage;
+
+  /// Message
+  ///
+  /// In en, this message translates to:
+  /// **'Your booking has been completed.'**
+  String get bookingCompletedMessage;
+
+  /// Message
+  ///
+  /// In en, this message translates to:
+  /// **'Your booking was rejected.'**
+  String get bookingRejectedMessage;
+
+  /// Message
+  ///
+  /// In en, this message translates to:
+  /// **'Your booking has been cancelled.'**
+  String get bookingCancelledMessage;
+
+  /// Message
+  ///
+  /// In en, this message translates to:
+  /// **'Your booking status changed.'**
+  String get bookingUnknownMessage;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get chooseFromGallery;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get takeAPhoto;
 }
 
 class _AppLocalizationsDelegate

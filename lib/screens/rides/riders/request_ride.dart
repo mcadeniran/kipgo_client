@@ -1116,7 +1116,9 @@ class _RequestRideState extends State<RequestRide> {
                                   Container(
                                     padding: const EdgeInsets.all(14),
                                     decoration: BoxDecoration(
-                                      color: Colors.orange.withOpacity(0.12),
+                                      color: Colors.orange.withValues(
+                                        alpha: .12,
+                                      ),
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     child: Column(
@@ -1780,7 +1782,7 @@ class _RequestRideState extends State<RequestRide> {
       duration: const Duration(milliseconds: 250),
       opacity: _isMapLoading ? 1 : 0,
       child: Container(
-        color: Colors.black.withOpacity(0.35),
+        color: Colors.black.withValues(alpha: .35),
         child: Center(
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
@@ -1789,7 +1791,7 @@ class _RequestRideState extends State<RequestRide> {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
+                  color: Colors.black.withValues(alpha: .2),
                   blurRadius: 12,
                   offset: const Offset(0, 4),
                 ),
