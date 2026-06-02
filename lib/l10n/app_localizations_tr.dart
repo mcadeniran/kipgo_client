@@ -1602,4 +1602,532 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get takeAPhoto => 'Fotoğraf çek';
+
+  @override
+  String get monthlyRevenue => 'Aylık Gelir';
+
+  @override
+  String get offlineRevenue => 'Offline Gelir';
+
+  @override
+  String get onlineRevenue => 'Online Gelir';
+
+  @override
+  String get commission => 'Komisyon';
+
+  @override
+  String get activeBookings => 'Aktif Rezervasyonlar';
+
+  @override
+  String get pendingBookings => 'Bekleyen Rezervasyonlar';
+
+  @override
+  String get totalCars => 'Toplam Araç';
+
+  @override
+  String get unitsAvailable => 'Mevcut Araçlar';
+
+  @override
+  String get revenue => 'Gelir';
+
+  @override
+  String daysD(int days) {
+    return '${days}G';
+  }
+
+  @override
+  String get thisMonth => 'Bu ay';
+
+  @override
+  String get bookedInShop => 'Ofiste Yapılan Rezervasyonlar';
+
+  @override
+  String get bookedInApp => 'Uygulamada Yapılan Rezervasyonlar';
+
+  @override
+  String get ongoingMonth => 'Devam Eden Ay';
+
+  @override
+  String get currentlyOngoing => 'Şu Anda Devam Eden';
+
+  @override
+  String get waitingApproval => 'Onay Bekliyor';
+
+  @override
+  String get carsInFleet => 'Filodaki Araçlar';
+
+  @override
+  String get readyToRent => 'Kiralamaya Hazır';
+
+  @override
+  String get home => 'Ana Sayfa';
+
+  @override
+  String get bookings => 'Rezervasyonlar';
+
+  @override
+  String get profile => 'Profil';
+
+  @override
+  String get hidden => 'Gizli';
+
+  @override
+  String get officePickup => 'Ofisten Teslim Alma';
+
+  @override
+  String get homeDelivery => 'Adrese Teslim';
+
+  @override
+  String booked(String start, String end) {
+    return 'Rezervasyon $start - $end';
+  }
+
+  @override
+  String get unitNotFound => 'Araç bulunamadı';
+
+  @override
+  String get numberPlate => 'Plaka';
+
+  @override
+  String get age => 'Yaş';
+
+  @override
+  String get noDocumentSubmitted =>
+      'Bu manuel rezervasyon olduğu için belge yüklenmedi.';
+
+  @override
+  String get startBooking => 'Rezervasyonu Başlat';
+
+  @override
+  String get startBookingPrompt =>
+      'Bu rezervasyonu başlatmak istediğinizden emin misiniz?';
+
+  @override
+  String get start => 'Başlat';
+
+  @override
+  String get completeBooking => 'Rezervasyonu Tamamla';
+
+  @override
+  String get markAsCompleted =>
+      'Bu rezervasyonu tamamlandı olarak işaretlemek istiyor musunuz?';
+
+  @override
+  String get complete => 'Tamamla';
+
+  @override
+  String get car => 'Araç';
+
+  @override
+  String get carSummary => 'Araç Özeti';
+
+  @override
+  String get assignedUnit => 'Atanan Araç';
+
+  @override
+  String get deliveryInformation => 'Teslimat Bilgileri';
+
+  @override
+  String get reasonForRejection => 'Reddetme Nedeni';
+
+  @override
+  String get paymentBreakdown => 'Ödeme Detayları';
+
+  @override
+  String get assignUnit => 'Araç Ata';
+
+  @override
+  String unitAlreadyBooked(String conflict) {
+    return 'Araç zaten rezerve edilmiş: $conflict';
+  }
+
+  @override
+  String get approveBooking => 'Rezervasyonu Onayla';
+
+  @override
+  String get approveBookingPrompt =>
+      'Bu rezervasyonu onaylamak istediğinizden emin misiniz?';
+
+  @override
+  String get approve => 'Onayla';
+
+  @override
+  String get bookingApproved => 'Rezervasyon onaylandı';
+
+  @override
+  String get rejectBooking => 'Rezervasyonu Reddet';
+
+  @override
+  String get rejectBookingPrompt => 'Lütfen reddetme nedeni girin';
+
+  @override
+  String get enterReason => 'Neden girin';
+
+  @override
+  String get bookingRejected => 'Rezervasyon reddedildi';
+
+  @override
+  String get selectedUnitNotAvailable => 'Seçilen araç artık mevcut değil';
+
+  @override
+  String get unavailable => 'Mevcut değil';
+
+  @override
+  String get or => 'veya';
+
+  @override
+  String get available => 'Müsait';
+
+  @override
+  String get maintenance => 'Bakım';
+
+  @override
+  String get selectedPickupDateUnavailable =>
+      'Seçilen teslim alma tarihi artık müsait değil';
+
+  @override
+  String get selectedDropoffDateUnavailable =>
+      'Seçilen teslim etme tarihi artık müsait değil';
+
+  @override
+  String get selectedRangeContainsUnavailableDates =>
+      'Seçilen tarih aralığında müsait olmayan tarihler var';
+
+  @override
+  String get paymentSubmitted => 'Ödeme Gönderildi';
+
+  @override
+  String get reserved => 'Rezerve Edildi';
+
+  @override
+  String get expired => 'Süresi Doldu';
+
+  @override
+  String get crypto => 'Kripto';
+
+  @override
+  String get payOnPickup => 'Teslim Alırken Öde';
+
+  @override
+  String get unpaid => 'Ödenmedi';
+
+  @override
+  String get awaitingVerification => 'Doğrulama Bekleniyor';
+
+  @override
+  String get paid => 'Ödendi';
+
+  @override
+  String get failed => 'Başarısız';
+
+  @override
+  String get areYouSureBookingSubmit =>
+      'Bu rezervasyon talebini göndermek istediğinizden emin misiniz?';
+
+  @override
+  String get payment => 'Ödeme';
+
+  @override
+  String get error => 'Hata';
+
+  @override
+  String get paymentMethod => 'Ödeme Yöntemi';
+
+  @override
+  String get payUsingCrypto => 'Kripto para ile öde';
+
+  @override
+  String get payPhysically => 'Aracı teslim alırken fiziksel ödeme yap';
+
+  @override
+  String get paymentSummary => 'Ödeme Özeti';
+
+  @override
+  String get rental => 'Kiralama';
+
+  @override
+  String get total => 'Toplam';
+
+  @override
+  String get selectedRange =>
+      'Seçilen tarih aralığında müsait olmayan tarihler var';
+
+  @override
+  String get transactionHashRequired => 'İşlem hash değeri gereklidir';
+
+  @override
+  String get invalidTronHash => 'Geçersiz TRON işlem hash değeri';
+
+  @override
+  String get paymentExpired => 'Ödeme Süresi Doldu';
+
+  @override
+  String get cryptoPaymentSessionExpired =>
+      'Bu kripto ödeme oturumunun süresi doldu.';
+
+  @override
+  String get thisPaymentSessionHasExpired =>
+      'Bu ödeme oturumunun süresi doldu.';
+
+  @override
+  String get transactionHasSubmitted =>
+      'İşlem hash değeriniz başarıyla gönderildi.';
+
+  @override
+  String get checkout => 'Ödeme';
+
+  @override
+  String get paymentExpiresIn => 'Ödeme Süresi';
+
+  @override
+  String get totalAmount => 'Toplam Tutar';
+
+  @override
+  String includesUSDTFee(double fee) {
+    return '\$$fee USDT ağ ücretini içerir';
+  }
+
+  @override
+  String get copied => 'Kopyalandı';
+
+  @override
+  String get walletAddressCopied => 'Cüzdan adresi başarıyla kopyalandı';
+
+  @override
+  String get clickToCopyAddress => 'Adresi kopyalamak için tıklayın';
+
+  @override
+  String get scanQRCode => 'QR Kodunu Tarayın veya Adresi Kopyalayın';
+
+  @override
+  String get onlySendUSDT =>
+      'Önemli: Bu adrese yalnızca TRC20 ağı üzerinden USDT gönderin.';
+
+  @override
+  String get enterTransactionHash => 'İşlem Hash Değerini (TXID) Girin';
+
+  @override
+  String get pasteTransactionHash => 'İşlem hash değerini yapıştırın';
+
+  @override
+  String get iHavePaid => 'ÖDEME YAPTIM';
+
+  @override
+  String get leaveBookingFlow => 'Rezervasyondan çıkılsın mı?';
+
+  @override
+  String get leaveBookingWarning => 'Rezervasyon ilerlemeniz kaybolabilir.';
+
+  @override
+  String get leave => 'Çık';
+
+  @override
+  String get attention => 'Dikkat Gerekenler';
+
+  @override
+  String get closed => 'Kapatıldı';
+
+  @override
+  String get alreadyProcessed => 'Rezervasyon zaten işleme alınmış';
+
+  @override
+  String get bookingApprovedSuccessfully => 'Rezervasyon başarıyla onaylandı';
+
+  @override
+  String get bookingCanNoLongerBeRejected => 'Rezervasyon artık reddedilemez';
+
+  @override
+  String get bookingCannotBeStarted => 'Rezervasyon başlatılamaz';
+
+  @override
+  String get aVehicleUnitMustBeAssigned =>
+      'Başlatmadan önce bir araç atanmalıdır';
+
+  @override
+  String get bookingStartedSuccessfully => 'Rezervasyon başarıyla başlatıldı';
+
+  @override
+  String get onlyOngoingBookingsCanBeCompleted =>
+      'Yalnızca devam eden rezervasyonlar tamamlanabilir';
+
+  @override
+  String get bookingCompletedSuccessfully => 'Rezervasyon başarıyla tamamlandı';
+
+  @override
+  String get unknownError => 'Bir şeyler yanlış gitti. Lütfen tekrar deneyin.';
+
+  @override
+  String get success => 'Başarılı';
+
+  @override
+  String get actionWillStartRental =>
+      'Bu işlem kiralama süresini başlatacaktır.';
+
+  @override
+  String get actionWillAssignSelectedUnit =>
+      'Bu işlem seçilen aracı rezervasyona atayacak ve kiralama süresini başlatacaktır. Ayrıca rezervasyon ödendi olarak işaretlenecektir.';
+
+  @override
+  String get doYouWantToApproveBooking =>
+      'Bu rezervasyonu onaylamak istiyor musunuz? Araç teslim alma sırasında atanacaktır.';
+
+  @override
+  String get willEndRentalPeriod =>
+      'Bu işlem rezervasyonun kiralama süresini sonlandıracak ve rezervasyon tamamlandı olarak işaretlenecektir.';
+
+  @override
+  String get awaitingBookingReview => 'Rezervasyon incelemesi bekleniyor.';
+
+  @override
+  String get customerHasSUbmittedABookingRequest =>
+      'Müşteri bir rezervasyon talebi gönderdi. Rezervasyon detaylarını inceleyin ve talebi onaylayıp onaylamayacağınıza veya reddedip reddetmeyeceğinize karar verin.';
+
+  @override
+  String get awaitingCryptoPaymentFromCustomer =>
+      'Müşteriden kripto ödeme bekleniyor.';
+
+  @override
+  String get theBookingWillRemainPending =>
+      'Geçerli bir işlem hash\'i (TXID) gönderilene kadar rezervasyon beklemede kalacaktır.';
+
+  @override
+  String get cryptoPaymentSubmittedAndAwaitingVerification =>
+      'Kripto ödeme gönderildi ve doğrulama bekleniyor.';
+
+  @override
+  String get onceThePaymentIsVerified =>
+      'Ödeme doğrulandıktan sonra, seçilen kiralama dönemi için uygun bir araç otomatik olarak rezerve edilecektir.';
+
+  @override
+  String get paymentVerifiedSuccessfully => 'Ödeme başarıyla doğrulandı.';
+
+  @override
+  String get aCarUnitHasBeenReserved =>
+      'Bu rezervasyon için bir araç otomatik olarak rezerve edildi. Rezervasyon onay ve teslim alma için hazırdır.';
+
+  @override
+  String get bookingApprovedAndAwaitingPickup =>
+      'Rezervasyon onaylandı ve araç teslim alınmayı bekliyor. Planlanan teslim alma tarihinden önce seçilen aracın hazır olduğundan emin olun.';
+
+  @override
+  String get rentalCurrentlyInProgress => 'Kiralama şu anda devam ediyor.';
+
+  @override
+  String get theCustomerHasPickedUp =>
+      'Müşteri aracı teslim aldı ve kiralama süresi aktiftir. Araç iade edilene kadar rezervasyonu takip edin.';
+
+  @override
+  String get rentalCompletedSuccessfully => 'Kiralama başarıyla tamamlandı.';
+
+  @override
+  String get theVehicleHasBeenReturned =>
+      'Araç iade edildi ve rezervasyon tamamlandı. Başka bir işlem gerekmez.';
+
+  @override
+  String get bookingRequestWasRejected =>
+      'Bu rezervasyon talebi reddedildi ve devam etmeyecektir. Gerekirse müşteri yeni bir rezervasyon talebi gönderebilir.';
+
+  @override
+  String get bookingCancelled => 'Rezervasyon iptal edildi.';
+
+  @override
+  String get thisBookingWasCancelledBeforeCompletion =>
+      'Bu rezervasyon tamamlanmadan önce iptal edildi. Şu anda bu rezervasyon için ayrılmış bir araç yoktur.';
+
+  @override
+  String get cryptoPaymentWasRejected => 'Kripto ödeme reddedildi.';
+
+  @override
+  String rejectionReason(String reason) {
+    return 'Neden: $reason';
+  }
+
+  @override
+  String get unknownReason => 'Bilinmeyen neden';
+
+  @override
+  String get customerMaySubmitNewValidHash =>
+      'Müşteri yeni ve geçerli bir işlem hash\'i gönderebilir.';
+
+  @override
+  String get bookingExpired => 'Rezervasyonun süresi doldu.';
+
+  @override
+  String get paymentResevervationExpired =>
+      'Ödeme veya rezervasyon süresi, onay işlemi tamamlanmadan önce sona erdi.';
+
+  @override
+  String get notAvailable => 'Mevcut Değil';
+
+  @override
+  String get waitingForPayment => 'Ödeme bekleniyor.';
+
+  @override
+  String get yourBookingRequestReceived =>
+      'Rezervasyon talebiniz alındı. Devam etmek için ödeme süresi dolmadan kripto ödemenizi ve işlem hash\'inizi (TXID) gönderin.';
+
+  @override
+  String get bookingRequestSubmitted => 'Rezervasyon talebi gönderildi.';
+
+  @override
+  String get yourBookingRequestAwaitingReview =>
+      'Rezervasyon talebiniz araç kiralama şirketi tarafından incelenmeyi bekliyor. Karar verildiğinde size bildirim gönderilecektir.';
+
+  @override
+  String get paymentSubmittedSuccessfully => 'Ödeme başarıyla gönderildi.';
+
+  @override
+  String get yourTransHashReceived =>
+      'İşlem hash\'iniz alındı ve şu anda doğrulanıyor. Bu işlem, ağ onaylarına bağlı olarak biraz zaman alabilir.';
+
+  @override
+  String get vehicleReserved => 'Araç rezerve edildi.';
+
+  @override
+  String get yourPaymentVerified =>
+      'Ödemeniz doğrulandı ve seçtiğiniz kiralama dönemi için bir araç rezerve edildi. Rezervasyonunuz son onayı bekliyor.';
+
+  @override
+  String get yourBookingHasBeenApproved =>
+      'Rezervasyonunuz onaylandı. Lütfen planlanan tarihte gerekli kimlik ve belgelerle birlikte teslim alma noktasında hazır bulunun.';
+
+  @override
+  String get rentalInProgress => 'Kiralama devam ediyor.';
+
+  @override
+  String get yourRentalPeriodCurrentlyActive =>
+      'Kiralama süreniz şu anda aktiftir. Lütfen aracı kararlaştırılan iade tarihinden önce veya o tarihte teslim ettiğinizden emin olun.';
+
+  @override
+  String get rentalCompleted => 'Kiralama tamamlandı.';
+
+  @override
+  String get rentalCompletedFeedback =>
+      'Bu kiralama başarıyla tamamlandı. Deneyiminiz hakkında geri bildiriminizi paylaşmanızdan memnuniyet duyarız.';
+
+  @override
+  String get rentalCompletedRated =>
+      'Bu kiralama başarıyla tamamlandı. Hizmetimizi tercih ettiğiniz için teşekkür ederiz.';
+
+  @override
+  String get bookingRequestRejected => 'Rezervasyon talebi reddedildi.';
+
+  @override
+  String get unfortunatelyBookingRequest =>
+      'Maalesef bu rezervasyon talebi onaylanamadı. Yeni bir rezervasyon talebi gönderebilir veya daha fazla bilgi için kiralama şirketiyle iletişime geçebilirsiniz.';
+
+  @override
+  String get thisBookingHasBeenCancelled =>
+      'Bu rezervasyon iptal edildi ve devam etmeyecektir.';
+
+  @override
+  String get paymentOrConfirmationExpired =>
+      'Rezervasyon tamamlanmadan önce ödeme veya onay süresi doldu. Bu aracı hâlâ kiralamak istiyorsanız yeni bir rezervasyon oluşturmanız gerekecektir.';
+
+  @override
+  String get paymentVerificationFailed => 'Ödeme doğrulaması başarısız oldu.';
+
+  @override
+  String get youMaySubmitAnotherValidTrans =>
+      'Rezervasyonun süresi dolmadan önce başka bir geçerli işlem hash\'i gönderebilirsiniz.';
 }

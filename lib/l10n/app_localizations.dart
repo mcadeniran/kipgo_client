@@ -3111,6 +3111,954 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Take a photo'**
   String get takeAPhoto;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly Revenue'**
+  String get monthlyRevenue;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Offline Revenue'**
+  String get offlineRevenue;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Online Revenue'**
+  String get onlineRevenue;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Commission'**
+  String get commission;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Active Bookings'**
+  String get activeBookings;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Bookings'**
+  String get pendingBookings;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Total Cars'**
+  String get totalCars;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Units Available'**
+  String get unitsAvailable;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Revenue'**
+  String get revenue;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'{days}D'**
+  String daysD(int days);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get thisMonth;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booked in shop'**
+  String get bookedInShop;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booked in App'**
+  String get bookedInApp;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Ongoing month'**
+  String get ongoingMonth;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Currently ongoing'**
+  String get currentlyOngoing;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting approval'**
+  String get waitingApproval;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Cars in fleet'**
+  String get carsInFleet;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to rent'**
+  String get readyToRent;
+
+  /// Tab
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
+  /// Tab
+  ///
+  /// In en, this message translates to:
+  /// **'Bookings'**
+  String get bookings;
+
+  /// Tab
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden'**
+  String get hidden;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Office Pickup'**
+  String get officePickup;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Home Delivery'**
+  String get homeDelivery;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booked {start} - {end}'**
+  String booked(String start, String end);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Unit not found'**
+  String get unitNotFound;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Number Plate'**
+  String get numberPlate;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Age'**
+  String get age;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No document submitted because this is a manual booking.'**
+  String get noDocumentSubmitted;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Start Booking'**
+  String get startBooking;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to start this booking?'**
+  String get startBookingPrompt;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get start;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Complete Booking'**
+  String get completeBooking;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Mark this booking as completed?'**
+  String get markAsCompleted;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Complete'**
+  String get complete;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Car'**
+  String get car;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Car Summary'**
+  String get carSummary;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Assigned Unit'**
+  String get assignedUnit;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery Information'**
+  String get deliveryInformation;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Reason for Rejection'**
+  String get reasonForRejection;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Breakdown'**
+  String get paymentBreakdown;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Assign Unit'**
+  String get assignUnit;
+
+  /// Error
+  ///
+  /// In en, this message translates to:
+  /// **'Unit already booked: {conflict}'**
+  String unitAlreadyBooked(String conflict);
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Approve Booking'**
+  String get approveBooking;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to approve this booking?'**
+  String get approveBookingPrompt;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Approve'**
+  String get approve;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking approved'**
+  String get bookingApproved;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'Reject Booking'**
+  String get rejectBooking;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Provide a reason for rejection'**
+  String get rejectBookingPrompt;
+
+  /// Hint
+  ///
+  /// In en, this message translates to:
+  /// **'Enter reason'**
+  String get enterReason;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking rejected'**
+  String get bookingRejected;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Selected unit is no longer available'**
+  String get selectedUnitNotAvailable;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Unavailable'**
+  String get unavailable;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'or'**
+  String get or;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get available;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance'**
+  String get maintenance;
+
+  /// ERROR
+  ///
+  /// In en, this message translates to:
+  /// **'Selected pickup date is no longer available'**
+  String get selectedPickupDateUnavailable;
+
+  /// Error
+  ///
+  /// In en, this message translates to:
+  /// **'Selected dropoff date is no longer available'**
+  String get selectedDropoffDateUnavailable;
+
+  /// Error
+  ///
+  /// In en, this message translates to:
+  /// **'Selected range contains unavailable dates'**
+  String get selectedRangeContainsUnavailableDates;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Submitted'**
+  String get paymentSubmitted;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Reserved'**
+  String get reserved;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Expired'**
+  String get expired;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Crypto'**
+  String get crypto;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Pay On Pickup'**
+  String get payOnPickup;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Unpaid'**
+  String get unpaid;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Awaiting Verification'**
+  String get awaitingVerification;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get paid;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get failed;
+
+  /// Warning
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to submit this booking request?'**
+  String get areYouSureBookingSubmit;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Payment'**
+  String get payment;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Method'**
+  String get paymentMethod;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Pay using cryptocurrency'**
+  String get payUsingCrypto;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Pay physically when receiving car'**
+  String get payPhysically;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Summary'**
+  String get paymentSummary;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rental'**
+  String get rental;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get total;
+
+  /// Error
+  ///
+  /// In en, this message translates to:
+  /// **'Selected range contains unavailable dates'**
+  String get selectedRange;
+
+  /// Error
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction hash is required\''**
+  String get transactionHashRequired;
+
+  /// Error
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid TRON transaction hash'**
+  String get invalidTronHash;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Expired'**
+  String get paymentExpired;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'This crypto payment session has expired.'**
+  String get cryptoPaymentSessionExpired;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'This payment session has expired.'**
+  String get thisPaymentSessionHasExpired;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your transaction hash has been submitted successfully.'**
+  String get transactionHasSubmitted;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout'**
+  String get checkout;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Expires In'**
+  String get paymentExpiresIn;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Total Amount'**
+  String get totalAmount;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Includes \${fee} USDT network fee'**
+  String includesUSDTFee(double fee);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Copied'**
+  String get copied;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet address copied successfully'**
+  String get walletAddressCopied;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Click to copy address'**
+  String get clickToCopyAddress;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Scan QR Code or Copy Address'**
+  String get scanQRCode;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Important: Send only USDT via the TRC20 network to this address.'**
+  String get onlySendUSDT;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Transaction Hash (TXID)'**
+  String get enterTransactionHash;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Paste transaction hash'**
+  String get pasteTransactionHash;
+
+  /// Action
+  ///
+  /// In en, this message translates to:
+  /// **'I HAVE PAID'**
+  String get iHavePaid;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Leave booking?'**
+  String get leaveBookingFlow;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your booking progress may be lost.'**
+  String get leaveBookingWarning;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Leave'**
+  String get leave;
+
+  /// Tab
+  ///
+  /// In en, this message translates to:
+  /// **'Attention'**
+  String get attention;
+
+  /// Tab
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get closed;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking has already been processed'**
+  String get alreadyProcessed;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking approved successfully'**
+  String get bookingApprovedSuccessfully;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking can no longer be rejected'**
+  String get bookingCanNoLongerBeRejected;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking cannot be started'**
+  String get bookingCannotBeStarted;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'A vehicle unit must be assigned before starting'**
+  String get aVehicleUnitMustBeAssigned;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking started successfully'**
+  String get bookingStartedSuccessfully;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Only ongoing bookings can be completed'**
+  String get onlyOngoingBookingsCanBeCompleted;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking completed successfully'**
+  String get bookingCompletedSuccessfully;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get unknownError;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Success'**
+  String get success;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'This action will start the rental period.'**
+  String get actionWillStartRental;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'This action will assign the selected unit to the booking and start the rental period. Also the booking will be marked as paid.'**
+  String get actionWillAssignSelectedUnit;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to approve this booking? A unit will be assigned during pickup.'**
+  String get doYouWantToApproveBooking;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'This will end the rental period of this booking and it will be marked as completed.'**
+  String get willEndRentalPeriod;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Awaiting booking review.'**
+  String get awaitingBookingReview;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'The customer has submitted a booking request. Review the booking details and decide whether to approve or reject the request.'**
+  String get customerHasSUbmittedABookingRequest;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Awaiting crypto payment from customer.'**
+  String get awaitingCryptoPaymentFromCustomer;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'The booking will remain pending until a valid transaction hash (TXID) is submitted.'**
+  String get theBookingWillRemainPending;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Crypto payment submitted and awaiting verification.'**
+  String get cryptoPaymentSubmittedAndAwaitingVerification;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Once the payment is verified, an available car unit will be reserved automatically for the selected rental period.'**
+  String get onceThePaymentIsVerified;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payment verified successfully.'**
+  String get paymentVerifiedSuccessfully;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'A car unit has been reserved automatically for this booking. The booking is ready for approval and pickup.'**
+  String get aCarUnitHasBeenReserved;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'The booking has been approved and is awaiting vehicle pickup. Ensure the selected vehicle is ready before the scheduled pickup date.'**
+  String get bookingApprovedAndAwaitingPickup;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rental currently in progress.'**
+  String get rentalCurrentlyInProgress;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'The customer has picked up the vehicle and the rental period is active. Monitor the booking until the vehicle is returned.'**
+  String get theCustomerHasPickedUp;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rental completed successfully.'**
+  String get rentalCompletedSuccessfully;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'The vehicle has been returned and the booking has been completed. No further action is required.'**
+  String get theVehicleHasBeenReturned;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'This booking request was rejected and will not proceed further. The customer may submit a new booking request if necessary.'**
+  String get bookingRequestWasRejected;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking cancelled.'**
+  String get bookingCancelled;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'This booking was cancelled before completion. No vehicle is currently reserved for this booking.'**
+  String get thisBookingWasCancelledBeforeCompletion;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Crypto payment was rejected.'**
+  String get cryptoPaymentWasRejected;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Reason: {reason}'**
+  String rejectionReason(String reason);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown reason'**
+  String get unknownReason;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'The customer may submit a new valid transaction hash.'**
+  String get customerMaySubmitNewValidHash;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking expired.'**
+  String get bookingExpired;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'The payment or reservation window expired before confirmation was completed.'**
+  String get paymentResevervationExpired;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Not Available'**
+  String get notAvailable;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for payment.'**
+  String get waitingForPayment;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your booking request has been received. To continue, submit your crypto payment and transaction hash (TXID) before the payment window expires.'**
+  String get yourBookingRequestReceived;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking request submitted.'**
+  String get bookingRequestSubmitted;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your booking request is awaiting review by the rental company. You will be notified once a decision has been made.'**
+  String get yourBookingRequestAwaitingReview;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payment submitted successfully.'**
+  String get paymentSubmittedSuccessfully;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your transaction hash has been received and is currently being verified. This process may take some time depending on network confirmations.'**
+  String get yourTransHashReceived;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle reserved.'**
+  String get vehicleReserved;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your payment has been verified and a vehicle has been reserved for your selected rental period. Your booking is awaiting final approval.'**
+  String get yourPaymentVerified;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your booking has been approved. Please arrive at the pickup location on the scheduled date with any required identification and documents.'**
+  String get yourBookingHasBeenApproved;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rental in progress'**
+  String get rentalInProgress;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your rental period is currently active. Please ensure the vehicle is returned on or before the agreed return date.'**
+  String get yourRentalPeriodCurrentlyActive;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rental completed.'**
+  String get rentalCompleted;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'This rental has been completed successfully. We would appreciate your feedback about your experience.'**
+  String get rentalCompletedFeedback;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'This rental has been completed successfully. Thank you for choosing our service.'**
+  String get rentalCompletedRated;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking request rejected.'**
+  String get bookingRequestRejected;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Unfortunately, this booking request could not be approved. You may submit a new booking request or contact the rental company for more information.'**
+  String get unfortunatelyBookingRequest;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'This booking has been cancelled and will not proceed further.'**
+  String get thisBookingHasBeenCancelled;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'The payment or confirmation period expired before the booking could be completed. A new booking will be required if you still wish to rent this vehicle.'**
+  String get paymentOrConfirmationExpired;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payment verification failed.'**
+  String get paymentVerificationFailed;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'You may submit another valid transaction hash before the booking expires.'**
+  String get youMaySubmitAnotherValidTrans;
 }
 
 class _AppLocalizationsDelegate

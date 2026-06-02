@@ -34,6 +34,7 @@ class _AppBarWidgetState extends State<AppBarWidget> {
           fontSize: 20,
         ),
       ),
+      surfaceTintColor: Colors.transparent,
       iconTheme: IconThemeData(color: Colors.white),
       actions: [
         if (widget.showLanguage) const LanguageWidget(),

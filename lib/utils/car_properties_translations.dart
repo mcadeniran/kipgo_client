@@ -38,6 +38,10 @@ String carPropertiesTranslations(BuildContext context, String value) {
       return loc.delivery;
     case 'pending':
       return loc.pending;
+    case 'payment_submitted':
+      return loc.paymentSubmitted;
+    case 'reserved':
+      return loc.reserved;
     case 'approved':
       return loc.approved;
     case 'ongoing':
@@ -48,6 +52,20 @@ String carPropertiesTranslations(BuildContext context, String value) {
       return loc.cancelled;
     case 'rejected':
       return loc.rejected;
+    case 'expired':
+      return loc.expired;
+    case 'crypto':
+      return loc.crypto;
+    case 'payOnPickup':
+      return loc.payOnPickup;
+    case 'unpaid':
+      return loc.unpaid;
+    case 'awaiting_verification':
+      return loc.awaitingVerification;
+    case 'paid':
+      return loc.paid;
+    case 'failed':
+      return loc.failed;
     default:
       return loc.unknown;
   }

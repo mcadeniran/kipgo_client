@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/screens/rental/car_booking/car_booking_page.dart'
     show DeliveryType;
+import 'package:kipgo/screens/widgets/format_currency.dart';
 import 'package:kipgo/screens/widgets/input_decorator.dart';
 import 'package:kipgo/utils/colors.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +13,8 @@ class CarDeliveryWidget extends StatelessWidget {
   final ValueChanged<DeliveryType> onChanged;
   final TextEditingController deliveryAddress;
   final double deliveryFee;
+  final bool offersDelivery;
+  final String currency;
 
   const CarDeliveryWidget({
     super.key,
@@ -20,6 +22,8 @@ class CarDeliveryWidget extends StatelessWidget {
     required this.onChanged,
     required this.deliveryAddress,
     required this.deliveryFee,
+    required this.offersDelivery,
+    required this.currency,
   });
 
   @override
@@ -45,10 +49,15 @@ class CarDeliveryWidget extends StatelessWidget {
               ),
               Text(
                 // "₺${deliveryFee.toStringAsFixed(0)}",
-                NumberFormat.currency(
-                  locale: 'en',
-                  symbol: '₺',
-                ).format(deliveryFee),
+                formatCurrency(
+                  amount: deliveryFee,
+                  currencyCode: currency,
+                  context: context,
+                ),
+                // NumberFormat.currency(
+                //   locale: 'en',
+                //   symbol: '₺',
+                // ).format(deliveryFee),
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
@@ -80,12 +89,14 @@ class CarDeliveryWidget extends StatelessWidget {
             type: DeliveryType.pickup,
             isDark: isDark,
           ),
-          _buildDeliverySegment(
-            title: AppLocalizations.of(context)!.delivery,
-            icon: Icons.local_shipping_outlined,
-            type: DeliveryType.delivery,
-            isDark: isDark,
-          ),
+          offersDelivery
+              ? _buildDeliverySegment(
+                  title: AppLocalizations.of(context)!.delivery,
+                  icon: Icons.local_shipping_outlined,
+                  type: DeliveryType.delivery,
+                  isDark: isDark,
+                )
+              : SizedBox.shrink(),
         ],
       ),
     );
@@ -101,9 +112,11 @@ class CarDeliveryWidget extends StatelessWidget {
 
     return Expanded(
       child: GestureDetector(
-        onTap: () {
-          onChanged(type);
-        },
+        onTap: offersDelivery == false
+            ? null
+            : () {
+                onChanged(type);
+              },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 500),
           padding: const EdgeInsets.symmetric(vertical: 14),

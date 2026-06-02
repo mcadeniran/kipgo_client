@@ -89,6 +89,7 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                                 widget.car.car.currency ??
                                 widget.car.shop.currency,
                             context: context,
+                            decimalDigits: 0,
                           ),
                           style: Theme.of(context).textTheme.bodySmall!
                               .copyWith(
@@ -160,16 +161,20 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                   ),
                   elevation: 0,
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => CarBookingPage(car: widget.car),
-                    ),
-                  );
-                },
+                onPressed: widget.car.car.availableUnits == 0
+                    ? null
+                    : () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => CarBookingPage(car: widget.car),
+                          ),
+                        );
+                      },
                 child: Text(
-                  AppLocalizations.of(context)!.bookNow,
+                  widget.car.car.availableUnits == 0
+                      ? AppLocalizations.of(context)!.notAvailable
+                      : AppLocalizations.of(context)!.bookNow,
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -373,7 +378,7 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                                               ),
                                               SizedBox(width: 2),
                                               Text(
-                                                shop.rating.toString(),
+                                                shop!.rating.toString(),
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 12,

@@ -13,6 +13,16 @@ class FeaturedRentalCompaniesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
 
+    bool isValidImageUrl(String? url) {
+      if (url == null || url.trim().isEmpty) return false;
+
+      final uri = Uri.tryParse(url);
+
+      return uri != null &&
+          uri.hasScheme &&
+          (uri.scheme == 'http' || uri.scheme == 'https');
+    }
+
     return Consumer<RentalShopProvider>(
       builder: (context, rs, _) {
         return rs.loading
@@ -79,19 +89,26 @@ class FeaturedRentalCompaniesSection extends StatelessWidget {
                                         radius: 26,
                                         backgroundColor: AppColors.primary
                                             .withValues(alpha: .1),
-                                        child: FadeInImage.assetNetwork(
-                                          fadeInCurve: Curves.easeIn,
-                                          fadeInDuration: Duration(seconds: 2),
-                                          fit: BoxFit.cover,
-                                          placeholder:
-                                              "assets/images/image_spinner.gif",
-                                          image: company.logo,
-                                          imageErrorBuilder: (c, e, s) =>
-                                              Image.asset(
+                                        child: isValidImageUrl(company.logo)
+                                            ? FadeInImage.assetNetwork(
+                                                fadeInCurve: Curves.easeIn,
+                                                fadeInDuration: Duration(
+                                                  seconds: 2,
+                                                ),
+                                                fit: BoxFit.cover,
+                                                placeholder:
+                                                    "assets/images/image_spinner.gif",
+                                                image: company.logo,
+                                                imageErrorBuilder: (c, e, s) =>
+                                                    Image.asset(
+                                                      "assets/images/placeholder.jpeg",
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                              )
+                                            : Image.asset(
                                                 "assets/images/placeholder.jpeg",
                                                 fit: BoxFit.cover,
                                               ),
-                                        ),
                                       ),
                                     ),
                                     const SizedBox(width: 12),

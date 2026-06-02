@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class BookingModel {
   final String id;
   final String invoiceNumber;
+  final String source;
   final String carId;
   final String shopId;
   final String userId;
@@ -34,6 +35,10 @@ class BookingModel {
 
   final BookingRating rating;
 
+  final BookingPayment? payment;
+
+  final String? unitId;
+
   final String status;
   final String? rejectionReason;
 
@@ -43,9 +48,25 @@ class BookingModel {
   final DateTime? completedAt;
   final DateTime? rejectedAt;
 
+  // final String paymentMethod;
+  // final String paymentStatus;
+
+  final String? paymentReference;
+  final String? transactionId;
+
+  final bool paymentVerified;
+
+  final DateTime? paidAt;
+
+  final DateTime? reservedAt;
+
+  final DateTime? cancelledAt;
+  final DateTime? expiredAt;
+
   BookingModel({
     required this.id,
     required this.invoiceNumber,
+    required this.source,
     required this.carId,
     required this.shopId,
     required this.userId,
@@ -70,11 +91,26 @@ class BookingModel {
     required this.createdAt,
     required this.isRated,
     required this.rating,
+    required this.payment,
     this.rejectionReason,
     this.approvedAt,
     this.startedAt,
     this.completedAt,
     this.rejectedAt,
+    this.unitId,
+
+    // required this.paymentMethod,
+    // required this.paymentStatus,
+    this.paymentReference,
+    this.transactionId,
+
+    required this.paymentVerified,
+
+    this.paidAt,
+
+    this.reservedAt,
+    this.cancelledAt,
+    this.expiredAt,
   });
 
   factory BookingModel.fromFirestore(DocumentSnapshot doc) {
@@ -83,11 +119,12 @@ class BookingModel {
     return BookingModel(
       id: doc.id,
       invoiceNumber: data['invoiceNumber'],
+      source: data['source'] ?? 'app',
       carId: data['carId'],
       shopId: data['shopId'],
-      userId: data['userId'],
-      driverId: data['driverId'],
-      note: data['note'],
+      userId: data['userId'] ?? '',
+      driverId: data['driverId'] ?? '',
+      note: data['note'] ?? '',
 
       pickupDate: (data['pickupDate'] as Timestamp).toDate(),
       dropoffDate: (data['dropoffDate'] as Timestamp).toDate(),
@@ -117,6 +154,8 @@ class BookingModel {
 
       isRated: data['isRated'] ?? false,
 
+      unitId: data['unitId'],
+
       // createdAt: data['createdAt'] is Timestamp
       //     ? data['createdAt'].toDate()
       //     : data['createdAt'],
@@ -125,6 +164,20 @@ class BookingModel {
       startedAt: _parseTimestamp(data['startedAt']),
       completedAt: _parseTimestamp(data['completedAt']),
       rejectedAt: _parseTimestamp(data['rejectedAt']),
+
+      // paymentMethod: data['paymentMethod'] ?? 'payOnPickup',
+      // paymentStatus: data['paymentStatus'] ?? 'unpaid',
+      paymentReference: data['paymentReference'],
+      transactionId: data['transactionId'],
+
+      paymentVerified: data['paymentVerified'] ?? false,
+
+      paidAt: _parseTimestamp(data['paidAt']),
+
+      reservedAt: _parseTimestamp(data['reservedAt']),
+      cancelledAt: _parseTimestamp(data['cancelledAt']),
+      expiredAt: _parseTimestamp(data['expiredAt']),
+      payment: BookingPayment.fromMap(data['payment']),
     );
   }
 }
@@ -142,8 +195,8 @@ class BookingRating {
 
   factory BookingRating.fromMap(Map<String, dynamic> map) {
     return BookingRating(
-      carRating: map['carRating'] ?? 0,
-      companyRating: map['companyRating'] ?? 0,
+      carRating: (map['carRating'] ?? 0.0).toDouble(),
+      companyRating: (map['companyRating'] ?? 0.0).toDouble(),
       review: map['review'] ?? '',
     );
   }
@@ -259,6 +312,160 @@ class BookingDriver {
       licenseFront: map['licenseFront'] ?? '',
       licenseBack: map['licenseBack'] ?? '',
       idCard: map['idCard'] ?? '',
+    );
+  }
+}
+
+class BookingPayment {
+  final String method;
+
+  final String status;
+
+  final bool verified;
+
+  final bool completed;
+
+  final String? reference;
+
+  final String? transactionId;
+
+  final DateTime? paidAt;
+
+  final DateTime? expiresAt;
+
+  final PaymentCrypto? crypto;
+
+  final PaymentVerification? verification;
+
+  final PaymentRejection? rejection;
+
+  BookingPayment({
+    required this.method,
+    required this.status,
+    required this.verified,
+    required this.completed,
+    this.reference,
+    this.transactionId,
+    this.paidAt,
+    this.expiresAt,
+    this.crypto,
+    this.verification,
+    this.rejection,
+  });
+
+  factory BookingPayment.fromMap(Map<String, dynamic> map) {
+    return BookingPayment(
+      method: map['method'] ?? 'payOnPickup',
+
+      status: map['status'] ?? 'unpaid',
+
+      verified: map['verified'] ?? false,
+
+      completed: map['completed'] ?? false,
+
+      reference: map['reference'],
+
+      transactionId: map['transactionId'],
+
+      paidAt: _parseTimestamp(map['paidAt']),
+
+      expiresAt: _parseTimestamp(map['expiresAt']),
+
+      crypto: map['crypto'] != null
+          ? PaymentCrypto.fromMap(map['crypto'])
+          : null,
+
+      verification: map['verification'] != null
+          ? PaymentVerification.fromMap(map['verification'])
+          : null,
+    );
+  }
+}
+
+class PaymentCrypto {
+  final String walletAddress;
+
+  final String network;
+
+  final String currency;
+
+  final double amount;
+
+  final double networkFee;
+
+  final bool txidVerified;
+
+  final String? txidRejectedReason;
+
+  final String? txid;
+
+  final DateTime? txidSubmittedAt;
+
+  PaymentCrypto({
+    required this.walletAddress,
+    required this.network,
+    required this.currency,
+    required this.amount,
+    required this.networkFee,
+    required this.txidVerified,
+    this.txid,
+    this.txidRejectedReason,
+    this.txidSubmittedAt,
+  });
+
+  factory PaymentCrypto.fromMap(Map<String, dynamic> map) {
+    return PaymentCrypto(
+      walletAddress: map['walletAddress'] ?? '',
+
+      network: map['network'] ?? 'TRC20',
+
+      currency: map['currency'] ?? 'USDT',
+
+      amount: (map['amount'] ?? 0).toDouble(),
+
+      networkFee: (map['networkFee'] ?? 0).toDouble(),
+
+      txid: map['txid'],
+
+      txidVerified: map['txidVerified'] ?? false,
+
+      txidRejectedReason: map['txidRejectedReason'],
+
+      txidSubmittedAt: _parseTimestamp(map['txidSubmittedAt']),
+    );
+  }
+}
+
+class PaymentVerification {
+  final String? verifiedBy;
+
+  final DateTime? verifiedAt;
+
+  PaymentVerification({this.verifiedBy, this.verifiedAt});
+
+  factory PaymentVerification.fromMap(Map<String, dynamic> map) {
+    return PaymentVerification(
+      verifiedBy: map['verifiedBy'],
+
+      verifiedAt: _parseTimestamp(map['verifiedAt']),
+    );
+  }
+}
+
+class PaymentRejection {
+  final String? reason;
+  final DateTime? rejectedAt;
+  final String? rejectedBy;
+
+  PaymentRejection({this.reason, this.rejectedAt, this.rejectedBy});
+
+  factory PaymentRejection.fromMap(Map<String, dynamic> map) {
+    return PaymentRejection(
+      reason: map['reason'],
+
+      rejectedAt: _parseTimestamp(map['rejectedAt']),
+
+      rejectedBy: map['rejectedBy'],
     );
   }
 }

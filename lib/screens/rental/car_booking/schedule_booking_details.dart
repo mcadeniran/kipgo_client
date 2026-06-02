@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
+import 'package:kipgo/models/booking_model.dart';
+import 'package:kipgo/models/car_unit.dart';
+import 'package:kipgo/screens/rental/car_booking/availability_calendar.dart';
 import 'package:kipgo/screens/rental/car_booking/car_booking_page.dart'
     show DeliveryType;
 import 'package:kipgo/screens/rental/car_booking/car_delivery_widget.dart';
-import 'package:kipgo/screens/rental/car_booking/schedule_selector.dart';
+// import 'package:kipgo/screens/rental/car_booking/schedule_selector.dart';
+import 'package:kipgo/screens/widgets/format_currency.dart';
 import 'package:kipgo/screens/widgets/input_decorator.dart';
 
 class ScheduleBookingDetails extends StatelessWidget {
@@ -17,8 +20,12 @@ class ScheduleBookingDetails extends StatelessWidget {
   final DeliveryType deliveryType;
   final int rentalDays;
   final double dailyPrice;
+  final String currency;
   final Function(DateTime, DateTime, int) onDateChanged;
   final ValueChanged<DeliveryType> onDeliveryTypeChanged;
+  final List<BookingModel> bookings;
+  final List<CarUnit> units;
+  final bool offersDelivery;
 
   const ScheduleBookingDetails({
     super.key,
@@ -33,6 +40,10 @@ class ScheduleBookingDetails extends StatelessWidget {
     required this.onDeliveryTypeChanged,
     required this.rentalDays,
     required this.dailyPrice,
+    required this.currency,
+    required this.bookings,
+    required this.units,
+    required this.offersDelivery,
   });
 
   @override
@@ -43,12 +54,26 @@ class ScheduleBookingDetails extends StatelessWidget {
       children: [
         Text(loc.rentalDate, style: Theme.of(context).textTheme.titleMedium),
         SizedBox(height: 10),
-        ScheduleSelector(
-          pickupDate: pickupDate,
-          dropoffDate: dropoffDate,
-          dailyPrice: dailyPrice.toInt(),
+        // ScheduleSelector(
+        //   pickupDate: pickupDate,
+        //   dropoffDate: dropoffDate,
+        //   dailyPrice: dailyPrice.toInt(),
+        //   minimumRentalDays: 3,
+        //   onChanged: onDateChanged,
+        // ),
+        AvailabilityCalendar(
+          units: units,
+          bookings: bookings,
           minimumRentalDays: 3,
-          onChanged: onDateChanged,
+
+          initialPickup: pickupDate,
+          initialDropoff: dropoffDate,
+
+          onRangeSelected: (pickup, dropoff, chargeableDays) {
+            final totalPrice = chargeableDays * dailyPrice.toInt();
+
+            onDateChanged(pickup, dropoff, totalPrice);
+          },
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,10 +89,11 @@ class ScheduleBookingDetails extends StatelessWidget {
               ],
             ),
             Text(
-              NumberFormat.currency(
-                locale: 'en',
-                symbol: '₺',
-              ).format(rentalPrice),
+              formatCurrency(
+                amount: rentalPrice,
+                currencyCode: currency,
+                context: context,
+              ),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
@@ -78,7 +104,7 @@ class ScheduleBookingDetails extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         Text(
-          "₺$dailyPrice x ${loc.multiRentalDay(rentalDays)}",
+          "${formatCurrency(amount: dailyPrice, currencyCode: currency, context: context)} x ${loc.multiRentalDay(rentalDays)}",
           style: const TextStyle(fontSize: 12, color: Colors.grey),
         ),
 
@@ -90,6 +116,8 @@ class ScheduleBookingDetails extends StatelessWidget {
           deliveryFee: deliveryPrice,
           deliveryAddress: deliveryAddress,
           onChanged: onDeliveryTypeChanged,
+          offersDelivery: offersDelivery,
+          currency: currency,
         ),
         TextField(
           controller: additionalNote,

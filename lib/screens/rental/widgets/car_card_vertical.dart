@@ -45,6 +45,7 @@ class CarCardVertical extends StatelessWidget {
                             amount: car.basePrice,
                             currencyCode: car.car.currency ?? car.shop.currency,
                             context: context,
+                            decimalDigits: 0,
                           ),
                           style: TextStyle(
                             decoration: TextDecoration.lineThrough,
@@ -103,25 +104,25 @@ class CarCardVertical extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Positioned(
-                    right: 4,
-                    bottom: 4,
-                    child: Container(
-                      padding: EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.greenAccent, width: 1),
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.greenAccent.withValues(alpha: 0.6),
-                      ),
-                      child: Text(
-                        "${car.car.availableUnits} Available",
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Positioned(
+                  //   right: 4,
+                  //   bottom: 4,
+                  //   child: Container(
+                  //     padding: EdgeInsets.all(4),
+                  //     decoration: BoxDecoration(
+                  //       border: Border.all(color: Colors.greenAccent, width: 1),
+                  //       borderRadius: BorderRadius.circular(8),
+                  //       color: Colors.greenAccent.withValues(alpha: 0.6),
+                  //     ),
+                  //     child: Text(
+                  //       "${car.car.availableUnits} Available",
+                  //       style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  //         fontWeight: FontWeight.w500,
+                  //         color: Colors.white,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   if (car.hasDiscount)
                     Positioned(
                       top: 4,
@@ -269,14 +270,20 @@ class CarCardVertical extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => CarBookingPage(car: car)),
-                  );
-                },
+                onPressed: car.car.availableUnits == 0
+                    ? null
+                    : () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => CarBookingPage(car: car),
+                          ),
+                        );
+                      },
                 child: Text(
-                  "Book Now",
+                  car.car.availableUnits == 0
+                      ? AppLocalizations.of(context)!.notAvailable
+                      : AppLocalizations.of(context)!.bookNow,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
               ),

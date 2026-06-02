@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../models/rental_shop.dart';
 import '../services/firestore_service.dart';
 
@@ -20,13 +22,16 @@ class RentalShopRepository {
     });
   }
 
-  // Future<List<RentalShop>> getRentalShops() async {
-  //   final snapshot = await _firestoreService.streamRentalShops();
+  Future<RentalShop?> getShopByOwnerId(String uid) async {
+    final doc = await FirebaseFirestore.instance
+        .collection('rentalShops')
+        .doc(uid) // 👈 if UID == shopId
+        .get();
 
-  //   return snapshot.docs
-  //       .map((doc) => RentalShop.fromFirestore(doc.data(), doc.id))
-  //       .toList();
-  // }
+    if (!doc.exists) return null;
+
+    return RentalShop.fromFirestore(doc.data()!, doc.id);
+  }
 
   Future<List<RentalShop>> getRentalShopsByCity(String city) async {
     final snapshot = await _firestoreService.getRentalShopsByCity(city);
@@ -34,5 +39,16 @@ class RentalShopRepository {
     return snapshot.docs
         .map((doc) => RentalShop.fromFirestore(doc.data(), doc.id))
         .toList();
+  }
+
+  Stream<RentalShop?> streamShopByOwnerId(String uid) {
+    return FirebaseFirestore.instance
+        .collection('rentalShops')
+        .doc(uid)
+        .snapshots()
+        .map((doc) {
+          if (!doc.exists) return null;
+          return RentalShop.fromFirestore(doc.data()!, uid);
+        });
   }
 }

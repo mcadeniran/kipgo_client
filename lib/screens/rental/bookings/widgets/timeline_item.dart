@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:kipgo/controllers/locale_provider.dart';
+import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/screens/rental/bookings/widgets/booking_details_page.dart';
+import 'package:provider/provider.dart';
 
 class TimelineItem extends StatelessWidget {
   final String title;
@@ -34,6 +37,7 @@ class TimelineItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = getColor();
+    final locale = Provider.of<LocaleProvider>(context, listen: false).locale;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,8 +84,8 @@ class TimelineItem extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 date != null
-                    ? DateFormat('dd MMM yyyy • HH:mm').format(date!)
-                    : "Pending",
+                    ? DateFormat('dd MMM yyyy • HH:mm', '$locale').format(date!)
+                    : AppLocalizations.of(context)!.pending,
                 style: TextStyle(color: Colors.grey[600], fontSize: 12),
               ),
               const SizedBox(height: 16),

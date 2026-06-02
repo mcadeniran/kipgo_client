@@ -1599,4 +1599,531 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get takeAPhoto => 'Take a photo';
+
+  @override
+  String get monthlyRevenue => 'Monthly Revenue';
+
+  @override
+  String get offlineRevenue => 'Offline Revenue';
+
+  @override
+  String get onlineRevenue => 'Online Revenue';
+
+  @override
+  String get commission => 'Commission';
+
+  @override
+  String get activeBookings => 'Active Bookings';
+
+  @override
+  String get pendingBookings => 'Pending Bookings';
+
+  @override
+  String get totalCars => 'Total Cars';
+
+  @override
+  String get unitsAvailable => 'Units Available';
+
+  @override
+  String get revenue => 'Revenue';
+
+  @override
+  String daysD(int days) {
+    return '${days}D';
+  }
+
+  @override
+  String get thisMonth => 'This month';
+
+  @override
+  String get bookedInShop => 'Booked in shop';
+
+  @override
+  String get bookedInApp => 'Booked in App';
+
+  @override
+  String get ongoingMonth => 'Ongoing month';
+
+  @override
+  String get currentlyOngoing => 'Currently ongoing';
+
+  @override
+  String get waitingApproval => 'Waiting approval';
+
+  @override
+  String get carsInFleet => 'Cars in fleet';
+
+  @override
+  String get readyToRent => 'Ready to rent';
+
+  @override
+  String get home => 'Home';
+
+  @override
+  String get bookings => 'Bookings';
+
+  @override
+  String get profile => 'Profile';
+
+  @override
+  String get hidden => 'Hidden';
+
+  @override
+  String get officePickup => 'Office Pickup';
+
+  @override
+  String get homeDelivery => 'Home Delivery';
+
+  @override
+  String booked(String start, String end) {
+    return 'Booked $start - $end';
+  }
+
+  @override
+  String get unitNotFound => 'Unit not found';
+
+  @override
+  String get numberPlate => 'Number Plate';
+
+  @override
+  String get age => 'Age';
+
+  @override
+  String get noDocumentSubmitted =>
+      'No document submitted because this is a manual booking.';
+
+  @override
+  String get startBooking => 'Start Booking';
+
+  @override
+  String get startBookingPrompt =>
+      'Are you sure you want to start this booking?';
+
+  @override
+  String get start => 'Start';
+
+  @override
+  String get completeBooking => 'Complete Booking';
+
+  @override
+  String get markAsCompleted => 'Mark this booking as completed?';
+
+  @override
+  String get complete => 'Complete';
+
+  @override
+  String get car => 'Car';
+
+  @override
+  String get carSummary => 'Car Summary';
+
+  @override
+  String get assignedUnit => 'Assigned Unit';
+
+  @override
+  String get deliveryInformation => 'Delivery Information';
+
+  @override
+  String get reasonForRejection => 'Reason for Rejection';
+
+  @override
+  String get paymentBreakdown => 'Payment Breakdown';
+
+  @override
+  String get assignUnit => 'Assign Unit';
+
+  @override
+  String unitAlreadyBooked(String conflict) {
+    return 'Unit already booked: $conflict';
+  }
+
+  @override
+  String get approveBooking => 'Approve Booking';
+
+  @override
+  String get approveBookingPrompt =>
+      'Are you sure you want to approve this booking?';
+
+  @override
+  String get approve => 'Approve';
+
+  @override
+  String get bookingApproved => 'Booking approved';
+
+  @override
+  String get rejectBooking => 'Reject Booking';
+
+  @override
+  String get rejectBookingPrompt => 'Provide a reason for rejection';
+
+  @override
+  String get enterReason => 'Enter reason';
+
+  @override
+  String get bookingRejected => 'Booking rejected';
+
+  @override
+  String get selectedUnitNotAvailable => 'Selected unit is no longer available';
+
+  @override
+  String get unavailable => 'Unavailable';
+
+  @override
+  String get or => 'or';
+
+  @override
+  String get available => 'Available';
+
+  @override
+  String get maintenance => 'Maintenance';
+
+  @override
+  String get selectedPickupDateUnavailable =>
+      'Selected pickup date is no longer available';
+
+  @override
+  String get selectedDropoffDateUnavailable =>
+      'Selected dropoff date is no longer available';
+
+  @override
+  String get selectedRangeContainsUnavailableDates =>
+      'Selected range contains unavailable dates';
+
+  @override
+  String get paymentSubmitted => 'Payment Submitted';
+
+  @override
+  String get reserved => 'Reserved';
+
+  @override
+  String get expired => 'Expired';
+
+  @override
+  String get crypto => 'Crypto';
+
+  @override
+  String get payOnPickup => 'Pay On Pickup';
+
+  @override
+  String get unpaid => 'Unpaid';
+
+  @override
+  String get awaitingVerification => 'Awaiting Verification';
+
+  @override
+  String get paid => 'Paid';
+
+  @override
+  String get failed => 'Failed';
+
+  @override
+  String get areYouSureBookingSubmit =>
+      'Are you sure you want to submit this booking request?';
+
+  @override
+  String get payment => 'Payment';
+
+  @override
+  String get error => 'Error';
+
+  @override
+  String get paymentMethod => 'Payment Method';
+
+  @override
+  String get payUsingCrypto => 'Pay using cryptocurrency';
+
+  @override
+  String get payPhysically => 'Pay physically when receiving car';
+
+  @override
+  String get paymentSummary => 'Payment Summary';
+
+  @override
+  String get rental => 'Rental';
+
+  @override
+  String get total => 'Total';
+
+  @override
+  String get selectedRange => 'Selected range contains unavailable dates';
+
+  @override
+  String get transactionHashRequired => 'Transaction hash is required\'';
+
+  @override
+  String get invalidTronHash => 'Invalid TRON transaction hash';
+
+  @override
+  String get paymentExpired => 'Payment Expired';
+
+  @override
+  String get cryptoPaymentSessionExpired =>
+      'This crypto payment session has expired.';
+
+  @override
+  String get thisPaymentSessionHasExpired =>
+      'This payment session has expired.';
+
+  @override
+  String get transactionHasSubmitted =>
+      'Your transaction hash has been submitted successfully.';
+
+  @override
+  String get checkout => 'Checkout';
+
+  @override
+  String get paymentExpiresIn => 'Payment Expires In';
+
+  @override
+  String get totalAmount => 'Total Amount';
+
+  @override
+  String includesUSDTFee(double fee) {
+    return 'Includes \$$fee USDT network fee';
+  }
+
+  @override
+  String get copied => 'Copied';
+
+  @override
+  String get walletAddressCopied => 'Wallet address copied successfully';
+
+  @override
+  String get clickToCopyAddress => 'Click to copy address';
+
+  @override
+  String get scanQRCode => 'Scan QR Code or Copy Address';
+
+  @override
+  String get onlySendUSDT =>
+      'Important: Send only USDT via the TRC20 network to this address.';
+
+  @override
+  String get enterTransactionHash => 'Enter Transaction Hash (TXID)';
+
+  @override
+  String get pasteTransactionHash => 'Paste transaction hash';
+
+  @override
+  String get iHavePaid => 'I HAVE PAID';
+
+  @override
+  String get leaveBookingFlow => 'Leave booking?';
+
+  @override
+  String get leaveBookingWarning => 'Your booking progress may be lost.';
+
+  @override
+  String get leave => 'Leave';
+
+  @override
+  String get attention => 'Attention';
+
+  @override
+  String get closed => 'Closed';
+
+  @override
+  String get alreadyProcessed => 'Booking has already been processed';
+
+  @override
+  String get bookingApprovedSuccessfully => 'Booking approved successfully';
+
+  @override
+  String get bookingCanNoLongerBeRejected =>
+      'Booking can no longer be rejected';
+
+  @override
+  String get bookingCannotBeStarted => 'Booking cannot be started';
+
+  @override
+  String get aVehicleUnitMustBeAssigned =>
+      'A vehicle unit must be assigned before starting';
+
+  @override
+  String get bookingStartedSuccessfully => 'Booking started successfully';
+
+  @override
+  String get onlyOngoingBookingsCanBeCompleted =>
+      'Only ongoing bookings can be completed';
+
+  @override
+  String get bookingCompletedSuccessfully => 'Booking completed successfully';
+
+  @override
+  String get unknownError => 'Something went wrong. Please try again.';
+
+  @override
+  String get success => 'Success';
+
+  @override
+  String get actionWillStartRental =>
+      'This action will start the rental period.';
+
+  @override
+  String get actionWillAssignSelectedUnit =>
+      'This action will assign the selected unit to the booking and start the rental period. Also the booking will be marked as paid.';
+
+  @override
+  String get doYouWantToApproveBooking =>
+      'Do you want to approve this booking? A unit will be assigned during pickup.';
+
+  @override
+  String get willEndRentalPeriod =>
+      'This will end the rental period of this booking and it will be marked as completed.';
+
+  @override
+  String get awaitingBookingReview => 'Awaiting booking review.';
+
+  @override
+  String get customerHasSUbmittedABookingRequest =>
+      'The customer has submitted a booking request. Review the booking details and decide whether to approve or reject the request.';
+
+  @override
+  String get awaitingCryptoPaymentFromCustomer =>
+      'Awaiting crypto payment from customer.';
+
+  @override
+  String get theBookingWillRemainPending =>
+      'The booking will remain pending until a valid transaction hash (TXID) is submitted.';
+
+  @override
+  String get cryptoPaymentSubmittedAndAwaitingVerification =>
+      'Crypto payment submitted and awaiting verification.';
+
+  @override
+  String get onceThePaymentIsVerified =>
+      'Once the payment is verified, an available car unit will be reserved automatically for the selected rental period.';
+
+  @override
+  String get paymentVerifiedSuccessfully => 'Payment verified successfully.';
+
+  @override
+  String get aCarUnitHasBeenReserved =>
+      'A car unit has been reserved automatically for this booking. The booking is ready for approval and pickup.';
+
+  @override
+  String get bookingApprovedAndAwaitingPickup =>
+      'The booking has been approved and is awaiting vehicle pickup. Ensure the selected vehicle is ready before the scheduled pickup date.';
+
+  @override
+  String get rentalCurrentlyInProgress => 'Rental currently in progress.';
+
+  @override
+  String get theCustomerHasPickedUp =>
+      'The customer has picked up the vehicle and the rental period is active. Monitor the booking until the vehicle is returned.';
+
+  @override
+  String get rentalCompletedSuccessfully => 'Rental completed successfully.';
+
+  @override
+  String get theVehicleHasBeenReturned =>
+      'The vehicle has been returned and the booking has been completed. No further action is required.';
+
+  @override
+  String get bookingRequestWasRejected =>
+      'This booking request was rejected and will not proceed further. The customer may submit a new booking request if necessary.';
+
+  @override
+  String get bookingCancelled => 'Booking cancelled.';
+
+  @override
+  String get thisBookingWasCancelledBeforeCompletion =>
+      'This booking was cancelled before completion. No vehicle is currently reserved for this booking.';
+
+  @override
+  String get cryptoPaymentWasRejected => 'Crypto payment was rejected.';
+
+  @override
+  String rejectionReason(String reason) {
+    return 'Reason: $reason';
+  }
+
+  @override
+  String get unknownReason => 'Unknown reason';
+
+  @override
+  String get customerMaySubmitNewValidHash =>
+      'The customer may submit a new valid transaction hash.';
+
+  @override
+  String get bookingExpired => 'Booking expired.';
+
+  @override
+  String get paymentResevervationExpired =>
+      'The payment or reservation window expired before confirmation was completed.';
+
+  @override
+  String get notAvailable => 'Not Available';
+
+  @override
+  String get waitingForPayment => 'Waiting for payment.';
+
+  @override
+  String get yourBookingRequestReceived =>
+      'Your booking request has been received. To continue, submit your crypto payment and transaction hash (TXID) before the payment window expires.';
+
+  @override
+  String get bookingRequestSubmitted => 'Booking request submitted.';
+
+  @override
+  String get yourBookingRequestAwaitingReview =>
+      'Your booking request is awaiting review by the rental company. You will be notified once a decision has been made.';
+
+  @override
+  String get paymentSubmittedSuccessfully => 'Payment submitted successfully.';
+
+  @override
+  String get yourTransHashReceived =>
+      'Your transaction hash has been received and is currently being verified. This process may take some time depending on network confirmations.';
+
+  @override
+  String get vehicleReserved => 'Vehicle reserved.';
+
+  @override
+  String get yourPaymentVerified =>
+      'Your payment has been verified and a vehicle has been reserved for your selected rental period. Your booking is awaiting final approval.';
+
+  @override
+  String get yourBookingHasBeenApproved =>
+      'Your booking has been approved. Please arrive at the pickup location on the scheduled date with any required identification and documents.';
+
+  @override
+  String get rentalInProgress => 'Rental in progress';
+
+  @override
+  String get yourRentalPeriodCurrentlyActive =>
+      'Your rental period is currently active. Please ensure the vehicle is returned on or before the agreed return date.';
+
+  @override
+  String get rentalCompleted => 'Rental completed.';
+
+  @override
+  String get rentalCompletedFeedback =>
+      'This rental has been completed successfully. We would appreciate your feedback about your experience.';
+
+  @override
+  String get rentalCompletedRated =>
+      'This rental has been completed successfully. Thank you for choosing our service.';
+
+  @override
+  String get bookingRequestRejected => 'Booking request rejected.';
+
+  @override
+  String get unfortunatelyBookingRequest =>
+      'Unfortunately, this booking request could not be approved. You may submit a new booking request or contact the rental company for more information.';
+
+  @override
+  String get thisBookingHasBeenCancelled =>
+      'This booking has been cancelled and will not proceed further.';
+
+  @override
+  String get paymentOrConfirmationExpired =>
+      'The payment or confirmation period expired before the booking could be completed. A new booking will be required if you still wish to rent this vehicle.';
+
+  @override
+  String get paymentVerificationFailed => 'Payment verification failed.';
+
+  @override
+  String get youMaySubmitAnotherValidTrans =>
+      'You may submit another valid transaction hash before the booking expires.';
 }

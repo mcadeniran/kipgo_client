@@ -127,50 +127,50 @@ class ProfileProvider extends ChangeNotifier {
 
   bool hasError = false;
 
-  void initAuthListener() {
-    if (_initialized) return;
-    _initialized = true;
+  // void initAuthListener() {
+  //   if (_initialized) return;
+  //   _initialized = true;
 
-    FirebaseAuth.instance.authStateChanges().listen((user) {
-      if (user != null) {
-        _listenToProfile(user.uid);
-      } else {
-        _profileSubscription?.cancel();
+  //   FirebaseAuth.instance.authStateChanges().listen((user) {
+  //     if (user != null) {
+  //       _listenToProfile(user.uid);
+  //     } else {
+  //       _profileSubscription?.cancel();
 
-        _profile = null;
-        _isLoading = false;
-        _hasLoadedOnce = true; // ✅ IMPORTANT
+  //       _profile = null;
+  //       _isLoading = false;
+  //       _hasLoadedOnce = true; // ✅ IMPORTANT
 
-        notifyListeners();
-      }
-    });
-  }
+  //       notifyListeners();
+  //     }
+  //   });
+  // }
 
-  void _listenToProfile(String uid) {
-    _profileSubscription?.cancel();
+  // void _listenToProfile(String uid) {
+  //   _profileSubscription?.cancel();
 
-    _isLoading = true;
-    notifyListeners();
+  //   _isLoading = true;
+  //   notifyListeners();
 
-    _profileSubscription = _authService
-        .streamProfile(uid)
-        .listen(
-          (profile) {
-            _profile = profile;
-            hasError = false;
-            _isLoading = false;
-            _hasLoadedOnce = true; // ✅ IMPORTANT
-            notifyListeners();
-          },
-          onError: (error) {
-            hasError = true;
-            _profile = null;
-            _isLoading = false;
-            _hasLoadedOnce = true; // ✅ IMPORTANT
-            notifyListeners();
-          },
-        );
-  }
+  //   _profileSubscription = _authService
+  //       .streamProfile(uid)
+  //       .listen(
+  //         (profile) {
+  //           _profile = profile;
+  //           hasError = false;
+  //           _isLoading = false;
+  //           _hasLoadedOnce = true; // ✅ IMPORTANT
+  //           notifyListeners();
+  //         },
+  //         onError: (error) {
+  //           hasError = true;
+  //           _profile = null;
+  //           _isLoading = false;
+  //           _hasLoadedOnce = true; // ✅ IMPORTANT
+  //           notifyListeners();
+  //         },
+  //       );
+  // }
 
   /// 🔥 Start listening ONCE per user
   void startListening(String uid) {
@@ -220,7 +220,6 @@ class ProfileProvider extends ChangeNotifier {
     _profileSubscription?.cancel();
     _profile = null;
     _isLoading = false;
-    _initialized = false;
     notifyListeners();
   }
 

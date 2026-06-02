@@ -136,6 +136,7 @@ class CarCard extends StatelessWidget {
                                 currencyCode:
                                     car.car.currency ?? car.shop.currency,
                                 context: context,
+                                decimalDigits: 0,
                               ),
                               style: TextStyle(
                                 decoration: TextDecoration.lineThrough,

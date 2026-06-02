@@ -33,6 +33,16 @@ class _RentalCompanyDetailPageState extends State<RentalCompanyDetailPage> {
   RentalShop? company;
   bool isLoading = true;
 
+  bool isValidImageUrl(String? url) {
+    if (url == null || url.trim().isEmpty) return false;
+
+    final uri = Uri.tryParse(url);
+
+    return uri != null &&
+        uri.hasScheme &&
+        (uri.scheme == 'http' || uri.scheme == 'https');
+  }
+
   @override
   void initState() {
     super.initState();
@@ -110,17 +120,22 @@ class _RentalCompanyDetailPageState extends State<RentalCompanyDetailPage> {
                       fit: StackFit.expand,
                       children: [
                         // Image.network(company!.bannerUrl, fit: BoxFit.cover),
-                        FadeInImage.assetNetwork(
-                          fadeInCurve: Curves.easeIn,
-                          fadeInDuration: Duration(seconds: 2),
-                          fit: BoxFit.cover,
-                          placeholder: "assets/images/image_spinner.gif",
-                          image: company!.bannerUrl,
-                          imageErrorBuilder: (c, e, s) => Image.asset(
-                            "assets/images/placeholder.jpeg",
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                        isValidImageUrl(company?.bannerUrl)
+                            ? FadeInImage.assetNetwork(
+                                fadeInCurve: Curves.easeIn,
+                                fadeInDuration: Duration(seconds: 2),
+                                fit: BoxFit.cover,
+                                placeholder: "assets/images/image_spinner.gif",
+                                image: company!.bannerUrl,
+                                imageErrorBuilder: (c, e, s) => Image.asset(
+                                  "assets/images/placeholder.jpeg",
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                            : Image.asset(
+                                "assets/images/placeholder.jpeg",
+                                fit: BoxFit.cover,
+                              ),
                         Container(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -167,16 +182,35 @@ class _RentalCompanyDetailPageState extends State<RentalCompanyDetailPage> {
                                 children: [
                                   Container(
                                     clipBehavior: Clip.hardEdge,
-                                    height: 60,
-                                    width: 60,
+                                    height: 52,
+                                    width: 52,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(30),
+                                      borderRadius: BorderRadius.circular(26),
                                     ),
                                     child: CircleAvatar(
-                                      radius: 30,
+                                      radius: 26,
                                       backgroundColor: AppColors.primary
-                                          .withValues(alpha: 0.1),
-                                      child: Image.network(company!.logo),
+                                          .withValues(alpha: .1),
+                                      child: isValidImageUrl(company?.logo)
+                                          ? FadeInImage.assetNetwork(
+                                              fadeInCurve: Curves.easeIn,
+                                              fadeInDuration: Duration(
+                                                seconds: 2,
+                                              ),
+                                              fit: BoxFit.cover,
+                                              placeholder:
+                                                  "assets/images/image_spinner.gif",
+                                              image: company!.logo,
+                                              imageErrorBuilder: (c, e, s) =>
+                                                  Image.asset(
+                                                    "assets/images/placeholder.jpeg",
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                            )
+                                          : Image.asset(
+                                              "assets/images/avatar.png",
+                                              fit: BoxFit.cover,
+                                            ),
                                     ),
                                   ),
                                   const SizedBox(width: 16),

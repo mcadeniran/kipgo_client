@@ -22,6 +22,8 @@ class RentalShop {
   late bool isActive;
   late double taxRate;
 
+  late double commissionPercentage;
+
   RentalShop({
     required this.address,
     required this.bannerUrl,
@@ -42,6 +44,7 @@ class RentalShop {
     required this.totalRatings,
     required this.isActive,
     required this.taxRate,
+    required this.commissionPercentage,
     // required this.rules,
   });
 
@@ -49,11 +52,11 @@ class RentalShop {
     return RentalShop(
       id: id,
       address: data['address'] ?? '',
-      bannerUrl: data['bannerUrl'] ?? '',
+      bannerUrl: sanitizeImage(data['bannerUrl']),
       city: data['city'] ?? '',
       description: data['description'] ?? '',
       email: data['email'] ?? '',
-      logo: data['logoUrl'] ?? '',
+      logo: sanitizeImage(data['logoUrl']),
       phone: data['phone'] ?? '',
       district: data['district'] ?? '',
       name: data['name'] ?? '',
@@ -61,6 +64,7 @@ class RentalShop {
       rating: (data['rating'] ?? 0).toDouble(),
       totalRatings: data['totalRatings'] ?? 0,
       taxRate: (data['taxRate'] ?? 0).toDouble(),
+      commissionPercentage: (data['commissionPercentage'] ?? 0).toDouble(),
       currency: data['currency'] ?? 'TRY',
       isFeatured: data['isFeatured'] ?? false,
       featured: data['featured'] != null
@@ -178,4 +182,18 @@ class ShopRules {
       securityDeposit: data['securityDeposit'] ?? '',
     );
   }
+}
+
+String sanitizeImage(dynamic value) {
+  if (value == null) return '';
+
+  final str = value.toString().trim();
+
+  if (str.isEmpty) return '';
+
+  if (str.startsWith('http://') || str.startsWith('https://')) {
+    return str;
+  }
+
+  return '';
 }

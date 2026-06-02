@@ -50,15 +50,7 @@ class _RentalHomeState extends State<RentalHome> {
       if (!mounted) return;
       final provider = Provider.of<CarProvider>(context, listen: false);
 
-      // await provider.fetchCars();
-      // Provider.of<CarProvider>(context, listen: false).listenToCars();
-
       searchController.text = provider.searchQuery ?? "";
-
-      // Provider.of<RentalShopProvider>(
-      //   context,
-      //   listen: false,
-      // ).listenToRentalShops();
 
       await _requestLocationPermission();
     });

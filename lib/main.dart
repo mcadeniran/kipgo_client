@@ -8,8 +8,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:kipgo/controllers/app_review_provider.dart';
+import 'package:kipgo/controllers/auth_provider.dart';
 import 'package:kipgo/controllers/booking_provider.dart';
 import 'package:kipgo/controllers/bottom_nav_provider.dart';
+import 'package:kipgo/controllers/car_booking_provider.dart';
 import 'package:kipgo/controllers/car_provider.dart';
 import 'package:kipgo/controllers/car_rating_provider.dart';
 import 'package:kipgo/controllers/drive_history_provider.dart';
@@ -32,6 +34,7 @@ import 'package:kipgo/screens/homes/driver_home.dart';
 import 'package:kipgo/services/app_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:toastification/toastification.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -81,6 +84,7 @@ Future<void> main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => LocaleProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => AppInfo()),
         ChangeNotifierProvider(create: (_) => RideHistoryProvider()),
         ChangeNotifierProvider(create: (_) => DriveHistoryProvider()),
@@ -100,6 +104,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => BookingProvider()),
         ChangeNotifierProvider(create: (_) => BottomNavProvider()),
         ChangeNotifierProvider(create: (_) => CarRatingProvider()),
+        ChangeNotifierProvider(create: (_) => CarBookingProvider()),
         ChangeNotifierProvider(create: (_) => InAppNotificationProvider()),
       ],
       child: const KipGo(),
@@ -123,6 +128,7 @@ class _KipGoState extends State<KipGo> {
 
     // ✅ Defer heavy work until after first frame
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      context.read<AuthProvider>().initAuth();
       // Setup notifications without blocking UI
       await flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
@@ -142,7 +148,7 @@ class _KipGoState extends State<KipGo> {
       pushSystem.initTokenRefreshListener(context);
 
       // 👤 Auth listener
-      context.read<ProfileProvider>().initAuthListener();
+      // context.read<ProfileProvider>().initAuthListener();
 
       context.read<AppReviewProvider>().checkAndTriggerReview();
 
@@ -165,27 +171,29 @@ class _KipGoState extends State<KipGo> {
     final themeProvider = context.watch<ThemeProvider>();
     final localeProvider = context.watch<LocaleProvider>();
 
-    return MaterialApp(
-      title: 'KIPGO',
-      supportedLocales: L10n.all,
-      locale: localeProvider.locale,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      navigatorKey: navigatorKey,
-      debugShowCheckedModeBanner: false,
-      themeMode: themeProvider.themeMode,
-      theme: MyThemes.lightTheme,
-      darkTheme: MyThemes.darkTheme,
-      // home: const _AuthGateWrapper(),
-      home: const AppRouter(),
-      routes: {
-        '/customer_home': (_) => const CustomerHome(),
-        '/driver_home': (_) => const DriverHome(),
-      },
+    return ToastificationWrapper(
+      child: MaterialApp(
+        title: 'KIPGO',
+        supportedLocales: L10n.all,
+        locale: localeProvider.locale,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        navigatorKey: navigatorKey,
+        debugShowCheckedModeBanner: false,
+        themeMode: themeProvider.themeMode,
+        theme: MyThemes.lightTheme,
+        darkTheme: MyThemes.darkTheme,
+        // home: const _AuthGateWrapper(),
+        home: const AppRouter(),
+        routes: {
+          '/customer_home': (_) => const CustomerHome(),
+          '/driver_home': (_) => const DriverHome(),
+        },
+      ),
     );
   }
 }

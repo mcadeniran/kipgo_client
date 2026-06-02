@@ -41,6 +41,7 @@ class CarProvider extends ChangeNotifier {
   double? userLng;
   double? radiusKm;
   String? searchQuery;
+  String? currentShopId;
 
   void setShopProvider(RentalShopProvider provider) {
     shopProvider = provider;
@@ -92,6 +93,31 @@ class CarProvider extends ChangeNotifier {
 
     loading = false;
     notifyListeners();
+  }
+
+  void setCurrentShop(String shopId) {
+    currentShopId = shopId;
+    notifyListeners();
+  }
+
+  List<CarModel> get myCars {
+    if (currentShopId == null) return [];
+
+    return _allCars.where((c) => c.shopId == currentShopId).toList();
+  }
+
+  int get totalCars => myCars.length;
+
+  int get totalUnits => myCars.fold(0, (sum, car) => sum + car.totalUnits);
+
+  int get availableUnits =>
+      myCars.fold(0, (sum, car) => sum + car.availableUnits);
+
+  double get averageRating {
+    if (myCars.isEmpty) return 0;
+
+    final total = myCars.fold(0.0, (sum, c) => sum + c.rating);
+    return total / myCars.length;
   }
 
   List<CarWithShop> get featuredCars {

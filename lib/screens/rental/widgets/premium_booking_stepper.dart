@@ -38,19 +38,19 @@ class _PremiumBookingStepperState extends State<PremiumBookingStepper> {
   }
 
   Future<void> nextStep() async {
-    // 🔹 STEP 0 → Driver
+    // 🔹 STEP 0 → Schedule
     if (currentStep == 0) {
+      if (!widget.validateScheduleStep()) return;
+    }
+
+    // 🔹 STEP 1 → Driver
+    if (currentStep == 1) {
       if (!validateDriverStep()) return;
     }
 
-    // 🔹 STEP 1 → Documents
-    if (currentStep == 1) {
-      if (!widget.validateDocuments()) return;
-    }
-
-    // 🔹 STEP 2 → Schedule
+    // 🔹 STEP 2 → Documents
     if (currentStep == 2) {
-      if (!widget.validateScheduleStep()) return;
+      if (!widget.validateDocuments()) return;
     }
 
     // 🔹 Move forward
@@ -93,89 +93,105 @@ class _PremiumBookingStepperState extends State<PremiumBookingStepper> {
   }
 
   Widget _buildStepHeader() {
-    bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+    final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
+    const double itemWidth = 90;
+    final totalWidth = widget.steps.length * itemWidth;
+
     return Container(
-      padding: EdgeInsets.all(12),
+      padding: const EdgeInsets.all(8),
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: isDark ? AppColors.darkAccent : AppColors.lightAccent,
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            height: 30,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                // 🔥 Connector line (background full width)
-                Positioned.fill(
-                  child: Align(
-                    alignment: Alignment.center,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 52,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  /// 🔥 Background line
+                  Positioned(
+                    left: itemWidth / 2,
+                    right: itemWidth / 2,
                     child: Container(height: 2, color: AppColors.lightLayer),
                   ),
-                ),
 
-                // 🔵 Active progress line
-                Positioned.fill(
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: FractionallySizedBox(
-                      widthFactor: currentStep / (widget.steps.length - 1),
-                      child: Container(
-                        height: 2,
-                        color: isDark ? AppColors.darkLayer : AppColors.primary,
-                      ),
+                  /// 🔵 Active progress line
+                  Positioned(
+                    left: itemWidth / 2,
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      height: 2,
+                      width: ((widget.steps.length - 1) == 0)
+                          ? 0
+                          : ((totalWidth - itemWidth) *
+                                (currentStep / (widget.steps.length - 1))),
+                      color: isDark ? AppColors.darkLayer : AppColors.primary,
                     ),
                   ),
-                ),
 
-                // 🔵 Circles
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: List.generate(widget.steps.length, (index) {
-                    final isActive = index == currentStep;
-                    final isCompleted = index < currentStep;
+                  /// 🔵 Circles
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(widget.steps.length, (index) {
+                      final isActive = index == currentStep;
+                      final isCompleted = index < currentStep;
 
-                    return _buildStepCircle(
-                      index,
-                      isActive,
-                      isCompleted,
-                      isDark,
-                    );
-                  }),
-                ),
-              ],
-            ),
-          ),
-
-          const SizedBox(height: 8),
-
-          // 📝 Labels
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(widget.steps.length, (index) {
-              final isActive = index == currentStep;
-
-              return SizedBox(
-                width: 80, // same as circle width
-                child: Text(
-                  widget.steps[index].title,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
-                    color: isActive
-                        ? isDark
-                              ? AppColors.lightLayer
-                              : AppColors.primary
-                        : Colors.grey,
+                      return SizedBox(
+                        width: itemWidth,
+                        child: Center(
+                          child: _buildStepCircle(
+                            index,
+                            isActive,
+                            isCompleted,
+                            isDark,
+                          ),
+                        ),
+                      );
+                    }),
                   ),
-                ),
-              );
-            }),
-          ),
-        ],
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            /// 📝 Labels
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(widget.steps.length, (index) {
+                final isActive = index == currentStep;
+
+                return SizedBox(
+                  width: itemWidth,
+                  child: Text(
+                    widget.steps[index].title,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: isActive
+                          ? FontWeight.w600
+                          : FontWeight.normal,
+                      color: isActive
+                          ? isDark
+                                ? AppColors.lightLayer
+                                : AppColors.primary
+                          : Colors.grey,
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -188,8 +204,8 @@ class _PremiumBookingStepperState extends State<PremiumBookingStepper> {
   ) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
-      height: 80,
-      width: 80,
+      height: 29,
+      width: 29,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: isCompleted

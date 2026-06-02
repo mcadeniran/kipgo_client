@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kipgo/controllers/locale_provider.dart';
+import 'package:kipgo/helpers/statuses.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/models/booking_model.dart';
 import 'package:kipgo/screens/rental/bookings/widgets/timeline_item.dart';
+import 'package:kipgo/screens/rental/bookings/widgets/user_booking_status_message.dart';
+import 'package:kipgo/screens/rental/car_booking/crypto_payment_page.dart';
 import 'package:kipgo/screens/widgets/app_bar_widget.dart';
 import 'package:kipgo/screens/widgets/format_currency.dart';
 import 'package:kipgo/utils/car_properties_translations.dart';
@@ -34,6 +39,11 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
   late int rentalDays;
   late AppLocalizations loc;
 
+  Timer? _expiryTimer;
+  Duration _remaining = Duration.zero;
+
+  bool _expiring = false;
+
   @override
   void initState() {
     super.initState();
@@ -41,6 +51,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
     if (widget.booking != null) {
       booking = widget.booking;
       rentalDays = booking!.dropoffDate.difference(booking!.pickupDate).inDays;
+      startExpiryTimer();
       isLoading = false;
     } else {
       fetchBooking();
@@ -68,10 +79,111 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
               .inDays;
           isLoading = false;
         });
+
+        startExpiryTimer();
+      } else {
+        setState(() {
+          booking = null;
+          isLoading = false;
+        });
       }
     } catch (e) {
       setState(() => isLoading = false);
     }
+  }
+
+  void startExpiryTimer() {
+    // if (expiresAt == null) return;
+
+    // _updateRemaining(expiresAt);
+
+    // _expiryTimer?.cancel();
+
+    // _expiryTimer = Timer.periodic(
+    //   const Duration(seconds: 1),
+    //   (_) => _updateRemaining(expiresAt),
+    // );
+
+    final payment = booking?.payment;
+
+    if (payment == null) return;
+
+    DateTime? expiresAt = payment.expiresAt;
+
+    if (expiresAt == null &&
+        payment.status == PaymentStatuses.failed &&
+        payment.rejection?.rejectedAt != null) {
+      expiresAt = payment.rejection!.rejectedAt!.add(
+        const Duration(minutes: 30),
+      );
+    }
+
+    if (expiresAt == null) return;
+
+    _updateRemaining(expiresAt);
+
+    _expiryTimer?.cancel();
+
+    _expiryTimer = Timer.periodic(
+      const Duration(seconds: 1),
+      (_) => _updateRemaining(expiresAt!),
+    );
+  }
+
+  void _updateRemaining(DateTime expiresAt) {
+    final remaining = expiresAt.difference(DateTime.now());
+
+    if (remaining.isNegative) {
+      _expiryTimer?.cancel();
+
+      if (mounted) {
+        setState(() {
+          _remaining = Duration.zero;
+        });
+      }
+
+      expireBooking();
+
+      return;
+    }
+
+    if (mounted) {
+      setState(() {
+        _remaining = remaining;
+      });
+    }
+  }
+
+  Future<void> expireBooking() async {
+    if (_expiring) return;
+
+    _expiring = true;
+
+    try {
+      await FirebaseFirestore.instance
+          .collection('bookings')
+          .doc(booking!.id)
+          .update({
+            'status': 'expired',
+            'expiredAt': FieldValue.serverTimestamp(),
+            'payment.status': 'expired',
+          });
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  String get remainingText {
+    final minutes = _remaining.inMinutes;
+    final seconds = _remaining.inSeconds % 60;
+
+    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+  }
+
+  @override
+  void dispose() {
+    _expiryTimer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -200,7 +312,6 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 5),
                     Text(
                       loc.bookingTimeline,
                       style: Theme.of(context).textTheme.titleMedium,
@@ -402,6 +513,93 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                         amount: booking!.tax,
                       ),
                     ),
+
+                    SizedBox(height: 5),
+                    Divider(thickness: 0, color: AppColors.border),
+                    SizedBox(height: 5),
+
+                    // BOOKING DETAILS
+                    Text(
+                      'Payment Details',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    SizedBox(height: 10),
+                    rowBuilder(
+                      context,
+                      'Payment Method',
+                      carPropertiesTranslations(
+                        context,
+                        booking!.payment!.method,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    rowBuilder(
+                      context,
+                      'Payment Status',
+                      carPropertiesTranslations(
+                        context,
+                        booking!.payment!.status,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    if (booking!.payment!.method == PaymentMethods.crypto &&
+                        (booking!.payment!.status != PaymentStatuses.unpaid &&
+                            booking!.payment!.status !=
+                                PaymentStatuses.pending)) ...[
+                      rowBuilder(
+                        context,
+                        'USDT',
+                        booking!.payment!.crypto!.amount.toStringAsFixed(2),
+                      ),
+                      SizedBox(height: 5),
+                      rowBuilder(
+                        context,
+                        'TXID',
+                        booking!.payment!.crypto!.txid ?? '',
+                      ),
+                    ],
+                    SizedBox(height: 5),
+                    Divider(thickness: 0, color: AppColors.border),
+                    SizedBox(height: 5),
+                    // BOOKING MESSAGES
+                    UserBookingStatusMessage(booking: booking!),
+                    SizedBox(height: 5),
+                    if (booking!.payment!.method == PaymentMethods.crypto &&
+                        (booking!.payment!.status == PaymentStatuses.pending ||
+                            booking!.payment!.status ==
+                                PaymentStatuses.failed)) ...[
+                      SizedBox(height: 5),
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: _remaining <= Duration.zero
+                              ? null
+                              : () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => CryptoPaymentPage(
+                                      bookingId: booking!.id,
+                                    ),
+                                  ),
+                                ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                            foregroundColor: Colors.white,
+                            disabledBackgroundColor: AppColors.primary
+                                .withValues(alpha: 0.5),
+                            disabledForegroundColor: Colors.white54,
+                            minimumSize: const Size.fromHeight(50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: Text(
+                            _remaining > Duration.zero
+                                ? 'Add Payment ($remainingText)'
+                                : 'Payment Expired',
+                          ),
+                        ),
+                      ),
+                    ],
                     SizedBox(height: 5),
                   ],
                 ),

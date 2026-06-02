@@ -1,16 +1,19 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:kipgo/controllers/car_booking_provider.dart';
 import 'package:kipgo/controllers/profile_provider.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
+import 'package:kipgo/models/booking_model.dart';
 import 'package:kipgo/models/booking_step.dart';
+import 'package:kipgo/models/car_unit.dart';
 import 'package:kipgo/models/car_with_shop_model.dart';
-import 'package:kipgo/models/driver_profile.dart';
 import 'package:kipgo/models/profile.dart';
+import 'package:kipgo/screens/rental/car_booking/booking_payment_step.dart';
 import 'package:kipgo/screens/rental/car_booking/booking_success_page.dart';
 import 'package:kipgo/screens/rental/car_booking/booking_summary.dart';
+import 'package:kipgo/screens/rental/car_booking/crypto_payment_page.dart';
 import 'package:kipgo/screens/rental/car_booking/driver_booking_details.dart';
 import 'package:kipgo/screens/rental/car_booking/driver_documents_step.dart';
 import 'package:kipgo/screens/rental/car_booking/driver_selector.dart';
@@ -20,11 +23,17 @@ import 'package:kipgo/screens/rental/car_booking/schedule_booking_details.dart';
 import 'package:kipgo/screens/widgets/app_bar_widget.dart';
 import 'package:kipgo/utils/colors.dart';
 import 'package:kipgo/utils/invoice_generator.dart';
-import 'package:path/path.dart' as p;
 import 'package:provider/provider.dart';
-import 'package:uuid/uuid.dart';
+import 'package:toastification/toastification.dart';
 
 enum DeliveryType { pickup, delivery }
+
+enum PaymentMethod {
+  // card,
+  // bankTransfer,
+  crypto,
+  payOnPickup,
+}
 
 class CarBookingPage extends StatefulWidget {
   final CarWithShop car;
@@ -36,10 +45,11 @@ class CarBookingPage extends StatefulWidget {
 
 class _CarBookingPageState extends State<CarBookingPage> {
   final _driverFormKey = GlobalKey<FormState>();
-  List<DriverProfile> drivers = [];
-  DriverProfile? selectedDriver;
+  late CarBookingProvider provider;
+  // DriverProfile? selectedDriver;
 
   DeliveryType deliveryType = DeliveryType.pickup;
+  PaymentMethod selectedPaymentMethod = PaymentMethod.crypto;
   int currentStep = 0;
 
   late AppLocalizations loc;
@@ -74,65 +84,9 @@ class _CarBookingPageState extends State<CarBookingPage> {
   String? licenseBackUrl;
   String? idCardUrl;
 
-  UploadTask? uploadTask;
+  bool isLoading = false;
 
   bool isBooking = false;
-
-  Future<void> loadDrivers() async {
-    final profileProvider = Provider.of<ProfileProvider>(
-      context,
-      listen: false,
-    );
-
-    final uid = profileProvider.profile!.id;
-
-    final snapshot = await FirebaseFirestore.instance
-        .collection("profiles")
-        .doc(uid)
-        .collection("renters")
-        .get();
-
-    drivers = snapshot.docs
-        .map((doc) => DriverProfile.fromMap(doc.data(), doc.id))
-        .toList();
-
-    setState(() {});
-  }
-
-  Future<String?> uploadFile(File? pickedFile) async {
-    if (pickedFile == null) {
-      return null;
-    }
-
-    try {
-      var fileExtension = p.extension(pickedFile.path);
-      var fileId = const Uuid().v4();
-
-      final path =
-          'files/${Provider.of<ProfileProvider>(context, listen: false).profile!.id}/$fileId$fileExtension';
-      // final file = File(pickedFile.path);
-
-      final ref = FirebaseStorage.instance.ref().child(path);
-
-      setState(() {
-        uploadTask = ref.putFile(pickedFile);
-      });
-
-      final snapshot = await uploadTask!.whenComplete(() {});
-      final urlDownload = await snapshot.ref.getDownloadURL();
-      return urlDownload;
-    } on FirebaseException catch (e) {
-      debugPrint(e.message);
-      return null;
-    } catch (e) {
-      debugPrint(e.toString());
-      return null;
-    } finally {
-      setState(() {
-        uploadTask = null;
-      });
-    }
-  }
 
   Future<String> saveDriverProfile() async {
     final profileProvider = Provider.of<ProfileProvider>(
@@ -142,9 +96,15 @@ class _CarBookingPageState extends State<CarBookingPage> {
 
     final uid = profileProvider.profile!.id;
 
-    licenseFrontUrl = await uploadFile(licenseFrontFile);
-    licenseBackUrl = await uploadFile(licenseBackFile);
-    idCardUrl = await uploadFile(idCardFile);
+    licenseFrontUrl = await provider.uploadFile(
+      file: licenseFrontFile,
+      userId: uid,
+    );
+    licenseBackUrl = await provider.uploadFile(
+      file: licenseBackFile,
+      userId: uid,
+    );
+    idCardUrl = await provider.uploadFile(file: idCardFile, userId: uid);
 
     final doc = FirebaseFirestore.instance
         .collection("profiles")
@@ -168,19 +128,14 @@ class _CarBookingPageState extends State<CarBookingPage> {
     return doc.id;
   }
 
-  bool hasDriverChanged() {
-    return nameController.text != selectedDriver!.name ||
-        emailController.text != selectedDriver!.email ||
-        phoneController.text != selectedDriver!.phone ||
-        dobController.text != selectedDriver!.dob ||
-        selectedGender != selectedDriver!.gender ||
-        licenseFrontFile != null ||
-        licenseBackFile != null ||
-        idCardFile != null;
-  }
-
   Future<void> createBooking() async {
-    setState(() => isBooking = true);
+    final confirmed = await showBookingConfirmation();
+
+    if (!confirmed) return;
+    setState(() {
+      isBooking = true;
+    });
+    // provider.setBooking(true);
     final profileProvider = Provider.of<ProfileProvider>(
       context,
       listen: false,
@@ -190,28 +145,34 @@ class _CarBookingPageState extends State<CarBookingPage> {
 
     String driverId;
 
-    if (selectedDriver == null) {
+    if (provider.selectedDriver == null) {
       driverId = await saveDriverProfile();
     } else {
-      driverId = selectedDriver!.id;
+      driverId = provider.selectedDriver!.id;
 
       if (hasDriverChanged()) {
         if (licenseFrontFile != null) {
-          licenseFrontUrl = await uploadFile(licenseFrontFile);
+          licenseFrontUrl = await provider.uploadFile(
+            file: licenseFrontFile,
+            userId: uid,
+          );
         } else {
-          licenseFrontUrl = selectedDriver!.licenseFrontUrl;
+          licenseFrontUrl = provider.selectedDriver!.licenseFrontUrl;
         }
 
         if (licenseBackFile != null) {
-          licenseBackUrl = await uploadFile(licenseBackFile);
+          licenseBackUrl = await provider.uploadFile(
+            file: licenseBackFile,
+            userId: uid,
+          );
         } else {
-          licenseBackUrl = selectedDriver!.licenseBackUrl;
+          licenseBackUrl = provider.selectedDriver!.licenseBackUrl;
         }
 
         if (idCardFile != null) {
-          idCardUrl = await uploadFile(idCardFile);
+          idCardUrl = await provider.uploadFile(file: idCardFile, userId: uid);
         } else {
-          idCardUrl = selectedDriver!.idCardUrl;
+          idCardUrl = provider.selectedDriver!.idCardUrl;
         }
 
         // 🔥 Update ALL fields (text + images)
@@ -219,7 +180,7 @@ class _CarBookingPageState extends State<CarBookingPage> {
             .collection("profiles")
             .doc(uid)
             .collection("renters")
-            .doc(selectedDriver!.id)
+            .doc(provider.selectedDriver!.id)
             .update({
               "name": nameController.text,
               "email": emailController.text,
@@ -235,13 +196,10 @@ class _CarBookingPageState extends State<CarBookingPage> {
             });
       } else {
         // ✅ No changes → reuse existing
-        licenseFrontUrl = selectedDriver!.licenseFrontUrl;
-        licenseBackUrl = selectedDriver!.licenseBackUrl;
-        idCardUrl = selectedDriver!.idCardUrl;
+        licenseFrontUrl = provider.selectedDriver!.licenseFrontUrl;
+        licenseBackUrl = provider.selectedDriver!.licenseBackUrl;
+        idCardUrl = provider.selectedDriver!.idCardUrl;
       }
-      // licenseFrontUrl = selectedDriver!.licenseFrontUrl;
-      // licenseBackUrl = selectedDriver!.licenseBackUrl;
-      // idCardUrl = selectedDriver!.idCardUrl;
     }
 
     final invoiceNumber = generateInvoiceNumber();
@@ -256,108 +214,143 @@ class _CarBookingPageState extends State<CarBookingPage> {
 
     final double totalPrice = preTax + taxAmount + deposit;
 
-    // if (!_driverFormKey.currentState!.validate()) return;
-    // if (!validateDocuments()) return;
-    // if (!validateScheduleStep()) return;
-
-    await FirebaseFirestore.instance.collection("bookings").add({
-      "invoiceNumber": invoiceNumber,
-      "carId": widget.car.car.id,
-      "shopId": widget.car.car.shopId,
-      "userId": uid,
-      "driverId": driverId,
-
-      "car": {
-        "brand": widget.car.car.brand,
-        "model": widget.car.car.model,
-        "year": widget.car.car.year,
-        "seats": widget.car.car.seats,
-        "transmission": widget.car.car.transmission,
-        "carType": widget.car.car.carType,
-        "fuel": widget.car.car.fuel,
-        "carImage": widget.car.car.images
-            .firstWhere(
-              (img) => img.isCover == true,
-              orElse: () => widget.car.car.images.first,
-            )
-            .url,
-        "pricePerDay": widget.car.finalPrice,
-      },
-
-      "pickupDate": Timestamp.fromDate(pickupDate),
-      "dropoffDate": Timestamp.fromDate(dropoffDate),
-
-      "deliveryType": deliveryType.name,
-      "deliveryAddress": deliveryAddress.text,
-
-      "rentalPrice": rentalPrice,
-      "deliveryPrice": deliveryPrice,
-      "deposit": deposit,
-
-      "note": additionalNote.text,
-
-      "taxRate": widget.car.shop.taxRate,
-      "preTax": preTax,
-      "tax": taxAmount,
-      "totalPrice": totalPrice,
-
-      "currency": widget.car.car.currency ?? widget.car.shop.currency,
-
-      "shop": {
-        "location": {
-          "lat": widget.car.shop.location.lat,
-          "lng": widget.car.shop.location.lng,
-        },
-        "address": widget.car.shop.address,
-        "city": widget.car.shop.city,
-        "district": widget.car.shop.district,
-        "name": widget.car.shop.name,
-        "logo": widget.car.shop.logo,
-      },
-
-      "driver": {
-        "name": nameController.text,
-        "phone": phoneController.text,
-        "email": emailController.text,
-        "dob": dobController.text,
-        "gender": selectedGender,
-        "licenseFront": licenseFrontUrl,
-        "licenseBack": licenseBackUrl,
-        "idCard": idCardUrl,
-      },
-
-      "status": "pending",
-
-      "createdAt": FieldValue.serverTimestamp(),
-    });
-
-    setState(() => isBooking = false);
-
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (_) => BookingSuccessPage(invoiceNumber: invoiceNumber),
-      ),
+    final bookingId = await provider.createBooking(
+      invoiceNumber: invoiceNumber,
+      userId: uid,
+      driverId: driverId,
+      car: widget.car,
+      pickupDate: pickupDate,
+      dropoffDate: dropoffDate,
+      deliveryType: deliveryType.name,
+      deliveryAddress: deliveryAddress.text.trim(),
+      rentalPrice: rentalPrice,
+      deliveryPrice: tempDelivery,
+      deposit: deposit,
+      note: additionalNote.text.trim(),
+      preTax: preTax,
+      taxAmount: taxAmount,
+      totalPrice: totalPrice,
+      name: nameController.text,
+      phone: phoneController.text,
+      email: emailController.text,
+      dob: dobController.text,
+      gender: selectedGender,
+      licenseFront: licenseFrontUrl!,
+      licenseBack: licenseBackUrl!,
+      idCard: idCardUrl!,
+      paymentMethod: selectedPaymentMethod.name,
+      currency: widget.car.car.currency != null
+          ? widget.car.car.currency!
+          : widget.car.shop.currency,
     );
+
+    if (bookingId == null) {
+      setState(() {
+        isBooking = false;
+      });
+      // SHOW ERROR TOAST
+      return;
+    }
+
+    // provider.setBooking(false);
+
+    if (!mounted) return;
+    setState(() {
+      isBooking = false;
+    });
+    if (selectedPaymentMethod == PaymentMethod.crypto) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => CryptoPaymentPage(bookingId: bookingId),
+        ),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => BookingSuccessPage(invoiceNumber: invoiceNumber),
+        ),
+      );
+    }
+  }
+
+  bool hasDriverChanged() {
+    return nameController.text != provider.selectedDriver!.name ||
+        emailController.text != provider.selectedDriver!.email ||
+        phoneController.text != provider.selectedDriver!.phone ||
+        dobController.text != provider.selectedDriver!.dob ||
+        selectedGender != provider.selectedDriver!.gender ||
+        licenseFrontFile != null ||
+        licenseBackFile != null ||
+        idCardFile != null;
+  }
+
+  Future<bool> showBookingConfirmation() async {
+    return await showDialog<bool>(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return AlertDialog(
+              shape: BeveledRectangleBorder(
+                borderRadius: BorderRadiusGeometry.circular(8),
+              ),
+              surfaceTintColor: Colors.transparent,
+              title: Text(loc.confirmBooking),
+              content: Text(loc.areYouSureBookingSubmit),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, false);
+                  },
+                  child: Text(loc.cancel),
+                ),
+
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: AppColors.lightAccent,
+                    backgroundColor: AppColors.primary,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  },
+                  child: Text(loc.continueAction),
+                ),
+              ],
+            );
+          },
+        ) ??
+        false;
   }
 
   @override
   void initState() {
     super.initState();
+    provider = context.read<CarBookingProvider>();
     Profile user = Provider.of<ProfileProvider>(
       context,
       listen: false,
     ).profile!;
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await loadDrivers();
+      setState(() {
+        isLoading = true;
+      });
+      await provider.loadDrivers(user.id);
+      await provider.loadBookings(widget.car.car.id);
+      await provider.loadUnits(widget.car.car.id);
+      await provider.loadWallet();
 
-      if (drivers.isEmpty) {
+      if (provider.drivers.isEmpty) {
         nameController.text =
             "${user.personal.firstName} ${user.personal.lastName}";
         phoneController.text = user.personal.phone;
         emailController.text = user.email;
       }
+
+      setState(() {
+        isLoading = false;
+      });
     });
 
     pickupDate = DateTime.now();
@@ -390,29 +383,119 @@ class _CarBookingPageState extends State<CarBookingPage> {
     if ((licenseFront == null && licenseFrontUrl == null) ||
         (licenseBack == null && licenseBackUrl == null) ||
         (idCard == null && idCardUrl == null)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(loc.allDriverDocumentsAreRequired)),
+      toastification.show(
+        context: context,
+        type: ToastificationType.error,
+        title: Text(loc.error),
+        description: Text(loc.allDriverDocumentsAreRequired),
       );
       return false;
     }
     return true;
   }
 
+  DateTime normalize(DateTime d) {
+    return DateTime(d.year, d.month, d.day);
+  }
+
   bool validateScheduleStep() {
-    // 1. Dates check
+    final normalizedPickup = normalize(pickupDate);
+    final normalizedDropoff = normalize(dropoffDate);
+
+    /// --------------------------------------------------------
+    /// DATE SELECTION
+    /// --------------------------------------------------------
+
+    // Prevent unselected/default dates
     if (dropoffDate.isBefore(pickupDate) ||
         dropoffDate.isAtSameMomentAs(pickupDate)) {
       _showError(loc.invalidRentalPeriod);
       return false;
     }
 
-    // 2. Minimum duration
-    if (rentalDays < 1) {
+    if (!normalizedDropoff.isAfter(normalizedPickup)) {
+      _showError(loc.invalidRentalPeriod);
+      return false;
+    }
+
+    /// --------------------------------------------------------
+    /// BLOCKED DATE VALIDATION
+    /// Revalidate availability before continuing
+    /// --------------------------------------------------------
+
+    final blockedDates = getFullyBookedDates(
+      units: provider.units,
+      bookings: provider.bookings,
+    );
+
+    // final normalizedPickup = DateTime(
+    //   pickupDate.year,
+    //   pickupDate.month,
+    //   pickupDate.day,
+    // );
+
+    // final normalizedDropoff = DateTime(
+    //   dropoffDate.year,
+    //   dropoffDate.month,
+    //   dropoffDate.day,
+    // );
+
+    // Pickup became unavailable
+    if (blockedDates.contains(normalizedPickup)) {
+      _showError(loc.selectedPickupDateUnavailable);
+      return false;
+    }
+
+    // Dropoff became unavailable
+    if (blockedDates.contains(normalizedDropoff)) {
+      _showError(loc.selectedDropoffDateUnavailable);
+      return false;
+    }
+
+    /// --------------------------------------------------------
+    /// RANGE VALIDATION
+    /// Ensure no blocked dates inside selected range
+    /// --------------------------------------------------------
+
+    DateTime current = normalizedPickup;
+
+    // while (!current.isAfter(normalizedDropoff)) {
+    //   if (blockedDates.contains(current)) {
+    //     _showError(loc.selectedRangeContainsUnavailableDates);
+    //     return false;
+    //   }
+
+    //   current = current.add(const Duration(days: 1));
+    // }
+    while (true) {
+      if (blockedDates.contains(current)) {
+        _showError(loc.selectedRangeContainsUnavailableDates);
+        return false;
+      }
+
+      if (current.isAfter(normalizedDropoff)) break;
+
+      current = current.add(const Duration(days: 1));
+    }
+
+    /// --------------------------------------------------------
+    /// MINIMUM RENTAL DAYS
+    /// --------------------------------------------------------
+    final rentalDays = normalizedDropoff.difference(normalizedPickup).inDays;
+    // if (rentalDays < 3) {
+    //   _showError(loc.rentalMustBeAtLeast1Day);
+    //   return false;
+    // }
+
+    if (rentalDays < 3) {
       _showError(loc.rentalMustBeAtLeast1Day);
       return false;
     }
 
-    // 3. Delivery validation
+    /// --------------------------------------------------------
+    /// DELIVERY VALIDATION
+    /// --------------------------------------------------------
+
     if (deliveryType == DeliveryType.delivery &&
         deliveryAddress.text.trim().isEmpty) {
       _showError(loc.deliveryAddressIsRequired);
@@ -422,200 +505,304 @@ class _CarBookingPageState extends State<CarBookingPage> {
     return true;
   }
 
+  Set<DateTime> getFullyBookedDates({
+    required List<CarUnit> units,
+    required List<BookingModel> bookings,
+  }) {
+    final Map<DateTime, int> bookingCountPerDay = {};
+
+    DateTime normalizeDate(DateTime date) {
+      return DateTime(date.year, date.month, date.day);
+    }
+
+    for (final booking in bookings) {
+      if (booking.status == 'cancelled' ||
+          booking.status == 'rejected' ||
+          booking.status == 'expired') {
+        continue;
+      }
+
+      DateTime current = normalizeDate(booking.pickupDate);
+
+      final dropoff = normalizeDate(booking.dropoffDate);
+
+      while (!current.isAfter(dropoff)) {
+        bookingCountPerDay[current] = (bookingCountPerDay[current] ?? 0) + 1;
+
+        current = current.add(const Duration(days: 1));
+      }
+    }
+
+    final totalAvailableUnits = units
+        .where((e) => e.status == "available")
+        .length;
+
+    return bookingCountPerDay.entries
+        .where((entry) => entry.value >= totalAvailableUnits)
+        .map((entry) => normalizeDate(entry.key))
+        .toSet();
+  }
+
   void _showError(String msg) {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(msg), backgroundColor: Colors.red));
+    toastification.show(
+      context: context,
+      type: ToastificationType.error,
+      title: Text(loc.error),
+      description: Text(msg),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     // bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
-    return Scaffold(
-      appBar: AppBarWidget(title: loc.bookingDetails),
-      backgroundColor: AppColors.primary,
-      body: Container(
-        width: double.maxFinite,
-        padding: EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+
+        final shouldLeave = await showDialog<bool>(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text(loc.leaveBookingFlow),
+              content: Text(loc.leaveBookingWarning),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, false);
+                  },
+                  child: Text(loc.cancel),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  },
+                  child: Text(loc.leave),
+                ),
+              ],
+            );
+          },
+        );
+
+        if (shouldLeave == true && context.mounted) {
+          Navigator.pop(context);
+        }
+      },
+      child: Scaffold(
+        appBar: AppBarWidget(title: loc.bookingDetails),
+        backgroundColor: AppColors.primary,
+        body: Container(
+          width: double.maxFinite,
+          padding: EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+            color: Theme.of(context).scaffoldBackgroundColor,
           ),
-          color: Theme.of(context).scaffoldBackgroundColor,
-        ),
-        child: PremiumBookingStepper(
-          steps: [
-            BookingStep(
-              title: loc.driver,
-              content: Form(
-                key: _driverFormKey,
-                child: Column(
-                  children: [
-                    DriverSelector(
-                      drivers: drivers,
-                      selected: selectedDriver,
-                      onSelect: (driver) {
-                        setState(() {
-                          selectedDriver = driver;
-
-                          nameController.text = driver.name;
-                          emailController.text = driver.email;
-                          phoneController.text = driver.phone;
-                          dobController.text = driver.dob;
-                          licenseFrontUrl = driver.licenseFrontUrl;
-                          licenseBackUrl = driver.licenseBackUrl;
-                          idCardUrl = driver.idCardUrl;
-                          licenseFront = null;
-                          licenseBack = null;
-                          idCard = null;
-                          licenseFrontFile = null;
-                          licenseBackFile = null;
-                          idCardFile = null;
-                          if (genders.contains(driver.gender)) {
-                            selectedGender = driver.gender;
-                          }
-                        });
-                      },
-                      onAddNew: () {
-                        setState(() {
-                          selectedDriver = null;
-                        });
-                      },
+          child: isLoading
+              ? Center(child: CircularProgressIndicator.adaptive())
+              : PremiumBookingStepper(
+                  steps: [
+                    BookingStep(
+                      title: loc.schedule,
+                      content: Form(
+                        key: _driverFormKey,
+                        child: ScheduleBookingDetails(
+                          pickupDate: pickupDate,
+                          dropoffDate: dropoffDate,
+                          rentalPrice: rentalPrice,
+                          deliveryPrice: deliveryPrice,
+                          deliveryAddress: deliveryAddress,
+                          additionalNote: additionalNote,
+                          deliveryType: deliveryType,
+                          rentalDays: rentalDays,
+                          dailyPrice: dailyPrice,
+                          bookings: provider.bookings,
+                          units: provider.units,
+                          offersDelivery: widget.car.car.offersDelivery,
+                          currency: widget.car.car.currency != null
+                              ? widget.car.car.currency!
+                              : widget.car.shop.currency,
+                          onDateChanged: (pickup, dropoff, total) {
+                            setState(() {
+                              pickupDate = pickup;
+                              dropoffDate = dropoff;
+                              rentalPrice = total.toDouble();
+                              rentalDays = dropoffDate
+                                  .difference(pickupDate)
+                                  .inDays;
+                            });
+                          },
+                          onDeliveryTypeChanged: (type) {
+                            setState(() {
+                              deliveryType = type;
+                              deliveryPrice = type == DeliveryType.delivery
+                                  ? widget.car.car.deliveryPrice
+                                  : 0;
+                            });
+                          },
+                        ),
+                      ),
                     ),
+                    BookingStep(
+                      title: loc.driver,
+                      content: Form(
+                        key: _driverFormKey,
+                        child: Column(
+                          children: [
+                            DriverSelector(
+                              drivers: provider.drivers,
+                              selected: provider.selectedDriver,
+                              onSelect: (driver) {
+                                setState(() {
+                                  provider.selectedDriver = driver;
 
-                    const SizedBox(height: 20),
+                                  nameController.text = driver.name;
+                                  emailController.text = driver.email;
+                                  phoneController.text = driver.phone;
+                                  dobController.text = driver.dob;
+                                  licenseFrontUrl = driver.licenseFrontUrl;
+                                  licenseBackUrl = driver.licenseBackUrl;
+                                  idCardUrl = driver.idCardUrl;
+                                  licenseFront = null;
+                                  licenseBack = null;
+                                  idCard = null;
+                                  licenseFrontFile = null;
+                                  licenseBackFile = null;
+                                  idCardFile = null;
+                                  if (genders.contains(driver.gender)) {
+                                    selectedGender = driver.gender;
+                                  }
+                                });
+                              },
+                              onAddNew: () {
+                                setState(() {
+                                  provider.selectedDriver = null;
+                                });
+                              },
+                            ),
 
-                    DriverBookingDetails(
-                      nameController: nameController,
-                      emailController: emailController,
-                      phoneController: phoneController,
-                      dobController: dobController,
-                      genders: genders,
-                      selectedGender: selectedGender,
-                      onGenderChanged: (value) {
-                        setState(() {
-                          selectedGender = value;
-                        });
-                      },
+                            const SizedBox(height: 20),
+
+                            DriverBookingDetails(
+                              nameController: nameController,
+                              emailController: emailController,
+                              phoneController: phoneController,
+                              dobController: dobController,
+                              genders: genders,
+                              selectedGender: selectedGender,
+                              onGenderChanged: (value) {
+                                setState(() {
+                                  selectedGender = value;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    BookingStep(
+                      title: loc.driversDocuments,
+                      content: Form(
+                        key: _driverFormKey,
+                        child: DriverDocumentsStep(
+                          licenseFront: licenseFront,
+                          licenseBack: licenseBack,
+                          idCard: idCard,
+                          licenseFrontUrl: licenseFrontUrl,
+                          licenseBackUrl: licenseBackUrl,
+                          idCardUrl: idCardUrl,
+                          onFrontUpload: () async {
+                            final file = await pickImage(context);
+                            if (file == null) return;
+
+                            setState(() {
+                              licenseFrontFile = file;
+                              licenseFront = file.path;
+                            });
+                          },
+                          onBackUpload: () async {
+                            final file = await pickImage(context);
+                            if (file == null) return;
+
+                            setState(() {
+                              licenseBackFile = file;
+                              licenseBack = file.path;
+                            });
+                          },
+
+                          onIdUpload: () async {
+                            final file = await pickImage(context);
+                            if (file == null) return;
+
+                            setState(() {
+                              idCardFile = file;
+                              idCard = file.path;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                    BookingStep(
+                      title: loc.summary,
+                      content: BookingSummary(
+                        name: nameController.text,
+                        phone: phoneController.text,
+                        email: emailController.text,
+                        carName:
+                            '${widget.car.car.brand} ${widget.car.car.model} ${widget.car.car.year}',
+                        // carColour: 'Blue',
+                        carSeats: widget.car.car.seats,
+                        transmission: widget.car.car.transmission,
+                        pickupDate: pickupDate,
+                        dropoffDate: dropoffDate,
+                        rentalDays: rentalDays,
+                        deliveryType: deliveryType,
+                        deliveryAddress: deliveryAddress.text,
+                        additionalNote: additionalNote.text,
+                        rentalPrice: rentalPrice,
+                        deliveryPrice: deliveryPrice,
+                        deposit: deposit,
+                        tax: widget.car.shop.taxRate,
+                        fuelType: widget.car.car.fuel,
+                        dailyPrice: dailyPrice,
+                        licenseFrontUrl: licenseFrontUrl,
+                        licenseBackUrl: licenseBackUrl,
+                        idCardUrl: idCardUrl,
+                        licenseFrontFile: licenseFrontFile,
+                        licenseBackFile: licenseBackFile,
+                        idCardFile: idCardFile,
+                        currency:
+                            widget.car.car.currency ?? widget.car.shop.currency,
+                      ),
+                    ),
+                    BookingStep(
+                      title: loc.payment,
+                      content: BookingPaymentStep(
+                        selectedMethod: selectedPaymentMethod,
+                        onChanged: (method) {
+                          setState(() {
+                            selectedPaymentMethod = method;
+                          });
+                        },
+                        rentalPrice: rentalPrice,
+                        deliveryPrice: deliveryPrice,
+                        deposit: deposit,
+                        tax: widget.car.shop.taxRate,
+                        deliveryType: deliveryType,
+                        currency:
+                            widget.car.car.currency ?? widget.car.shop.currency,
+                      ),
                     ),
                   ],
+                  onConfirmBooking: createBooking,
+                  isLoading: isBooking,
+                  driverFormKey: _driverFormKey,
+                  validateDocuments: validateDocuments,
+                  validateScheduleStep: validateScheduleStep,
                 ),
-              ),
-            ),
-            BookingStep(
-              title: loc.driversDocuments,
-              content: Form(
-                key: _driverFormKey,
-                child: DriverDocumentsStep(
-                  licenseFront: licenseFront,
-                  licenseBack: licenseBack,
-                  idCard: idCard,
-                  licenseFrontUrl: licenseFrontUrl,
-                  licenseBackUrl: licenseBackUrl,
-                  idCardUrl: idCardUrl,
-                  onFrontUpload: () async {
-                    final file = await pickImage(context);
-                    if (file == null) return;
-
-                    setState(() {
-                      licenseFrontFile = file;
-                      licenseFront = file.path;
-                    });
-                  },
-                  onBackUpload: () async {
-                    final file = await pickImage(context);
-                    if (file == null) return;
-
-                    setState(() {
-                      licenseBackFile = file;
-                      licenseBack = file.path;
-                    });
-                  },
-
-                  onIdUpload: () async {
-                    final file = await pickImage(context);
-                    if (file == null) return;
-
-                    setState(() {
-                      idCardFile = file;
-                      idCard = file.path;
-                    });
-                  },
-                ),
-              ),
-            ),
-            BookingStep(
-              title: loc.schedule,
-              content: Form(
-                key: _driverFormKey,
-                child: ScheduleBookingDetails(
-                  pickupDate: pickupDate,
-                  dropoffDate: dropoffDate,
-                  rentalPrice: rentalPrice,
-                  deliveryPrice: deliveryPrice,
-                  deliveryAddress: deliveryAddress,
-                  additionalNote: additionalNote,
-                  deliveryType: deliveryType,
-                  rentalDays: rentalDays,
-                  dailyPrice: dailyPrice,
-                  onDateChanged: (pickup, dropoff, total) {
-                    setState(() {
-                      pickupDate = pickup;
-                      dropoffDate = dropoff;
-                      rentalPrice = total.toDouble();
-                      rentalDays = dropoffDate.difference(pickupDate).inDays;
-                    });
-                  },
-                  onDeliveryTypeChanged: (type) {
-                    setState(() {
-                      deliveryType = type;
-                      deliveryPrice = type == DeliveryType.delivery
-                          ? widget.car.car.deliveryPrice
-                          : 0;
-                    });
-                  },
-                ),
-              ),
-            ),
-            BookingStep(
-              title: loc.summary,
-              content: BookingSummary(
-                name: nameController.text,
-                phone: phoneController.text,
-                email: emailController.text,
-                carName:
-                    '${widget.car.car.brand} ${widget.car.car.model} ${widget.car.car.year}',
-                // carColour: 'Blue',
-                carSeats: widget.car.car.seats,
-                transmission: widget.car.car.transmission,
-                pickupDate: pickupDate,
-                dropoffDate: dropoffDate,
-                rentalDays: rentalDays,
-                deliveryType: deliveryType,
-                deliveryAddress: deliveryAddress.text,
-                additionalNote: additionalNote.text,
-                rentalPrice: rentalPrice,
-                deliveryPrice: deliveryPrice,
-                deposit: deposit,
-                tax: widget.car.shop.taxRate,
-                fuelType: widget.car.car.fuel,
-                dailyPrice: dailyPrice,
-                licenseFrontUrl: licenseFrontUrl,
-                licenseBackUrl: licenseBackUrl,
-                idCardUrl: idCardUrl,
-                licenseFrontFile: licenseFrontFile,
-                licenseBackFile: licenseBackFile,
-                idCardFile: idCardFile,
-                currency: widget.car.car.currency ?? widget.car.shop.currency,
-              ),
-            ),
-          ],
-          onConfirmBooking: createBooking,
-          isLoading: isBooking,
-          driverFormKey: _driverFormKey,
-          validateDocuments: validateDocuments,
-          validateScheduleStep: validateScheduleStep,
         ),
       ),
     );

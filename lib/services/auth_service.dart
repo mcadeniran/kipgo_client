@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/models/profile.dart';
 
-// ValueNotifier<AuthService> authService = ValueNotifier(AuthService());
-
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

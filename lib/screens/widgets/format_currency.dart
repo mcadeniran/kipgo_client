@@ -7,13 +7,14 @@ String formatCurrency({
   required double amount,
   required String currencyCode, // TRY, USD, EUR, GBP
   required BuildContext context, // en, tr, ru
+  int decimalDigits = 2,
 }) {
   final locale = Provider.of<LocaleProvider>(context, listen: false).locale;
   final format = NumberFormat.currency(
     locale: '$locale',
     name: currencyCode,
     symbol: _currencySymbol(currencyCode),
-    decimalDigits: 0,
+    decimalDigits: decimalDigits,
   );
 
   return format.format(amount);

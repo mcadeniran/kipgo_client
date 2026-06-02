@@ -1,11 +1,9 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconify_flutter/icons/ion.dart';
 import 'package:iconify_flutter/icons/ph.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/screens/widgets/change_language_mini_widget.dart';
 import 'package:kipgo/screens/widgets/error_message.dart';
@@ -36,22 +34,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
   bool obscurePassword = true;
   bool obscureRePassword = true;
-  File? licenseImage;
-
-  Future<void> pickLicenseImage() async {
-    final picked = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (picked != null) {
-      setState(() {
-        licenseImage = File(picked.path);
-      });
-    }
-  }
-
-  void resetLicenseImage() {
-    setState(() {
-      licenseImage = null;
-    });
-  }
 
   void signUp() async {
     setState(() {

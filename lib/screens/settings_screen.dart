@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/carbon.dart';
-// import 'package:kipgo/screens/auth/app_selection.dart';
-import 'package:kipgo/screens/auth/auth_screen.dart';
-
+import 'package:kipgo/controllers/auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
 import 'package:kipgo/controllers/profile_provider.dart';
@@ -41,14 +39,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void logout() async {
-    await authService.logout();
-    // context.read<ProfileProvider>().clear();
-    if (!mounted) return;
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (_) => const AuthScreen()),
-      (route) => false,
-    );
+    Provider.of<AuthProvider>(context, listen: false).logout(context);
   }
 
   @override

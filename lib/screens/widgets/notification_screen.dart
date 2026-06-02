@@ -4,6 +4,7 @@ import 'package:kipgo/controllers/profile_provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/screens/rental/bookings/widgets/booking_details_page.dart';
+import 'package:kipgo/screens/rental_owner/rental_booking_details/rental_booking_details_page.dart';
 import 'package:kipgo/screens/widgets/app_bar_widget.dart';
 import 'package:kipgo/utils/colors.dart';
 import 'package:provider/provider.dart';
@@ -17,21 +18,6 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   final userId = Provider.of<ProfileProvider>(
-  //     context,
-  //     listen: false,
-  //   ).profile!.id;
-
-  //   Provider.of<InAppNotificationProvider>(
-  //     context,
-  //     listen: false,
-  //   ).markAllAsRead(userId);
-  // }
-
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<InAppNotificationProvider>(context);
@@ -85,6 +71,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                 BookingDetailsPage(bookingId: notif.bookingId!),
                           ),
                         );
+                      } else if (notif.type == 'newBooking') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => RentalBookingDetailsPage(
+                              bookingId: notif.bookingId!,
+                            ),
+                          ),
+                        );
                       }
                     },
                     child: Container(
@@ -111,20 +106,24 @@ class _NotificationScreenState extends State<NotificationScreen> {
                             ),
                           ),
                           SizedBox(width: 8),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                notif.title,
-                                style: Theme.of(context).textTheme.titleMedium,
-                              ),
-                              Text(
-                                notif.body,
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                            ],
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  notif.title,
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleMedium,
+                                ),
+                                Text(
+                                  notif.body,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                              ],
+                            ),
                           ),
-                          Spacer(),
+                          SizedBox(width: 8),
                           Text(
                             timeago.format(notif.createdAt),
                             style: TextStyle(

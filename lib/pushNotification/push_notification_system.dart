@@ -4,6 +4,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:kipgo/controllers/auth_provider.dart';
 import 'package:kipgo/controllers/notification_service.dart';
 import 'package:kipgo/controllers/ringtone_service.dart';
 import 'package:kipgo/helpers/message_title_helper.dart';
@@ -11,6 +12,7 @@ import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/main.dart';
 import 'package:kipgo/pushNotification/notification_dialog_box.dart';
 import 'package:kipgo/screens/rental/bookings/widgets/booking_details_page.dart';
+import 'package:kipgo/screens/rental_owner/rental_booking_details/rental_booking_details_page.dart';
 import 'package:kipgo/screens/rides/drivers/new_trip_screen.dart';
 import 'package:kipgo/screens/settings/vehicle_details_screen.dart';
 import 'package:provider/provider.dart';
@@ -113,6 +115,8 @@ class PushNotificationSystem {
       }
     } else if (notificationType == 'bookingUpdate') {
       _handleBookingNotification(remoteMessage, context, fromUserTap);
+    } else if (notificationType == 'newBooking') {
+      _handleNewBookingNotification(remoteMessage, context, fromUserTap);
     } else {
       debugPrint('UNKNOWN NOTIFICATION TYPE RECEIVED');
     }
@@ -146,6 +150,29 @@ class PushNotificationSystem {
       _navigateToBooking(context, bookingId, status);
     } else {
       _showBookingDialog(status, shopName, carName, bookingId);
+    }
+  }
+
+  void _handleNewBookingNotification(
+    RemoteMessage remoteMessage,
+    BuildContext context,
+    bool fromUserTap,
+  ) {
+    final bookingId = remoteMessage.data['bookingId'];
+    final customerName = remoteMessage.data['customerName'];
+    final carName = remoteMessage.data['carName'];
+
+    if (bookingId == null) {
+      debugPrint("⚠️ Invalid new booking payload");
+      return;
+    }
+
+    debugPrint("🆕 New booking received");
+
+    if (fromUserTap) {
+      _navigateToNewBooking(context, bookingId);
+    } else {
+      _showNewBookingDialog(customerName, carName, bookingId);
     }
   }
 
@@ -334,15 +361,22 @@ class PushNotificationSystem {
     );
   }
 
-  Future<void> generateAndGetToken(BuildContext context) async {
-    final userId = Provider.of<ProfileProvider>(
-      context,
-      listen: false,
-    ).profile?.id;
-    if (userId == null) return;
+ Future<void> generateAndGetToken(BuildContext context) async {
+    final auth = context.read<AuthProvider>();
+
+    final uid = auth.firebaseUser?.uid;
+    final role = auth.role;
+
+    if (uid == null || role == null) {
+      debugPrint("⚠️ No authenticated user yet");
+      return;
+    }
 
     String? fcmToken;
 
+    // ===============================
+    // 🍏 iOS Handling
+    // ===============================
     if (Platform.isIOS) {
       await FirebaseMessaging.instance.requestPermission(
         alert: true,
@@ -356,8 +390,8 @@ class PushNotificationSystem {
       final bool isSimulator = !iosInfo.isPhysicalDevice;
 
       if (!isSimulator) {
-        // ✅ REAL DEVICE ONLY
         String? apnsToken;
+
         for (int i = 0; i < 10 && apnsToken == null; i++) {
           apnsToken = await FirebaseMessaging.instance.getAPNSToken();
           await Future.delayed(const Duration(milliseconds: 500));
@@ -370,24 +404,42 @@ class PushNotificationSystem {
 
         fcmToken = await FirebaseMessaging.instance.getToken();
       } else {
-        // 🧪 Simulator — skip APNs
         debugPrint("🧪 iOS Simulator detected — skipping APNs");
-        // fcmToken = await FirebaseMessaging.instance.getToken();
       }
     } else {
       // 🤖 Android
       fcmToken = await FirebaseMessaging.instance.getToken();
     }
 
-    if (fcmToken != null) {
-      debugPrint("✅ FCM Token: $fcmToken");
-      await FirebaseFirestore.instance
-          .collection('profiles')
-          .doc(userId)
-          .update({'token': fcmToken});
+    if (fcmToken == null) return;
+
+    debugPrint("✅ FCM Token: $fcmToken");
+
+    final firestore = FirebaseFirestore.instance;
+
+    // ===============================
+    // 🎯 ROLE-BASED STORAGE
+    // ===============================
+    try {
+      if (role == 'rental_admin') {
+        // ✅ MULTI TOKEN (ARRAY)
+        await firestore.collection('rentalShops').doc(uid).update({
+          'tokens': FieldValue.arrayUnion([fcmToken]),
+        });
+
+        debugPrint("🏢 Token added to rentalShop");
+      } else {
+        // ✅ SINGLE TOKEN
+        await firestore.collection('profiles').doc(uid).update({
+          'token': fcmToken,
+        });
+
+        debugPrint("👤 Token saved to profile");
+      }
+    } catch (e) {
+      debugPrint("❌ Failed to save token: $e");
     }
   }
-
   void _navigateToBooking(
     BuildContext context,
     String bookingId,
@@ -471,22 +523,82 @@ class PushNotificationSystem {
     );
   }
 
+  void _navigateToNewBooking(BuildContext context, String bookingId) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => RentalBookingDetailsPage(bookingId: bookingId),
+      ),
+    );
+  }
+
+  void _showNewBookingDialog(
+    String? customerName,
+    String? carName,
+    String bookingId,
+  ) {
+    final ctx = navigatorKey.currentState?.overlay?.context;
+    if (ctx == null || _isDialogShowing) return;
+
+    _isDialogShowing = true;
+
+    final title = "New Booking 🚗";
+
+    final message =
+        "${customerName ?? 'A customer'} booked ${carName ?? 'a car'}";
+
+    showDialog(
+      context: ctx,
+      barrierDismissible: false,
+      builder: (_) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              _isDialogShowing = false;
+            },
+            child: Text(AppLocalizations.of(ctx)!.ok),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+              _isDialogShowing = false;
+              _navigateToNewBooking(ctx, bookingId);
+            },
+            child: Text(AppLocalizations.of(ctx)!.view),
+          ),
+        ],
+      ),
+    );
+  }
+
   void initTokenRefreshListener(BuildContext context) {
     FirebaseMessaging.instance.onTokenRefresh.listen(
       (String newToken) async {
         debugPrint("🔄 FCM Token refreshed: $newToken");
 
-        final userId = Provider.of<ProfileProvider>(
-          context,
-          listen: false,
-        ).profile?.id;
+        final auth = Provider.of<AuthProvider>(context, listen: false);
 
-        if (userId == null) return;
+        final uid = auth.firebaseUser?.uid;
+        final role = auth.role;
 
-        await FirebaseFirestore.instance
-            .collection('profiles')
-            .doc(userId)
-            .update({'token': newToken});
+        if (uid == null || role == null) return;
+
+        if (role == 'rental_admin') {
+          await FirebaseFirestore.instance
+              .collection('rentalShops')
+              .doc(uid)
+              .update({
+                'tokens': FieldValue.arrayUnion([newToken]),
+              });
+        } else {
+          await FirebaseFirestore.instance
+              .collection('profiles')
+              .doc(uid)
+              .update({'token': newToken});
+        }
 
         debugPrint("✅ New token saved to Firestore");
       },
@@ -494,6 +606,27 @@ class PushNotificationSystem {
         debugPrint("❌ Token refresh error: $e");
       },
     );
+  }
+
+  Future<void> removeTokenOnLogout(BuildContext context) async {
+    final token = await FirebaseMessaging.instance.getToken();
+
+    if (token == null) return;
+
+    final auth = Provider.of<AuthProvider>(context, listen: false);
+    final uid = auth.firebaseUser?.uid;
+    final role = auth.role;
+
+    if (uid == null || role == null) return;
+
+    if (role == 'rental_admin') {
+      await FirebaseFirestore.instance
+          .collection('rentalShops')
+          .doc(uid)
+          .update({
+            'tokens': FieldValue.arrayRemove([token]),
+          });
+    }
   }
 
   void registerRideCallbacks({

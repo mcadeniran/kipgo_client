@@ -9,7 +9,7 @@ import 'package:kipgo/screens/widgets/language_widget.dart';
 import 'package:kipgo/utils/colors.dart';
 import 'package:provider/provider.dart';
 
-enum BookingSection { upcoming, active, past, cancelled }
+enum BookingSection { attention, upcoming, ongoing, closed, cancelled }
 
 class BookingsHistory extends StatefulWidget {
   const BookingsHistory({super.key});
@@ -36,7 +36,7 @@ class _BookingsHistoryState extends State<BookingsHistory> {
     bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
     AppLocalizations loc = AppLocalizations.of(context)!;
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.primary,
@@ -61,9 +61,10 @@ class _BookingsHistoryState extends State<BookingsHistory> {
             padding: EdgeInsets.all(0),
             tabAlignment: TabAlignment.start,
             tabs: [
+              Tab(text: loc.attention),
               Tab(text: loc.upcoming),
-              Tab(text: loc.active),
-              Tab(text: loc.past),
+              Tab(text: loc.ongoing),
+              Tab(text: loc.closed),
               Tab(text: loc.cancelled),
             ],
           ),
@@ -78,9 +79,10 @@ class _BookingsHistoryState extends State<BookingsHistory> {
           ),
           child: TabBarView(
             children: [
+              BookingHistoryTab(section: BookingSection.attention),
               BookingHistoryTab(section: BookingSection.upcoming),
-              BookingHistoryTab(section: BookingSection.active),
-              BookingHistoryTab(section: BookingSection.past),
+              BookingHistoryTab(section: BookingSection.ongoing),
+              BookingHistoryTab(section: BookingSection.closed),
               BookingHistoryTab(section: BookingSection.cancelled),
             ],
           ),

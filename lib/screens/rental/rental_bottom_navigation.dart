@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/ic.dart';
+import 'package:kipgo/controllers/auth_provider.dart';
 import 'package:kipgo/controllers/inapp_notification_provider.dart';
-import 'package:kipgo/controllers/profile_provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
-import 'package:kipgo/models/profile.dart';
+import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/screens/rental/bookings/bookings_history.dart';
 import 'package:kipgo/screens/rental/home/rental_home.dart';
 import 'package:kipgo/screens/settings_screen.dart';
@@ -28,10 +28,9 @@ class _RentalBottomNavigationState extends State<RentalBottomNavigation> {
   void initState() {
     super.initState();
     index = widget.initialIndex;
-    Profile user = Provider.of<ProfileProvider>(
-      context,
-      listen: false,
-    ).profile!;
+
+    final auth = context.read<AuthProvider>();
+    final user = auth.profile!;
 
     Provider.of<InAppNotificationProvider>(
       context,
@@ -42,6 +41,7 @@ class _RentalBottomNavigationState extends State<RentalBottomNavigation> {
   @override
   Widget build(BuildContext context) {
     bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+    AppLocalizations loc = AppLocalizations.of(context)!;
 
     return Scaffold(
       body: IndexedStack(index: index, children: screens),
@@ -75,7 +75,7 @@ class _RentalBottomNavigationState extends State<RentalBottomNavigation> {
                 color: Colors.white,
                 // size: 38,
               ),
-              label: 'Home',
+              label: loc.home,
             ),
             NavigationDestination(
               icon: Iconify(
@@ -88,7 +88,7 @@ class _RentalBottomNavigationState extends State<RentalBottomNavigation> {
                 color: Colors.white,
                 size: 22,
               ),
-              label: 'Bookings',
+              label: loc.bookings,
             ),
             NavigationDestination(
               icon: Iconify(
@@ -101,7 +101,7 @@ class _RentalBottomNavigationState extends State<RentalBottomNavigation> {
                 color: Colors.white,
                 // size: 38,
               ),
-              label: 'Profile',
+              label: loc.profile,
             ),
           ],
         ),

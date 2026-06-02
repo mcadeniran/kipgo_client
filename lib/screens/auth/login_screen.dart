@@ -5,6 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconify_flutter/icons/ion.dart';
 import 'package:iconify_flutter/icons/ph.dart';
+import 'package:kipgo/controllers/auth_provider.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/screens/auth/forgot_password_screen.dart';
 import 'package:kipgo/screens/widgets/change_language_mini_widget.dart';
@@ -12,6 +13,7 @@ import 'package:kipgo/screens/widgets/error_message.dart';
 import 'package:kipgo/screens/widgets/input_decorator.dart';
 import 'package:kipgo/services/auth_service.dart';
 import 'package:kipgo/utils/colors.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   final VoidCallback onSignupPressed;
@@ -39,26 +41,20 @@ class _LoginScreenState extends State<LoginScreen> {
     });
     final email = emailController.text;
     final password = passwordController.text;
-    // final userProvider = Provider.of<ProfileProvider>(context, listen: false);
 
     try {
-      await authService.login(email: email, password: password);
-      // await userProvider.refreshProfile();
-
-      if (!mounted) return;
-      setState(() {
-        isLoading = false;
-      });
-
-      // if (mounted) {
-      //   Navigator.of(context).pushAndRemoveUntil(
-      //     MaterialPageRoute(builder: (context) => RoleBasedAuthGate()),
-      //     (route) => false,
-      //   );
-      // }
-    } catch (e) {
-      localErrorMessage = e.toString().replaceFirst('Exception: ', '');
+      await context.read<AuthProvider>().login(
+        email: email,
+        password: password,
+      );
       setState(() => isLoading = false);
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          localErrorMessage = e.toString().replaceFirst('Exception: ', '');
+          isLoading = false;
+        });
+      }
     }
   }
 

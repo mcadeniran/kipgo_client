@@ -1617,4 +1617,533 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get takeAPhoto => 'Сделать фото';
+
+  @override
+  String get monthlyRevenue => 'Ежемесячный доход';
+
+  @override
+  String get offlineRevenue => 'Офлайн доход';
+
+  @override
+  String get onlineRevenue => 'Онлайн доход';
+
+  @override
+  String get commission => 'Комиссия';
+
+  @override
+  String get activeBookings => 'Активные бронирования';
+
+  @override
+  String get pendingBookings => 'Ожидающие бронирования';
+
+  @override
+  String get totalCars => 'Всего автомобилей';
+
+  @override
+  String get unitsAvailable => 'Доступные автомобили';
+
+  @override
+  String get revenue => 'Доход';
+
+  @override
+  String daysD(int days) {
+    return '$daysД';
+  }
+
+  @override
+  String get thisMonth => 'Этот месяц';
+
+  @override
+  String get bookedInShop => 'Забронировано в офисе';
+
+  @override
+  String get bookedInApp => 'Забронировано в приложении';
+
+  @override
+  String get ongoingMonth => 'Текущий месяц';
+
+  @override
+  String get currentlyOngoing => 'В процессе';
+
+  @override
+  String get waitingApproval => 'Ожидает одобрения';
+
+  @override
+  String get carsInFleet => 'Автомобили в автопарке';
+
+  @override
+  String get readyToRent => 'Готовы к аренде';
+
+  @override
+  String get home => 'Главная';
+
+  @override
+  String get bookings => 'Бронирования';
+
+  @override
+  String get profile => 'Профиль';
+
+  @override
+  String get hidden => 'Скрыто';
+
+  @override
+  String get officePickup => 'Самовывоз из офиса';
+
+  @override
+  String get homeDelivery => 'Доставка на дом';
+
+  @override
+  String booked(String start, String end) {
+    return 'Забронировано $start - $end';
+  }
+
+  @override
+  String get unitNotFound => 'Автомобиль не найден';
+
+  @override
+  String get numberPlate => 'Номерной знак';
+
+  @override
+  String get age => 'Возраст';
+
+  @override
+  String get noDocumentSubmitted =>
+      'Документы не были отправлены, так как это ручное бронирование.';
+
+  @override
+  String get startBooking => 'Начать бронирование';
+
+  @override
+  String get startBookingPrompt =>
+      'Вы уверены, что хотите начать это бронирование?';
+
+  @override
+  String get start => 'Начать';
+
+  @override
+  String get completeBooking => 'Завершить бронирование';
+
+  @override
+  String get markAsCompleted => 'Отметить это бронирование как завершённое?';
+
+  @override
+  String get complete => 'Завершить';
+
+  @override
+  String get car => 'Автомобиль';
+
+  @override
+  String get carSummary => 'Сводка по автомобилю';
+
+  @override
+  String get assignedUnit => 'Назначенный автомобиль';
+
+  @override
+  String get deliveryInformation => 'Информация о доставке';
+
+  @override
+  String get reasonForRejection => 'Причина отклонения';
+
+  @override
+  String get paymentBreakdown => 'Детализация платежа';
+
+  @override
+  String get assignUnit => 'Назначить автомобиль';
+
+  @override
+  String unitAlreadyBooked(String conflict) {
+    return 'Автомобиль уже забронирован: $conflict';
+  }
+
+  @override
+  String get approveBooking => 'Подтвердить бронирование';
+
+  @override
+  String get approveBookingPrompt =>
+      'Вы уверены, что хотите подтвердить это бронирование?';
+
+  @override
+  String get approve => 'Подтвердить';
+
+  @override
+  String get bookingApproved => 'Бронирование подтверждено';
+
+  @override
+  String get rejectBooking => 'Отклонить бронирование';
+
+  @override
+  String get rejectBookingPrompt => 'Укажите причину отклонения';
+
+  @override
+  String get enterReason => 'Введите причину';
+
+  @override
+  String get bookingRejected => 'Бронирование отклонено';
+
+  @override
+  String get selectedUnitNotAvailable =>
+      'Выбранный автомобиль больше недоступен';
+
+  @override
+  String get unavailable => 'Недоступно';
+
+  @override
+  String get or => 'или';
+
+  @override
+  String get available => 'Доступно';
+
+  @override
+  String get maintenance => 'Техническое обслуживание';
+
+  @override
+  String get selectedPickupDateUnavailable =>
+      'Выбранная дата получения больше недоступна';
+
+  @override
+  String get selectedDropoffDateUnavailable =>
+      'Выбранная дата возврата больше недоступна';
+
+  @override
+  String get selectedRangeContainsUnavailableDates =>
+      'Выбранный диапазон содержит недоступные даты';
+
+  @override
+  String get paymentSubmitted => 'Платёж отправлен';
+
+  @override
+  String get reserved => 'Зарезервировано';
+
+  @override
+  String get expired => 'Срок истёк';
+
+  @override
+  String get crypto => 'Криптовалюта';
+
+  @override
+  String get payOnPickup => 'Оплата при получении';
+
+  @override
+  String get unpaid => 'Не оплачено';
+
+  @override
+  String get awaitingVerification => 'Ожидает подтверждения';
+
+  @override
+  String get paid => 'Оплачено';
+
+  @override
+  String get failed => 'Ошибка';
+
+  @override
+  String get areYouSureBookingSubmit =>
+      'Вы уверены, что хотите отправить этот запрос на бронирование?';
+
+  @override
+  String get payment => 'Оплата';
+
+  @override
+  String get error => 'Ошибка';
+
+  @override
+  String get paymentMethod => 'Способ оплаты';
+
+  @override
+  String get payUsingCrypto => 'Оплатить криптовалютой';
+
+  @override
+  String get payPhysically => 'Оплатить при получении автомобиля';
+
+  @override
+  String get paymentSummary => 'Сводка платежа';
+
+  @override
+  String get rental => 'Аренда';
+
+  @override
+  String get total => 'Итого';
+
+  @override
+  String get selectedRange => 'Выбранный диапазон содержит недоступные даты';
+
+  @override
+  String get transactionHashRequired => 'Требуется хэш транзакции';
+
+  @override
+  String get invalidTronHash => 'Недействительный хэш транзакции TRON';
+
+  @override
+  String get paymentExpired => 'Срок оплаты истёк';
+
+  @override
+  String get cryptoPaymentSessionExpired =>
+      'Срок действия этой крипто-платёжной сессии истёк.';
+
+  @override
+  String get thisPaymentSessionHasExpired =>
+      'Срок действия этой платёжной сессии истёк.';
+
+  @override
+  String get transactionHasSubmitted =>
+      'Хэш вашей транзакции успешно отправлен.';
+
+  @override
+  String get checkout => 'Оформление оплаты';
+
+  @override
+  String get paymentExpiresIn => 'Оплата истекает через';
+
+  @override
+  String get totalAmount => 'Общая сумма';
+
+  @override
+  String includesUSDTFee(double fee) {
+    return 'Включает комиссию сети \$$fee USDT';
+  }
+
+  @override
+  String get copied => 'Скопировано';
+
+  @override
+  String get walletAddressCopied => 'Адрес кошелька успешно скопирован';
+
+  @override
+  String get clickToCopyAddress => 'Нажмите, чтобы скопировать адрес';
+
+  @override
+  String get scanQRCode => 'Сканируйте QR-код или скопируйте адрес';
+
+  @override
+  String get onlySendUSDT =>
+      'Важно: Отправляйте на этот адрес только USDT через сеть TRC20.';
+
+  @override
+  String get enterTransactionHash => 'Введите хэш транзакции (TXID)';
+
+  @override
+  String get pasteTransactionHash => 'Вставьте хэш транзакции';
+
+  @override
+  String get iHavePaid => 'Я ОПЛАТИЛ';
+
+  @override
+  String get leaveBookingFlow => 'Покинуть процесс бронирования?';
+
+  @override
+  String get leaveBookingWarning =>
+      'Ваш прогресс бронирования может быть потерян.';
+
+  @override
+  String get leave => 'Выйти';
+
+  @override
+  String get attention => 'Требует внимания';
+
+  @override
+  String get closed => 'Закрыто';
+
+  @override
+  String get alreadyProcessed => 'Бронирование уже обработано';
+
+  @override
+  String get bookingApprovedSuccessfully => 'Бронирование успешно подтверждено';
+
+  @override
+  String get bookingCanNoLongerBeRejected =>
+      'Бронирование больше нельзя отклонить';
+
+  @override
+  String get bookingCannotBeStarted => 'Бронирование нельзя начать';
+
+  @override
+  String get aVehicleUnitMustBeAssigned =>
+      'Перед началом необходимо назначить автомобиль';
+
+  @override
+  String get bookingStartedSuccessfully => 'Бронирование успешно начато';
+
+  @override
+  String get onlyOngoingBookingsCanBeCompleted =>
+      'Только активные бронирования могут быть завершены';
+
+  @override
+  String get bookingCompletedSuccessfully => 'Бронирование успешно завершено';
+
+  @override
+  String get unknownError =>
+      'Что-то пошло не так. Пожалуйста, попробуйте снова.';
+
+  @override
+  String get success => 'Успешно';
+
+  @override
+  String get actionWillStartRental => 'Это действие запустит период аренды.';
+
+  @override
+  String get actionWillAssignSelectedUnit =>
+      'Это действие назначит выбранный автомобиль для бронирования и запустит период аренды. Кроме того, бронирование будет отмечено как оплаченное.';
+
+  @override
+  String get doYouWantToApproveBooking =>
+      'Вы хотите подтвердить это бронирование? Автомобиль будет назначен во время получения.';
+
+  @override
+  String get willEndRentalPeriod =>
+      'Это завершит период аренды для данного бронирования, и оно будет отмечено как завершённое.';
+
+  @override
+  String get awaitingBookingReview => 'Ожидается проверка бронирования.';
+
+  @override
+  String get customerHasSUbmittedABookingRequest =>
+      'Клиент отправил запрос на бронирование. Проверьте детали бронирования и решите, подтвердить или отклонить запрос.';
+
+  @override
+  String get awaitingCryptoPaymentFromCustomer =>
+      'Ожидается криптовалютный платёж от клиента.';
+
+  @override
+  String get theBookingWillRemainPending =>
+      'Бронирование останется в ожидании до отправки действительного хэша транзакции (TXID).';
+
+  @override
+  String get cryptoPaymentSubmittedAndAwaitingVerification =>
+      'Криптовалютный платёж отправлен и ожидает подтверждения.';
+
+  @override
+  String get onceThePaymentIsVerified =>
+      'После подтверждения платежа доступный автомобиль будет автоматически зарезервирован на выбранный период аренды.';
+
+  @override
+  String get paymentVerifiedSuccessfully => 'Платёж успешно подтверждён.';
+
+  @override
+  String get aCarUnitHasBeenReserved =>
+      'Для этого бронирования автомобиль был автоматически зарезервирован. Бронирование готово к подтверждению и получению автомобиля.';
+
+  @override
+  String get bookingApprovedAndAwaitingPickup =>
+      'Бронирование подтверждено и ожидает получения автомобиля. Убедитесь, что выбранный автомобиль готов к назначенной дате получения.';
+
+  @override
+  String get rentalCurrentlyInProgress => 'Аренда в настоящее время активна.';
+
+  @override
+  String get theCustomerHasPickedUp =>
+      'Клиент получил автомобиль, и период аренды начался. Контролируйте бронирование до возврата автомобиля.';
+
+  @override
+  String get rentalCompletedSuccessfully => 'Аренда успешно завершена.';
+
+  @override
+  String get theVehicleHasBeenReturned =>
+      'Автомобиль возвращён, и бронирование завершено. Дополнительных действий не требуется.';
+
+  @override
+  String get bookingRequestWasRejected =>
+      'Этот запрос на бронирование был отклонён и не будет продолжен. При необходимости клиент может отправить новый запрос.';
+
+  @override
+  String get bookingCancelled => 'Бронирование отменено.';
+
+  @override
+  String get thisBookingWasCancelledBeforeCompletion =>
+      'Это бронирование было отменено до завершения. В настоящее время для него не зарезервирован автомобиль.';
+
+  @override
+  String get cryptoPaymentWasRejected => 'Криптовалютный платёж был отклонён.';
+
+  @override
+  String rejectionReason(String reason) {
+    return 'Причина: $reason';
+  }
+
+  @override
+  String get unknownReason => 'Неизвестная причина';
+
+  @override
+  String get customerMaySubmitNewValidHash =>
+      'Клиент может отправить новый действительный хэш транзакции.';
+
+  @override
+  String get bookingExpired => 'Срок действия бронирования истёк.';
+
+  @override
+  String get paymentResevervationExpired =>
+      'Срок оплаты или резервирования истёк до завершения подтверждения.';
+
+  @override
+  String get notAvailable => 'Недоступно';
+
+  @override
+  String get waitingForPayment => 'Ожидание оплаты.';
+
+  @override
+  String get yourBookingRequestReceived =>
+      'Ваш запрос на бронирование получен. Чтобы продолжить, отправьте криптовалютный платёж и хэш транзакции (TXID) до истечения срока оплаты.';
+
+  @override
+  String get bookingRequestSubmitted => 'Запрос на бронирование отправлен.';
+
+  @override
+  String get yourBookingRequestAwaitingReview =>
+      'Ваш запрос на бронирование ожидает рассмотрения компанией по аренде автомобилей. Вы получите уведомление после принятия решения.';
+
+  @override
+  String get paymentSubmittedSuccessfully => 'Платёж успешно отправлен.';
+
+  @override
+  String get yourTransHashReceived =>
+      'Хэш вашей транзакции получен и в настоящее время проверяется. Этот процесс может занять некоторое время в зависимости от подтверждений сети.';
+
+  @override
+  String get vehicleReserved => 'Автомобиль зарезервирован.';
+
+  @override
+  String get yourPaymentVerified =>
+      'Ваш платёж подтверждён, и автомобиль зарезервирован на выбранный период аренды. Ваше бронирование ожидает окончательного подтверждения.';
+
+  @override
+  String get yourBookingHasBeenApproved =>
+      'Ваше бронирование подтверждено. Пожалуйста, прибудьте в пункт получения в назначенную дату с необходимыми документами и удостоверением личности.';
+
+  @override
+  String get rentalInProgress => 'Аренда активна.';
+
+  @override
+  String get yourRentalPeriodCurrentlyActive =>
+      'Ваш период аренды в настоящее время активен. Пожалуйста, убедитесь, что автомобиль будет возвращён не позднее согласованной даты возврата.';
+
+  @override
+  String get rentalCompleted => 'Аренда завершена.';
+
+  @override
+  String get rentalCompletedFeedback =>
+      'Эта аренда была успешно завершена. Мы будем признательны за ваш отзыв о вашем опыте.';
+
+  @override
+  String get rentalCompletedRated =>
+      'Эта аренда была успешно завершена. Спасибо, что выбрали наш сервис.';
+
+  @override
+  String get bookingRequestRejected => 'Запрос на бронирование отклонён.';
+
+  @override
+  String get unfortunatelyBookingRequest =>
+      'К сожалению, этот запрос на бронирование не может быть одобрен. Вы можете отправить новый запрос или связаться с компанией по аренде для получения дополнительной информации.';
+
+  @override
+  String get thisBookingHasBeenCancelled =>
+      'Это бронирование было отменено и не будет продолжено.';
+
+  @override
+  String get paymentOrConfirmationExpired =>
+      'Срок оплаты или подтверждения истёк до завершения бронирования. Если вы всё ещё хотите арендовать этот автомобиль, потребуется создать новое бронирование.';
+
+  @override
+  String get paymentVerificationFailed => 'Проверка платежа не удалась.';
+
+  @override
+  String get youMaySubmitAnotherValidTrans =>
+      'Вы можете отправить другой действительный хэш транзакции до истечения срока бронирования.';
 }
