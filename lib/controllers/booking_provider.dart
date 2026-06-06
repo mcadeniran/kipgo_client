@@ -8,6 +8,7 @@ class BookingProvider extends ChangeNotifier {
   final BookingRepository _repository = BookingRepository();
 
   List<BookingModel> bookings = [];
+  List<BookingModel> adminBookings = [];
 
   List<BookingModel> get attention {
     final items = bookings.where((b) {
@@ -41,32 +42,68 @@ class BookingProvider extends ChangeNotifier {
     return ['rejected', 'cancelled', 'expired'].contains(b.status);
   }).toList();
 
-  List<BookingModel> get pending =>
-      bookings.where((b) => b.status == 'pending').toList();
+  List<BookingModel> get adminAttention {
+    final items = adminBookings.where((b) {
+      return ['pending', 'payment_submitted'].contains(b.status);
+    }).toList();
 
-  List<BookingModel> get paymentSubmitted =>
-      bookings.where((b) => b.status == 'payment_submitted').toList();
+    items.sort((a, b) {
+      if (a.status == 'payment_submitted' && b.status == 'pending') {
+        return -1;
+      }
+      if (a.status == 'pending' && b.status == 'payment_submitted') {
+        return 1;
+      }
+      return 0;
+    });
 
-  List<BookingModel> get approved =>
-      bookings.where((b) => b.status == 'approved').toList();
+    return items;
+  }
 
-  List<BookingModel> get rejected =>
-      bookings.where((b) => b.status == 'rejected').toList();
+  List<BookingModel> get adminUpcoming => adminBookings.where((b) {
+    return ['reserved', 'approved'].contains(b.status);
+  }).toList();
 
-  List<BookingModel> get reserved =>
-      bookings.where((b) => b.status == 'reserved').toList();
+  List<BookingModel> get adminOngoing =>
+      adminBookings.where((b) => b.status == 'ongoing').toList();
 
-  List<BookingModel> get expired =>
-      bookings.where((b) => b.status == 'expired').toList();
+  List<BookingModel> get adminCompleted =>
+      adminBookings.where((b) => b.status == 'completed').toList();
+
+  List<BookingModel> get adminClosed => adminBookings.where((b) {
+    return ['rejected', 'cancelled', 'expired'].contains(b.status);
+  }).toList();
+
+  // List<BookingModel> get pending =>
+  //     bookings.where((b) => b.status == 'pending').toList();
+
+  // List<BookingModel> get paymentSubmitted =>
+  //     bookings.where((b) => b.status == 'payment_submitted').toList();
+
+  // List<BookingModel> get approved =>
+  //     bookings.where((b) => b.status == 'approved').toList();
+
+  // List<BookingModel> get rejected =>
+  //     bookings.where((b) => b.status == 'rejected').toList();
+
+  // List<BookingModel> get reserved =>
+  //     bookings.where((b) => b.status == 'reserved').toList();
+
+  // List<BookingModel> get expired =>
+  //     bookings.where((b) => b.status == 'expired').toList();
 
   List<BookingModel> get cancelled =>
       bookings.where((b) => b.status == 'cancelled').toList();
+
+  List<BookingModel> get adminCancelled =>
+      adminBookings.where((b) => b.status == 'cancelled').toList();
 
   int get activeBookings => ongoing.length;
 
   bool isLoading = false;
 
   StreamSubscription? _bookingSubscription;
+  StreamSubscription? _adminBookingSubscription;
 
   void listenToUserBookings(String userId) {
     _bookingSubscription?.cancel();
@@ -89,6 +126,21 @@ class BookingProvider extends ChangeNotifier {
       bookingList,
     ) {
       bookings = bookingList;
+      isLoading = false;
+      notifyListeners();
+    });
+  }
+
+  void listenToAdminBookings() {
+    _adminBookingSubscription?.cancel();
+
+    isLoading = true;
+    notifyListeners();
+
+    _adminBookingSubscription = _repository.streamAdminBookings().listen((
+      blists,
+    ) {
+      adminBookings = blists;
       isLoading = false;
       notifyListeners();
     });

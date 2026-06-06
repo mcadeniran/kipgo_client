@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kipgo/controllers/inapp_notification_provider.dart';
 import 'package:kipgo/controllers/profile_provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
+import 'package:kipgo/helpers/notification_navigator.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
-import 'package:kipgo/screens/rental/bookings/widgets/booking_details_page.dart';
-import 'package:kipgo/screens/rental_owner/rental_booking_details/rental_booking_details_page.dart';
 import 'package:kipgo/screens/widgets/app_bar_widget.dart';
 import 'package:kipgo/utils/colors.dart';
 import 'package:provider/provider.dart';
@@ -63,24 +62,32 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     onTap: () {
                       provider.markAsRead(notif.id);
 
-                      if (notif.type == 'bookingUpdate') {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) =>
-                                BookingDetailsPage(bookingId: notif.bookingId!),
-                          ),
-                        );
-                      } else if (notif.type == 'newBooking') {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => RentalBookingDetailsPage(
-                              bookingId: notif.bookingId!,
-                            ),
-                          ),
-                        );
-                      }
+                      if (notif.bookingId == null) return;
+
+                      NotificationNavigator.navigate(
+                        context,
+                        audience: notif.audience,
+                        bookingId: notif.bookingId!,
+                      );
+
+                      // if (notif.type == 'bookingUpdate') {
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (_) =>
+                      //           BookingDetailsPage(bookingId: notif.bookingId!),
+                      //     ),
+                      //   );
+                      // } else if (notif.type == 'newBooking') {
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (_) => RentalBookingDetailsPage(
+                      //         bookingId: notif.bookingId!,
+                      //       ),
+                      //     ),
+                      //   );
+                      // }
                     },
                     child: Container(
                       padding: EdgeInsets.all(12),

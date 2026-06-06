@@ -2126,4 +2126,86 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get youMaySubmitAnotherValidTrans =>
       'You may submit another valid transaction hash before the booking expires.';
+
+  @override
+  String get paymentAlreadyProcessed => 'Payment already processed';
+
+  @override
+  String get invalidTransactionHash => 'Invalid transaction hash';
+
+  @override
+  String get transactionHashAlreadyUsed => 'Transaction hash already used';
+
+  @override
+  String get noAvailableUnitForSelectedDates =>
+      'No available unit for selected dates';
+
+  @override
+  String get unitNoLongerAvailable => 'Unit is no longer available';
+
+  @override
+  String get rejectionReasonRequired => 'Rejection reason required';
+
+  @override
+  String get paymentRejectedSuccessfully => 'Payment rejected successfully';
+
+  @override
+  String get company => 'Company';
+
+  @override
+  String get verifyCryptoPayment => 'Verify Crypto Payment?';
+
+  @override
+  String get thisWillMarkPaymentVerified =>
+      'This will mark the payment as verified, automatically assign an available car unit, and reserve the booking for the selected rental period.';
+
+  @override
+  String get rejectCryptoPayment => 'Reject Crypto Payment?';
+
+  @override
+  String get customerWillNeedToSubmitValid =>
+      'This will mark the crypto payment as failed and the customer will need to submit a new valid transaction.';
+
+  @override
+  String get quickReasons => 'Quick Reasons';
+
+  @override
+  String get customerMaySeeReason =>
+      'The customer may see this reason in their booking details.';
+
+  @override
+  String get rejectPayment => 'Reject Payment';
+
+  @override
+  String get paymentDetails => 'Payment Details';
+
+  @override
+  String get cryptoDetails => 'Crypto Details';
+
+  @override
+  String get verifyPayment => 'Verify Payment';
+
+  @override
+  String get cryptoAmount => 'Crypto Amount';
+
+  @override
+  String get wallet => 'Wallet';
+
+  @override
+  String get network => 'Network';
+
+  @override
+  String get admin => 'Admin';
+
+  @override
+  String get taxi => 'Taxi';
+
+  @override
+  String get hotel => 'Hotel';
+
+  @override
+  String get dashboard => 'Dashboard';
+
+  @override
+  String get payments => 'Payments';
 }

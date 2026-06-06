@@ -171,7 +171,7 @@ class _RentalOwnerHomeState extends State<RentalOwnerHome> {
                   ),
                   statsCard(
                     title: loc.pendingBookings,
-                    value: "${bookingProvider.pending.length}",
+                    value: "${bookingProvider.attention.length}",
                     subtitle: loc.waitingApproval,
                   ),
                   statsCard(

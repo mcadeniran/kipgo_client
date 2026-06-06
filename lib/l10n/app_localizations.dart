@@ -4059,6 +4059,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You may submit another valid transaction hash before the booking expires.'**
   String get youMaySubmitAnotherValidTrans;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payment already processed'**
+  String get paymentAlreadyProcessed;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid transaction hash'**
+  String get invalidTransactionHash;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction hash already used'**
+  String get transactionHashAlreadyUsed;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No available unit for selected dates'**
+  String get noAvailableUnitForSelectedDates;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Unit is no longer available'**
+  String get unitNoLongerAvailable;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rejection reason required'**
+  String get rejectionReasonRequired;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payment rejected successfully'**
+  String get paymentRejectedSuccessfully;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Company'**
+  String get company;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Verify Crypto Payment?'**
+  String get verifyCryptoPayment;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'This will mark the payment as verified, automatically assign an available car unit, and reserve the booking for the selected rental period.'**
+  String get thisWillMarkPaymentVerified;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Reject Crypto Payment?'**
+  String get rejectCryptoPayment;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'This will mark the crypto payment as failed and the customer will need to submit a new valid transaction.'**
+  String get customerWillNeedToSubmitValid;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Reasons'**
+  String get quickReasons;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'The customer may see this reason in their booking details.'**
+  String get customerMaySeeReason;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Reject Payment'**
+  String get rejectPayment;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Details'**
+  String get paymentDetails;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Crypto Details'**
+  String get cryptoDetails;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Verify Payment'**
+  String get verifyPayment;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Crypto Amount'**
+  String get cryptoAmount;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet'**
+  String get wallet;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Network'**
+  String get network;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Admin'**
+  String get admin;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Taxi'**
+  String get taxi;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Hotel'**
+  String get hotel;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboard'**
+  String get dashboard;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payments'**
+  String get payments;
 }
 
 class _AppLocalizationsDelegate

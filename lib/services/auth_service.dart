@@ -26,6 +26,7 @@ class AuthService {
         id: uid,
         email: email,
         username: username,
+        isAdmin: false,
         role: role,
         drives: [],
         rides: [],

@@ -14,6 +14,7 @@ import 'package:kipgo/controllers/bottom_nav_provider.dart';
 import 'package:kipgo/controllers/car_booking_provider.dart';
 import 'package:kipgo/controllers/car_provider.dart';
 import 'package:kipgo/controllers/car_rating_provider.dart';
+import 'package:kipgo/controllers/crypto_verification_provider.dart';
 import 'package:kipgo/controllers/drive_history_provider.dart';
 import 'package:kipgo/controllers/driver_ride_provider.dart';
 import 'package:kipgo/controllers/driver_status_provider.dart';
@@ -106,6 +107,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => CarRatingProvider()),
         ChangeNotifierProvider(create: (_) => CarBookingProvider()),
         ChangeNotifierProvider(create: (_) => InAppNotificationProvider()),
+        ChangeNotifierProvider(create: (_) => CryptoVerificationProvider()),
       ],
       child: const KipGo(),
     ),

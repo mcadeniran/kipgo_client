@@ -65,7 +65,12 @@ class ReusableToast {
     );
   }
 
-  static void info(BuildContext context, String title, String message) {
+  static void info(
+    BuildContext context,
+    String title,
+    String message,
+    VoidCallback? onTap,
+  ) {
     final isDark = Provider.of<ThemeProvider>(
       context,
       listen: false,
@@ -82,6 +87,11 @@ class ReusableToast {
           : AppColors.darkLayer.withValues(alpha: 0.98),
       foregroundColor: isDark ? AppColors.primary : AppColors.lightAccent,
       borderSide: BorderSide(color: AppColors.primary),
+      callbacks: ToastificationCallbacks(
+        onTap: (_) {
+          onTap?.call();
+        },
+      ),
     );
   }
 }

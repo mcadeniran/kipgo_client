@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class AppNotification {
   final String id;
   final String title;
+  final String audience;
   final String body;
   final String type;
   final String? bookingId;
@@ -15,6 +16,7 @@ class AppNotification {
     required this.title,
     required this.body,
     required this.type,
+    required this.audience,
     this.bookingId,
     this.status,
     required this.isRead,
@@ -28,6 +30,7 @@ class AppNotification {
       id: doc.id,
       title: data['title'] ?? '',
       body: data['body'] ?? '',
+      audience: data['audience'] ?? '',
       type: data['type'] ?? '',
       bookingId: data['bookingId'],
       status: data['status'],

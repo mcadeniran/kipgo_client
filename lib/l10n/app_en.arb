@@ -2755,5 +2755,109 @@
   "youMaySubmitAnotherValidTrans": "You may submit another valid transaction hash before the booking expires.",
   "@youMaySubmitAnotherValidTrans": {
     "description": "Info"
+  },
+  "paymentAlreadyProcessed": "Payment already processed",
+  "@paymentAlreadyProcessed": {
+    "description": "Info"
+  },
+  "invalidTransactionHash": "Invalid transaction hash",
+  "@invalidTransactionHash": {
+    "description": "Info"
+  },
+  "transactionHashAlreadyUsed": "Transaction hash already used",
+  "@transactionHashAlreadyUsed": {
+    "description": "Info"
+  },
+  "noAvailableUnitForSelectedDates": "No available unit for selected dates",
+  "@noAvailableUnitForSelectedDates": {
+    "description": "Info"
+  },
+  "unitNoLongerAvailable": "Unit is no longer available",
+  "@unitNoLongerAvailable": {
+    "description": "Info"
+  },
+  "rejectionReasonRequired": "Rejection reason required",
+  "@rejectionReasonRequired": {
+    "description": "Info"
+  },
+  "paymentRejectedSuccessfully": "Payment rejected successfully",
+  "@paymentRejectedSuccessfully": {
+    "description": "Info"
+  },
+  "company": "Company",
+  "@company": {
+    "description": "Info"
+  },
+  "verifyCryptoPayment": "Verify Crypto Payment?",
+  "@verifyCryptoPayment": {
+    "description": "Info"
+  },
+  "thisWillMarkPaymentVerified": "This will mark the payment as verified, automatically assign an available car unit, and reserve the booking for the selected rental period.",
+  "@thisWillMarkPaymentVerified": {
+    "description": "Info"
+  },
+  "rejectCryptoPayment": "Reject Crypto Payment?",
+  "@rejectCryptoPayment": {
+    "description": "Info"
+  },
+  "customerWillNeedToSubmitValid": "This will mark the crypto payment as failed and the customer will need to submit a new valid transaction.",
+  "@customerWillNeedToSubmitValid": {
+    "description": "Info"
+  },
+  "quickReasons": "Quick Reasons",
+  "@quickReasons": {
+    "description": "Info"
+  },
+  "customerMaySeeReason": "The customer may see this reason in their booking details.",
+  "@customerMaySeeReason": {
+    "description": "Info"
+  },
+  "rejectPayment": "Reject Payment",
+  "@rejectPayment": {
+    "description": "Info"
+  },
+  "paymentDetails": "Payment Details",
+  "@paymentDetails": {
+    "description": "Info"
+  },
+  "cryptoDetails": "Crypto Details",
+  "@cryptoDetails": {
+    "description": "Info"
+  },
+  "verifyPayment": "Verify Payment",
+  "@verifyPayment": {
+    "description": "Info"
+  },
+  "cryptoAmount": "Crypto Amount",
+  "@cryptoAmount": {
+    "description": "Info"
+  },
+  "wallet": "Wallet",
+  "@wallet": {
+    "description": "Info"
+  },
+  "network": "Network",
+  "@network": {
+    "description": "Info"
+  },
+  "admin": "Admin",
+  "@admin": {
+    "description": "Info"
+  },
+  "taxi": "Taxi",
+  "@taxi": {
+    "description": "Info"
+  },
+  "hotel": "Hotel",
+  "@hotel": {
+    "description": "Info"
+  },
+  "dashboard": "Dashboard",
+  "@dashboard": {
+    "description": "Info"
+  },
+  "payments": "Payments",
+  "@payments": {
+    "description": "Info"
   }
 }

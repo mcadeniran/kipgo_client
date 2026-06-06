@@ -1563,9 +1563,9 @@ PODS:
     - RecaptchaInterop (~> 101.0.0)
   - RecaptchaEnterpriseSDK (18.8.2)
   - RecaptchaInterop (101.0.0)
-  - SDWebImage (5.21.1):
-    - SDWebImage/Core (= 5.21.1)
-  - SDWebImage/Core (5.21.1)
+  - SDWebImage (5.21.7):
+    - SDWebImage/Core (= 5.21.7)
+  - SDWebImage/Core (5.21.7)
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
@@ -1767,14 +1767,14 @@ SPEC CHECKSUMS:
   package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
   permission_handler_apple: 4ed2196e43d0651e8ff7ca3483a069d469701f2d
-  PhoneNumberKit: ec00ab8cef5342c1dc49fadb99d23fa7e66cf0ef
+  PhoneNumberKit: 460b1ae0347f2447af12749fc42f27fc3eb743b1
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
   recaptcha_enterprise_flutter: e85bad8d5f0255a00a1e2b32607aae1277e70191
   RecaptchaEnterprise: 2d06f415c94253c3e92214a4d1472b5875442cdc
   RecaptchaEnterpriseSDK: 2fd06a12a27f943c24f643f8814404a27cc74288
   RecaptchaInterop: 11e0b637842dfb48308d242afc3f448062325aba
-  SDWebImage: f29024626962457f3470184232766516dee8dfea
+  SDWebImage: e9fc87c1aab89a8ab1bbd74eba378c6f53be8abf
   shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
   SwiftyGif: 706c60cf65fa2bc5ee0313beece843c8eb8194d4
   url_launcher_ios: 694010445543906933d732453a59da0a173ae33d

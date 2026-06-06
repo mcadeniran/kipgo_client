@@ -3,6 +3,7 @@ import 'package:kipgo/helpers/booking_action_result_code.dart';
 import 'package:kipgo/models/booking_model.dart';
 import 'package:kipgo/models/car_unit.dart';
 import 'package:kipgo/repositories/action_result.dart';
+import 'package:kipgo/screens/rental_owner/rental_booking_details/widgets/is_unit_available.dart';
 
 class BookingRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -24,6 +25,19 @@ class BookingRepository {
     return _firestore
         .collection("bookings")
         .where("shopId", isEqualTo: shopId)
+        .orderBy("createdAt", descending: true)
+        .snapshots()
+        .map((snapshot) {
+          return snapshot.docs
+              .map((doc) => BookingModel.fromFirestore(doc))
+              .toList();
+        });
+  }
+
+  Stream<List<BookingModel>> streamAdminBookings() {
+    return _firestore
+        .collection("bookings")
+        .where('source', isEqualTo: 'app')
         .orderBy("createdAt", descending: true)
         .snapshots()
         .map((snapshot) {
@@ -86,11 +100,28 @@ class BookingRepository {
     return CarUnit.fromMap(doc.data()!, doc.id, carId);
   }
 
+  Future<List<CarUnit>> fetchAvailableCarUnitsByCarId({
+    required String carId,
+  }) async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('cars')
+        .doc(carId)
+        .collection('units')
+        .where('status', isEqualTo: 'available')
+        .get();
+
+    List<CarUnit> units = snapshot.docs
+        .map((doc) => CarUnit.fromMap(doc.data(), doc.id, carId))
+        .toList();
+
+    return units;
+  }
+
   Stream<List<BookingModel>> streamApprovedCarBookings(String carId) {
     return FirebaseFirestore.instance
         .collection('bookings')
         .where('carId', isEqualTo: carId)
-        .where('status', whereIn: ['approved', 'ongoing'])
+        .where('status', whereIn: ['approved', 'ongoing', 'reserved'])
         .snapshots()
         .map((snapshot) {
           return snapshot.docs
@@ -113,77 +144,21 @@ class BookingRepository {
         });
   }
 
-  // Future<({bool success, String message})> approveBookingWithoutUnit({
-  //   required String bookingId,
-  // }) async {
-  //   //  const bookingRef = doc(db, 'bookings', bookingId);
-  //   bool suc = false;
-  //   String mes = '';
-
-  //   final db = FirebaseFirestore.instance;
-  //   final docRef = db.collection('bookings').doc(bookingId);
-
-  //   await db
-  //       .runTransaction((transaction) {
-  //         return transaction.get(docRef).then((doc) {
-  //           {
-  //             final success = true;
-  //             return success;
-  //           }
-  //         });
-  //       })
-  //       .then(
-  //         (success) {
-  //           suc = true;
-  //           mes = 'Booking approved successfully';
-  //         },
-  //         onError: (e) {
-  //           suc = false;
-  //           mes = "Error updating document $e";
-  //         },
-  //       );
-  //   return (success: suc, message: mes);
-  // }
-
-  // Future<void> rejectBooking({
-  //   required String bookingId,
-  //   required String reason,
-  // }) async {
-  //   await FirebaseFirestore.instance
-  //       .collection('bookings')
-  //       .doc(bookingId)
-  //       .update({
-  //         'status': 'rejected',
-  //         'rejectionReason': reason,
-  //         'rejectedAt': FieldValue.serverTimestamp(),
-  //       });
-  // }
-
-  // Future<void> startBooking(String bookingId) async {
-  //   await FirebaseFirestore.instance
-  //       .collection('bookings')
-  //       .doc(bookingId)
-  //       .update({
-  //         'status': 'ongoing',
-  //         'startedAt': FieldValue.serverTimestamp(),
-  //       });
-  // }
-
-  // Future<void> completeBooking(String bookingId) async {
-  //   await FirebaseFirestore.instance
-  //       .collection('bookings')
-  //       .doc(bookingId)
-  //       .update({
-  //         'status': 'completed',
-  //         'completedAt': FieldValue.serverTimestamp(),
-  //       });
-  // }
-
   Future<List<BookingModel>> fetchUnitBookings(String unitId) async {
     final snapshot = await FirebaseFirestore.instance
         .collection('bookings')
         .where('unitId', isEqualTo: unitId)
-        .where('status', whereIn: ['approved', 'ongoing'])
+        .where('status', whereIn: ['reserved', 'ongoing'])
+        .get();
+
+    return snapshot.docs.map((doc) => BookingModel.fromFirestore(doc)).toList();
+  }
+
+  Future<List<BookingModel>> fetchCarActiveBookings(String carId) async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('bookings')
+        .where('carId', isEqualTo: carId)
+        .where('status', whereIn: ['reserved', 'ongoing'])
         .get();
 
     return snapshot.docs.map((doc) => BookingModel.fromFirestore(doc)).toList();
@@ -284,7 +259,7 @@ class BookingRepository {
         final status = data['status'];
 
         if (!['approved', 'reserved'].contains(status)) {
-          throw Exception(BookingActionResultCode.bookingCannotBeStarted);
+          throw Exception(BookingActionResultCode.bookingCannotBeStarted.name);
         }
 
         if (status == 'approved' && unitId == null) {
@@ -377,6 +352,247 @@ class BookingRepository {
       return BookingActionResultCode.bookingCannotBeStarted;
     }
 
+    if (msg.contains('paymentAlreadyProcessed')) {
+      return BookingActionResultCode.paymentAlreadyProcessed;
+    }
+
+    if (msg.contains('invalidTransactionHash')) {
+      return BookingActionResultCode.invalidTransactionHash;
+    }
+
+    if (msg.contains('transactionHashAlreadyUsed')) {
+      return BookingActionResultCode.transactionHashAlreadyUsed;
+    }
+
+    if (msg.contains('noAvailableUnitForSelectedDates')) {
+      return BookingActionResultCode.noAvailableUnitForSelectedDates;
+    }
+
+    if (msg.contains('unitNotFound')) {
+      return BookingActionResultCode.unitNotFound;
+    }
+
+    if (msg.contains('unitNoLongerAvailable')) {
+      return BookingActionResultCode.unitNoLongerAvailable;
+    }
+
+    if (msg.contains('bookingNotFound')) {
+      return BookingActionResultCode.bookingNotFound;
+    }
+
+    if (msg.contains('paymentAlreadyProcessed')) {
+      return BookingActionResultCode.paymentAlreadyProcessed;
+    }
+
+    if (msg.contains('rejectionReasonRequired')) {
+      return BookingActionResultCode.rejectionReasonRequired;
+    }
+
     return BookingActionResultCode.unknownError;
+  }
+
+  Future<ActionResult> verifyCryptoPayment({
+    required BookingModel booking,
+    required String userId,
+  }) async {
+    try {
+      final db = FirebaseFirestore.instance;
+
+      final bookingRef = db.collection('bookings').doc(booking.id);
+
+      await db.runTransaction((transaction) async {
+        final bookingSnap = await transaction.get(bookingRef);
+
+        if (!bookingSnap.exists) {
+          throw Exception(BookingActionResultCode.bookingNotFound);
+        }
+
+        final bookingData = bookingSnap.data() as Map<String, dynamic>;
+
+        if (bookingData['payment']?['status'] != 'awaiting_verification') {
+          throw Exception(BookingActionResultCode.paymentAlreadyProcessed);
+        }
+
+        final txid = bookingData['payment']?['crypto']?['txid']
+            ?.toString()
+            .trim()
+            .toLowerCase();
+
+        if (txid == null || txid.isEmpty) {
+          throw Exception(BookingActionResultCode.invalidTransactionHash);
+        }
+
+        final txidRef = db.collection('cryptoTransactions').doc(txid);
+
+        final txidSnap = await transaction.get(txidRef);
+
+        if (txidSnap.exists) {
+          throw Exception(
+            BookingActionResultCode.transactionHashAlreadyUsed.name,
+          );
+        }
+
+        //
+        // Find available unit
+        //
+        final units = await fetchAvailableCarUnitsByCarId(carId: booking.carId);
+
+        final activeBookings = await fetchCarActiveBookings(booking.carId);
+
+        final availableUnit = findAvailableUnit(units, activeBookings, booking);
+
+        if (availableUnit == null) {
+          throw Exception(
+            BookingActionResultCode.noAvailableUnitForSelectedDates,
+          );
+        }
+
+        final unitRef = db
+            .collection('cars')
+            .doc(booking.carId)
+            .collection('units')
+            .doc(availableUnit.id);
+
+        final unitSnap = await transaction.get(unitRef);
+
+        if (!unitSnap.exists) {
+          throw Exception(BookingActionResultCode.unitNotFound);
+        }
+
+        final unitData = unitSnap.data() as Map<String, dynamic>;
+
+        if (unitData['status'] != 'available') {
+          throw Exception(BookingActionResultCode.unitNoLongerAvailable);
+        }
+
+        transaction.set(txidRef, {
+          'txid': txid,
+          'bookingId': booking.id,
+          'verifiedBy': userId,
+          'verifiedAt': FieldValue.serverTimestamp(),
+        });
+
+        // transaction.update(unitRef, {
+        //   'status': 'reserved',
+        //   'reservedAt': FieldValue.serverTimestamp(),
+        // });
+
+        transaction.update(bookingRef, {
+          'unitId': availableUnit.id,
+
+          'status': 'reserved',
+
+          'reservedAt': FieldValue.serverTimestamp(),
+
+          'paymentVerified': true,
+
+          'payment.completed': true,
+
+          'payment.status': 'paid',
+
+          'payment.verified': true,
+
+          'payment.paidAt': FieldValue.serverTimestamp(),
+
+          'payment.crypto.txidVerified': true,
+
+          'payment.verification.verifiedBy': userId,
+
+          'payment.verification.verifiedAt': FieldValue.serverTimestamp(),
+        });
+      });
+
+      return const ActionResult(
+        success: true,
+        code: BookingActionResultCode.paymentVerifiedSuccessfully,
+      );
+    } catch (e) {
+      return ActionResult(success: false, code: getErrorMessage(e));
+    }
+  }
+
+  Future<ActionResult> rejectCryptoPayment({
+    required BookingModel booking,
+    required String reason,
+    required String userId,
+  }) async {
+    try {
+      final db = FirebaseFirestore.instance;
+
+      final bookingRef = db.collection('bookings').doc(booking.id);
+
+      await db.runTransaction((transaction) async {
+        final bookingSnap = await transaction.get(bookingRef);
+
+        if (!bookingSnap.exists) {
+          throw Exception(BookingActionResultCode.bookingNotFound);
+        }
+
+        final bookingData = bookingSnap.data() as Map<String, dynamic>;
+
+        if (bookingData['payment']?['status'] != 'awaiting_verification') {
+          throw Exception(BookingActionResultCode.paymentAlreadyProcessed);
+        }
+
+        if (reason.trim().isEmpty) {
+          throw Exception(BookingActionResultCode.rejectionReasonRequired);
+        }
+
+        transaction.update(bookingRef, {
+          'status': 'pending',
+
+          'payment.completed': false,
+
+          'payment.status': 'failed',
+
+          'payment.verified': false,
+
+          'paymentVerified': false,
+
+          'payment.crypto.status': 'failed',
+
+          'payment.crypto.txidVerified': false,
+
+          'payment.crypto.txidRejectedReason': reason.trim(),
+
+          'payment.rejection.reason': reason.trim(),
+
+          'payment.rejection.rejectedBy': userId,
+
+          'payment.rejection.rejectedAt': FieldValue.serverTimestamp(),
+
+          'payment.expiresAt': Timestamp.fromDate(
+            DateTime.now().add(const Duration(minutes: 30)),
+          ),
+        });
+      });
+
+      return const ActionResult(
+        success: true,
+        code: BookingActionResultCode.paymentRejectedSuccessfully,
+      );
+    } catch (e) {
+      return ActionResult(success: false, code: getErrorMessage(e));
+    }
+  }
+}
+
+CarUnit? findAvailableUnit(
+  List<CarUnit> units,
+  List<BookingModel> bookings,
+  BookingModel currentBooking,
+) {
+  try {
+    return units.firstWhere(
+      (unit) =>
+          unit.status == 'available' &&
+          isUnitAvailable(
+            unitId: unit.id,
+            bookings: bookings,
+            currentBooking: currentBooking,
+          ),
+    );
+  } catch (_) {
+    return null;
   }
 }

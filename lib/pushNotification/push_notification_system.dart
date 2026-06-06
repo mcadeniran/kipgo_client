@@ -7,14 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:kipgo/controllers/auth_provider.dart';
 import 'package:kipgo/controllers/notification_service.dart';
 import 'package:kipgo/controllers/ringtone_service.dart';
-import 'package:kipgo/helpers/message_title_helper.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/main.dart';
 import 'package:kipgo/pushNotification/notification_dialog_box.dart';
+import 'package:kipgo/screens/admin/rentals/admin_bookings/admin_crypto_payment_details_page.dart';
 import 'package:kipgo/screens/rental/bookings/widgets/booking_details_page.dart';
 import 'package:kipgo/screens/rental_owner/rental_booking_details/rental_booking_details_page.dart';
 import 'package:kipgo/screens/rides/drivers/new_trip_screen.dart';
 import 'package:kipgo/screens/settings/vehicle_details_screen.dart';
+import 'package:kipgo/screens/widgets/reusable_toast.dart';
 import 'package:provider/provider.dart';
 
 import '../controllers/profile_provider.dart';
@@ -113,68 +114,135 @@ class PushNotificationSystem {
       } else {
         _showDialog(title, body);
       }
-    } else if (notificationType == 'bookingUpdate') {
-      _handleBookingNotification(remoteMessage, context, fromUserTap);
-    } else if (notificationType == 'newBooking') {
-      _handleNewBookingNotification(remoteMessage, context, fromUserTap);
+    } else if (_isRentalNotification(notificationType)) {
+      if (fromUserTap) {
+        _navigateFromNotification(context, remoteMessage.data);
+      } else {
+        _showNotificationToast(context, remoteMessage);
+      }
     } else {
       debugPrint('UNKNOWN NOTIFICATION TYPE RECEIVED');
     }
 
-    if (!fromUserTap) {
+    // if (!fromUserTap) {
+    //   NotificationService().showNotification(
+    //     title: remoteMessage.notification?.title ?? remoteMessage.data['title'],
+    //     body: remoteMessage.notification?.body ?? remoteMessage.data['body'],
+    //   );
+    // }
+
+    if (!fromUserTap && !_isRentalNotification(notificationType)) {
       NotificationService().showNotification(
         title: remoteMessage.notification?.title ?? remoteMessage.data['title'],
+
         body: remoteMessage.notification?.body ?? remoteMessage.data['body'],
       );
     }
   }
 
-  void _handleBookingNotification(
-    RemoteMessage remoteMessage,
+  bool _isRentalNotification(String? type) {
+    return [
+      'bookingUpdate',
+      'paymentUpdate',
+      'dropoffReminder',
+      'newBooking',
+      'cryptoVerification',
+    ].contains(type);
+  }
+
+  void _navigateFromNotification(
     BuildContext context,
-    bool fromUserTap,
+    Map<String, dynamic> data,
   ) {
-    final bookingId = remoteMessage.data['bookingId'];
-    final status = remoteMessage.data['status'];
-    final shopName = remoteMessage.data['shopName'];
-    final carName = remoteMessage.data['carName'];
+    final audience = data['audience'];
+    final bookingId = data['bookingId'];
 
-    if (bookingId == null || status == null) {
-      debugPrint("⚠️ Invalid booking notification payload");
-      return;
-    }
+    if (bookingId == null) return;
 
-    debugPrint("📦 Booking update received: $status");
+    switch (audience) {
+      case 'customer':
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => BookingDetailsPage(bookingId: bookingId),
+          ),
+        );
+        break;
 
-    if (fromUserTap) {
-      _navigateToBooking(context, bookingId, status);
-    } else {
-      _showBookingDialog(status, shopName, carName, bookingId);
+      case 'shop':
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => RentalBookingDetailsPage(bookingId: bookingId),
+          ),
+        );
+        break;
+
+      case 'admin':
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => AdminCryptoPaymentDetailsPage(bookingId: bookingId),
+          ),
+        );
+        break;
     }
   }
 
-  void _handleNewBookingNotification(
-    RemoteMessage remoteMessage,
-    BuildContext context,
-    bool fromUserTap,
-  ) {
-    final bookingId = remoteMessage.data['bookingId'];
-    final customerName = remoteMessage.data['customerName'];
-    final carName = remoteMessage.data['carName'];
+  void _showNotificationToast(BuildContext context, RemoteMessage message) {
+    final title =
+        message.notification?.title ?? message.data['title'] ?? 'Notification';
 
-    if (bookingId == null) {
-      debugPrint("⚠️ Invalid new booking payload");
-      return;
-    }
+    final body = message.notification?.body ?? message.data['body'] ?? '';
 
-    debugPrint("🆕 New booking received");
-
-    if (fromUserTap) {
-      _navigateToNewBooking(context, bookingId);
-    } else {
-      _showNewBookingDialog(customerName, carName, bookingId);
-    }
+    ReusableToast.info(context, title, body, () {
+      _navigateFromNotification(context, message.data);
+    });
   }
+
+  // void _handleBookingNotification(
+  //   RemoteMessage remoteMessage,
+  //   BuildContext context,
+  //   bool fromUserTap,
+  // ) {
+  //   final bookingId = remoteMessage.data['bookingId'];
+  //   final status = remoteMessage.data['status'];
+  //   final shopName = remoteMessage.data['shopName'];
+  //   final carName = remoteMessage.data['carName'];
+
+  //   if (bookingId == null || status == null) {
+  //     debugPrint("⚠️ Invalid booking notification payload");
+  //     return;
+  //   }
+
+  //   debugPrint("📦 Booking update received: $status");
+
+  //   if (fromUserTap) {
+  //     _navigateToBooking(context, bookingId, status);
+  //   } else {
+  //     _showBookingDialog(status, shopName, carName, bookingId);
+  //   }
+  // }
+
+  // void _handleNewBookingNotification(
+  //   RemoteMessage remoteMessage,
+  //   BuildContext context,
+  //   bool fromUserTap,
+  // ) {
+  //   final bookingId = remoteMessage.data['bookingId'];
+  //   final customerName = remoteMessage.data['customerName'];
+  //   final carName = remoteMessage.data['carName'];
+
+  //   if (bookingId == null) {
+  //     debugPrint("⚠️ Invalid new booking payload");
+  //     return;
+  //   }
+
+  //   debugPrint("🆕 New booking received");
+
+  //   if (fromUserTap) {
+  //     _navigateToNewBooking(context, bookingId);
+  //   } else {
+  //     _showNewBookingDialog(customerName, carName, bookingId);
+  //   }
+  // }
 
   void _showDialog(String title, String message) {
     final ctx = navigatorKey.currentState?.overlay?.context;
@@ -361,7 +429,7 @@ class PushNotificationSystem {
     );
   }
 
- Future<void> generateAndGetToken(BuildContext context) async {
+  Future<void> generateAndGetToken(BuildContext context) async {
     final auth = context.read<AuthProvider>();
 
     final uid = auth.firebaseUser?.uid;
@@ -440,139 +508,140 @@ class PushNotificationSystem {
       debugPrint("❌ Failed to save token: $e");
     }
   }
-  void _navigateToBooking(
-    BuildContext context,
-    String bookingId,
-    String status,
-  ) {
-    switch (status) {
-      case 'approved':
-      case 'ongoing':
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => BookingDetailsPage(bookingId: bookingId),
-          ),
-        );
-        break;
 
-      case 'completed':
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => BookingDetailsPage(bookingId: bookingId),
-          ),
-        );
-        break;
+  // void _navigateToBooking(
+  //   BuildContext context,
+  //   String bookingId,
+  //   String status,
+  // ) {
+  //   switch (status) {
+  //     case 'approved':
+  //     case 'ongoing':
+  //       Navigator.of(context).push(
+  //         MaterialPageRoute(
+  //           builder: (_) => BookingDetailsPage(bookingId: bookingId),
+  //         ),
+  //       );
+  //       break;
 
-      case 'rejected':
-      case 'cancelled':
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => BookingDetailsPage(bookingId: bookingId),
-          ),
-        );
-        break;
+  //     case 'completed':
+  //       Navigator.of(context).push(
+  //         MaterialPageRoute(
+  //           builder: (_) => BookingDetailsPage(bookingId: bookingId),
+  //         ),
+  //       );
+  //       break;
 
-      default:
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => BookingDetailsPage(bookingId: bookingId),
-          ),
-        );
-    }
-  }
+  //     case 'rejected':
+  //     case 'cancelled':
+  //       Navigator.of(context).push(
+  //         MaterialPageRoute(
+  //           builder: (_) => BookingDetailsPage(bookingId: bookingId),
+  //         ),
+  //       );
+  //       break;
 
-  void _showBookingDialog(
-    String status,
-    String? shopName,
-    String? carName,
-    String bookingId,
-  ) {
-    final ctx = navigatorKey.currentState?.overlay?.context;
-    if (ctx == null || _isDialogShowing) return;
+  //     default:
+  //       Navigator.of(context).push(
+  //         MaterialPageRoute(
+  //           builder: (_) => BookingDetailsPage(bookingId: bookingId),
+  //         ),
+  //       );
+  //   }
+  // }
 
-    _isDialogShowing = true;
+  // void _showBookingDialog(
+  //   String status,
+  //   String? shopName,
+  //   String? carName,
+  //   String bookingId,
+  // ) {
+  //   final ctx = navigatorKey.currentState?.overlay?.context;
+  //   if (ctx == null || _isDialogShowing) return;
 
-    final title = getBookingTitle(ctx, status);
-    final message = getBookingMessage(ctx, status, shopName, carName);
+  //   _isDialogShowing = true;
 
-    showDialog(
-      context: ctx,
-      barrierDismissible: false,
-      builder: (_) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text(title),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(ctx).pop();
-              _isDialogShowing = false;
-            },
-            child: Text(AppLocalizations.of(ctx)!.ok),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(ctx).pop();
-              _isDialogShowing = false;
-              _navigateToBooking(ctx, bookingId, status);
-            },
-            child: Text(AppLocalizations.of(ctx)!.view),
-          ),
-        ],
-      ),
-    );
-  }
+  //   final title = getBookingTitle(ctx, status);
+  //   final message = getBookingMessage(ctx, status, shopName, carName);
 
-  void _navigateToNewBooking(BuildContext context, String bookingId) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => RentalBookingDetailsPage(bookingId: bookingId),
-      ),
-    );
-  }
+  //   showDialog(
+  //     context: ctx,
+  //     barrierDismissible: false,
+  //     builder: (_) => AlertDialog(
+  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+  //       title: Text(title),
+  //       content: Text(message),
+  //       actions: [
+  //         TextButton(
+  //           onPressed: () {
+  //             Navigator.of(ctx).pop();
+  //             _isDialogShowing = false;
+  //           },
+  //           child: Text(AppLocalizations.of(ctx)!.ok),
+  //         ),
+  //         TextButton(
+  //           onPressed: () {
+  //             Navigator.of(ctx).pop();
+  //             _isDialogShowing = false;
+  //             _navigateToBooking(ctx, bookingId, status);
+  //           },
+  //           child: Text(AppLocalizations.of(ctx)!.view),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
-  void _showNewBookingDialog(
-    String? customerName,
-    String? carName,
-    String bookingId,
-  ) {
-    final ctx = navigatorKey.currentState?.overlay?.context;
-    if (ctx == null || _isDialogShowing) return;
+  // void _navigateToNewBooking(BuildContext context, String bookingId) {
+  //   Navigator.of(context).push(
+  //     MaterialPageRoute(
+  //       builder: (_) => RentalBookingDetailsPage(bookingId: bookingId),
+  //     ),
+  //   );
+  // }
 
-    _isDialogShowing = true;
+  // void _showNewBookingDialog(
+  //   String? customerName,
+  //   String? carName,
+  //   String bookingId,
+  // ) {
+  //   final ctx = navigatorKey.currentState?.overlay?.context;
+  //   if (ctx == null || _isDialogShowing) return;
 
-    final title = "New Booking 🚗";
+  //   _isDialogShowing = true;
 
-    final message =
-        "${customerName ?? 'A customer'} booked ${carName ?? 'a car'}";
+  //   final title = "New Booking 🚗";
 
-    showDialog(
-      context: ctx,
-      barrierDismissible: false,
-      builder: (_) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Text(title),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(ctx).pop();
-              _isDialogShowing = false;
-            },
-            child: Text(AppLocalizations.of(ctx)!.ok),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(ctx).pop();
-              _isDialogShowing = false;
-              _navigateToNewBooking(ctx, bookingId);
-            },
-            child: Text(AppLocalizations.of(ctx)!.view),
-          ),
-        ],
-      ),
-    );
-  }
+  //   final message =
+  //       "${customerName ?? 'A customer'} booked ${carName ?? 'a car'}";
+
+  //   showDialog(
+  //     context: ctx,
+  //     barrierDismissible: false,
+  //     builder: (_) => AlertDialog(
+  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+  //       title: Text(title),
+  //       content: Text(message),
+  //       actions: [
+  //         TextButton(
+  //           onPressed: () {
+  //             Navigator.of(ctx).pop();
+  //             _isDialogShowing = false;
+  //           },
+  //           child: Text(AppLocalizations.of(ctx)!.ok),
+  //         ),
+  //         TextButton(
+  //           onPressed: () {
+  //             Navigator.of(ctx).pop();
+  //             _isDialogShowing = false;
+  //             _navigateToNewBooking(ctx, bookingId);
+  //           },
+  //           child: Text(AppLocalizations.of(ctx)!.view),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   void initTokenRefreshListener(BuildContext context) {
     FirebaseMessaging.instance.onTokenRefresh.listen(

@@ -62,14 +62,14 @@ class _TestScreenState extends State<TestScreen> {
                 ),
                 child: Text('TEST WARNING'),
               ),
-              TextButton(
-                onPressed: () => ReusableToast.info(
-                  context,
-                  'Info Toast',
-                  'Info toast message',
-                ),
-                child: Text('TEST INFO'),
-              ),
+              // TextButton(
+              //   onPressed: () => ReusableToast.info(
+              //     context,
+              //     'Info Toast',
+              //     'Info toast message',
+              //   ),
+              //   child: Text('TEST INFO'),
+              // ),
             ],
           ),
         ),

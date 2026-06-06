@@ -6,6 +6,7 @@ class Profile {
   final String username;
   final String role;
   final String token;
+  final bool isAdmin;
   final String newRideStatus;
   final Personal personal;
   final Vehicle vehicle;
@@ -20,6 +21,7 @@ class Profile {
     required this.role,
     required this.token,
     required this.personal,
+    required this.isAdmin,
     required this.vehicle,
     required this.account,
     required this.rides,
@@ -34,6 +36,7 @@ class Profile {
       username: map['username'] ?? '',
       role: map['role'] ?? '',
       token: map['token'] ?? '',
+      isAdmin: map['isAdmin'] ?? false,
       newRideStatus: map['newRideStatus'] ?? 'idle',
       personal: Personal.fromMap(map['personal'] ?? {}),
       vehicle: Vehicle.fromMap(map['vehicle'] ?? {}),
@@ -72,6 +75,7 @@ class Profile {
     String? role,
     String? token,
     String? newRideStatus,
+    bool? isAdmin,
     Personal? personal,
     Vehicle? vehicle,
     Account? account,
@@ -84,6 +88,7 @@ class Profile {
       username: username ?? this.username,
       role: role ?? this.role,
       token: token ?? this.token,
+      isAdmin: isAdmin ?? this.isAdmin,
       newRideStatus: newRideStatus ?? this.newRideStatus,
       personal: personal ?? this.personal,
       vehicle: vehicle ?? this.vehicle,

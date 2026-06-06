@@ -2146,4 +2146,86 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get youMaySubmitAnotherValidTrans =>
       'Вы можете отправить другой действительный хэш транзакции до истечения срока бронирования.';
+
+  @override
+  String get paymentAlreadyProcessed => 'Платёж уже обработан';
+
+  @override
+  String get invalidTransactionHash => 'Недействительный хэш транзакции';
+
+  @override
+  String get transactionHashAlreadyUsed => 'Хэш транзакции уже использован';
+
+  @override
+  String get noAvailableUnitForSelectedDates =>
+      'Нет доступного автомобиля на выбранные даты';
+
+  @override
+  String get unitNoLongerAvailable => 'Автомобиль больше недоступен';
+
+  @override
+  String get rejectionReasonRequired => 'Требуется причина отклонения';
+
+  @override
+  String get paymentRejectedSuccessfully => 'Платёж успешно отклонён';
+
+  @override
+  String get company => 'Компания';
+
+  @override
+  String get verifyCryptoPayment => 'Подтвердить криптоплатёж?';
+
+  @override
+  String get thisWillMarkPaymentVerified =>
+      'Это действие отметит платёж как подтверждённый, автоматически назначит доступный автомобиль и забронирует его на выбранный период аренды.';
+
+  @override
+  String get rejectCryptoPayment => 'Отклонить криптоплатёж?';
+
+  @override
+  String get customerWillNeedToSubmitValid =>
+      'Это действие отметит криптоплатёж как неудачный, и клиенту потребуется отправить новый действительный перевод.';
+
+  @override
+  String get quickReasons => 'Быстрые причины';
+
+  @override
+  String get customerMaySeeReason =>
+      'Клиент может видеть эту причину в деталях бронирования.';
+
+  @override
+  String get rejectPayment => 'Отклонить платёж';
+
+  @override
+  String get paymentDetails => 'Детали платежа';
+
+  @override
+  String get cryptoDetails => 'Криптодетали';
+
+  @override
+  String get verifyPayment => 'Подтвердить платёж';
+
+  @override
+  String get cryptoAmount => 'Сумма в криптовалюте';
+
+  @override
+  String get wallet => 'Кошелёк';
+
+  @override
+  String get network => 'Сеть';
+
+  @override
+  String get admin => 'Администратор';
+
+  @override
+  String get taxi => 'Такси';
+
+  @override
+  String get hotel => 'Отель';
+
+  @override
+  String get dashboard => 'Панель управления';
+
+  @override
+  String get payments => 'Платежи';
 }

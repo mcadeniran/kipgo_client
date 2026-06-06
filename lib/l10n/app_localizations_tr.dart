@@ -2130,4 +2130,86 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get youMaySubmitAnotherValidTrans =>
       'Rezervasyonun süresi dolmadan önce başka bir geçerli işlem hash\'i gönderebilirsiniz.';
+
+  @override
+  String get paymentAlreadyProcessed => 'Ödeme zaten işlenmiş';
+
+  @override
+  String get invalidTransactionHash => 'Geçersiz işlem hash\'i';
+
+  @override
+  String get transactionHashAlreadyUsed => 'İşlem hash\'i zaten kullanılmış';
+
+  @override
+  String get noAvailableUnitForSelectedDates =>
+      'Seçilen tarihler için uygun araç yok';
+
+  @override
+  String get unitNoLongerAvailable => 'Araç artık mevcut değil';
+
+  @override
+  String get rejectionReasonRequired => 'Reddetme nedeni gereklidir';
+
+  @override
+  String get paymentRejectedSuccessfully => 'Ödeme başarıyla reddedildi';
+
+  @override
+  String get company => 'Şirket';
+
+  @override
+  String get verifyCryptoPayment => 'Kripto ödemeyi doğrula?';
+
+  @override
+  String get thisWillMarkPaymentVerified =>
+      'Bu işlem ödemeyi doğrulanmış olarak işaretler, uygun bir aracı otomatik olarak atar ve rezervasyonu seçilen kiralama süresi için rezerve eder.';
+
+  @override
+  String get rejectCryptoPayment => 'Kripto ödeme reddedilsin mi?';
+
+  @override
+  String get customerWillNeedToSubmitValid =>
+      'Bu işlem kripto ödemeyi başarısız olarak işaretler ve müşteri yeni ve geçerli bir işlem göndermek zorunda kalır.';
+
+  @override
+  String get quickReasons => 'Hızlı nedenler';
+
+  @override
+  String get customerMaySeeReason =>
+      'Müşteri bu nedeni rezervasyon detaylarında görebilir.';
+
+  @override
+  String get rejectPayment => 'Ödemeyi reddet';
+
+  @override
+  String get paymentDetails => 'Ödeme detayları';
+
+  @override
+  String get cryptoDetails => 'Kripto detayları';
+
+  @override
+  String get verifyPayment => 'Ödemeyi doğrula';
+
+  @override
+  String get cryptoAmount => 'Kripto tutarı';
+
+  @override
+  String get wallet => 'Cüzdan';
+
+  @override
+  String get network => 'Ağ';
+
+  @override
+  String get admin => 'Yönetici';
+
+  @override
+  String get taxi => 'Taksi';
+
+  @override
+  String get hotel => 'Otel';
+
+  @override
+  String get dashboard => 'Panel';
+
+  @override
+  String get payments => 'Ödemeler';
 }
