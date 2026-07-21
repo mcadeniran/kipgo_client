@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -23,6 +24,9 @@ import 'package:kipgo/controllers/locale_provider.dart';
 import 'package:kipgo/controllers/notification_service.dart';
 import 'package:kipgo/controllers/rental_shop_provider.dart';
 import 'package:kipgo/controllers/ride_history_provider.dart';
+import 'package:kipgo/controllers/shuttle_booking_provider.dart';
+import 'package:kipgo/controllers/shuttle_bookings_provider.dart';
+import 'package:kipgo/controllers/shuttle_fleet_provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
 import 'package:kipgo/controllers/profile_provider.dart';
 import 'package:kipgo/firebase_options.dart';
@@ -58,6 +62,11 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
+  PaintingBinding.instance.imageCache.maximumSize = 1000;
+  PaintingBinding.instance.imageCache.maximumSizeBytes = 300 << 20; // 300 MB
 
   // ✅ Only do essential init before runApp
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -103,9 +112,12 @@ Future<void> main() async {
           },
         ),
         ChangeNotifierProvider(create: (_) => BookingProvider()),
+        ChangeNotifierProvider(create: (_) => ShuttleBookingsProvider()),
         ChangeNotifierProvider(create: (_) => BottomNavProvider()),
         ChangeNotifierProvider(create: (_) => CarRatingProvider()),
         ChangeNotifierProvider(create: (_) => CarBookingProvider()),
+        ChangeNotifierProvider(create: (_) => ShuttleBookingProvider()),
+        ChangeNotifierProvider(create: (_) => ShuttleFleetProvider()),
         ChangeNotifierProvider(create: (_) => InAppNotificationProvider()),
         ChangeNotifierProvider(create: (_) => CryptoVerificationProvider()),
       ],

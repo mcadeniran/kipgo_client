@@ -656,13 +656,20 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
         showDialog(
           context: context,
           builder: (_) => Dialog(
-            child: FadeInImage.assetNetwork(
-              fadeInCurve: Curves.easeIn,
-              fadeInDuration: Duration(seconds: 2),
+            child: Image.network(
+              url,
               fit: BoxFit.cover,
-              placeholder: "assets/images/image_spinner.gif",
-              image: url,
-              imageErrorBuilder: (c, e, s) => Image.asset(
+              width: double.infinity,
+              gaplessPlayback: true,
+              loadingBuilder: (context, child, progress) {
+                if (progress == null) return child;
+
+                return Image.asset(
+                  "assets/images/image_spinner.gif",
+                  fit: BoxFit.cover,
+                );
+              },
+              errorBuilder: (_, _, _) => Image.asset(
                 "assets/images/placeholder.jpeg",
                 fit: BoxFit.cover,
               ),

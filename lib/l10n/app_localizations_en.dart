@@ -1513,7 +1513,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noCarsFound => 'No cars found';
 
   @override
-  String distanceKM(int distance) {
+  String distanceKM(String distance) {
     return '$distance km';
   }
 
@@ -2208,4 +2208,573 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get payments => 'Payments';
+
+  @override
+  String get awaitingPayment => 'Awaiting Payment';
+
+  @override
+  String get goodMorning => 'Good Morning';
+
+  @override
+  String get goodAfternoon => 'Good Afternoon';
+
+  @override
+  String get goodEvening => 'Good Evening';
+
+  @override
+  String get charterAShuttle =>
+      'Charter a shuttle for your next trip with comfort and confidence.';
+
+  @override
+  String get paymentRequired => 'Payment Required';
+
+  @override
+  String get awaitingApproval => 'Awaiting Approval';
+
+  @override
+  String get upcomingTrip => 'Upcoming Trip';
+
+  @override
+  String get driverAssigned => 'Driver Assigned';
+
+  @override
+  String get yourDriverIsArriving => 'Your Driver Is Arriving';
+
+  @override
+  String get upcomingEvent => 'Upcoming Event';
+
+  @override
+  String passengersCount(int count) {
+    return '$count Passengers';
+  }
+
+  @override
+  String get viewBooking => 'View Booking';
+
+  @override
+  String get ourServices => 'Our Services';
+
+  @override
+  String get ourDifferentServices => 'Our different services.';
+
+  @override
+  String get airportTransfer => 'Airport\nTransfer';
+
+  @override
+  String get corporate => 'Corporate';
+
+  @override
+  String get schoolTrips => 'School\nTrips';
+
+  @override
+  String get events => 'Events';
+
+  @override
+  String get wedding => 'Wedding';
+
+  @override
+  String get whyChooseUs => 'Why Choose Us';
+
+  @override
+  String get travelWithConfidence => 'Travel with confidence every time.';
+
+  @override
+  String get professionalDrivers => 'Professional Drivers';
+
+  @override
+  String get professionalDriversSubtitle => 'Experienced and licensed drivers.';
+
+  @override
+  String get modernFleet => 'Modern Fleet';
+
+  @override
+  String get modernFleetSubtitle => 'Comfortable vehicles for every trip.';
+
+  @override
+  String get alwaysOnTime => 'Always On Time';
+
+  @override
+  String get alwaysOnTimeSubtitle => 'Reliable pickups and drop-offs.';
+
+  @override
+  String get competitivePricing => 'Competitive Pricing';
+
+  @override
+  String get competitivePricingSubtitle => 'Great service at fair prices.';
+
+  @override
+  String get needAssistance => 'Need Assistance?';
+
+  @override
+  String get needAssistanceSubtitle => 'We\'re here to help with your booking.';
+
+  @override
+  String get call => 'Call';
+
+  @override
+  String get whatsapp => 'WhatsApp';
+
+  @override
+  String get pickupLocation => 'Pickup Location';
+
+  @override
+  String get selectPickupLocation => 'Select pickup location';
+
+  @override
+  String get dropoffLocation => 'Drop-off Location';
+
+  @override
+  String get selectDestination => 'Select destination';
+
+  @override
+  String get departure => 'Departure';
+
+  @override
+  String get selectDepartureDate => 'Select departure date';
+
+  @override
+  String get returnDate => 'Return Date';
+
+  @override
+  String get selectReturnDate => 'Select return date';
+
+  @override
+  String get charterRequest => 'Charter Request';
+
+  @override
+  String get planYourGroupsJourney =>
+      'Plan your group\'s journey in just a few taps.';
+
+  @override
+  String get passengers => 'Passengers';
+
+  @override
+  String get searchLocation => 'Search Location';
+
+  @override
+  String get destination => 'Destination';
+
+  @override
+  String get useThisPickupLocation => 'Use this pickup location';
+
+  @override
+  String get useThisDestination => 'Use this destination';
+
+  @override
+  String get moveTheMap => 'Move the map to choose a location.';
+
+  @override
+  String get unknownLocation => 'Unknown location';
+
+  @override
+  String get unableToDetermineYourLocation =>
+      'Unable to determine your location.';
+
+  @override
+  String get unableToLoadPlaceDetails => 'Unable to load place details.';
+
+  @override
+  String get startTypingToSearch => 'Start typing to search for a location';
+
+  @override
+  String get noPlacesFound => 'No places found';
+
+  @override
+  String get recentSearches => 'Recent Searches';
+
+  @override
+  String get quickSelect => 'Quick Select';
+
+  @override
+  String get chooseAnotherDate => 'Choose another date';
+
+  @override
+  String get departureTime => 'Departure Time';
+
+  @override
+  String get selectDepartureTime => 'Select departure time';
+
+  @override
+  String get tomorrow => 'Tomorrow';
+
+  @override
+  String get departureDate => 'Departure Date';
+
+  @override
+  String get selectVehicle => 'Select Vehicle';
+
+  @override
+  String get selectAVehicle => 'Select a Vehicle';
+
+  @override
+  String get yourJourney => 'Your Journey';
+
+  @override
+  String get noSuitableVehicle =>
+      'No suitable vehicle is available for this passenger count.';
+
+  @override
+  String get capacity => 'Capacity';
+
+  @override
+  String get distance => 'Distance';
+
+  @override
+  String seatsCount(int count) {
+    return '$count seats';
+  }
+
+  @override
+  String distanceKm(String distance) {
+    return '$distance km';
+  }
+
+  @override
+  String get rate => 'Rate';
+
+  @override
+  String pricePerKm(String rate) {
+    return '$rate/km';
+  }
+
+  @override
+  String get contactDetails => 'Contact Details';
+
+  @override
+  String get whosTravelling => 'Who\'s travelling?';
+
+  @override
+  String get pleaseProvideContact =>
+      'Please provide the contact information for this shuttle booking.';
+
+  @override
+  String get pleaseEnterContactName => 'Please enter the contact name';
+
+  @override
+  String get phoneNumber => 'Phone Number';
+
+  @override
+  String get pleaseEnterAPhoneNumber => 'Please enter a phone number';
+
+  @override
+  String get specialRequest => 'Special Request';
+
+  @override
+  String get anythingElse => 'Anything you\'d like us to know?';
+
+  @override
+  String get reviewBooking => 'Review Booking';
+
+  @override
+  String get reviewYourBooking => 'Review your booking';
+
+  @override
+  String get pleaseVerifyYourJourney =>
+      'Please verify your journey details before confirming your booking.';
+
+  @override
+  String get journey => 'Journey';
+
+  @override
+  String get vehicle => 'Vehicle';
+
+  @override
+  String get passenger => 'Passenger';
+
+  @override
+  String get estimatedTotal => 'Total';
+
+  @override
+  String get includesYourSelectedVehicle => 'Includes your selected vehicle';
+
+  @override
+  String get continueToPayment => 'Continue to Payment';
+
+  @override
+  String get submittinBooking => 'Submitting Booking';
+
+  @override
+  String get choosePaymentMethod => 'Choose Payment Method';
+
+  @override
+  String get selectHowYoudLike =>
+      'Select how you\'d like to complete your booking.';
+
+  @override
+  String get cryptoPayment => 'Crypto Payment';
+
+  @override
+  String get paySecurelyUsingCrypto => 'Pay securely using cryptocurrency.';
+
+  @override
+  String get payYourDriver => 'Pay your driver when your shuttle arrives.';
+
+  @override
+  String get yourBookingWillBeCreated =>
+      'Your booking will be created after you complete this step.  Crypto payments require verification before confirmation, while Pay on Pickup submits your booking immediately pending approval.';
+
+  @override
+  String get bookingCreated => 'Booking Created';
+
+  @override
+  String get trackBooking => 'Track Booking';
+
+  @override
+  String get returnString => 'Return';
+
+  @override
+  String get plate => 'Plate';
+
+  @override
+  String get method => 'Method';
+
+  @override
+  String get amount => 'Amount';
+
+  @override
+  String get bookingCreatedSuccessfully => 'Booking Created Successfully';
+
+  @override
+  String get yourShuttleRequestReceived =>
+      'Your shuttle request has been received successfully.';
+
+  @override
+  String get bookingNumberCopied => 'Booking number copied';
+
+  @override
+  String get bookingNumber => 'Booking Number';
+
+  @override
+  String get tapToCopy => 'Tap to copy';
+
+  @override
+  String get iveSentThePayment => 'I\'ve Sent the Payment';
+
+  @override
+  String get waitingForVerification => 'Waiting for Verification';
+
+  @override
+  String get paymentVerified => 'Payment Verified';
+
+  @override
+  String get thisPaymentRequestHasExpired =>
+      'This payment request has expired.';
+
+  @override
+  String get backHome => 'Back Home';
+
+  @override
+  String get completeCryptoPayment => 'Complete Crypto Payment';
+
+  @override
+  String get completeWithiMinutes =>
+      'Complete payment within 30 minutes to reserve your shuttle.';
+
+  @override
+  String get booking => 'Booking';
+
+  @override
+  String get walletAddress => 'Wallet Address';
+
+  @override
+  String get copyWalletAddress => 'Copy Wallet Address';
+
+  @override
+  String get info => 'Info';
+
+  @override
+  String get timeRemaining => 'Time Remaining';
+
+  @override
+  String get paymentExpiresAutomatically =>
+      'Payment expires automatically after 30 minutes.';
+
+  @override
+  String get transactionHash => 'Transaction Hash (TXID)';
+
+  @override
+  String get pasteYourTransactionHash => 'Paste your transaction hash';
+
+  @override
+  String get pleaseEnterAValidHash => 'Please enter a valid transaction hash.';
+
+  @override
+  String get weWillVerifyYourPayment =>
+      'We\'ll verify your payment and notify you once it has been approved.';
+
+  @override
+  String get important => 'Important';
+
+  @override
+  String get sendTheExactAmount => 'Send the exact amount shown above.';
+
+  @override
+  String get onlyUseTheDisplayedBlockchain =>
+      'Only use the displayed blockchain network.';
+
+  @override
+  String get paymentsSubmittedAfterExpiry =>
+      'Payments submitted after expiry may require manual review.';
+
+  @override
+  String get noVehicleSelected => 'No vehicle selected.';
+
+  @override
+  String get selectLocation => 'Select location';
+
+  @override
+  String get currentLocation => 'Current Location';
+
+  @override
+  String get useMyCurrentLocation => 'Use my current location';
+
+  @override
+  String get cash => 'Cash';
+
+  @override
+  String get myShuttleBookings => 'My Shuttle Bookings';
+
+  @override
+  String get allCaughtUp => 'You\'re all caught up';
+
+  @override
+  String get noUpcomingJourneys => 'No upcoming journeys';
+
+  @override
+  String get noActiveJourney => 'No active journey';
+
+  @override
+  String get noCompletedJourney => 'No completed journeys';
+
+  @override
+  String get noClosedBookings => 'No closed bookings';
+
+  @override
+  String get allCaughtUpSubtitle =>
+      'Bookings that require approval, payment, or verification will appear here.';
+
+  @override
+  String get noUpcomingJourneysSubtitle =>
+      'Your confirmed shuttle trips will appear here once they\'re scheduled.';
+
+  @override
+  String get noActiveJourneySubtitle =>
+      'When your driver is on the way or your trip is in progress, you\'ll see it here.';
+
+  @override
+  String get noCompletedJourneySubtitle =>
+      'Your travel history will appear here after you complete your first shuttle trip.';
+
+  @override
+  String get noClosedBookingsSubtitle =>
+      'Cancelled, rejected, and expired bookings will appear here for your records.';
+
+  @override
+  String get somethingWentWrong => 'Something went wrong.';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get roundTrip => 'Round Trip';
+
+  @override
+  String get bookedShuttleService => 'Booked shuttle service';
+
+  @override
+  String get time => 'Time';
+
+  @override
+  String get trip => 'Trip';
+
+  @override
+  String get oneWay => 'One Way';
+
+  @override
+  String get serviceArea => 'Service Area';
+
+  @override
+  String get contactName => 'Contact Name';
+
+  @override
+  String get contactPhone => 'Contact Phone Number';
+
+  @override
+  String get contactEmail => 'Contact Email Address';
+
+  @override
+  String get assignedVehicle => 'Assigned Vehicle';
+
+  @override
+  String get aVehicleWillBeAssigned =>
+      'A vehicle will be assigned once your booking has been confirmed.';
+
+  @override
+  String get yourDriverWillAppearHere =>
+      'Your driver will appear here once one has been assigned.';
+
+  @override
+  String get payOnDelivery => 'Pay on Delivery';
+
+  @override
+  String get yourPaymentWillBeMadeDirectly =>
+      'Payment will be made directly to the driver when your shuttle arrives.';
+
+  @override
+  String get continuePayment => 'Continue Payment';
+
+  @override
+  String get yourPaymentHasBeenSubmitted =>
+      'Your payment has been submitted and is currently awaiting verification.';
+
+  @override
+  String get timeline => 'Timeline';
+
+  @override
+  String get bookingUpdatesWillAppearHere =>
+      'Booking updates will appear here as your journey progresses.';
+
+  @override
+  String get bookAgain => 'Book Again';
+
+  @override
+  String get cancelBooking => 'Cancel Booking';
+
+  @override
+  String byUser(String user) {
+    return 'By $user';
+  }
+
+  @override
+  String get switchApp => 'Switch App';
+
+  @override
+  String get bookAShuttle => 'Book a shuttle';
+
+  @override
+  String get howWouldYouLikeToTravel => 'How would you like to travel?';
+
+  @override
+  String get chooseAService => 'Choose a service to continue.';
+
+  @override
+  String get shuttle => 'Shuttle';
+
+  @override
+  String get airportTransfersHotels => 'Airport, hotels & group travel.';
+
+  @override
+  String get popular => 'Popular';
+
+  @override
+  String get carRental => 'Car Rental';
+
+  @override
+  String get economySuLuxury => 'Economy, SUV & luxury rentals.';
+
+  @override
+  String get flexible => 'Flexible';
+
+  @override
+  String get today => 'Today';
 }

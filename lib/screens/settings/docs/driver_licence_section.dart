@@ -288,19 +288,27 @@ class _DriverLicenceSectionState extends State<DriverLicenceSection> {
                   ),
                   Expanded(child: Container()),
                   if (p.profile!.vehicle.licenceUrl != '') ...[
-                    FadeInImage.assetNetwork(
-                      fadeInCurve: Curves.easeIn,
-                      fadeInDuration: Duration(seconds: 2),
+                    Image.network(
+                      p.profile!.vehicle.licenceUrl,
+                      fit: BoxFit.cover,
                       width: double.maxFinite,
                       height: 220,
-                      fit: BoxFit.fill,
-                      placeholder: "assets/images/image_spinner.gif",
-                      image: p.profile!.vehicle.licenceUrl,
-                      imageErrorBuilder: (c, e, s) => Image.asset(
+                      gaplessPlayback: true,
+                      loadingBuilder: (context, child, progress) {
+                        if (progress == null) return child;
+
+                        return Image.asset(
+                          "assets/images/image_spinner.gif",
+                          fit: BoxFit.cover,
+                          width: double.maxFinite,
+                          height: 220,
+                        );
+                      },
+                      errorBuilder: (_, _, _) => Image.asset(
                         "assets/images/placeholder.jpeg",
-                        height: 220,
-                        width: double.maxFinite,
                         fit: BoxFit.cover,
+                        width: double.maxFinite,
+                        height: 220,
                       ),
                     ),
                     SizedBox(height: 10),

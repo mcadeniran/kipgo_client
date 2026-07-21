@@ -63,7 +63,7 @@ class _LanguageSheet extends StatelessWidget {
                   ? const Icon(Icons.check, color: Colors.green)
                   : null,
               onTap: () {
-                provider.setLocale(locale);
+                provider.setLocale(locale, context);
                 Navigator.pop(context); // close sheet
               },
             );

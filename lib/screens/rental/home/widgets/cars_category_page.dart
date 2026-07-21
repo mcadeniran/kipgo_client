@@ -96,7 +96,11 @@ class _CarsCategoryPageState extends State<CarsCategoryPage> {
       appBar: AppBar(
         backgroundColor: AppColors.primary,
         title: Text(
-          carPropertiesTranslations(context, widget.category),
+          carPropertiesTranslations(
+            context,
+            Provider.of<CarProvider>(context, listen: false).selectedCategory ??
+                'All',
+          ),
           style: GoogleFonts.poppins(
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -266,6 +270,7 @@ class _CarsCategoryPageState extends State<CarsCategoryPage> {
                           itemBuilder: (context, index) {
                             final car = cp.cars[index];
                             return CarGridCard(
+                              key: ValueKey(car.car.id),
                               car: car,
                               isDark: isDark,
                               userPosition: userPosition,

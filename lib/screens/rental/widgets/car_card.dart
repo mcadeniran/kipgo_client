@@ -49,21 +49,29 @@ class CarCard extends StatelessWidget {
                               bottomLeft: Radius.circular(8),
                             ),
                           ),
-                          child: FadeInImage.assetNetwork(
-                            fadeInCurve: Curves.easeIn,
-                            fadeInDuration: Duration(seconds: 2),
-                            width: double.maxFinite,
-                            height: 180,
-                            fit: BoxFit.cover,
-                            placeholder: "assets/images/image_spinner.gif",
-                            image: car.car.images
+                          child: Image.network(
+                            car.car.images
                                 .lastWhere((c) => c.isCover == true)
                                 .url,
-                            imageErrorBuilder: (c, e, s) => Image.asset(
+                            fit: BoxFit.cover,
+                            width: double.maxFinite,
+                            height: 180,
+                            gaplessPlayback: true,
+                            loadingBuilder: (context, child, progress) {
+                              if (progress == null) return child;
+
+                              return Image.asset(
+                                "assets/images/image_spinner.gif",
+                                fit: BoxFit.cover,
+                                height: 180,
+                                width: double.maxFinite,
+                              );
+                            },
+                            errorBuilder: (_, _, _) => Image.asset(
                               "assets/images/placeholder.jpeg",
+                              fit: BoxFit.cover,
                               height: 180,
                               width: double.maxFinite,
-                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
@@ -128,6 +136,25 @@ class CarCard extends StatelessWidget {
                               ),
                             ],
                           ),
+                          // if (car.car.rating != null) ...[
+                          //   Row(
+                          //     children: [
+                          //       StarRating(
+                          //         rating: car.car.rating!.average,
+                          //         size: 14,
+                          //         color: Colors.amber,
+                          //         mainAxisAlignment: MainAxisAlignment.start,
+                          //       ),
+                          //       SizedBox(width: 5),
+                          //       Text(
+                          //         "(${car.car.rating!.totalReviews})",
+                          //         style: Theme.of(context).textTheme.bodySmall!
+                          //             .copyWith(color: Colors.blueGrey),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ],
+                          // if (car.car.rating == null) ...[SizedBox.shrink()],
                           SizedBox(height: 5),
                           if (car.hasDiscount) ...[
                             Text(

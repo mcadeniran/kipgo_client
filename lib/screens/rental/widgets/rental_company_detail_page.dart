@@ -119,15 +119,20 @@ class _RentalCompanyDetailPageState extends State<RentalCompanyDetailPage> {
                     background: Stack(
                       fit: StackFit.expand,
                       children: [
-                        // Image.network(company!.bannerUrl, fit: BoxFit.cover),
                         isValidImageUrl(company?.bannerUrl)
-                            ? FadeInImage.assetNetwork(
-                                fadeInCurve: Curves.easeIn,
-                                fadeInDuration: Duration(seconds: 2),
+                            ? Image.network(
+                                company!.bannerUrl,
                                 fit: BoxFit.cover,
-                                placeholder: "assets/images/image_spinner.gif",
-                                image: company!.bannerUrl,
-                                imageErrorBuilder: (c, e, s) => Image.asset(
+                                gaplessPlayback: true,
+                                loadingBuilder: (context, child, progress) {
+                                  if (progress == null) return child;
+
+                                  return Image.asset(
+                                    "assets/images/image_spinner.gif",
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                                errorBuilder: (_, _, _) => Image.asset(
                                   "assets/images/placeholder.jpeg",
                                   fit: BoxFit.cover,
                                 ),
@@ -181,7 +186,7 @@ class _RentalCompanyDetailPageState extends State<RentalCompanyDetailPage> {
                               Row(
                                 children: [
                                   Container(
-                                    clipBehavior: Clip.hardEdge,
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
                                     height: 52,
                                     width: 52,
                                     decoration: BoxDecoration(
@@ -192,16 +197,23 @@ class _RentalCompanyDetailPageState extends State<RentalCompanyDetailPage> {
                                       backgroundColor: AppColors.primary
                                           .withValues(alpha: .1),
                                       child: isValidImageUrl(company?.logo)
-                                          ? FadeInImage.assetNetwork(
-                                              fadeInCurve: Curves.easeIn,
-                                              fadeInDuration: Duration(
-                                                seconds: 2,
-                                              ),
+                                          ? Image.network(
+                                              company!.logo,
                                               fit: BoxFit.cover,
-                                              placeholder:
-                                                  "assets/images/image_spinner.gif",
-                                              image: company!.logo,
-                                              imageErrorBuilder: (c, e, s) =>
+                                              width: double.infinity,
+                                              gaplessPlayback: true,
+                                              loadingBuilder:
+                                                  (context, child, progress) {
+                                                    if (progress == null) {
+                                                      return child;
+                                                    }
+
+                                                    return Image.asset(
+                                                      "assets/images/image_spinner.gif",
+                                                      fit: BoxFit.cover,
+                                                    );
+                                                  },
+                                              errorBuilder: (_, _, _) =>
                                                   Image.asset(
                                                     "assets/images/placeholder.jpeg",
                                                     fit: BoxFit.cover,

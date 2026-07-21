@@ -1531,7 +1531,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get noCarsFound => 'Авто не найдены';
 
   @override
-  String distanceKM(int distance) {
+  String distanceKM(String distance) {
     return '$distance км';
   }
 
@@ -2228,4 +2228,579 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get payments => 'Платежи';
+
+  @override
+  String get awaitingPayment => 'Ожидание оплаты';
+
+  @override
+  String get goodMorning => 'Доброе утро';
+
+  @override
+  String get goodAfternoon => 'Добрый день';
+
+  @override
+  String get goodEvening => 'Добрый вечер';
+
+  @override
+  String get charterAShuttle =>
+      'Закажите шаттл для вашей следующей поездки с комфортом и уверенностью.';
+
+  @override
+  String get paymentRequired => 'Требуется оплата';
+
+  @override
+  String get awaitingApproval => 'Ожидает подтверждения';
+
+  @override
+  String get upcomingTrip => 'Предстоящая поездка';
+
+  @override
+  String get driverAssigned => 'Водитель назначен';
+
+  @override
+  String get yourDriverIsArriving => 'Ваш водитель уже в пути';
+
+  @override
+  String get upcomingEvent => 'Предстоящее событие';
+
+  @override
+  String passengersCount(int count) {
+    return '$count пассажиров';
+  }
+
+  @override
+  String get viewBooking => 'Просмотреть бронирование';
+
+  @override
+  String get ourServices => 'Наши услуги';
+
+  @override
+  String get ourDifferentServices => 'Наши различные услуги.';
+
+  @override
+  String get airportTransfer => 'Трансфер\nв аэропорт';
+
+  @override
+  String get corporate => 'Корпоративные';
+
+  @override
+  String get schoolTrips => 'Школьные\nпоездки';
+
+  @override
+  String get events => 'Мероприятия';
+
+  @override
+  String get wedding => 'Свадьбы';
+
+  @override
+  String get whyChooseUs => 'Почему выбирают нас';
+
+  @override
+  String get travelWithConfidence => 'Путешествуйте с уверенностью каждый раз.';
+
+  @override
+  String get professionalDrivers => 'Профессиональные водители';
+
+  @override
+  String get professionalDriversSubtitle => 'Опытные водители с лицензией.';
+
+  @override
+  String get modernFleet => 'Современный автопарк';
+
+  @override
+  String get modernFleetSubtitle => 'Комфортные автомобили для любой поездки.';
+
+  @override
+  String get alwaysOnTime => 'Всегда вовремя';
+
+  @override
+  String get alwaysOnTimeSubtitle =>
+      'Надёжная подача и своевременная доставка.';
+
+  @override
+  String get competitivePricing => 'Конкурентные цены';
+
+  @override
+  String get competitivePricingSubtitle =>
+      'Отличный сервис по справедливым ценам.';
+
+  @override
+  String get needAssistance => 'Нужна помощь?';
+
+  @override
+  String get needAssistanceSubtitle =>
+      'Мы всегда готовы помочь с вашим бронированием.';
+
+  @override
+  String get call => 'Позвонить';
+
+  @override
+  String get whatsapp => 'WhatsApp';
+
+  @override
+  String get pickupLocation => 'Место отправления';
+
+  @override
+  String get selectPickupLocation => 'Выберите место отправления';
+
+  @override
+  String get dropoffLocation => 'Место назначения';
+
+  @override
+  String get selectDestination => 'Выберите место назначения';
+
+  @override
+  String get departure => 'Отправление';
+
+  @override
+  String get selectDepartureDate => 'Выберите дату отправления';
+
+  @override
+  String get returnDate => 'Дата возвращения';
+
+  @override
+  String get selectReturnDate => 'Выберите дату возвращения';
+
+  @override
+  String get charterRequest => 'Запрос на аренду шаттла';
+
+  @override
+  String get planYourGroupsJourney =>
+      'Спланируйте поездку вашей группы всего за несколько нажатий.';
+
+  @override
+  String get passengers => 'Пассажиры';
+
+  @override
+  String get searchLocation => 'Поиск места';
+
+  @override
+  String get destination => 'Место назначения';
+
+  @override
+  String get useThisPickupLocation => 'Использовать это место отправления';
+
+  @override
+  String get useThisDestination => 'Использовать это место назначения';
+
+  @override
+  String get moveTheMap => 'Переместите карту, чтобы выбрать место.';
+
+  @override
+  String get unknownLocation => 'Неизвестное место';
+
+  @override
+  String get unableToDetermineYourLocation =>
+      'Не удалось определить ваше местоположение.';
+
+  @override
+  String get unableToLoadPlaceDetails =>
+      'Не удалось загрузить информацию о месте.';
+
+  @override
+  String get startTypingToSearch => 'Начните вводить, чтобы найти место';
+
+  @override
+  String get noPlacesFound => 'Места не найдены';
+
+  @override
+  String get recentSearches => 'Недавние поиски';
+
+  @override
+  String get quickSelect => 'Быстрый выбор';
+
+  @override
+  String get chooseAnotherDate => 'Выберите другую дату';
+
+  @override
+  String get departureTime => 'Время отправления';
+
+  @override
+  String get selectDepartureTime => 'Выберите время отправления';
+
+  @override
+  String get tomorrow => 'Завтра';
+
+  @override
+  String get departureDate => 'Дата отправления';
+
+  @override
+  String get selectVehicle => 'Выберите транспорт';
+
+  @override
+  String get selectAVehicle => 'Выберите транспортное средство';
+
+  @override
+  String get yourJourney => 'Ваш маршрут';
+
+  @override
+  String get noSuitableVehicle =>
+      'Нет подходящего транспорта для такого количества пассажиров.';
+
+  @override
+  String get capacity => 'Вместимость';
+
+  @override
+  String get distance => 'Расстояние';
+
+  @override
+  String seatsCount(int count) {
+    return '$count мест';
+  }
+
+  @override
+  String distanceKm(String distance) {
+    return '$distance км';
+  }
+
+  @override
+  String get rate => 'Тариф';
+
+  @override
+  String pricePerKm(String rate) {
+    return '$rate/км';
+  }
+
+  @override
+  String get contactDetails => 'Контактная информация';
+
+  @override
+  String get whosTravelling => 'Кто путешествует?';
+
+  @override
+  String get pleaseProvideContact =>
+      'Укажите контактную информацию для этого бронирования шаттла.';
+
+  @override
+  String get pleaseEnterContactName => 'Введите имя контактного лица';
+
+  @override
+  String get phoneNumber => 'Номер телефона';
+
+  @override
+  String get pleaseEnterAPhoneNumber => 'Введите номер телефона';
+
+  @override
+  String get specialRequest => 'Особые пожелания';
+
+  @override
+  String get anythingElse => 'Есть ли что-то ещё, что нам следует знать?';
+
+  @override
+  String get reviewBooking => 'Проверьте бронирование';
+
+  @override
+  String get reviewYourBooking => 'Проверьте ваше бронирование';
+
+  @override
+  String get pleaseVerifyYourJourney =>
+      'Пожалуйста, проверьте детали поездки перед подтверждением бронирования.';
+
+  @override
+  String get journey => 'Маршрут';
+
+  @override
+  String get vehicle => 'Транспорт';
+
+  @override
+  String get passenger => 'Пассажир';
+
+  @override
+  String get estimatedTotal => 'Итого';
+
+  @override
+  String get includesYourSelectedVehicle =>
+      'Включает выбранное транспортное средство';
+
+  @override
+  String get continueToPayment => 'Перейти к оплате';
+
+  @override
+  String get submittinBooking => 'Отправка бронирования';
+
+  @override
+  String get choosePaymentMethod => 'Выберите способ оплаты';
+
+  @override
+  String get selectHowYoudLike => 'Выберите способ завершения бронирования.';
+
+  @override
+  String get cryptoPayment => 'Оплата криптовалютой';
+
+  @override
+  String get paySecurelyUsingCrypto =>
+      'Безопасная оплата с помощью криптовалюты.';
+
+  @override
+  String get payYourDriver => 'Оплатите водителю по прибытии шаттла.';
+
+  @override
+  String get yourBookingWillBeCreated =>
+      'Ваше бронирование будет создано после завершения этого шага. Криптовалютные платежи требуют проверки перед подтверждением, а при оплате при посадке бронирование сразу отправляется на рассмотрение.';
+
+  @override
+  String get bookingCreated => 'Бронирование создано';
+
+  @override
+  String get trackBooking => 'Отследить бронирование';
+
+  @override
+  String get returnString => 'Обратно';
+
+  @override
+  String get plate => 'Номер';
+
+  @override
+  String get method => 'Способ';
+
+  @override
+  String get amount => 'Сумма';
+
+  @override
+  String get bookingCreatedSuccessfully => 'Бронирование успешно создано';
+
+  @override
+  String get yourShuttleRequestReceived =>
+      'Ваш запрос на шаттл успешно получен.';
+
+  @override
+  String get bookingNumberCopied => 'Номер бронирования скопирован';
+
+  @override
+  String get bookingNumber => 'Номер бронирования';
+
+  @override
+  String get tapToCopy => 'Нажмите, чтобы скопировать';
+
+  @override
+  String get iveSentThePayment => 'Я отправил оплату';
+
+  @override
+  String get waitingForVerification => 'Ожидание проверки';
+
+  @override
+  String get paymentVerified => 'Платёж подтверждён';
+
+  @override
+  String get thisPaymentRequestHasExpired =>
+      'Срок действия этого платёжного запроса истёк.';
+
+  @override
+  String get backHome => 'На главную';
+
+  @override
+  String get completeCryptoPayment => 'Завершите криптооплату';
+
+  @override
+  String get completeWithiMinutes =>
+      'Завершите оплату в течение 30 минут, чтобы забронировать шаттл.';
+
+  @override
+  String get booking => 'Бронирование';
+
+  @override
+  String get walletAddress => 'Адрес кошелька';
+
+  @override
+  String get copyWalletAddress => 'Скопировать адрес кошелька';
+
+  @override
+  String get info => 'Информация';
+
+  @override
+  String get timeRemaining => 'Оставшееся время';
+
+  @override
+  String get paymentExpiresAutomatically =>
+      'Платёж автоматически истекает через 30 минут.';
+
+  @override
+  String get transactionHash => 'Хэш транзакции (TXID)';
+
+  @override
+  String get pasteYourTransactionHash => 'Вставьте хэш транзакции';
+
+  @override
+  String get pleaseEnterAValidHash => 'Введите действительный хэш транзакции.';
+
+  @override
+  String get weWillVerifyYourPayment =>
+      'Мы проверим ваш платёж и уведомим вас после его подтверждения.';
+
+  @override
+  String get important => 'Важно';
+
+  @override
+  String get sendTheExactAmount => 'Отправьте точную сумму, указанную выше.';
+
+  @override
+  String get onlyUseTheDisplayedBlockchain =>
+      'Используйте только указанную сеть блокчейна.';
+
+  @override
+  String get paymentsSubmittedAfterExpiry =>
+      'Платежи, отправленные после истечения срока действия, могут потребовать ручной проверки.';
+
+  @override
+  String get noVehicleSelected => 'Транспортное средство не выбрано.';
+
+  @override
+  String get selectLocation => 'Выберите место';
+
+  @override
+  String get currentLocation => 'Текущее местоположение';
+
+  @override
+  String get useMyCurrentLocation => 'Использовать моё текущее местоположение';
+
+  @override
+  String get cash => 'Наличные';
+
+  @override
+  String get myShuttleBookings => 'Мои бронирования шаттлов';
+
+  @override
+  String get allCaughtUp => 'Здесь пока ничего нет';
+
+  @override
+  String get noUpcomingJourneys => 'Нет предстоящих поездок';
+
+  @override
+  String get noActiveJourney => 'Нет активных поездок';
+
+  @override
+  String get noCompletedJourney => 'Нет завершённых поездок';
+
+  @override
+  String get noClosedBookings => 'Нет закрытых бронирований';
+
+  @override
+  String get allCaughtUpSubtitle =>
+      'Здесь будут отображаться бронирования, ожидающие подтверждения, оплаты или проверки.';
+
+  @override
+  String get noUpcomingJourneysSubtitle =>
+      'После подтверждения ваши предстоящие поездки на шаттле появятся здесь.';
+
+  @override
+  String get noActiveJourneySubtitle =>
+      'Когда водитель будет в пути или поездка начнётся, она появится здесь.';
+
+  @override
+  String get noCompletedJourneySubtitle =>
+      'История ваших поездок появится здесь после завершения первой поездки на шаттле.';
+
+  @override
+  String get noClosedBookingsSubtitle =>
+      'Отменённые, отклонённые и просроченные бронирования будут храниться здесь.';
+
+  @override
+  String get somethingWentWrong => 'Что-то пошло не так.';
+
+  @override
+  String get retry => 'Повторить';
+
+  @override
+  String get roundTrip => 'Туда и обратно';
+
+  @override
+  String get bookedShuttleService => 'Забронированная услуга шаттла';
+
+  @override
+  String get time => 'Время';
+
+  @override
+  String get trip => 'Поездка';
+
+  @override
+  String get oneWay => 'В одну сторону';
+
+  @override
+  String get serviceArea => 'Зона обслуживания';
+
+  @override
+  String get contactName => 'Контактное лицо';
+
+  @override
+  String get contactPhone => 'Контактный номер телефона';
+
+  @override
+  String get contactEmail => 'Контактный адрес электронной почты';
+
+  @override
+  String get assignedVehicle => 'Назначенное транспортное средство';
+
+  @override
+  String get aVehicleWillBeAssigned =>
+      'Транспортное средство будет назначено после подтверждения вашего бронирования.';
+
+  @override
+  String get yourDriverWillAppearHere =>
+      'Информация о вашем водителе появится здесь после его назначения.';
+
+  @override
+  String get payOnDelivery => 'Оплата при прибытии';
+
+  @override
+  String get yourPaymentWillBeMadeDirectly =>
+      'Оплата будет произведена непосредственно водителю по прибытии шаттла.';
+
+  @override
+  String get continuePayment => 'Продолжить оплату';
+
+  @override
+  String get yourPaymentHasBeenSubmitted =>
+      'Ваш платёж отправлен и ожидает проверки.';
+
+  @override
+  String get timeline => 'Хронология';
+
+  @override
+  String get bookingUpdatesWillAppearHere =>
+      'Обновления бронирования будут отображаться здесь по мере продвижения вашей поездки.';
+
+  @override
+  String get bookAgain => 'Забронировать снова';
+
+  @override
+  String get cancelBooking => 'Отменить бронирование';
+
+  @override
+  String byUser(String user) {
+    return 'От $user';
+  }
+
+  @override
+  String get switchApp => 'Переключить приложение';
+
+  @override
+  String get bookAShuttle => 'Забронировать шаттл';
+
+  @override
+  String get howWouldYouLikeToTravel => 'Как вы хотите путешествовать?';
+
+  @override
+  String get chooseAService => 'Выберите услугу, чтобы продолжить.';
+
+  @override
+  String get shuttle => 'Шаттл';
+
+  @override
+  String get airportTransfersHotels =>
+      'Трансферы в аэропорт, отели и для групп.';
+
+  @override
+  String get popular => 'Популярно';
+
+  @override
+  String get carRental => 'Прокат автомобилей';
+
+  @override
+  String get economySuLuxury => 'Аренда автомобилей: эконом, SUV и люкс.';
+
+  @override
+  String get flexible => 'Гибко';
+
+  @override
+  String get today => 'Сегодня';
 }

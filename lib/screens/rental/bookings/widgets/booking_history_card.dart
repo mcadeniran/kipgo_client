@@ -64,19 +64,26 @@ class BookingHistoryCard extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: FadeInImage.assetNetwork(
-                    fadeInCurve: Curves.easeIn,
-                    fadeInDuration: Duration(seconds: 2),
+                  child: Image.network(
+                    booking.car.carImage,
+                    fit: BoxFit.cover,
                     width: 80,
                     height: 60,
-                    fit: BoxFit.cover,
-                    placeholder: "assets/images/image_spinner.gif",
-                    image: booking.car.carImage,
-                    imageErrorBuilder: (c, e, s) => Image.asset(
+                    gaplessPlayback: true,
+                    loadingBuilder: (context, child, progress) {
+                      if (progress == null) return child;
+                      return Image.asset(
+                        "assets/images/image_spinner.gif",
+                        fit: BoxFit.cover,
+                        width: 80,
+                        height: 60,
+                      );
+                    },
+                    errorBuilder: (_, _, _) => Image.asset(
                       "assets/images/placeholder.jpeg",
-                      height: 60,
-                      width: 80,
                       fit: BoxFit.cover,
+                      width: 80,
+                      height: 60,
                     ),
                   ),
                 ),
@@ -108,9 +115,9 @@ class BookingHistoryCard extends StatelessWidget {
                     if (booking.status == 'completed' &&
                         booking.isRated == true) ...[
                       StarRating(
-                        starCount: 5,
-                        rating: booking.rating.carRating,
-                        allowHalfRating: true,
+                        starCount: 1,
+                        rating: 1,
+                        allowHalfRating: false,
                         color: Colors.amber,
                       ),
                     ],

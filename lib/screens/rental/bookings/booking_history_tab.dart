@@ -34,53 +34,14 @@ class BookingHistoryTab extends StatelessWidget {
             bookings = provider.ongoing;
             break;
 
+          case BookingSection.completed:
+            bookings = provider.completed;
+            break;
+
           case BookingSection.closed:
             bookings = provider.closed;
             break;
-
-          case BookingSection.cancelled:
-            bookings = provider.cancelled;
-            break;
         }
-
-        // List bookings = provider.bookings.where((booking) {
-        //   switch (section) {
-        //     case BookingSection.attention:
-        //       return  provider.attention;
-
-        //     case BookingSection.upcoming:
-        //       return  provider.upcoming;
-
-        //     case BookingSection.active:
-        //       return  provider.ongoing;
-
-        //     case BookingSection.past:
-        //       return  provider.closed;
-
-        //     case BookingSection.cancelled:
-        //       return  provider.cancelled;
-
-        //   }
-        //   // switch (section) {
-        //   //   case BookingSection.upcoming:
-        //   //     return booking.status == "pending" ||
-        //   //         booking.status == 'payment_submitted' ||
-        //   //         booking.status == "approved";
-
-        //   //   case BookingSection.active:
-        //   //     return booking.status == "ongoing" ||
-        //   //         (booking.pickupDate.isBefore(now) &&
-        //   //             booking.dropoffDate.isAfter(now));
-
-        //   //   case BookingSection.past:
-        //   //     return booking.status == "completed" ||
-        //   //         booking.dropoffDate.isBefore(now);
-
-        //   //   case BookingSection.cancelled:
-        //   //     return booking.status == "cancelled" ||
-        //   //         booking.status == "rejected";
-        //   // }
-        // }).toList();
 
         if (bookings.isEmpty) {
           return Center(child: Text(loc.noBookingsHere));

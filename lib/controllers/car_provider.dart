@@ -79,7 +79,7 @@ class CarProvider extends ChangeNotifier {
   // =========================
   void filterByCategory(String category) {
     selectedCategory = category == "All" ? null : category;
-    applyFilters();
+    applyFilters(category: category == "All" ? null : category);
   }
 
   // =========================
@@ -197,8 +197,12 @@ class CarProvider extends ChangeNotifier {
 
     final shopMap = {for (var s in shopProvider?.rentalShops ?? []) s.id: s};
 
-    if (category != null && category != "All") {
-      filtered = filtered.where((c) => c.carType == category).toList();
+    // if (category != null && category != "All") {
+    //   filtered = filtered.where((c) => c.carType == category).toList();
+    // }
+
+    if (selectedCategory != null) {
+      filtered = filtered.where((c) => c.carType == selectedCategory).toList();
     }
 
     if (city != null) {

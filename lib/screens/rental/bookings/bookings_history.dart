@@ -9,7 +9,7 @@ import 'package:kipgo/screens/widgets/language_widget.dart';
 import 'package:kipgo/utils/colors.dart';
 import 'package:provider/provider.dart';
 
-enum BookingSection { attention, upcoming, ongoing, closed, cancelled }
+enum BookingSection { attention, upcoming, ongoing, closed, completed }
 
 class BookingsHistory extends StatefulWidget {
   const BookingsHistory({super.key});
@@ -64,8 +64,8 @@ class _BookingsHistoryState extends State<BookingsHistory> {
               Tab(text: loc.attention),
               Tab(text: loc.upcoming),
               Tab(text: loc.ongoing),
+              Tab(text: loc.completed),
               Tab(text: loc.closed),
-              Tab(text: loc.cancelled),
             ],
           ),
         ),
@@ -82,8 +82,8 @@ class _BookingsHistoryState extends State<BookingsHistory> {
               BookingHistoryTab(section: BookingSection.attention),
               BookingHistoryTab(section: BookingSection.upcoming),
               BookingHistoryTab(section: BookingSection.ongoing),
+              BookingHistoryTab(section: BookingSection.completed),
               BookingHistoryTab(section: BookingSection.closed),
-              BookingHistoryTab(section: BookingSection.cancelled),
             ],
           ),
         ),

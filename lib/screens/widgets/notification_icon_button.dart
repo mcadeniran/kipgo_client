@@ -9,7 +9,7 @@ class NotificationIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<InAppNotificationProvider>(
-      builder: (_, provider, __) {
+      builder: (_, provider, _) {
         return IconButton(
           onPressed: () {
             Navigator.push(

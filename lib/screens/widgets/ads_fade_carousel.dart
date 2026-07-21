@@ -80,13 +80,20 @@ class _AdsFadeCarouselState extends State<AdsFadeCarousel> {
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    FadeInImage.assetNetwork(
-                      fadeInCurve: Curves.easeIn,
-                      fadeInDuration: Duration(seconds: 2),
+                    Image.network(
+                      ad.bannerUrl,
                       fit: BoxFit.cover,
-                      placeholder: "assets/images/image_spinner.gif",
-                      image: ad.bannerUrl,
-                      imageErrorBuilder: (c, e, s) => Image.asset(
+                      width: double.infinity,
+                      gaplessPlayback: true,
+                      loadingBuilder: (context, child, progress) {
+                        if (progress == null) return child;
+
+                        return Image.asset(
+                          "assets/images/image_spinner.gif",
+                          fit: BoxFit.cover,
+                        );
+                      },
+                      errorBuilder: (_, _, _) => Image.asset(
                         "assets/images/placeholder.jpeg",
                         fit: BoxFit.cover,
                       ),

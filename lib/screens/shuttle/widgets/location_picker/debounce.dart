@@ -1,0 +1,21 @@
+import 'dart:async';
+
+class Debouncer {
+  Debouncer({this.duration = const Duration(milliseconds: 500)});
+
+  final Duration duration;
+
+  Timer? _timer;
+
+  void run(Future<void> Function() action) {
+    _timer?.cancel();
+
+    _timer = Timer(duration, () async {
+      await action();
+    });
+  }
+
+  void dispose() {
+    _timer?.cancel();
+  }
+}

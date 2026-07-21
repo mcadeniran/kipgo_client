@@ -33,7 +33,7 @@ Widget buildActiveFilters(
 
   if (provider.radiusKm != null) {
     chips.add(
-      _chip(loc.distanceKM(provider.radiusKm!.round()), () {
+      _chip(loc.distanceKM(provider.radiusKm!.round().toString()), () {
         provider.radiusKm = null;
         provider.applyFilters();
       }, isDark),

@@ -41,19 +41,20 @@ class DriverDocumentsStep extends StatelessWidget {
     if (localPath != null) {
       content = Image.file(File(localPath), fit: BoxFit.contain);
     } else if (networkUrl != null) {
-      // content = Image.network(networkUrl, fit: BoxFit.contain);
-      content = FadeInImage.assetNetwork(
-        fadeInCurve: Curves.easeIn,
-        fadeInDuration: Duration(seconds: 2),
-        width: double.maxFinite,
-        fit: BoxFit.contain,
-        placeholder: "assets/images/image_spinner.gif",
-        image: networkUrl,
-        imageErrorBuilder: (c, e, s) => Image.asset(
-          "assets/images/placeholder.jpeg",
-          width: double.maxFinite,
-          fit: BoxFit.cover,
-        ),
+      content = Image.network(
+        networkUrl,
+        fit: BoxFit.cover,
+        gaplessPlayback: true,
+        loadingBuilder: (context, child, progress) {
+          if (progress == null) return child;
+
+          return Image.asset(
+            "assets/images/image_spinner.gif",
+            fit: BoxFit.cover,
+          );
+        },
+        errorBuilder: (_, _, _) =>
+            Image.asset("assets/images/placeholder.jpeg", fit: BoxFit.cover),
       );
     } else {
       content = Center(

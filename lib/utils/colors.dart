@@ -9,4 +9,5 @@ class AppColors {
   static const Color border = Color(0XFFC0C0C0);
   static const Color darkAccent = Color(0Xff0F0F2A);
   static const Color lightAccent = Color(0XffF5F5F5);
+  static const Color tron = Color(0xff26A17B);
 }

@@ -1516,7 +1516,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get noCarsFound => 'Araç bulunamadı';
 
   @override
-  String distanceKM(int distance) {
+  String distanceKM(String distance) {
     return '$distance km';
   }
 
@@ -2212,4 +2212,574 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get payments => 'Ödemeler';
+
+  @override
+  String get awaitingPayment => 'Ödeme Bekleniyor';
+
+  @override
+  String get goodMorning => 'Günaydın';
+
+  @override
+  String get goodAfternoon => 'İyi Günler';
+
+  @override
+  String get goodEvening => 'İyi Akşamlar';
+
+  @override
+  String get charterAShuttle =>
+      'Bir sonraki yolculuğunuz için konfor ve güvenle servis aracı kiralayın.';
+
+  @override
+  String get paymentRequired => 'Ödeme Gerekli';
+
+  @override
+  String get awaitingApproval => 'Onay Bekleniyor';
+
+  @override
+  String get upcomingTrip => 'Yaklaşan Yolculuk';
+
+  @override
+  String get driverAssigned => 'Sürücü Atandı';
+
+  @override
+  String get yourDriverIsArriving => 'Sürücünüz Geliyor';
+
+  @override
+  String get upcomingEvent => 'Yaklaşan Etkinlik';
+
+  @override
+  String passengersCount(int count) {
+    return '$count Yolcu';
+  }
+
+  @override
+  String get viewBooking => 'Rezervasyonu Görüntüle';
+
+  @override
+  String get ourServices => 'Hizmetlerimiz';
+
+  @override
+  String get ourDifferentServices => 'Sunduğumuz farklı hizmetler.';
+
+  @override
+  String get airportTransfer => 'Havalimanı\nTransferi';
+
+  @override
+  String get corporate => 'Kurumsal';
+
+  @override
+  String get schoolTrips => 'Okul\nGezileri';
+
+  @override
+  String get events => 'Etkinlikler';
+
+  @override
+  String get wedding => 'Düğün';
+
+  @override
+  String get whyChooseUs => 'Neden Bizi Tercih Etmelisiniz?';
+
+  @override
+  String get travelWithConfidence => 'Her yolculuğunuzda güvenle seyahat edin.';
+
+  @override
+  String get professionalDrivers => 'Profesyonel Sürücüler';
+
+  @override
+  String get professionalDriversSubtitle => 'Deneyimli ve lisanslı sürücüler.';
+
+  @override
+  String get modernFleet => 'Modern Araç Filosu';
+
+  @override
+  String get modernFleetSubtitle => 'Her yolculuk için konforlu araçlar.';
+
+  @override
+  String get alwaysOnTime => 'Her Zaman Zamanında';
+
+  @override
+  String get alwaysOnTimeSubtitle => 'Güvenilir karşılama ve bırakma hizmeti.';
+
+  @override
+  String get competitivePricing => 'Rekabetçi Fiyatlar';
+
+  @override
+  String get competitivePricingSubtitle => 'Uygun fiyatlarla kaliteli hizmet.';
+
+  @override
+  String get needAssistance => 'Yardıma mı İhtiyacınız Var?';
+
+  @override
+  String get needAssistanceSubtitle =>
+      'Rezervasyonunuz konusunda size yardımcı olmaya hazırız.';
+
+  @override
+  String get call => 'Ara';
+
+  @override
+  String get whatsapp => 'WhatsApp';
+
+  @override
+  String get pickupLocation => 'Alış Noktası';
+
+  @override
+  String get selectPickupLocation => 'Alış noktasını seçin';
+
+  @override
+  String get dropoffLocation => 'Varış Noktası';
+
+  @override
+  String get selectDestination => 'Varış noktasını seçin';
+
+  @override
+  String get departure => 'Gidiş';
+
+  @override
+  String get selectDepartureDate => 'Gidiş tarihini seçin';
+
+  @override
+  String get returnDate => 'Dönüş Tarihi';
+
+  @override
+  String get selectReturnDate => 'Dönüş tarihini seçin';
+
+  @override
+  String get charterRequest => 'Servis Talebi';
+
+  @override
+  String get planYourGroupsJourney =>
+      'Grubunuzun yolculuğunu sadece birkaç dokunuşla planlayın.';
+
+  @override
+  String get passengers => 'Yolcular';
+
+  @override
+  String get searchLocation => 'Konum Ara';
+
+  @override
+  String get destination => 'Varış Noktası';
+
+  @override
+  String get useThisPickupLocation => 'Bu alış noktasını kullan';
+
+  @override
+  String get useThisDestination => 'Bu varış noktasını kullan';
+
+  @override
+  String get moveTheMap => 'Bir konum seçmek için haritayı hareket ettirin.';
+
+  @override
+  String get unknownLocation => 'Bilinmeyen konum';
+
+  @override
+  String get unableToDetermineYourLocation => 'Konumunuz belirlenemedi.';
+
+  @override
+  String get unableToLoadPlaceDetails => 'Konum bilgileri yüklenemedi.';
+
+  @override
+  String get startTypingToSearch => 'Bir konum aramak için yazmaya başlayın';
+
+  @override
+  String get noPlacesFound => 'Konum bulunamadı';
+
+  @override
+  String get recentSearches => 'Son Aramalar';
+
+  @override
+  String get quickSelect => 'Hızlı Seçim';
+
+  @override
+  String get chooseAnotherDate => 'Başka bir tarih seçin';
+
+  @override
+  String get departureTime => 'Kalkış Saati';
+
+  @override
+  String get selectDepartureTime => 'Kalkış saatini seçin';
+
+  @override
+  String get tomorrow => 'Yarın';
+
+  @override
+  String get departureDate => 'Kalkış Tarihi';
+
+  @override
+  String get selectVehicle => 'Araç Seçin';
+
+  @override
+  String get selectAVehicle => 'Bir Araç Seçin';
+
+  @override
+  String get yourJourney => 'Yolculuğunuz';
+
+  @override
+  String get noSuitableVehicle =>
+      'Bu yolcu sayısı için uygun bir araç bulunmamaktadır.';
+
+  @override
+  String get capacity => 'Kapasite';
+
+  @override
+  String get distance => 'Mesafe';
+
+  @override
+  String seatsCount(int count) {
+    return '$count koltuk';
+  }
+
+  @override
+  String distanceKm(String distance) {
+    return '$distance km';
+  }
+
+  @override
+  String get rate => 'Ücret';
+
+  @override
+  String pricePerKm(String rate) {
+    return '$rate/km';
+  }
+
+  @override
+  String get contactDetails => 'İletişim Bilgileri';
+
+  @override
+  String get whosTravelling => 'Kim seyahat ediyor?';
+
+  @override
+  String get pleaseProvideContact =>
+      'Lütfen bu servis rezervasyonu için iletişim bilgilerini sağlayın.';
+
+  @override
+  String get pleaseEnterContactName => 'Lütfen iletişim adını girin';
+
+  @override
+  String get phoneNumber => 'Telefon Numarası';
+
+  @override
+  String get pleaseEnterAPhoneNumber => 'Lütfen bir telefon numarası girin';
+
+  @override
+  String get specialRequest => 'Özel İstek';
+
+  @override
+  String get anythingElse => 'Bilmemizi istediğiniz başka bir şey var mı?';
+
+  @override
+  String get reviewBooking => 'Rezervasyonu Gözden Geçir';
+
+  @override
+  String get reviewYourBooking => 'Rezervasyonunuzu gözden geçirin';
+
+  @override
+  String get pleaseVerifyYourJourney =>
+      'Rezervasyonunuzu onaylamadan önce yolculuk bilgilerinizi kontrol edin.';
+
+  @override
+  String get journey => 'Yolculuk';
+
+  @override
+  String get vehicle => 'Araç';
+
+  @override
+  String get passenger => 'Yolcu';
+
+  @override
+  String get estimatedTotal => 'Toplam';
+
+  @override
+  String get includesYourSelectedVehicle => 'Seçtiğiniz araç dahildir';
+
+  @override
+  String get continueToPayment => 'Ödemeye Devam Et';
+
+  @override
+  String get submittinBooking => 'Rezervasyon Gönderiliyor';
+
+  @override
+  String get choosePaymentMethod => 'Ödeme Yöntemini Seçin';
+
+  @override
+  String get selectHowYoudLike =>
+      'Rezervasyonunuzu nasıl tamamlamak istediğinizi seçin.';
+
+  @override
+  String get cryptoPayment => 'Kripto ile Ödeme';
+
+  @override
+  String get paySecurelyUsingCrypto => 'Kripto para ile güvenli ödeme yapın.';
+
+  @override
+  String get payYourDriver =>
+      'Servis aracınız geldiğinde sürücünüze ödeme yapın.';
+
+  @override
+  String get yourBookingWillBeCreated =>
+      'Bu adımı tamamladıktan sonra rezervasyonunuz oluşturulacaktır. Kripto ödemeleri onaydan önce doğrulama gerektirirken, Araca Binerken Öde seçeneği rezervasyonunuzu onay bekleyen durumda hemen gönderir.';
+
+  @override
+  String get bookingCreated => 'Rezervasyon Oluşturuldu';
+
+  @override
+  String get trackBooking => 'Rezervasyonu Takip Et';
+
+  @override
+  String get returnString => 'Dönüş';
+
+  @override
+  String get plate => 'Plaka';
+
+  @override
+  String get method => 'Yöntem';
+
+  @override
+  String get amount => 'Tutar';
+
+  @override
+  String get bookingCreatedSuccessfully => 'Rezervasyon Başarıyla Oluşturuldu';
+
+  @override
+  String get yourShuttleRequestReceived => 'Servis talebiniz başarıyla alındı.';
+
+  @override
+  String get bookingNumberCopied => 'Rezervasyon numarası kopyalandı';
+
+  @override
+  String get bookingNumber => 'Rezervasyon Numarası';
+
+  @override
+  String get tapToCopy => 'Kopyalamak için dokunun';
+
+  @override
+  String get iveSentThePayment => 'Ödemeyi Gönderdim';
+
+  @override
+  String get waitingForVerification => 'Doğrulama Bekleniyor';
+
+  @override
+  String get paymentVerified => 'Ödeme Doğrulandı';
+
+  @override
+  String get thisPaymentRequestHasExpired =>
+      'Bu ödeme talebinin süresi dolmuştur.';
+
+  @override
+  String get backHome => 'Ana Sayfaya Dön';
+
+  @override
+  String get completeCryptoPayment => 'Kripto Ödemesini Tamamla';
+
+  @override
+  String get completeWithiMinutes =>
+      'Servis aracınızı ayırtmak için ödemenizi 30 dakika içinde tamamlayın.';
+
+  @override
+  String get booking => 'Rezervasyon';
+
+  @override
+  String get walletAddress => 'Cüzdan Adresi';
+
+  @override
+  String get copyWalletAddress => 'Cüzdan Adresini Kopyala';
+
+  @override
+  String get info => 'Bilgi';
+
+  @override
+  String get timeRemaining => 'Kalan Süre';
+
+  @override
+  String get paymentExpiresAutomatically =>
+      'Ödeme 30 dakika sonra otomatik olarak sona erer.';
+
+  @override
+  String get transactionHash => 'İşlem Hash\'i (TXID)';
+
+  @override
+  String get pasteYourTransactionHash => 'İşlem hash\'ini yapıştırın';
+
+  @override
+  String get pleaseEnterAValidHash => 'Lütfen geçerli bir işlem hash\'i girin.';
+
+  @override
+  String get weWillVerifyYourPayment =>
+      'Ödemenizi doğrulayacağız ve onaylandıktan sonra size bildireceğiz.';
+
+  @override
+  String get important => 'Önemli';
+
+  @override
+  String get sendTheExactAmount =>
+      'Yukarıda gösterilen tutarın aynısını gönderin.';
+
+  @override
+  String get onlyUseTheDisplayedBlockchain =>
+      'Yalnızca gösterilen blok zinciri ağını kullanın.';
+
+  @override
+  String get paymentsSubmittedAfterExpiry =>
+      'Süresi dolduktan sonra gönderilen ödemeler manuel inceleme gerektirebilir.';
+
+  @override
+  String get noVehicleSelected => 'Araç seçilmedi.';
+
+  @override
+  String get selectLocation => 'Konum seçin';
+
+  @override
+  String get currentLocation => 'Mevcut Konum';
+
+  @override
+  String get useMyCurrentLocation => 'Mevcut konumumu kullan';
+
+  @override
+  String get cash => 'Nakit';
+
+  @override
+  String get myShuttleBookings => 'Servis Rezervasyonlarım';
+
+  @override
+  String get allCaughtUp => 'Her şey güncel';
+
+  @override
+  String get noUpcomingJourneys => 'Yaklaşan yolculuk yok';
+
+  @override
+  String get noActiveJourney => 'Aktif yolculuk yok';
+
+  @override
+  String get noCompletedJourney => 'Tamamlanmış yolculuk yok';
+
+  @override
+  String get noClosedBookings => 'Kapatılmış rezervasyon yok';
+
+  @override
+  String get allCaughtUpSubtitle =>
+      'Onay, ödeme veya doğrulama bekleyen rezervasyonlar burada görünecektir.';
+
+  @override
+  String get noUpcomingJourneysSubtitle =>
+      'Onaylanan servis yolculuklarınız planlandıktan sonra burada görünecektir.';
+
+  @override
+  String get noActiveJourneySubtitle =>
+      'Sürücünüz yoldayken veya yolculuğunuz devam ederken burada görüntülenecektir.';
+
+  @override
+  String get noCompletedJourneySubtitle =>
+      'İlk servis yolculuğunuzu tamamladıktan sonra seyahat geçmişiniz burada görünecektir.';
+
+  @override
+  String get noClosedBookingsSubtitle =>
+      'İptal edilen, reddedilen ve süresi dolan rezervasyonlar kayıtlarınız için burada görüntülenecektir.';
+
+  @override
+  String get somethingWentWrong => 'Bir şeyler ters gitti.';
+
+  @override
+  String get retry => 'Tekrar Dene';
+
+  @override
+  String get roundTrip => 'Gidiş-Dönüş';
+
+  @override
+  String get bookedShuttleService => 'Rezerve Edilen Servis Hizmeti';
+
+  @override
+  String get time => 'Saat';
+
+  @override
+  String get trip => 'Yolculuk';
+
+  @override
+  String get oneWay => 'Tek Yön';
+
+  @override
+  String get serviceArea => 'Hizmet Bölgesi';
+
+  @override
+  String get contactName => 'İletişim Adı';
+
+  @override
+  String get contactPhone => 'İletişim Telefon Numarası';
+
+  @override
+  String get contactEmail => 'İletişim E-posta Adresi';
+
+  @override
+  String get assignedVehicle => 'Atanan Araç';
+
+  @override
+  String get aVehicleWillBeAssigned =>
+      'Rezervasyonunuz onaylandıktan sonra bir araç atanacaktır.';
+
+  @override
+  String get yourDriverWillAppearHere =>
+      'Bir sürücü atandığında bilgileri burada görüntülenecektir.';
+
+  @override
+  String get payOnDelivery => 'Teslimatta Ödeme';
+
+  @override
+  String get yourPaymentWillBeMadeDirectly =>
+      'Ödeme, servis aracınız geldiğinde doğrudan sürücüye yapılacaktır.';
+
+  @override
+  String get continuePayment => 'Ödemeye Devam Et';
+
+  @override
+  String get yourPaymentHasBeenSubmitted =>
+      'Ödemeniz gönderildi ve doğrulama bekliyor.';
+
+  @override
+  String get timeline => 'Zaman Çizelgesi';
+
+  @override
+  String get bookingUpdatesWillAppearHere =>
+      'Yolculuğunuz ilerledikçe rezervasyon güncellemeleri burada görünecektir.';
+
+  @override
+  String get bookAgain => 'Tekrar Rezervasyon Yap';
+
+  @override
+  String get cancelBooking => 'Rezervasyonu İptal Et';
+
+  @override
+  String byUser(String user) {
+    return '$user tarafından';
+  }
+
+  @override
+  String get switchApp => 'Uygulamayı Değiştir';
+
+  @override
+  String get bookAShuttle => 'Servis Rezervasyonu Yap';
+
+  @override
+  String get howWouldYouLikeToTravel => 'Nasıl seyahat etmek istersiniz?';
+
+  @override
+  String get chooseAService => 'Devam etmek için bir hizmet seçin.';
+
+  @override
+  String get shuttle => 'Servis';
+
+  @override
+  String get airportTransfersHotels => 'Havalimanı, otel ve grup transferleri.';
+
+  @override
+  String get popular => 'Popüler';
+
+  @override
+  String get carRental => 'Araç Kiralama';
+
+  @override
+  String get economySuLuxury => 'Ekonomik, SUV ve lüks araç kiralama.';
+
+  @override
+  String get flexible => 'Esnek';
+
+  @override
+  String get today => 'Bugün';
 }

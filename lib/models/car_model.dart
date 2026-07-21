@@ -33,6 +33,8 @@ class CarModel {
   late int totalRatings;
   late double rating;
 
+  late Review? review;
+
   CarModel({
     required this.id,
     required this.brand,
@@ -61,6 +63,7 @@ class CarModel {
     required this.isFeatured,
     required this.rating,
     required this.totalRatings,
+    this.review,
   });
 
   factory CarModel.fromFirestore(Map<String, dynamic> data, String id) {
@@ -92,10 +95,66 @@ class CarModel {
       shop: Shop.fromMap(data['shop'] ?? {}),
       rating: (data['rating'] ?? 0).toDouble(),
       totalRatings: data['totalRatings'] ?? 0,
+      review: data['review'] != null
+          ? Review.fromFirestore(data['review'])
+          : null,
       isFeatured: data['isFeatured'] ?? false,
       featured: data['featured'] != null
           ? Featured.fromFirestore(data['featured'])
           : null,
+    );
+  }
+}
+
+class Review {
+  late double average;
+  late double cleanliness;
+  late double cleanlinessTotal;
+  late double comfort;
+  late double comfortTotal;
+  late double condition;
+  late double conditionTotal;
+  late double overall;
+  late double overallTotal;
+  late int recommendationCount;
+  late double recommendationRate;
+  late int totalReviews;
+  late double valueForMoney;
+  late double valueForMoneyTotal;
+
+  Review({
+    required this.average,
+    required this.cleanliness,
+    required this.cleanlinessTotal,
+    required this.comfort,
+    required this.comfortTotal,
+    required this.condition,
+    required this.conditionTotal,
+    required this.overall,
+    required this.overallTotal,
+    required this.recommendationCount,
+    required this.recommendationRate,
+    required this.totalReviews,
+    required this.valueForMoney,
+    required this.valueForMoneyTotal,
+  });
+
+  factory Review.fromFirestore(dynamic data) {
+    return Review(
+      average: (data['average'] ?? 0).toDouble(),
+      cleanliness: (data['cleanliness'] ?? 0).toDouble(),
+      cleanlinessTotal: (data['cleanlinessTotal'] ?? 0).toDouble(),
+      comfort: (data['comfort'] ?? 0).toDouble(),
+      comfortTotal: (data['comfortTotal'] ?? 0).toDouble(),
+      condition: (data['condition'] ?? 0).toDouble(),
+      conditionTotal: (data['conditionTotal'] ?? 0).toDouble(),
+      overall: (data['overall'] ?? 0).toDouble(),
+      overallTotal: (data['overallTotal'] ?? 0).toDouble(),
+      recommendationCount: data['recommendationCount'],
+      recommendationRate: (data['recommendationRate'] ?? 0).toDouble(),
+      totalReviews: data['totalReviews'],
+      valueForMoney: (data['valueForMoney'] ?? 0).toDouble(),
+      valueForMoneyTotal: (data['valueForMoneyTotal'] ?? 0).toDouble(),
     );
   }
 }

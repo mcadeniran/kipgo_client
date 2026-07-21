@@ -34,7 +34,7 @@ class LanguagePickerWidget extends StatelessWidget {
                 context,
                 listen: false,
               );
-              provider.setLocale(locale);
+              provider.setLocale(locale, context);
             },
             child: Row(
               mainAxisSize: MainAxisSize.min,

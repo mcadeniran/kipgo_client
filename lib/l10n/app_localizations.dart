@@ -2948,7 +2948,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{distance} km'**
-  String distanceKM(int distance);
+  String distanceKM(String distance);
 
   /// Action
   ///
@@ -4215,6 +4215,1074 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Payments'**
   String get payments;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Awaiting Payment'**
+  String get awaitingPayment;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Good Morning'**
+  String get goodMorning;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Good Afternoon'**
+  String get goodAfternoon;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Good Evening'**
+  String get goodEvening;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Charter a shuttle for your next trip with comfort and confidence.'**
+  String get charterAShuttle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Required'**
+  String get paymentRequired;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Awaiting Approval'**
+  String get awaitingApproval;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming Trip'**
+  String get upcomingTrip;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Driver Assigned'**
+  String get driverAssigned;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your Driver Is Arriving'**
+  String get yourDriverIsArriving;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming Event'**
+  String get upcomingEvent;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Passengers'**
+  String passengersCount(int count);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'View Booking'**
+  String get viewBooking;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Our Services'**
+  String get ourServices;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Our different services.'**
+  String get ourDifferentServices;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Airport\nTransfer'**
+  String get airportTransfer;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Corporate'**
+  String get corporate;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'School\nTrips'**
+  String get schoolTrips;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Events'**
+  String get events;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Wedding'**
+  String get wedding;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Why Choose Us'**
+  String get whyChooseUs;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Travel with confidence every time.'**
+  String get travelWithConfidence;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Professional Drivers'**
+  String get professionalDrivers;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Experienced and licensed drivers.'**
+  String get professionalDriversSubtitle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Modern Fleet'**
+  String get modernFleet;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Comfortable vehicles for every trip.'**
+  String get modernFleetSubtitle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Always On Time'**
+  String get alwaysOnTime;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Reliable pickups and drop-offs.'**
+  String get alwaysOnTimeSubtitle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Competitive Pricing'**
+  String get competitivePricing;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Great service at fair prices.'**
+  String get competitivePricingSubtitle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Need Assistance?'**
+  String get needAssistance;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'We\'re here to help with your booking.'**
+  String get needAssistanceSubtitle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Call'**
+  String get call;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp'**
+  String get whatsapp;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup Location'**
+  String get pickupLocation;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Select pickup location'**
+  String get selectPickupLocation;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Drop-off Location'**
+  String get dropoffLocation;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Select destination'**
+  String get selectDestination;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Departure'**
+  String get departure;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Select departure date'**
+  String get selectDepartureDate;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Return Date'**
+  String get returnDate;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Select return date'**
+  String get selectReturnDate;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Charter Request'**
+  String get charterRequest;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Plan your group\'s journey in just a few taps.'**
+  String get planYourGroupsJourney;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Passengers'**
+  String get passengers;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Search Location'**
+  String get searchLocation;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Destination'**
+  String get destination;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Use this pickup location'**
+  String get useThisPickupLocation;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Use this destination'**
+  String get useThisDestination;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Move the map to choose a location.'**
+  String get moveTheMap;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown location'**
+  String get unknownLocation;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to determine your location.'**
+  String get unableToDetermineYourLocation;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load place details.'**
+  String get unableToLoadPlaceDetails;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Start typing to search for a location'**
+  String get startTypingToSearch;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No places found'**
+  String get noPlacesFound;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Searches'**
+  String get recentSearches;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Select'**
+  String get quickSelect;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Choose another date'**
+  String get chooseAnotherDate;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Departure Time'**
+  String get departureTime;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Select departure time'**
+  String get selectDepartureTime;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow'**
+  String get tomorrow;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Departure Date'**
+  String get departureDate;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Select Vehicle'**
+  String get selectVehicle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Select a Vehicle'**
+  String get selectAVehicle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your Journey'**
+  String get yourJourney;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No suitable vehicle is available for this passenger count.'**
+  String get noSuitableVehicle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Capacity'**
+  String get capacity;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Distance'**
+  String get distance;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'{count} seats'**
+  String seatsCount(int count);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'{distance} km'**
+  String distanceKm(String distance);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rate'**
+  String get rate;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'{rate}/km'**
+  String pricePerKm(String rate);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Details'**
+  String get contactDetails;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Who\'s travelling?'**
+  String get whosTravelling;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Please provide the contact information for this shuttle booking.'**
+  String get pleaseProvideContact;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter the contact name'**
+  String get pleaseEnterContactName;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get phoneNumber;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a phone number'**
+  String get pleaseEnterAPhoneNumber;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Special Request'**
+  String get specialRequest;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Anything you\'d like us to know?'**
+  String get anythingElse;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Review Booking'**
+  String get reviewBooking;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Review your booking'**
+  String get reviewYourBooking;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Please verify your journey details before confirming your booking.'**
+  String get pleaseVerifyYourJourney;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Journey'**
+  String get journey;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Vehicle'**
+  String get vehicle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Passenger'**
+  String get passenger;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get estimatedTotal;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Includes your selected vehicle'**
+  String get includesYourSelectedVehicle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Continue to Payment'**
+  String get continueToPayment;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Submitting Booking'**
+  String get submittinBooking;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Payment Method'**
+  String get choosePaymentMethod;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Select how you\'d like to complete your booking.'**
+  String get selectHowYoudLike;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Crypto Payment'**
+  String get cryptoPayment;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Pay securely using cryptocurrency.'**
+  String get paySecurelyUsingCrypto;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Pay your driver when your shuttle arrives.'**
+  String get payYourDriver;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your booking will be created after you complete this step.  Crypto payments require verification before confirmation, while Pay on Pickup submits your booking immediately pending approval.'**
+  String get yourBookingWillBeCreated;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Created'**
+  String get bookingCreated;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Track Booking'**
+  String get trackBooking;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Return'**
+  String get returnString;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Plate'**
+  String get plate;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Method'**
+  String get method;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get amount;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Created Successfully'**
+  String get bookingCreatedSuccessfully;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your shuttle request has been received successfully.'**
+  String get yourShuttleRequestReceived;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking number copied'**
+  String get bookingNumberCopied;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Number'**
+  String get bookingNumber;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to copy'**
+  String get tapToCopy;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'I\'ve Sent the Payment'**
+  String get iveSentThePayment;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for Verification'**
+  String get waitingForVerification;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Verified'**
+  String get paymentVerified;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'This payment request has expired.'**
+  String get thisPaymentRequestHasExpired;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Back Home'**
+  String get backHome;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Complete Crypto Payment'**
+  String get completeCryptoPayment;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Complete payment within 30 minutes to reserve your shuttle.'**
+  String get completeWithiMinutes;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking'**
+  String get booking;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet Address'**
+  String get walletAddress;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Wallet Address'**
+  String get copyWalletAddress;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Info'**
+  String get info;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Time Remaining'**
+  String get timeRemaining;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payment expires automatically after 30 minutes.'**
+  String get paymentExpiresAutomatically;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction Hash (TXID)'**
+  String get transactionHash;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Paste your transaction hash'**
+  String get pasteYourTransactionHash;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid transaction hash.'**
+  String get pleaseEnterAValidHash;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll verify your payment and notify you once it has been approved.'**
+  String get weWillVerifyYourPayment;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Important'**
+  String get important;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Send the exact amount shown above.'**
+  String get sendTheExactAmount;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Only use the displayed blockchain network.'**
+  String get onlyUseTheDisplayedBlockchain;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payments submitted after expiry may require manual review.'**
+  String get paymentsSubmittedAfterExpiry;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No vehicle selected.'**
+  String get noVehicleSelected;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Select location'**
+  String get selectLocation;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Current Location'**
+  String get currentLocation;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Use my current location'**
+  String get useMyCurrentLocation;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Cash'**
+  String get cash;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'My Shuttle Bookings'**
+  String get myShuttleBookings;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re all caught up'**
+  String get allCaughtUp;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No upcoming journeys'**
+  String get noUpcomingJourneys;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No active journey'**
+  String get noActiveJourney;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No completed journeys'**
+  String get noCompletedJourney;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No closed bookings'**
+  String get noClosedBookings;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Bookings that require approval, payment, or verification will appear here.'**
+  String get allCaughtUpSubtitle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your confirmed shuttle trips will appear here once they\'re scheduled.'**
+  String get noUpcomingJourneysSubtitle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'When your driver is on the way or your trip is in progress, you\'ll see it here.'**
+  String get noActiveJourneySubtitle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your travel history will appear here after you complete your first shuttle trip.'**
+  String get noCompletedJourneySubtitle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled, rejected, and expired bookings will appear here for your records.'**
+  String get noClosedBookingsSubtitle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong.'**
+  String get somethingWentWrong;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Round Trip'**
+  String get roundTrip;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booked shuttle service'**
+  String get bookedShuttleService;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get time;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Trip'**
+  String get trip;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'One Way'**
+  String get oneWay;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Service Area'**
+  String get serviceArea;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Name'**
+  String get contactName;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Phone Number'**
+  String get contactPhone;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Email Address'**
+  String get contactEmail;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Assigned Vehicle'**
+  String get assignedVehicle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'A vehicle will be assigned once your booking has been confirmed.'**
+  String get aVehicleWillBeAssigned;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your driver will appear here once one has been assigned.'**
+  String get yourDriverWillAppearHere;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Pay on Delivery'**
+  String get payOnDelivery;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payment will be made directly to the driver when your shuttle arrives.'**
+  String get yourPaymentWillBeMadeDirectly;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Continue Payment'**
+  String get continuePayment;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your payment has been submitted and is currently awaiting verification.'**
+  String get yourPaymentHasBeenSubmitted;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline'**
+  String get timeline;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking updates will appear here as your journey progresses.'**
+  String get bookingUpdatesWillAppearHere;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Book Again'**
+  String get bookAgain;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel Booking'**
+  String get cancelBooking;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'By {user}'**
+  String byUser(String user);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Switch App'**
+  String get switchApp;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Book a shuttle'**
+  String get bookAShuttle;
+
+  /// Title
+  ///
+  /// In en, this message translates to:
+  /// **'How would you like to travel?'**
+  String get howWouldYouLikeToTravel;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a service to continue.'**
+  String get chooseAService;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Shuttle'**
+  String get shuttle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Airport, hotels & group travel.'**
+  String get airportTransfersHotels;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Popular'**
+  String get popular;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Car Rental'**
+  String get carRental;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Economy, SUV & luxury rentals.'**
+  String get economySuLuxury;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Flexible'**
+  String get flexible;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get today;
 }
 
 class _AppLocalizationsDelegate

@@ -6,6 +6,7 @@ class Profile {
   final String username;
   final String role;
   final String token;
+  final String language;
   final bool isAdmin;
   final String newRideStatus;
   final Personal personal;
@@ -27,6 +28,7 @@ class Profile {
     required this.rides,
     required this.drives,
     required this.newRideStatus,
+    required this.language,
   });
 
   factory Profile.fromMap(Map<String, dynamic> map, {required String id}) {
@@ -43,6 +45,7 @@ class Profile {
       account: Account.fromMap(map['account'] ?? {}),
       rides: map['rides'] ?? [],
       drives: map['drives'] ?? [],
+      language: map['language'] ?? 'en',
     );
   }
 
@@ -81,6 +84,7 @@ class Profile {
     Account? account,
     List? rides,
     List? drives,
+    String? language,
   }) {
     return Profile(
       id: id ?? this.id,
@@ -95,6 +99,7 @@ class Profile {
       account: account ?? this.account,
       rides: rides ?? this.rides,
       drives: drives ?? this.drives,
+      language: language ?? this.language,
     );
   }
 }

@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:kipgo/controllers/locale_provider.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/models/profile.dart';
+import 'package:provider/provider.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -14,6 +16,7 @@ class AuthService {
     required String password,
     required String username,
     required String role,
+    required BuildContext context,
   }) async {
     try {
       // Create user in Firebase Auth
@@ -21,6 +24,11 @@ class AuthService {
           .createUserWithEmailAndPassword(email: email, password: password);
 
       final uid = userCredential.user!.uid;
+
+      final language = Provider.of<LocaleProvider>(
+        context,
+        listen: false,
+      ).locale;
 
       final profile = Profile(
         id: uid,
@@ -32,6 +40,7 @@ class AuthService {
         rides: [],
         token: '',
         newRideStatus: 'idle',
+        language: language.languageCode,
         personal: Personal(
           firstName: '',
           lastName: '',

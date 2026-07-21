@@ -15,11 +15,13 @@ class BookingStatusBadge extends StatelessWidget {
 
     switch (status) {
       case 'pending':
+      case 'awaitingPayment':
         color = Colors.yellow.shade100;
         textColor = Colors.yellow.shade900;
-        text = loc.pending;
+        text = status == 'pending' ? loc.pending : loc.awaitingPayment;
         break;
       case 'payment_submitted':
+      case 'paymentSubmitted':
         color = Colors.blue.shade100;
         textColor = Colors.blue.shade900;
         text = loc.paymentSubmitted;

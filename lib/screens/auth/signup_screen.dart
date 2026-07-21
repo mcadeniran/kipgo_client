@@ -48,6 +48,7 @@ class _SignupScreenState extends State<SignupScreen> {
         password: passwordController.text,
         username: nameController.text,
         role: role,
+        context: context,
       );
     } catch (e) {
       setState(() {

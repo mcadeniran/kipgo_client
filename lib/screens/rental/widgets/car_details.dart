@@ -195,16 +195,21 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                   currentPage = value.toDouble();
                 }),
                 children: widget.car.car.images.map((img) {
-                  return FadeInImage.assetNetwork(
-                    fadeInCurve: Curves.easeIn,
-                    fadeInDuration: Duration(seconds: 2),
-                    width: double.maxFinite,
+                  return Image.network(
+                    img.url,
                     fit: BoxFit.cover,
-                    placeholder: "assets/images/image_spinner.gif",
-                    image: img.url,
-                    imageErrorBuilder: (c, e, s) => Image.asset(
+                    width: double.infinity,
+                    gaplessPlayback: true,
+                    loadingBuilder: (context, child, progress) {
+                      if (progress == null) return child;
+
+                      return Image.asset(
+                        "assets/images/image_spinner.gif",
+                        fit: BoxFit.cover,
+                      );
+                    },
+                    errorBuilder: (_, _, _) => Image.asset(
                       "assets/images/placeholder.jpeg",
-                      width: double.maxFinite,
                       fit: BoxFit.cover,
                     ),
                   );
@@ -285,6 +290,11 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
                               Text(
                                 "${widget.car.car.rating} (${widget.car.car.totalRatings == 1 ? AppLocalizations.of(context)!.singleReview(widget.car.car.totalRatings) : AppLocalizations.of(context)!.multiReviews(widget.car.car.totalRatings)})",
                               ),
+                              // widget.car.car.rating == null
+                              //     ? Text('Not rated')
+                              //     : Text(
+                              //         "${widget.car.car.rating!.average} (${widget.car.car.rating!.totalReviews == 1 ? AppLocalizations.of(context)!.singleReview(widget.car.car.rating!.totalReviews) : AppLocalizations.of(context)!.multiReviews(widget.car.car.rating!.totalReviews)})",
+                              //       ),
                             ],
                           ),
                           if (widget.car.hasDiscount)

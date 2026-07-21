@@ -22,6 +22,8 @@ class RentalShop {
   late bool isActive;
   late double taxRate;
 
+  late String language;
+
   late double commissionPercentage;
 
   RentalShop({
@@ -45,6 +47,7 @@ class RentalShop {
     required this.isActive,
     required this.taxRate,
     required this.commissionPercentage,
+    required this.language,
     // required this.rules,
   });
 
@@ -67,6 +70,7 @@ class RentalShop {
       commissionPercentage: (data['commissionPercentage'] ?? 0).toDouble(),
       currency: data['currency'] ?? 'TRY',
       isFeatured: data['isFeatured'] ?? false,
+      language: data['language'] ?? 'en',
       featured: data['featured'] != null
           ? Featured.fromFirestore(data['featured'])
           : null,

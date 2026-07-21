@@ -83,7 +83,7 @@ class _FilterSheetState extends State<FilterSheet> {
               min: 1,
               max: 50,
               divisions: 10,
-              label: loc.distanceKM(radius.round()),
+              label: loc.distanceKM(radius.round().toString()),
               onChanged: (value) {
                 setState(() {
                   radius = value;

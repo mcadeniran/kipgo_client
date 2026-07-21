@@ -87,42 +87,27 @@ class CarCardVertical extends StatelessWidget {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 1,
                     // height: 220,
-                    child: FadeInImage.assetNetwork(
-                      fadeInCurve: Curves.easeIn,
-                      fadeInDuration: Duration(seconds: 2),
-                      width: MediaQuery.of(context).size.width * 0.45,
+                    child: Image.network(
+                      car.car.images.firstWhere((e) => e.isCover == true).url,
                       fit: BoxFit.cover,
-                      placeholder: "assets/images/image_spinner.gif",
-                      image: car.car.images
-                          .firstWhere((e) => e.isCover == true)
-                          .url,
-                      imageErrorBuilder: (c, e, s) => Image.asset(
+                      width: MediaQuery.of(context).size.width * 0.45,
+                      gaplessPlayback: true,
+                      loadingBuilder: (context, child, progress) {
+                        if (progress == null) return child;
+
+                        return Image.asset(
+                          "assets/images/image_spinner.gif",
+                          fit: BoxFit.cover,
+                          width: MediaQuery.of(context).size.width * 0.45,
+                        );
+                      },
+                      errorBuilder: (_, _, _) => Image.asset(
                         "assets/images/placeholder.jpeg",
-                        // height: 220,
-                        width: MediaQuery.of(context).size.width * 0.45,
                         fit: BoxFit.cover,
+                        width: MediaQuery.of(context).size.width * 0.45,
                       ),
                     ),
                   ),
-                  // Positioned(
-                  //   right: 4,
-                  //   bottom: 4,
-                  //   child: Container(
-                  //     padding: EdgeInsets.all(4),
-                  //     decoration: BoxDecoration(
-                  //       border: Border.all(color: Colors.greenAccent, width: 1),
-                  //       borderRadius: BorderRadius.circular(8),
-                  //       color: Colors.greenAccent.withValues(alpha: 0.6),
-                  //     ),
-                  //     child: Text(
-                  //       "${car.car.availableUnits} Available",
-                  //       style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                  //         fontWeight: FontWeight.w500,
-                  //         color: Colors.white,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   if (car.hasDiscount)
                     Positioned(
                       top: 4,
@@ -189,6 +174,26 @@ class CarCardVertical extends StatelessWidget {
                         ),
                       ],
                     ),
+                    // child: car.car.rating != null
+                    //     ? Row(
+                    //         children: [
+                    //           Icon(Icons.star, color: Colors.amber, size: 14),
+                    //           SizedBox(width: 2),
+                    //           Text(
+                    //             car.car.rating!.average.toString(),
+                    //             style: TextStyle(
+                    //               fontWeight: FontWeight.bold,
+                    //               fontSize: 12,
+                    //             ),
+                    //           ),
+                    //           SizedBox(width: 2),
+                    //           Text(
+                    //             '(${car.car.rating!.totalReviews})',
+                    //             style: TextStyle(fontSize: 12),
+                    //           ),
+                    //         ],
+                    //       )
+                    //     : Text('Not rated'),
                   ),
                 ],
               ),

@@ -1976,7 +1976,7 @@
     "description": "Info",
     "placeholders": {
       "distance": {
-        "type": "int"
+        "type": "String"
       }
     }
   },
@@ -2858,6 +2858,743 @@
   },
   "payments": "Payments",
   "@payments": {
+    "description": "Info"
+  },
+  "awaitingPayment": "Awaiting Payment",
+  "@awaitingPayment": {
+    "description": "Info"
+  },
+  "goodMorning": "Good Morning",
+  "@goodMorning": {
+    "description": "Info"
+  },
+  "goodAfternoon": "Good Afternoon",
+  "@goodAfternoon": {
+    "description": "Info"
+  },
+  "goodEvening": "Good Evening",
+  "@goodEvening": {
+    "description": "Info"
+  },
+  "charterAShuttle": "Charter a shuttle for your next trip with comfort and confidence.",
+  "@charterAShuttle": {
+    "description": "Info"
+  },
+  "paymentRequired": "Payment Required",
+  "@paymentRequired": {
+    "description": "Info"
+  },
+  "awaitingApproval": "Awaiting Approval",
+  "@awaitingApproval": {
+    "description": "Info"
+  },
+  "upcomingTrip": "Upcoming Trip",
+  "@upcomingTrip": {
+    "description": "Info"
+  },
+  "driverAssigned": "Driver Assigned",
+  "@driverAssigned": {
+    "description": "Info"
+  },
+  "yourDriverIsArriving": "Your Driver Is Arriving",
+  "@yourDriverIsArriving": {
+    "description": "Info"
+  },
+  "upcomingEvent": "Upcoming Event",
+  "@upcomingEvent": {
+    "description": "Info"
+  },
+  "passengersCount": "{count} Passengers",
+  "@passengersCount": {
+    "description": "Info",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "viewBooking": "View Booking",
+  "@viewBooking": {
+    "description": "Info"
+  },
+  "ourServices": "Our Services",
+  "@ourServices": {
+    "description": "Info"
+  },
+  "ourDifferentServices": "Our different services.",
+  "@ourDifferentServices": {
+    "description": "Info"
+  },
+  "airportTransfer": "Airport\nTransfer",
+  "@airportTransfer": {
+    "description": "Info"
+  },
+  "corporate": "Corporate",
+  "@corporate": {
+    "description": "Info"
+  },
+  "schoolTrips": "School\nTrips",
+  "@schoolTrips": {
+    "description": "Info"
+  },
+  "events": "Events",
+  "@events": {
+    "description": "Info"
+  },
+  "wedding": "Wedding",
+  "@wedding": {
+    "description": "Info"
+  },
+  "whyChooseUs": "Why Choose Us",
+  "@whyChooseUs": {
+    "description": "Info"
+  },
+  "travelWithConfidence": "Travel with confidence every time.",
+  "@travelWithConfidence": {
+    "description": "Info"
+  },
+  "professionalDrivers": "Professional Drivers",
+  "@professionalDrivers": {
+    "description": "Info"
+  },
+  "professionalDriversSubtitle": "Experienced and licensed drivers.",
+  "@professionalDriversSubtitle": {
+    "description": "Info"
+  },
+  "modernFleet": "Modern Fleet",
+  "@modernFleet": {
+    "description": "Info"
+  },
+  "modernFleetSubtitle": "Comfortable vehicles for every trip.",
+  "@modernFleetSubtitle": {
+    "description": "Info"
+  },
+  "alwaysOnTime": "Always On Time",
+  "@alwaysOnTime": {
+    "description": "Info"
+  },
+  "alwaysOnTimeSubtitle": "Reliable pickups and drop-offs.",
+  "@alwaysOnTimeSubtitle": {
+    "description": "Info"
+  },
+  "competitivePricing": "Competitive Pricing",
+  "@competitivePricing": {
+    "description": "Info"
+  },
+  "competitivePricingSubtitle": "Great service at fair prices.",
+  "@competitivePricingSubtitle": {
+    "description": "Info"
+  },
+  "needAssistance": "Need Assistance?",
+  "@needAssistance": {
+    "description": "Info"
+  },
+  "needAssistanceSubtitle": "We're here to help with your booking.",
+  "@needAssistanceSubtitle": {
+    "description": "Info"
+  },
+  "call": "Call",
+  "@call": {
+    "description": "Info"
+  },
+  "whatsapp": "WhatsApp",
+  "@whatsapp": {
+    "description": "Info"
+  },
+  "pickupLocation": "Pickup Location",
+  "@pickupLocation": {
+    "description": "Info"
+  },
+  "selectPickupLocation": "Select pickup location",
+  "@selectPickupLocation": {
+    "description": "Info"
+  },
+  "dropoffLocation": "Drop-off Location",
+  "@dropoffLocation": {
+    "description": "Info"
+  },
+  "selectDestination": "Select destination",
+  "@selectDestination": {
+    "description": "Info"
+  },
+  "departure": "Departure",
+  "@departure": {
+    "description": "Info"
+  },
+  "selectDepartureDate": "Select departure date",
+  "@selectDepartureDate": {
+    "description": "Info"
+  },
+  "returnDate": "Return Date",
+  "@returnDate": {
+    "description": "Info"
+  },
+  "selectReturnDate": "Select return date",
+  "@selectReturnDate": {
+    "description": "Info"
+  },
+  "charterRequest": "Charter Request",
+  "@charterRequest": {
+    "description": "Info"
+  },
+  "planYourGroupsJourney": "Plan your group's journey in just a few taps.",
+  "@planYourGroupsJourney": {
+    "description": "Info"
+  },
+  "passengers": "Passengers",
+  "@passengers": {
+    "description": "Info"
+  },
+  "searchLocation": "Search Location",
+  "@searchLocation": {
+    "description": "Info"
+  },
+  "destination": "Destination",
+  "@destination": {
+    "description": "Info"
+  },
+  "useThisPickupLocation": "Use this pickup location",
+  "@useThisPickupLocation": {
+    "description": "Info"
+  },
+  "useThisDestination": "Use this destination",
+  "@useThisDestination": {
+    "description": "Info"
+  },
+  "moveTheMap": "Move the map to choose a location.",
+  "@moveTheMap": {
+    "description": "Info"
+  },
+  "unknownLocation": "Unknown location",
+  "@unknownLocation": {
+    "description": "Info"
+  },
+  "unableToDetermineYourLocation": "Unable to determine your location.",
+  "@unableToDetermineYourLocation": {
+    "description": "Info"
+  },
+  "unableToLoadPlaceDetails": "Unable to load place details.",
+  "@unableToLoadPlaceDetails": {
+    "description": "Info"
+  },
+  "startTypingToSearch": "Start typing to search for a location",
+  "@startTypingToSearch": {
+    "description": "Info"
+  },
+  "noPlacesFound": "No places found",
+  "@noPlacesFound": {
+    "description": "Info"
+  },
+  "recentSearches": "Recent Searches",
+  "@recentSearches": {
+    "description": "Info"
+  },
+  "quickSelect": "Quick Select",
+  "@quickSelect": {
+    "description": "Info"
+  },
+  "chooseAnotherDate": "Choose another date",
+  "@chooseAnotherDate": {
+    "description": "Info"
+  },
+  "departureTime": "Departure Time",
+  "@departureTime": {
+    "description": "Info"
+  },
+  "selectDepartureTime": "Select departure time",
+  "@selectDepartureTime": {
+    "description": "Info"
+  },
+  "tomorrow": "Tomorrow",
+  "@tomorrow": {
+    "description": "Info"
+  },
+  "departureDate": "Departure Date",
+  "@departureDate": {
+    "description": "Info"
+  },
+  "selectVehicle": "Select Vehicle",
+  "@selectVehicle": {
+    "description": "Info"
+  },
+  "selectAVehicle": "Select a Vehicle",
+  "@selectAVehicle": {
+    "description": "Info"
+  },
+  "yourJourney": "Your Journey",
+  "@yourJourney": {
+    "description": "Info"
+  },
+  "noSuitableVehicle": "No suitable vehicle is available for this passenger count.",
+  "@noSuitableVehicle": {
+    "description": "Info"
+  },
+  "capacity": "Capacity",
+  "@capacity": {
+    "description": "Info"
+  },
+  "distance": "Distance",
+  "@distance": {
+    "description": "Info"
+  },
+  "seatsCount": "{count} seats",
+  "@seatsCount": {
+    "description": "Info",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "distanceKm": "{distance} km",
+  "@distanceKm": {
+    "description": "Info",
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "rate": "Rate",
+  "@rate": {
+    "description": "Info"
+  },
+  "pricePerKm": "{rate}/km",
+  "@pricePerKm": {
+    "description": "Info",
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "contactDetails": "Contact Details",
+  "@contactDetails": {
+    "description": "Info"
+  },
+  "whosTravelling": "Who's travelling?",
+  "@whosTravelling": {
+    "description": "Info"
+  },
+  "pleaseProvideContact": "Please provide the contact information for this shuttle booking.",
+  "@pleaseProvideContact": {
+    "description": "Info"
+  },
+  "pleaseEnterContactName": "Please enter the contact name",
+  "@pleaseEnterContactName": {
+    "description": "Info"
+  },
+  "phoneNumber": "Phone Number",
+  "@phoneNumber": {
+    "description": "Info"
+  },
+  "pleaseEnterAPhoneNumber": "Please enter a phone number",
+  "@pleaseEnterAPhoneNumber": {
+    "description": "Info"
+  },
+  "specialRequest": "Special Request",
+  "@specialRequest": {
+    "description": "Info"
+  },
+  "anythingElse": "Anything you'd like us to know?",
+  "@anythingElse": {
+    "description": "Info"
+  },
+  "reviewBooking": "Review Booking",
+  "@reviewBooking": {
+    "description": "Info"
+  },
+  "reviewYourBooking": "Review your booking",
+  "@reviewYourBooking": {
+    "description": "Info"
+  },
+  "pleaseVerifyYourJourney": "Please verify your journey details before confirming your booking.",
+  "@pleaseVerifyYourJourney": {
+    "description": "Info"
+  },
+  "journey": "Journey",
+  "@journey": {
+    "description": "Info"
+  },
+  "vehicle": "Vehicle",
+  "@vehicle": {
+    "description": "Info"
+  },
+  "passenger": "Passenger",
+  "@passenger": {
+    "description": "Info"
+  },
+  "estimatedTotal": "Total",
+  "@estimatedTotal": {
+    "description": "Info"
+  },
+  "includesYourSelectedVehicle": "Includes your selected vehicle",
+  "@includesYourSelectedVehicle": {
+    "description": "Info"
+  },
+  "continueToPayment": "Continue to Payment",
+  "@continueToPayment": {
+    "description": "Info"
+  },
+  "submittinBooking": "Submitting Booking",
+  "@submittinBooking": {
+    "description": "Info"
+  },
+  "choosePaymentMethod": "Choose Payment Method",
+  "@choosePaymentMethod": {
+    "description": "Info"
+  },
+  "selectHowYoudLike": "Select how you'd like to complete your booking.",
+  "@selectHowYoudLike": {
+    "description": "Info"
+  },
+  "cryptoPayment": "Crypto Payment",
+  "@cryptoPayment": {
+    "description": "Info"
+  },
+  "paySecurelyUsingCrypto": "Pay securely using cryptocurrency.",
+  "@paySecurelyUsingCrypto": {
+    "description": "Info"
+  },
+  "payYourDriver": "Pay your driver when your shuttle arrives.",
+  "@payYourDriver": {
+    "description": "Info"
+  },
+  "yourBookingWillBeCreated": "Your booking will be created after you complete this step.  Crypto payments require verification before confirmation, while Pay on Pickup submits your booking immediately pending approval.",
+  "@yourBookingWillBeCreated": {
+    "description": "Info"
+  },
+  "bookingCreated": "Booking Created",
+  "@bookingCreated": {
+    "description": "Info"
+  },
+  "trackBooking": "Track Booking",
+  "@trackBooking": {
+    "description": "Info"
+  },
+  "returnString": "Return",
+  "@returnString": {
+    "description": "Info"
+  },
+  "plate": "Plate",
+  "@plate": {
+    "description": "Info"
+  },
+  "method": "Method",
+  "@method": {
+    "description": "Info"
+  },
+  "amount": "Amount",
+  "@amount": {
+    "description": "Info"
+  },
+  "bookingCreatedSuccessfully": "Booking Created Successfully",
+  "@bookingCreatedSuccessfully": {
+    "description": "Info"
+  },
+  "yourShuttleRequestReceived": "Your shuttle request has been received successfully.",
+  "@yourShuttleRequestReceived": {
+    "description": "Info"
+  },
+  "bookingNumberCopied": "Booking number copied",
+  "@bookingNumberCopied": {
+    "description": "Info"
+  },
+  "bookingNumber": "Booking Number",
+  "@bookingNumber": {
+    "description": "Info"
+  },
+  "tapToCopy": "Tap to copy",
+  "@tapToCopy": {
+    "description": "Info"
+  },
+  "iveSentThePayment": "I've Sent the Payment",
+  "@iveSentThePayment": {
+    "description": "Info"
+  },
+  "waitingForVerification": "Waiting for Verification",
+  "@waitingForVerification": {
+    "description": "Info"
+  },
+  "paymentVerified": "Payment Verified",
+  "@paymentVerified": {
+    "description": "Info"
+  },
+  "thisPaymentRequestHasExpired": "This payment request has expired.",
+  "@thisPaymentRequestHasExpired": {
+    "description": "Info"
+  },
+  "backHome": "Back Home",
+  "@backHome": {
+    "description": "Info"
+  },
+  "completeCryptoPayment": "Complete Crypto Payment",
+  "@completeCryptoPayment": {
+    "description": "Info"
+  },
+  "completeWithiMinutes": "Complete payment within 30 minutes to reserve your shuttle.",
+  "@completeWithiMinutes": {
+    "description": "Info"
+  },
+  "booking": "Booking",
+  "@booking": {
+    "description": "Info"
+  },
+  "walletAddress": "Wallet Address",
+  "@walletAddress": {
+    "description": "Info"
+  },
+  "copyWalletAddress": "Copy Wallet Address",
+  "@copyWalletAddress": {
+    "description": "Info"
+  },
+  "info": "Info",
+  "@info": {
+    "description": "Info"
+  },
+  "timeRemaining": "Time Remaining",
+  "@timeRemaining": {
+    "description": "Info"
+  },
+  "paymentExpiresAutomatically": "Payment expires automatically after 30 minutes.",
+  "@paymentExpiresAutomatically": {
+    "description": "Info"
+  },
+  "transactionHash": "Transaction Hash (TXID)",
+  "@transactionHash": {
+    "description": "Info"
+  },
+  "pasteYourTransactionHash": "Paste your transaction hash",
+  "@pasteYourTransactionHash": {
+    "description": "Info"
+  },
+  "pleaseEnterAValidHash": "Please enter a valid transaction hash.",
+  "@pleaseEnterAValidHash": {
+    "description": "Info"
+  },
+  "weWillVerifyYourPayment": "We'll verify your payment and notify you once it has been approved.",
+  "@weWillVerifyYourPayment": {
+    "description": "Info"
+  },
+  "important": "Important",
+  "@important": {
+    "description": "Info"
+  },
+  "sendTheExactAmount": "Send the exact amount shown above.",
+  "@sendTheExactAmount": {
+    "description": "Info"
+  },
+  "onlyUseTheDisplayedBlockchain": "Only use the displayed blockchain network.",
+  "@onlyUseTheDisplayedBlockchain": {
+    "description": "Info"
+  },
+  "paymentsSubmittedAfterExpiry": "Payments submitted after expiry may require manual review.",
+  "@paymentsSubmittedAfterExpiry": {
+    "description": "Info"
+  },
+  "noVehicleSelected": "No vehicle selected.",
+  "@noVehicleSelected": {
+    "description": "Info"
+  },
+  "selectLocation": "Select location",
+  "@selectLocation": {
+    "description": "Info"
+  },
+  "currentLocation": "Current Location",
+  "@currentLocation": {
+    "description": "Info"
+  },
+  "useMyCurrentLocation": "Use my current location",
+  "@useMyCurrentLocation": {
+    "description": "Info"
+  },
+  "cash": "Cash",
+  "@cash": {
+    "description": "Info"
+  },
+  "myShuttleBookings": "My Shuttle Bookings",
+  "@myShuttleBookings": {
+    "description": "Info"
+  },
+  "allCaughtUp": "You're all caught up",
+  "@allCaughtUp": {
+    "description": "Info"
+  },
+  "noUpcomingJourneys": "No upcoming journeys",
+  "@noUpcomingJourneys": {
+    "description": "Info"
+  },
+  "noActiveJourney": "No active journey",
+  "@noActiveJourney": {
+    "description": "Info"
+  },
+  "noCompletedJourney": "No completed journeys",
+  "@noCompletedJourney": {
+    "description": "Info"
+  },
+  "noClosedBookings": "No closed bookings",
+  "@noClosedBookings": {
+    "description": "Info"
+  },
+  "allCaughtUpSubtitle": "Bookings that require approval, payment, or verification will appear here.",
+  "@allCaughtUpSubtitle": {
+    "description": "Info"
+  },
+  "noUpcomingJourneysSubtitle": "Your confirmed shuttle trips will appear here once they're scheduled.",
+  "@noUpcomingJourneysSubtitle": {
+    "description": "Info"
+  },
+  "noActiveJourneySubtitle": "When your driver is on the way or your trip is in progress, you'll see it here.",
+  "@noActiveJourneySubtitle": {
+    "description": "Info"
+  },
+  "noCompletedJourneySubtitle": "Your travel history will appear here after you complete your first shuttle trip.",
+  "@noCompletedJourneySubtitle": {
+    "description": "Info"
+  },
+  "noClosedBookingsSubtitle": "Cancelled, rejected, and expired bookings will appear here for your records.",
+  "@noClosedBookingsSubtitle": {
+    "description": "Info"
+  },
+  "somethingWentWrong": "Something went wrong.",
+  "@somethingWentWrong": {
+    "description": "Info"
+  },
+  "retry": "Retry",
+  "@retry": {
+    "description": "Info"
+  },
+  "roundTrip": "Round Trip",
+  "@roundTrip": {
+    "description": "Info"
+  },
+  "bookedShuttleService": "Booked shuttle service",
+  "@bookedShuttleService": {
+    "description": "Info"
+  },
+  "time": "Time",
+  "@time": {
+    "description": "Info"
+  },
+  "trip": "Trip",
+  "@trip": {
+    "description": "Info"
+  },
+  "oneWay": "One Way",
+  "@oneWay": {
+    "description": "Info"
+  },
+  "serviceArea": "Service Area",
+  "@serviceArea": {
+    "description": "Info"
+  },
+  "contactName": "Contact Name",
+  "@contactName": {
+    "description": "Info"
+  },
+  "contactPhone": "Contact Phone Number",
+  "@contactPhone": {
+    "description": "Info"
+  },
+  "contactEmail": "Contact Email Address",
+  "@contactEmail": {
+    "description": "Info"
+  },
+  "assignedVehicle": "Assigned Vehicle",
+  "@assignedVehicle": {
+    "description": "Info"
+  },
+  "aVehicleWillBeAssigned": "A vehicle will be assigned once your booking has been confirmed.",
+  "@aVehicleWillBeAssigned": {
+    "description": "Info"
+  },
+  "yourDriverWillAppearHere": "Your driver will appear here once one has been assigned.",
+  "@yourDriverWillAppearHere": {
+    "description": "Info"
+  },
+  "payOnDelivery": "Pay on Delivery",
+  "@payOnDelivery": {
+    "description": "Info"
+  },
+  "yourPaymentWillBeMadeDirectly": "Payment will be made directly to the driver when your shuttle arrives.",
+  "@yourPaymentWillBeMadeDirectly": {
+    "description": "Info"
+  },
+  "continuePayment": "Continue Payment",
+  "@continuePayment": {
+    "description": "Info"
+  },
+  "yourPaymentHasBeenSubmitted": "Your payment has been submitted and is currently awaiting verification.",
+  "@yourPaymentHasBeenSubmitted": {
+    "description": "Info"
+  },
+  "timeline": "Timeline",
+  "@timeline": {
+    "description": "Info"
+  },
+  "bookingUpdatesWillAppearHere": "Booking updates will appear here as your journey progresses.",
+  "@bookingUpdatesWillAppearHere": {
+    "description": "Info"
+  },
+  "bookAgain": "Book Again",
+  "@bookAgain": {
+    "description": "Info"
+  },
+  "cancelBooking": "Cancel Booking",
+  "@cancelBooking": {
+    "description": "Info"
+  },
+  "byUser": "By {user}",
+  "@byUser": {
+    "description": "Info",
+    "placeholders": {
+      "user": {
+        "type": "String"
+      }
+    }
+  },
+  "switchApp": "Switch App",
+  "@switchApp": {
+    "description": "Info"
+  },
+  "bookAShuttle": "Book a shuttle",
+  "@bookAShuttle": {
+    "description": "Info"
+  },
+  "howWouldYouLikeToTravel": "How would you like to travel?",
+  "@howWouldYouLikeToTravel": {
+    "description": "Title"
+  },
+  "chooseAService": "Choose a service to continue.",
+  "@chooseAService": {
+    "description": "Info"
+  },
+  "shuttle": "Shuttle",
+  "@shuttle": {
+    "description": "Info"
+  },
+  "airportTransfersHotels": "Airport, hotels & group travel.",
+  "@airportTransfersHotels": {
+    "description": "Info"
+  },
+  "popular": "Popular",
+  "@popular": {
+    "description": "Info"
+  },
+  "carRental": "Car Rental",
+  "@carRental": {
+    "description": "Info"
+  },
+  "economySuLuxury": "Economy, SUV & luxury rentals.",
+  "@economySuLuxury": {
+    "description": "Info"
+  },
+  "flexible": "Flexible",
+  "@flexible": {
+    "description": "Info"
+  },
+  "today": "Today",
+  "@today": {
     "description": "Info"
   }
 }

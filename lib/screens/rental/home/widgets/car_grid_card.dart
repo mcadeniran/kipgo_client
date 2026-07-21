@@ -7,6 +7,7 @@ import 'package:kipgo/screens/widgets/format_currency.dart';
 import 'package:kipgo/utils/car_properties_translations.dart';
 import 'package:kipgo/utils/colors.dart';
 import 'package:kipgo/utils/location_utils.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CarGridCard extends StatelessWidget {
   final CarWithShop car;
@@ -46,23 +47,41 @@ class CarGridCard extends StatelessWidget {
             Expanded(
               child: Stack(
                 children: [
-                  FadeInImage.assetNetwork(
-                    fadeInCurve: Curves.easeIn,
-                    fadeInDuration: Duration(seconds: 2),
-                    width: double.maxFinite,
-                    // height: 120,
+                  Image.network(
+                    car.car.images.firstWhere((img) => img.isCover == true).url,
                     fit: BoxFit.cover,
-                    placeholder: "assets/images/image_spinner.gif",
-                    image: car.car.images
-                        .firstWhere((img) => img.isCover == true)
-                        .url,
-                    imageErrorBuilder: (c, e, s) => Image.asset(
+                    width: double.infinity,
+                    gaplessPlayback: true,
+                    loadingBuilder: (context, child, progress) {
+                      if (progress == null) return child;
+
+                      return SizedBox(
+                        width: double.maxFinite,
+                        child: Center(
+                          child: Shimmer.fromColors(
+                            direction: ShimmerDirection.ltr,
+                            baseColor: isDark
+                                ? AppColors.darkAccent
+                                : AppColors.lightAccent,
+                            highlightColor: isDark
+                                ? AppColors.darkLayer.withValues(alpha: 0.3)
+                                : AppColors.border,
+                            child: Icon(
+                              Icons.directions_car_outlined,
+                              size: 80,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    errorBuilder: (_, _, _) => Image.asset(
                       "assets/images/placeholder.jpeg",
-                      // height: 120,
-                      width: double.maxFinite,
                       fit: BoxFit.cover,
+                      width: double.infinity,
                     ),
                   ),
+
                   Positioned(
                     top: 4,
                     left: 4,
@@ -82,6 +101,9 @@ class CarGridCard extends StatelessWidget {
                           SizedBox(width: 4),
                           Text(
                             '${car.car.rating} (${car.car.totalRatings})',
+                            // car.car.rating == null
+                            //     ? 'Not Rated'
+                            //     : '${car.car.rating?.average} (${car.car.rating?.totalReviews})',
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 12,
