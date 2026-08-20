@@ -142,7 +142,8 @@ class UpcomingBookingCard extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => ShuttleBookingDetailsPage(booking: booking),
+                    builder: (_) =>
+                        ShuttleBookingDetailsPage(bookingId: booking.id),
                   ),
                 );
               },

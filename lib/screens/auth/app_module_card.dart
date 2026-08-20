@@ -24,12 +24,12 @@ class AppModuleCard extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(20),
         onTap: onTap,
         child: Ink(
           height: 240,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(28),
+            borderRadius: BorderRadius.circular(20),
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -37,7 +37,7 @@ class AppModuleCard extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: gradient.first.withValues(alpha: .35),
+                color: gradient.first.withValues(alpha: .0),
                 blurRadius: 25,
                 offset: const Offset(0, 12),
               ),

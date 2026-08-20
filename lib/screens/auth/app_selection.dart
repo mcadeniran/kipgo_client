@@ -64,7 +64,7 @@ class AppSelection extends StatelessWidget {
                 },
               ),
 
-              const SizedBox(height: 22),
+              const SizedBox(height: 12),
 
               AppModuleCard(
                 title: loc.carRental,
@@ -83,11 +83,11 @@ class AppSelection extends StatelessWidget {
                 },
               ),
 
-              const SizedBox(height: 32),
+              const SizedBox(height: 12),
 
               AdsCarouselWidget(),
 
-              const SizedBox(height: 30),
+              const SizedBox(height: 50),
             ],
           ),
         ),

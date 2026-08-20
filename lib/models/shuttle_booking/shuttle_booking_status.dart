@@ -73,7 +73,6 @@ extension ShuttleBookingStatusExtension on ShuttleBookingStatus {
     switch (this) {
       case ShuttleBookingStatus.pending:
         return Colors.grey;
-
       case ShuttleBookingStatus.awaitingPayment:
         return Colors.orange;
 

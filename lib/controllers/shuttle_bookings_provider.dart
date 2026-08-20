@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:kipgo/models/shuttle_booking/shuttle_booking_status.dart';
+import 'package:kipgo/models/shuttle_booking/shuttle_payment_status.dart';
 
 import '../models/shuttle_booking/shuttle_booking.dart';
 import '../models/shuttle_booking/shuttle_booking_group.dart';
@@ -14,72 +15,112 @@ class ShuttleBookingsProvider extends ChangeNotifier {
 
   final ShuttleBookingRepository _repository;
 
-  final Map<ShuttleBookingGroup, StreamSubscription<List<ShuttleBooking>>?>
-  _subscriptions = {};
+  bool _submittingCardPayment = false;
 
-  final Map<ShuttleBookingGroup, ShuttleBookingsState> _states = {
-    for (final group in ShuttleBookingGroup.values)
-      group: ShuttleBookingsState.initial(),
-  };
+  bool get submittingCardPayment => _submittingCardPayment;
 
-  ShuttleBookingsState state(ShuttleBookingGroup group) {
-    return _states[group]!;
-  }
+  List<ShuttleBooking> _bookings = [];
 
-  List<ShuttleBooking> bookings(ShuttleBookingGroup group) {
-    return state(group).bookings;
-  }
+  StreamSubscription<List<ShuttleBooking>>? _subscription;
 
-  int count(ShuttleBookingGroup group) {
-    return state(group).bookings.length;
-  }
+  bool _loading = true;
 
-  bool get hasAnyBookings {
-    return _states.values.any((state) => state.bookings.isNotEmpty);
-  }
+  String? _error;
 
-  void _setState(ShuttleBookingGroup group, ShuttleBookingsState value) {
-    _states[group] = value;
-    notifyListeners();
+  List<ShuttleBooking> get allBookings => List.unmodifiable(_bookings);
+
+  bool get loading => _loading;
+
+  String? get error => _error;
+
+  ShuttleBookingGroup bookingGroup(ShuttleBooking booking) {
+    switch (booking.status) {
+      case ShuttleBookingStatus.completed:
+        return ShuttleBookingGroup.completed;
+
+      case ShuttleBookingStatus.cancelled:
+      case ShuttleBookingStatus.rejected:
+      case ShuttleBookingStatus.expired:
+        return ShuttleBookingGroup.closed;
+
+      case ShuttleBookingStatus.inProgress:
+        return ShuttleBookingGroup.ongoing;
+
+      case ShuttleBookingStatus.driverAssigned:
+      case ShuttleBookingStatus.driverArriving:
+      case ShuttleBookingStatus.confirmed:
+        return ShuttleBookingGroup.upcoming;
+
+      case ShuttleBookingStatus.pending:
+        return ShuttleBookingGroup.attention;
+
+      case ShuttleBookingStatus.awaitingPayment:
+        return ShuttleBookingGroup.attention;
+
+      case ShuttleBookingStatus.paymentSubmitted:
+        return ShuttleBookingGroup.attention;
+
+      case ShuttleBookingStatus.reserved:
+        if (booking.payment.status == ShuttlePaymentStatus.paid) {
+          return ShuttleBookingGroup.upcoming;
+        }
+
+        return ShuttleBookingGroup.attention;
+
+      case ShuttleBookingStatus.approved:
+        if (booking.payment.status == ShuttlePaymentStatus.paid) {
+          return ShuttleBookingGroup.upcoming;
+        }
+
+        return ShuttleBookingGroup.attention;
+    }
   }
 
   Future<void> initialize(String userId) async {
-    watchBookings(userId: userId, group: ShuttleBookingGroup.upcoming);
+    _subscription?.cancel();
 
-    watchBookings(userId: userId, group: ShuttleBookingGroup.attention);
+    _loading = true;
 
-    watchBookings(userId: userId, group: ShuttleBookingGroup.ongoing);
+    notifyListeners();
 
-    await loadBookings(userId: userId, group: ShuttleBookingGroup.completed);
+    _subscription = _repository
+        .watchUserBookings(userId: userId)
+        .listen(
+          (bookings) {
+            bookings.sort(_sortBookings);
 
-    await loadBookings(userId: userId, group: ShuttleBookingGroup.closed);
+            _bookings = bookings;
+
+            _loading = false;
+
+            _error = null;
+
+            notifyListeners();
+          },
+          onError: (e) {
+            _loading = false;
+
+            _error = e.toString();
+
+            notifyListeners();
+          },
+        );
   }
 
-  ShuttleBooking? get upcomingBooking {
-    final bookings = [
-      ...state(ShuttleBookingGroup.ongoing).bookings,
-      ...state(ShuttleBookingGroup.upcoming).bookings,
-      ...state(ShuttleBookingGroup.attention).bookings,
-    ];
+  int _sortBookings(ShuttleBooking a, ShuttleBooking b) {
+    final priorityA = _priority(a);
 
-    if (bookings.isEmpty) return null;
+    final priorityB = _priority(b);
 
-    bookings.sort((a, b) {
-      final priorityA = _statusPriority(a.status);
-      final priorityB = _statusPriority(b.status);
+    if (priorityA != priorityB) {
+      return priorityA.compareTo(priorityB);
+    }
 
-      if (priorityA != priorityB) {
-        return priorityA.compareTo(priorityB);
-      }
-
-      return a.departureDate.compareTo(b.departureDate);
-    });
-
-    return bookings.first;
+    return a.departureDate.compareTo(b.departureDate);
   }
 
-  int _statusPriority(ShuttleBookingStatus status) {
-    switch (status) {
+  int _priority(ShuttleBooking booking) {
+    switch (booking.status) {
       case ShuttleBookingStatus.driverArriving:
         return 0;
 
@@ -90,214 +131,89 @@ class ShuttleBookingsProvider extends ChangeNotifier {
         return 2;
 
       case ShuttleBookingStatus.approved:
-        return 3;
+        return booking.payment.status == ShuttlePaymentStatus.paid ? 3 : 8;
 
       case ShuttleBookingStatus.reserved:
         return 4;
 
       case ShuttleBookingStatus.awaitingPayment:
-        return 5;
+        return 9;
 
       case ShuttleBookingStatus.paymentSubmitted:
-        return 6;
+        return 10;
 
       case ShuttleBookingStatus.pending:
-        return 7;
+        return 11;
 
       default:
-        return 100;
+        return 99;
     }
   }
 
-  void watchBookings({
-    required String userId,
-    required ShuttleBookingGroup group,
-  }) {
-    if (_subscriptions[group] != null) {
-      return;
+  List<ShuttleBooking> bookings(ShuttleBookingGroup group) {
+    return _bookings
+        .where((booking) => bookingGroup(booking) == group)
+        .toList();
+  }
+
+  int count(ShuttleBookingGroup group) {
+    return bookings(group).length;
+  }
+
+  ShuttleBooking? bookingById(String id) {
+    try {
+      return _bookings.firstWhere((e) => e.id == id);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Stream<ShuttleBooking> watchBooking(String bookingId) {
+    return _repository.watchBooking(bookingId);
+  }
+
+  ShuttleBooking? get upcomingBooking {
+    if (_bookings.isEmpty) {
+      return null;
     }
 
-    _subscriptions[group]?.cancel();
-
-    _setState(group, state(group).copyWith(loading: true, clearError: true));
-
-    _subscriptions[group] = _repository
-        .watchShuttleBookings(userId: userId, group: group)
-        .listen(
-          (bookings) {
-            _setState(
-              group,
-              state(group).copyWith(
-                loading: false,
-                bookings: bookings,
-                hasMore: false,
-                clearError: true,
-              ),
-            );
-          },
-          onError: (e) {
-            _setState(
-              group,
-              state(group).copyWith(loading: false, error: e.toString()),
-            );
-          },
-        );
+    return _bookings.first;
   }
 
   void stopWatching() {
-    for (final subscription in _subscriptions.values) {
-      subscription?.cancel();
-    }
+    _subscription?.cancel();
 
-    _subscriptions.clear();
+    _subscription = null;
   }
 
   @override
   void dispose() {
     stopWatching();
+
     super.dispose();
   }
 
-  Future<void> loadBookings({
-    required String userId,
-    required ShuttleBookingGroup group,
-    bool forceRefresh = false,
-  }) async {
-    final current = state(group);
-
-    if (current.loading) {
-      return;
-    }
-
-    if (!forceRefresh && current.bookings.isNotEmpty) {
-      return;
-    }
-
-    _setState(group, current.copyWith(loading: true, clearError: true));
-
-    try {
-      final page = await _repository.getShuttleBookings(
-        userId: userId,
-        group: group,
-      );
-
-      _setState(
-        group,
-        current.copyWith(
-          loading: false,
-          bookings: page.bookings,
-          lastDocument: page.lastDocument,
-          hasMore: page.hasMore,
-          clearError: true,
-        ),
-      );
-    } catch (e) {
-      _setState(group, current.copyWith(loading: false, error: e.toString()));
-    }
-  }
-
-  Future<void> refresh({
-    required String userId,
-    required ShuttleBookingGroup group,
-  }) async {
-    _setState(group, ShuttleBookingsState.initial());
-
-    await loadBookings(userId: userId, group: group, forceRefresh: true);
-  }
-
-  Future<void> loadMore({
-    required String userId,
-    required ShuttleBookingGroup group,
-  }) async {
-    final current = state(group);
-
-    if (!current.canLoadMore) {
-      return;
-    }
-
-    _setState(group, current.copyWith(loadingMore: true));
-
-    try {
-      final page = await _repository.getShuttleBookings(
-        userId: userId,
-        group: group,
-        lastDocument: current.lastDocument,
-      );
-
-      _setState(
-        group,
-        current.copyWith(
-          loadingMore: false,
-          bookings: [...current.bookings, ...page.bookings],
-          lastDocument: page.lastDocument,
-          hasMore: page.hasMore,
-        ),
-      );
-    } catch (e) {
-      _setState(
-        group,
-        current.copyWith(loadingMore: false, error: e.toString()),
-      );
-    }
-  }
-
-  ShuttleBooking? bookingById(String bookingId) {
-    for (final state in _states.values) {
-      for (final booking in state.bookings) {
-        if (booking.id == bookingId) {
-          return booking;
-        }
-      }
-    }
-
-    return null;
-  }
-
-  void updateBooking(ShuttleBooking booking) {
-    for (final group in ShuttleBookingGroup.values) {
-      final current = state(group);
-
-      final index = current.bookings.indexWhere(
-        (element) => element.id == booking.id,
-      );
-
-      if (index == -1) {
-        continue;
-      }
-
-      final updatedBookings = List<ShuttleBooking>.from(current.bookings);
-
-      updatedBookings[index] = booking;
-
-      _setState(group, current.copyWith(bookings: updatedBookings));
-
-      return;
-    }
-  }
-
-  void removeBooking(String bookingId) {
-    for (final group in ShuttleBookingGroup.values) {
-      final current = state(group);
-
-      final updatedBookings = current.bookings
-          .where((booking) => booking.id != bookingId)
-          .toList();
-
-      if (updatedBookings.length == current.bookings.length) {
-        continue;
-      }
-
-      _setState(group, current.copyWith(bookings: updatedBookings));
-
-      return;
-    }
-  }
-
   void clear() {
-    for (final group in ShuttleBookingGroup.values) {
-      _states[group] = ShuttleBookingsState.initial();
-    }
+    _bookings = [];
+
+    _loading = true;
+
+    _error = null;
 
     notifyListeners();
+  }
+
+  Future<void> submitCardPayment(String bookingId) async {
+    if (_submittingCardPayment) return;
+
+    _submittingCardPayment = true;
+    notifyListeners();
+
+    try {
+      await _repository.submitCardPayment(bookingId: bookingId);
+    } finally {
+      _submittingCardPayment = false;
+      notifyListeners();
+    }
   }
 }

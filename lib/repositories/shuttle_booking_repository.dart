@@ -26,10 +26,28 @@ class ShuttleBookingRepository {
 
   static const String _collection = "shuttleBookings";
 
+  // static const _closedStatuses = {
+  //   ShuttleBookingStatus.completed,
+  //   ShuttleBookingStatus.cancelled,
+  //   ShuttleBookingStatus.rejected,
+  //   ShuttleBookingStatus.expired,
+  // };
+
   final ShuttlePaymentRepository _paymentRepository;
 
   CollectionReference<Map<String, dynamic>> get _bookings =>
       _firestore.collection(_collection);
+
+  Stream<List<ShuttleBooking>> watchUserBookings({required String userId}) {
+    return _bookings
+        .where("userId", isEqualTo: userId)
+        .orderBy("departureDate")
+        .snapshots()
+        .map(
+          (snapshot) =>
+              snapshot.docs.map(ShuttleBooking.fromFirestore).toList(),
+        );
+  }
 
   Future<ShuttleBooking?> getShuttleBooking(String bookingId) async {
     try {
@@ -71,10 +89,6 @@ class ShuttleBookingRepository {
     final bookingId = bookingRef.id;
 
     final invoiceNumber = generateShuttleInvoiceNumber();
-
-    // final payment = ShuttleBookingUtils.buildInitialPayment(
-    //   method: draft.payment.method,
-    // );
 
     final payment = await _paymentRepository.buildPayment(draft: draft);
 
@@ -163,6 +177,65 @@ class ShuttleBookingRepository {
     });
   }
 
+  Future<void> submitCardPayment({required String bookingId}) async {
+    final now = DateTime.now();
+
+    await _firestore.runTransaction((transaction) async {
+      final bookingRef = _firestore.collection(_collection).doc(bookingId);
+
+      final snapshot = await transaction.get(bookingRef);
+
+      if (!snapshot.exists) {
+        throw Exception("Booking not found.");
+      }
+
+      final booking = ShuttleBooking.fromFirestore(snapshot);
+
+      if (booking.payment.method != ShuttlePaymentMethod.creditCard) {
+        throw Exception("This booking is not a card payment.");
+      }
+
+      if (booking.payment.paymentLink == null ||
+          booking.payment.paymentLink!.isEmpty) {
+        throw Exception("Payment link has not been generated.");
+      }
+
+      if (booking.payment.status == ShuttlePaymentStatus.awaitingVerification) {
+        throw Exception("Payment has already been submitted.");
+      }
+
+      if (booking.payment.status == ShuttlePaymentStatus.paid) {
+        throw Exception("Payment has already been verified.");
+      }
+
+      if (booking.payment.expiresAt != null &&
+          now.isAfter(booking.payment.expiresAt!)) {
+        throw Exception("This payment request has expired.");
+      }
+
+      final updatedPayment = booking.payment.copyWith(
+        status: ShuttlePaymentStatus.awaitingVerification,
+        paidAt: now,
+      );
+
+      final updatedTimeline = [
+        ...booking.timeline,
+
+        ShuttleBookingTimelineItem(
+          event: ShuttleBookingTimelineEvent.paymentSubmitted,
+          timestamp: now,
+          note: "Customer confirmed card payment.",
+        ),
+      ];
+
+      transaction.update(bookingRef, {
+        "payment": updatedPayment.toMap(),
+
+        "timeline": updatedTimeline.map((e) => e.toMap()).toList(),
+      });
+    });
+  }
+
   Future<void> updateShuttleBooking(ShuttleBooking booking) async {
     try {
       await _bookings
@@ -236,42 +309,6 @@ class ShuttleBookingRepository {
     }
   }
 
-  Stream<List<ShuttleBooking>> watchShuttleBookings({
-    required String userId,
-    required ShuttleBookingGroup group,
-  }) {
-    return _bookings
-        .where("userId", isEqualTo: userId)
-        .where("status", whereIn: group.statuses.map((e) => e.value).toList())
-        .orderBy("departureDate", descending: true)
-        .snapshots()
-        .map(
-          (snapshot) =>
-              snapshot.docs.map(ShuttleBooking.fromFirestore).toList(),
-        );
-  }
-
-  Future<List<ShuttleBooking>> getShuttleBookingsByStatus({
-    required String userId,
-    required ShuttleBookingStatus status,
-  }) async {
-    try {
-      final snapshot = await _bookings
-          .where("userId", isEqualTo: userId)
-          .where("status", isEqualTo: status.value)
-          .orderBy("departureDate", descending: true)
-          .get();
-
-      return snapshot.docs
-          .map((doc) => ShuttleBooking.fromFirestore(doc))
-          .toList();
-    } catch (e, stackTrace) {
-      debugPrint("getBookingsByStatus() failed\n$e\n$stackTrace");
-
-      rethrow;
-    }
-  }
-
   Future<void> cancelShuttleBooking({
     required String bookingId,
     String? reason,
@@ -302,25 +339,6 @@ class ShuttleBookingRepository {
       });
     } catch (e, stackTrace) {
       debugPrint("cancelBooking() failed\n$e\n$stackTrace");
-
-      rethrow;
-    }
-  }
-
-  Future<int> countShuttleBookings({
-    required String userId,
-    required ShuttleBookingGroup group,
-  }) async {
-    try {
-      final snapshot = await _bookings
-          .where("userId", isEqualTo: userId)
-          .where("status", whereIn: group.statuses.map((e) => e.value).toList())
-          .count()
-          .get();
-
-      return snapshot.count ?? 0;
-    } catch (e, stackTrace) {
-      debugPrint("countBookings() failed\n$e\n$stackTrace");
 
       rethrow;
     }

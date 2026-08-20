@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kipgo/l10n/app_localizations.dart';
 
 enum ShuttleBookingTimelineEvent {
   bookingCreated,
@@ -28,6 +29,10 @@ enum ShuttleBookingTimelineEvent {
   bookingCancelled,
 
   bookingExpired,
+
+  bookingApproved,
+
+  paymentLinkSent,
 }
 
 extension ShuttleBookingTimelineEventExtension on ShuttleBookingTimelineEvent {
@@ -40,49 +45,55 @@ extension ShuttleBookingTimelineEventExtension on ShuttleBookingTimelineEvent {
     );
   }
 
-  String get title {
+  String title(AppLocalizations loc) {
     switch (this) {
       case ShuttleBookingTimelineEvent.bookingCreated:
-        return "Booking Created";
+        return loc.bookingCreated;
 
       case ShuttleBookingTimelineEvent.paymentRequested:
-        return "Payment Requested";
+        return loc.paymentRequested;
 
       case ShuttleBookingTimelineEvent.paymentSubmitted:
-        return "Payment Submitted";
+        return loc.paymentSubmitted;
 
       case ShuttleBookingTimelineEvent.paymentRejected:
-        return "Payment Rejected";
+        return loc.paymentRejected;
 
       case ShuttleBookingTimelineEvent.paymentVerified:
-        return "Payment Verified";
+        return loc.paymentVerified;
 
       case ShuttleBookingTimelineEvent.bookingReserved:
-        return "Booking Reserved";
+        return loc.bookingReserved;
 
       case ShuttleBookingTimelineEvent.bookingConfirmed:
-        return "Booking Confirmed";
+        return loc.bookingConfirmed;
 
       case ShuttleBookingTimelineEvent.driverAssigned:
-        return "Driver Assigned";
+        return loc.driverAssigned;
 
       case ShuttleBookingTimelineEvent.driverArriving:
-        return "Driver Arriving";
+        return loc.driverArriving;
 
       case ShuttleBookingTimelineEvent.passengerPickedUp:
-        return "Passenger Picked Up";
+        return loc.passengerPickedUp;
 
       case ShuttleBookingTimelineEvent.tripStarted:
-        return "Trip Started";
+        return loc.tripStarted;
 
       case ShuttleBookingTimelineEvent.tripCompleted:
-        return "Trip Completed";
+        return loc.tripCompleted;
 
       case ShuttleBookingTimelineEvent.bookingCancelled:
-        return "Booking Cancelled";
+        return loc.bookingCancelled;
 
       case ShuttleBookingTimelineEvent.bookingExpired:
-        return "Booking Expired";
+        return loc.bookingExpired;
+
+      case ShuttleBookingTimelineEvent.bookingApproved:
+        return loc.bookingApproved;
+
+      case ShuttleBookingTimelineEvent.paymentLinkSent:
+        return loc.paymentLinkSent;
     }
   }
 }
@@ -131,6 +142,12 @@ extension ShuttleBookingTimelineEventUI on ShuttleBookingTimelineEvent {
 
       case ShuttleBookingTimelineEvent.bookingExpired:
         return Icons.timer_off;
+
+      case ShuttleBookingTimelineEvent.bookingApproved:
+        return Icons.verified_outlined;
+
+      case ShuttleBookingTimelineEvent.paymentLinkSent:
+        return Icons.dataset_linked_outlined;
     }
   }
 
@@ -177,6 +194,12 @@ extension ShuttleBookingTimelineEventUI on ShuttleBookingTimelineEvent {
 
       case ShuttleBookingTimelineEvent.bookingExpired:
         return Colors.brown;
+
+      case ShuttleBookingTimelineEvent.bookingApproved:
+        return Colors.indigo;
+
+      case ShuttleBookingTimelineEvent.paymentLinkSent:
+        return Colors.deepOrange;
     }
   }
 }

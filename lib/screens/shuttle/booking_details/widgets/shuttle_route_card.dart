@@ -19,7 +19,7 @@ class ShuttleRouteCard extends StatelessWidget {
     AppLocalizations loc = AppLocalizations.of(context)!;
     String formatDate(BuildContext context, DateTime date) {
       final locale = Provider.of<LocaleProvider>(context, listen: false).locale;
-      return DateFormat('EEE, MMM d • HH:mm', '$locale').format(date);
+      return DateFormat('EEE, MMM d • HH:mm a', '$locale').format(date);
     }
 
     return Card(

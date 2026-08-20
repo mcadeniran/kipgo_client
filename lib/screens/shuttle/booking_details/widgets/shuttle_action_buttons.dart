@@ -4,6 +4,12 @@ import 'package:kipgo/models/shuttle_booking/shuttle_booking.dart';
 import 'package:kipgo/models/shuttle_booking/shuttle_booking_status.dart';
 import 'package:kipgo/models/shuttle_booking/shuttle_payment_method.dart';
 import 'package:kipgo/models/shuttle_booking/shuttle_payment_status.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+Future<void> _makePhoneCall(BuildContext context, String phoneNumber) async {
+  final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
+  await launchUrl(launchUri);
+}
 
 class ShuttleActionButtons extends StatelessWidget {
   final ShuttleBooking booking;
@@ -85,9 +91,7 @@ class ShuttleActionButtons extends StatelessWidget {
         booking.status != ShuttleBookingStatus.completed) {
       actions.add(
         FilledButton.icon(
-          onPressed: () {
-            // url_launcher
-          },
+          onPressed: () => _makePhoneCall(context, booking.driver!.phoneNumber),
           icon: const Icon(Icons.call),
           label: Text(loc.callDriver),
         ),

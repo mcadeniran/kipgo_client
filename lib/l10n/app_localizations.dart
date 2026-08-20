@@ -4789,7 +4789,7 @@ abstract class AppLocalizations {
   /// Info
   ///
   /// In en, this message translates to:
-  /// **'Your booking will be created after you complete this step.  Crypto payments require verification before confirmation, while Pay on Pickup submits your booking immediately pending approval.'**
+  /// **'Your booking will be submitted after this step. Once it has been reviewed and approved, you\'ll receive instructions based on your selected payment method. Card payments are completed using a secure payment link, while cryptocurrency payments require verification before your booking can proceed.'**
   String get yourBookingWillBeCreated;
 
   /// Info
@@ -5283,6 +5283,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Today'**
   String get today;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Card Payment'**
+  String get cardPayment;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'A secure payment link will be sent after your booking is approved'**
+  String get aSecuredLinkPaymentLink;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your booking is awaiting approval. Payment link will be available after approval'**
+  String get yourBookingIsAwaitingApproval;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payment link will appear here once generated'**
+  String get paymentLinkWillAppearHereOnceGenerated;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Open Payment Page'**
+  String get openPaymentPage;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'I Have Completed Payment'**
+  String get iHaveCompletedPayment;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'We are verifying your payment'**
+  String get weAreVerifyingYourPayment;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payment failed. Please try again'**
+  String get paymentFailedPleaseTryAgain;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Try Again'**
+  String get tryAgain;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Payment'**
+  String get confirmPayment;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm that you have successfully completed the payment using the payment link. Our team will verify your payment before your booking proceeds.'**
+  String get confirmPaymentDescription;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your payment has been submitted for verification.'**
+  String get yourPaymentSubmittedSuccessfully;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Submitting...'**
+  String get submitting;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Driver Arriving'**
+  String get driverArriving;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'In Progress'**
+  String get inProgress;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Requested'**
+  String get paymentRequested;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Rejected'**
+  String get paymentRejected;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Reserved'**
+  String get bookingReserved;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Passenger Picked Up'**
+  String get passengerPickedUp;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Trip Started'**
+  String get tripStarted;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Trip Completed'**
+  String get tripCompleted;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Link Sent'**
+  String get paymentLinkSent;
 }
 
 class _AppLocalizationsDelegate

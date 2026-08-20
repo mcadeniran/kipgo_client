@@ -46,7 +46,7 @@ class ShuttleDraft {
     this.durationMinutes = 0,
     this.passenger,
     this.payment = const ShuttleBookingPayment(
-      method: ShuttlePaymentMethod.payOnDelivery,
+      method: ShuttlePaymentMethod.creditCard,
       status: ShuttlePaymentStatus.unpaid,
       verified: false,
       completed: false,

@@ -15,6 +15,7 @@ import 'package:kipgo/screens/rental/bookings/widgets/booking_details_page.dart'
 import 'package:kipgo/screens/rental_owner/rental_booking_details/rental_booking_details_page.dart';
 import 'package:kipgo/screens/rides/drivers/new_trip_screen.dart';
 import 'package:kipgo/screens/settings/vehicle_details_screen.dart';
+import 'package:kipgo/screens/shuttle/booking_details/shuttle_booking_details_page.dart';
 import 'package:kipgo/screens/widgets/reusable_toast.dart';
 import 'package:provider/provider.dart';
 
@@ -94,6 +95,7 @@ class PushNotificationSystem {
     required bool fromUserTap,
   }) {
     final notificationType = remoteMessage.data['type'];
+    final service = remoteMessage.data['service'] ?? 'rental';
 
     if (notificationType == 'rideRequest') {
       final rideRequestId = remoteMessage.data['rideRequestId'];
@@ -114,7 +116,7 @@ class PushNotificationSystem {
       } else {
         _showDialog(title, body);
       }
-    } else if (_isRentalNotification(notificationType)) {
+    } else if (_isBusinessNotification(notificationType)) {
       if (fromUserTap) {
         _navigateFromNotification(context, remoteMessage.data);
       } else {
@@ -124,14 +126,7 @@ class PushNotificationSystem {
       debugPrint('UNKNOWN NOTIFICATION TYPE RECEIVED');
     }
 
-    // if (!fromUserTap) {
-    //   NotificationService().showNotification(
-    //     title: remoteMessage.notification?.title ?? remoteMessage.data['title'],
-    //     body: remoteMessage.notification?.body ?? remoteMessage.data['body'],
-    //   );
-    // }
-
-    if (!fromUserTap && !_isRentalNotification(notificationType)) {
+    if (!fromUserTap && !_isBusinessNotification(notificationType)) {
       NotificationService().showNotification(
         title: remoteMessage.notification?.title ?? remoteMessage.data['title'],
 
@@ -140,13 +135,28 @@ class PushNotificationSystem {
     }
   }
 
-  bool _isRentalNotification(String? type) {
-    return [
+  bool _isRentalService(Map<String, dynamic> data) {
+    return (data['service'] ?? 'rental') == 'rental';
+  }
+
+  bool _isShuttleService(Map<String, dynamic> data) {
+    return (data['service'] ?? 'rental') == 'shuttle';
+  }
+
+  bool _isBusinessNotification(String? type) {
+    return const [
+      // Rental
       'bookingUpdate',
       'paymentUpdate',
       'dropoffReminder',
       'newBooking',
       'cryptoVerification',
+
+      // Shuttle
+      'shuttleBookingUpdate',
+      'shuttlePaymentUpdate',
+      'newShuttleBooking',
+      'shuttleCryptoVerification',
     ].contains(type);
   }
 
@@ -156,19 +166,37 @@ class PushNotificationSystem {
   ) {
     final audience = data['audience'];
     final bookingId = data['bookingId'];
+    final service = data['service'] ?? 'rental';
 
     if (bookingId == null) return;
 
     switch (audience) {
       case 'customer':
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => BookingDetailsPage(bookingId: bookingId),
-          ),
-        );
+        switch (service) {
+          case 'shuttle':
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => ShuttleBookingDetailsPage(bookingId: bookingId),
+              ),
+            );
+            break;
+
+          case 'rental':
+          default:
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => BookingDetailsPage(bookingId: bookingId),
+              ),
+            );
+        }
         break;
 
       case 'shop':
+        if (service == 'shuttle') {
+          // Shuttle admin is handled on the web.
+          return;
+        }
+
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (_) => RentalBookingDetailsPage(bookingId: bookingId),
@@ -192,57 +220,13 @@ class PushNotificationSystem {
 
     final body = message.notification?.body ?? message.data['body'] ?? '';
 
-    ReusableToast.info(context, title, body, () {
-      _navigateFromNotification(context, message.data);
-    });
+    ReusableToast.info(
+      context,
+      title,
+      body,
+      () => _navigateFromNotification(context, message.data),
+    );
   }
-
-  // void _handleBookingNotification(
-  //   RemoteMessage remoteMessage,
-  //   BuildContext context,
-  //   bool fromUserTap,
-  // ) {
-  //   final bookingId = remoteMessage.data['bookingId'];
-  //   final status = remoteMessage.data['status'];
-  //   final shopName = remoteMessage.data['shopName'];
-  //   final carName = remoteMessage.data['carName'];
-
-  //   if (bookingId == null || status == null) {
-  //     debugPrint("⚠️ Invalid booking notification payload");
-  //     return;
-  //   }
-
-  //   debugPrint("📦 Booking update received: $status");
-
-  //   if (fromUserTap) {
-  //     _navigateToBooking(context, bookingId, status);
-  //   } else {
-  //     _showBookingDialog(status, shopName, carName, bookingId);
-  //   }
-  // }
-
-  // void _handleNewBookingNotification(
-  //   RemoteMessage remoteMessage,
-  //   BuildContext context,
-  //   bool fromUserTap,
-  // ) {
-  //   final bookingId = remoteMessage.data['bookingId'];
-  //   final customerName = remoteMessage.data['customerName'];
-  //   final carName = remoteMessage.data['carName'];
-
-  //   if (bookingId == null) {
-  //     debugPrint("⚠️ Invalid new booking payload");
-  //     return;
-  //   }
-
-  //   debugPrint("🆕 New booking received");
-
-  //   if (fromUserTap) {
-  //     _navigateToNewBooking(context, bookingId);
-  //   } else {
-  //     _showNewBookingDialog(customerName, carName, bookingId);
-  //   }
-  // }
 
   void _showDialog(String title, String message) {
     final ctx = navigatorKey.currentState?.overlay?.context;
@@ -489,11 +473,16 @@ class PushNotificationSystem {
     // 🎯 ROLE-BASED STORAGE
     // ===============================
     try {
-      if (role == 'rental_admin') {
+      if (role == 'rental_admin' || role == 'shuttle_admin') {
         // ✅ MULTI TOKEN (ARRAY)
-        await firestore.collection('rentalShops').doc(uid).update({
-          'tokens': FieldValue.arrayUnion([fcmToken]),
-        });
+        await firestore
+            .collection(
+              role == 'rental_admin' ? 'rentalShops' : 'shuttleRental',
+            )
+            .doc(uid)
+            .update({
+              'tokens': FieldValue.arrayUnion([fcmToken]),
+            });
 
         debugPrint("🏢 Token added to rentalShop");
       } else {
@@ -509,140 +498,6 @@ class PushNotificationSystem {
     }
   }
 
-  // void _navigateToBooking(
-  //   BuildContext context,
-  //   String bookingId,
-  //   String status,
-  // ) {
-  //   switch (status) {
-  //     case 'approved':
-  //     case 'ongoing':
-  //       Navigator.of(context).push(
-  //         MaterialPageRoute(
-  //           builder: (_) => BookingDetailsPage(bookingId: bookingId),
-  //         ),
-  //       );
-  //       break;
-
-  //     case 'completed':
-  //       Navigator.of(context).push(
-  //         MaterialPageRoute(
-  //           builder: (_) => BookingDetailsPage(bookingId: bookingId),
-  //         ),
-  //       );
-  //       break;
-
-  //     case 'rejected':
-  //     case 'cancelled':
-  //       Navigator.of(context).push(
-  //         MaterialPageRoute(
-  //           builder: (_) => BookingDetailsPage(bookingId: bookingId),
-  //         ),
-  //       );
-  //       break;
-
-  //     default:
-  //       Navigator.of(context).push(
-  //         MaterialPageRoute(
-  //           builder: (_) => BookingDetailsPage(bookingId: bookingId),
-  //         ),
-  //       );
-  //   }
-  // }
-
-  // void _showBookingDialog(
-  //   String status,
-  //   String? shopName,
-  //   String? carName,
-  //   String bookingId,
-  // ) {
-  //   final ctx = navigatorKey.currentState?.overlay?.context;
-  //   if (ctx == null || _isDialogShowing) return;
-
-  //   _isDialogShowing = true;
-
-  //   final title = getBookingTitle(ctx, status);
-  //   final message = getBookingMessage(ctx, status, shopName, carName);
-
-  //   showDialog(
-  //     context: ctx,
-  //     barrierDismissible: false,
-  //     builder: (_) => AlertDialog(
-  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-  //       title: Text(title),
-  //       content: Text(message),
-  //       actions: [
-  //         TextButton(
-  //           onPressed: () {
-  //             Navigator.of(ctx).pop();
-  //             _isDialogShowing = false;
-  //           },
-  //           child: Text(AppLocalizations.of(ctx)!.ok),
-  //         ),
-  //         TextButton(
-  //           onPressed: () {
-  //             Navigator.of(ctx).pop();
-  //             _isDialogShowing = false;
-  //             _navigateToBooking(ctx, bookingId, status);
-  //           },
-  //           child: Text(AppLocalizations.of(ctx)!.view),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // void _navigateToNewBooking(BuildContext context, String bookingId) {
-  //   Navigator.of(context).push(
-  //     MaterialPageRoute(
-  //       builder: (_) => RentalBookingDetailsPage(bookingId: bookingId),
-  //     ),
-  //   );
-  // }
-
-  // void _showNewBookingDialog(
-  //   String? customerName,
-  //   String? carName,
-  //   String bookingId,
-  // ) {
-  //   final ctx = navigatorKey.currentState?.overlay?.context;
-  //   if (ctx == null || _isDialogShowing) return;
-
-  //   _isDialogShowing = true;
-
-  //   final title = "New Booking 🚗";
-
-  //   final message =
-  //       "${customerName ?? 'A customer'} booked ${carName ?? 'a car'}";
-
-  //   showDialog(
-  //     context: ctx,
-  //     barrierDismissible: false,
-  //     builder: (_) => AlertDialog(
-  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-  //       title: Text(title),
-  //       content: Text(message),
-  //       actions: [
-  //         TextButton(
-  //           onPressed: () {
-  //             Navigator.of(ctx).pop();
-  //             _isDialogShowing = false;
-  //           },
-  //           child: Text(AppLocalizations.of(ctx)!.ok),
-  //         ),
-  //         TextButton(
-  //           onPressed: () {
-  //             Navigator.of(ctx).pop();
-  //             _isDialogShowing = false;
-  //             _navigateToNewBooking(ctx, bookingId);
-  //           },
-  //           child: Text(AppLocalizations.of(ctx)!.view),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
   void initTokenRefreshListener(BuildContext context) {
     FirebaseMessaging.instance.onTokenRefresh.listen(
       (String newToken) async {
@@ -655,9 +510,11 @@ class PushNotificationSystem {
 
         if (uid == null || role == null) return;
 
-        if (role == 'rental_admin') {
+        if (role == 'rental_admin' || role == 'shuttle_admin') {
           await FirebaseFirestore.instance
-              .collection('rentalShops')
+              .collection(
+                role == 'rental_admin' ? 'rentalShops' : 'shuttleRental',
+              )
               .doc(uid)
               .update({
                 'tokens': FieldValue.arrayUnion([newToken]),
@@ -688,9 +545,9 @@ class PushNotificationSystem {
 
     if (uid == null || role == null) return;
 
-    if (role == 'rental_admin') {
+    if (role == 'rental_admin' || role == 'shuttle_admin') {
       await FirebaseFirestore.instance
-          .collection('rentalShops')
+          .collection(role == 'rental_admin' ? 'rentalShops' : 'shuttleRental')
           .doc(uid)
           .update({
             'tokens': FieldValue.arrayRemove([token]),

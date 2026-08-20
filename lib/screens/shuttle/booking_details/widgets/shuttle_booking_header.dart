@@ -26,7 +26,7 @@ class ShuttleBookingHeader extends StatelessWidget {
 
     String formatTime(BuildContext context, DateTime date) {
       final locale = Provider.of<LocaleProvider>(context, listen: false).locale;
-      return DateFormat('HH:mm', '$locale').format(date);
+      return DateFormat('hh:mm a', '$locale').format(date);
     }
 
     bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;

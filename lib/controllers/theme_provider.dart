@@ -35,12 +35,24 @@ class ThemeProvider extends ChangeNotifier {
 
 class MyThemes {
   static final darkTheme = ThemeData(
+    pageTransitionsTheme: const PageTransitionsTheme(
+      builders: <TargetPlatform, PageTransitionsBuilder>{
+        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+      },
+    ),
     scaffoldBackgroundColor: Color.fromARGB(255, 0, 0, 37),
     colorScheme: ColorScheme.dark(),
     primarySwatch: Colors.indigo,
     fontFamily: 'Roboto',
   );
   static final lightTheme = ThemeData(
+    pageTransitionsTheme: const PageTransitionsTheme(
+      builders: <TargetPlatform, PageTransitionsBuilder>{
+        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+      },
+    ),
     scaffoldBackgroundColor: Colors.white,
     colorScheme: ColorScheme.light(),
     primarySwatch: Colors.indigo,

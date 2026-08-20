@@ -104,6 +104,18 @@ class CompleteBookingScreen extends StatelessWidget {
               const SizedBox(height: 24),
 
               _PaymentMethodCard(
+                selected: payment.method == ShuttlePaymentMethod.creditCard,
+                icon: Icons.credit_card_outlined,
+                title: loc.cardPayment,
+                subtitle: loc.aSecuredLinkPaymentLink,
+                onTap: () {
+                  provider.setPaymentMethod(ShuttlePaymentMethod.creditCard);
+                },
+              ),
+
+              const SizedBox(height: 16),
+
+              _PaymentMethodCard(
                 selected: payment.method == ShuttlePaymentMethod.crypto,
                 icon: Icons.currency_bitcoin,
                 title: loc.cryptoPayment,
@@ -114,18 +126,17 @@ class CompleteBookingScreen extends StatelessWidget {
                 },
               ),
 
-              const SizedBox(height: 16),
+              // const SizedBox(height: 16),
 
-              _PaymentMethodCard(
-                selected: payment.method == ShuttlePaymentMethod.payOnDelivery,
-                icon: Icons.airport_shuttle,
-                title: loc.payOnPickup,
-                subtitle: loc.payYourDriver,
-                onTap: () {
-                  provider.setPaymentMethod(ShuttlePaymentMethod.payOnDelivery);
-                },
-              ),
-
+              // _PaymentMethodCard(
+              //   selected: payment.method == ShuttlePaymentMethod.payOnDelivery,
+              //   icon: Icons.airport_shuttle,
+              //   title: loc.payOnPickup,
+              //   subtitle: loc.payYourDriver,
+              //   onTap: () {
+              //     provider.setPaymentMethod(ShuttlePaymentMethod.payOnDelivery);
+              //   },
+              // ),
               const SizedBox(height: 28),
 
               _BookingNoticeCard(),

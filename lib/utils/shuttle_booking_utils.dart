@@ -20,9 +20,12 @@ class ShuttleBookingUtils {
   ) {
     switch (method) {
       case ShuttlePaymentMethod.crypto:
-        return ShuttleBookingStatus.awaitingPayment;
+        return ShuttleBookingStatus.pending;
 
       case ShuttlePaymentMethod.payOnDelivery:
+        return ShuttleBookingStatus.pending;
+
+      case ShuttlePaymentMethod.creditCard:
         return ShuttleBookingStatus.pending;
     }
   }
@@ -46,11 +49,19 @@ class ShuttleBookingUtils {
       case ShuttlePaymentMethod.crypto:
         return ShuttleBookingPayment(
           method: ShuttlePaymentMethod.crypto,
-          status: ShuttlePaymentStatus.pending,
+          status: ShuttlePaymentStatus.unpaid,
           verified: false,
           completed: false,
           expiresAt: paymentExpiry,
           crypto: ShuttleBookingCrypto.empty(),
+        );
+
+      case ShuttlePaymentMethod.creditCard:
+        return ShuttleBookingPayment(
+          method: ShuttlePaymentMethod.creditCard,
+          status: ShuttlePaymentStatus.unpaid,
+          verified: false,
+          completed: false,
         );
     }
   }
@@ -118,6 +129,10 @@ class ShuttleBookingUtils {
 
   static bool isPayOnDelivery(ShuttleBookingPayment payment) {
     return payment.method == ShuttlePaymentMethod.payOnDelivery;
+  }
+
+  static bool isCreditCard(ShuttleBookingPayment payment) {
+    return payment.method == ShuttlePaymentMethod.creditCard;
   }
 
   static bool paymentCompleted(ShuttleBookingPayment payment) {

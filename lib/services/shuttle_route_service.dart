@@ -64,7 +64,7 @@ class ShuttleRouteService {
     final durationMinutes = int.parse(duration.replaceAll("s", "")) ~/ 60;
 
     return ShuttleRouteResult(
-      distanceKm: distanceMeters / 1000,
+      distanceKm: ((distanceMeters / 1000) * 10).round() / 10,
       durationMinutes: durationMinutes,
     );
   }

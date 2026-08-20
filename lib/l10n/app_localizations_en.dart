@@ -2511,7 +2511,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get yourBookingWillBeCreated =>
-      'Your booking will be created after you complete this step.  Crypto payments require verification before confirmation, while Pay on Pickup submits your booking immediately pending approval.';
+      'Your booking will be submitted after this step. Once it has been reviewed and approved, you\'ll receive instructions based on your selected payment method. Card payments are completed using a secure payment link, while cryptocurrency payments require verification before your booking can proceed.';
 
   @override
   String get bookingCreated => 'Booking Created';
@@ -2777,4 +2777,75 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get today => 'Today';
+
+  @override
+  String get cardPayment => 'Card Payment';
+
+  @override
+  String get aSecuredLinkPaymentLink =>
+      'A secure payment link will be sent after your booking is approved';
+
+  @override
+  String get yourBookingIsAwaitingApproval =>
+      'Your booking is awaiting approval. Payment link will be available after approval';
+
+  @override
+  String get paymentLinkWillAppearHereOnceGenerated =>
+      'Payment link will appear here once generated';
+
+  @override
+  String get openPaymentPage => 'Open Payment Page';
+
+  @override
+  String get iHaveCompletedPayment => 'I Have Completed Payment';
+
+  @override
+  String get weAreVerifyingYourPayment => 'We are verifying your payment';
+
+  @override
+  String get paymentFailedPleaseTryAgain => 'Payment failed. Please try again';
+
+  @override
+  String get tryAgain => 'Try Again';
+
+  @override
+  String get confirmPayment => 'Confirm Payment';
+
+  @override
+  String get confirmPaymentDescription =>
+      'Please confirm that you have successfully completed the payment using the payment link. Our team will verify your payment before your booking proceeds.';
+
+  @override
+  String get yourPaymentSubmittedSuccessfully =>
+      'Your payment has been submitted for verification.';
+
+  @override
+  String get submitting => 'Submitting...';
+
+  @override
+  String get driverArriving => 'Driver Arriving';
+
+  @override
+  String get inProgress => 'In Progress';
+
+  @override
+  String get paymentRequested => 'Payment Requested';
+
+  @override
+  String get paymentRejected => 'Payment Rejected';
+
+  @override
+  String get bookingReserved => 'Booking Reserved';
+
+  @override
+  String get passengerPickedUp => 'Passenger Picked Up';
+
+  @override
+  String get tripStarted => 'Trip Started';
+
+  @override
+  String get tripCompleted => 'Trip Completed';
+
+  @override
+  String get paymentLinkSent => 'Payment Link Sent';
 }

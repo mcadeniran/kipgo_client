@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kipgo/controllers/shuttle_bookings_provider.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/models/shuttle_booking/shuttle_booking.dart';
 import 'package:kipgo/screens/shuttle/booking_details/widgets/shuttle_action_buttons.dart';
@@ -11,60 +12,80 @@ import 'package:kipgo/screens/shuttle/booking_details/widgets/shuttle_timeline_c
 import 'package:kipgo/screens/shuttle/booking_details/widgets/shuttle_vehicle_card.dart';
 import 'package:kipgo/screens/widgets/app_bar_widget.dart';
 import 'package:kipgo/utils/colors.dart';
+import 'package:provider/provider.dart';
 
 class ShuttleBookingDetailsPage extends StatelessWidget {
-  final ShuttleBooking booking;
+  final String bookingId;
 
-  const ShuttleBookingDetailsPage({super.key, required this.booking});
+  const ShuttleBookingDetailsPage({super.key, required this.bookingId});
 
   @override
   Widget build(BuildContext context) {
     AppLocalizations loc = AppLocalizations.of(context)!;
-    return Scaffold(
-      appBar: AppBarWidget(title: loc.bookingDetails),
-      backgroundColor: AppColors.primary,
-      body: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        child: ListView(
-          padding: const EdgeInsets.all(12),
-          children: [
-            ShuttleBookingHeader(booking: booking),
+    return StreamBuilder<ShuttleBooking>(
+      stream: context.read<ShuttleBookingsProvider>().watchBooking(bookingId),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-            const SizedBox(height: 12),
+        if (snapshot.hasError) {
+          return Center(child: Text(snapshot.error.toString()));
+        }
 
-            ShuttleRouteCard(booking: booking),
+        if (!snapshot.hasData) {
+          return const SizedBox.shrink();
+        }
 
-            const SizedBox(height: 12),
+        final booking = snapshot.data!;
 
-            ShuttlePassengerCard(booking: booking),
+        return Scaffold(
+          appBar: AppBarWidget(title: loc.bookingDetails),
+          backgroundColor: AppColors.primary,
+          body: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+            ),
+            child: ListView(
+              padding: const EdgeInsets.all(12),
+              children: [
+                ShuttleBookingHeader(booking: booking),
 
-            const SizedBox(height: 12),
+                const SizedBox(height: 12),
 
-            ShuttleVehicleCard(booking: booking),
+                ShuttleRouteCard(booking: booking),
 
-            const SizedBox(height: 12),
+                const SizedBox(height: 12),
 
-            ShuttleDriverCard(booking: booking),
+                ShuttlePassengerCard(booking: booking),
 
-            const SizedBox(height: 12),
+                const SizedBox(height: 12),
 
-            ShuttlePaymentCard(booking: booking),
+                ShuttleVehicleCard(booking: booking),
 
-            const SizedBox(height: 12),
+                const SizedBox(height: 12),
 
-            ShuttleTimelineCard(booking: booking),
+                ShuttleDriverCard(booking: booking),
 
-            const SizedBox(height: 24),
+                const SizedBox(height: 12),
 
-            ShuttleActionButtons(booking: booking),
+                ShuttlePaymentCard(booking: booking),
 
-            const SizedBox(height: 32),
-          ],
-        ),
-      ),
+                const SizedBox(height: 12),
+
+                ShuttleTimelineCard(booking: booking),
+
+                const SizedBox(height: 24),
+
+                ShuttleActionButtons(booking: booking),
+
+                const SizedBox(height: 32),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

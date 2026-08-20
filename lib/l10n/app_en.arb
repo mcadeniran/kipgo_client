@@ -3260,7 +3260,7 @@
   "@payYourDriver": {
     "description": "Info"
   },
-  "yourBookingWillBeCreated": "Your booking will be created after you complete this step.  Crypto payments require verification before confirmation, while Pay on Pickup submits your booking immediately pending approval.",
+  "yourBookingWillBeCreated": "Your booking will be submitted after this step. Once it has been reviewed and approved, you'll receive instructions based on your selected payment method. Card payments are completed using a secure payment link, while cryptocurrency payments require verification before your booking can proceed.",
   "@yourBookingWillBeCreated": {
     "description": "Info"
   },
@@ -3595,6 +3595,94 @@
   },
   "today": "Today",
   "@today": {
+    "description": "Info"
+  },
+  "cardPayment": "Card Payment",
+  "@cardPayment": {
+    "description": "Info"
+  },
+  "aSecuredLinkPaymentLink": "A secure payment link will be sent after your booking is approved",
+  "@aSecuredLinkPaymentLink": {
+    "description": "Info"
+  },
+  "yourBookingIsAwaitingApproval": "Your booking is awaiting approval. Payment link will be available after approval",
+  "@yourBookingIsAwaitingApproval": {
+    "description": "Info"
+  },
+  "paymentLinkWillAppearHereOnceGenerated": "Payment link will appear here once generated",
+  "@paymentLinkWillAppearHereOnceGenerated": {
+    "description": "Info"
+  },
+  "openPaymentPage": "Open Payment Page",
+  "@openPaymentPage": {
+    "description": "Info"
+  },
+  "iHaveCompletedPayment": "I Have Completed Payment",
+  "@iHaveCompletedPayment": {
+    "description": "Info"
+  },
+  "weAreVerifyingYourPayment": "We are verifying your payment",
+  "@weAreVerifyingYourPayment": {
+    "description": "Info"
+  },
+  "paymentFailedPleaseTryAgain": "Payment failed. Please try again",
+  "@paymentFailedPleaseTryAgain": {
+    "description": "Info"
+  },
+  "tryAgain": "Try Again",
+  "@tryAgain": {
+    "description": "Info"
+  },
+  "confirmPayment": "Confirm Payment",
+  "@confirmPayment": {
+    "description": "Info"
+  },
+  "confirmPaymentDescription": "Please confirm that you have successfully completed the payment using the payment link. Our team will verify your payment before your booking proceeds.",
+  "@confirmPaymentDescription": {
+    "description": "Info"
+  },
+  "yourPaymentSubmittedSuccessfully": "Your payment has been submitted for verification.",
+  "@yourPaymentSubmittedSuccessfully": {
+    "description": "Info"
+  },
+  "submitting": "Submitting...",
+  "@submitting": {
+    "description": "Info"
+  },
+  "driverArriving": "Driver Arriving",
+  "@driverArriving": {
+    "description": "Info"
+  },
+  "inProgress": "In Progress",
+  "@inProgress": {
+    "description": "Info"
+  },
+  "paymentRequested": "Payment Requested",
+  "@paymentRequested": {
+    "description": "Info"
+  },
+  "paymentRejected": "Payment Rejected",
+  "@paymentRejected": {
+    "description": "Info"
+  },
+  "bookingReserved": "Booking Reserved",
+  "@bookingReserved": {
+    "description": "Info"
+  },
+  "passengerPickedUp": "Passenger Picked Up",
+  "@passengerPickedUp": {
+    "description": "Info"
+  },
+  "tripStarted": "Trip Started",
+  "@tripStarted": {
+    "description": "Info"
+  },
+  "tripCompleted": "Trip Completed",
+  "@tripCompleted": {
+    "description": "Info"
+  },
+  "paymentLinkSent": "Payment Link Sent",
+  "@paymentLinkSent": {
     "description": "Info"
   }
 }

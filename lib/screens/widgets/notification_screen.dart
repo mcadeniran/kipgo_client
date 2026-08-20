@@ -68,26 +68,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         context,
                         audience: notif.audience,
                         bookingId: notif.bookingId!,
+                        service: notif.service,
                       );
-
-                      // if (notif.type == 'bookingUpdate') {
-                      //   Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (_) =>
-                      //           BookingDetailsPage(bookingId: notif.bookingId!),
-                      //     ),
-                      //   );
-                      // } else if (notif.type == 'newBooking') {
-                      //   Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (_) => RentalBookingDetailsPage(
-                      //         bookingId: notif.bookingId!,
-                      //       ),
-                      //     ),
-                      //   );
-                      // }
                     },
                     child: Container(
                       padding: EdgeInsets.all(12),

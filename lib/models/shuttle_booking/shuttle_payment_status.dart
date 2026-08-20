@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 enum ShuttlePaymentStatus {
   unpaid,
   pending,
+  awaitingPayment,
   awaitingVerification,
   paid,
   failed,
@@ -23,6 +24,9 @@ extension ShuttlePaymentStatusExtension on ShuttlePaymentStatus {
     switch (this) {
       case ShuttlePaymentStatus.unpaid:
         return "Unpaid";
+
+      case ShuttlePaymentStatus.awaitingPayment:
+        return "Awaiting Payment";
 
       case ShuttlePaymentStatus.pending:
         return "Pending";
@@ -46,6 +50,9 @@ extension ShuttlePaymentStatusExtension on ShuttlePaymentStatus {
       case ShuttlePaymentStatus.unpaid:
         return Colors.red;
 
+      case ShuttlePaymentStatus.awaitingPayment:
+        return Colors.red;
+
       case ShuttlePaymentStatus.pending:
         return Colors.orange;
 
@@ -67,6 +74,9 @@ extension ShuttlePaymentStatusExtension on ShuttlePaymentStatus {
     switch (this) {
       case ShuttlePaymentStatus.unpaid:
         return Icons.payment;
+
+      case ShuttlePaymentStatus.awaitingPayment:
+        return Icons.schedule;
 
       case ShuttlePaymentStatus.pending:
         return Icons.schedule;

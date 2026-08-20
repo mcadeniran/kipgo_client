@@ -15,6 +15,10 @@ class ShuttleBookingPayment {
 
   final bool completed;
 
+  final String? paymentLink;
+
+  final DateTime? paymentLinkCreatedAt;
+
   final String? reference;
 
   final DateTime? paidAt;
@@ -32,6 +36,8 @@ class ShuttleBookingPayment {
     required this.status,
     required this.verified,
     required this.completed,
+    this.paymentLink,
+    this.paymentLinkCreatedAt,
     this.reference,
     this.paidAt,
     this.expiresAt,
@@ -42,7 +48,7 @@ class ShuttleBookingPayment {
 
   factory ShuttleBookingPayment.empty() {
     return const ShuttleBookingPayment(
-      method: ShuttlePaymentMethod.payOnDelivery,
+      method: ShuttlePaymentMethod.creditCard,
       status: ShuttlePaymentStatus.unpaid,
       verified: false,
       completed: false,
@@ -60,6 +66,10 @@ class ShuttleBookingPayment {
       verified: map['verified'] ?? false,
       completed: map['completed'] ?? false,
       reference: map['reference'],
+      paymentLink: map['paymentLink'],
+      paymentLinkCreatedAt: map['paymentLinkCreatedAt'] is Timestamp
+          ? (map['paymentLinkCreatedAt'] as Timestamp).toDate()
+          : map['paymentLinkCreatedAt'],
       paidAt: map['paidAt'] is Timestamp
           ? (map['paidAt'] as Timestamp).toDate()
           : map['paidAt'],
@@ -84,6 +94,8 @@ class ShuttleBookingPayment {
       'status': status.value,
       'verified': verified,
       'completed': completed,
+      'paymentLink': paymentLink,
+      'paymentLinkCreatedAt': paymentLinkCreatedAt,
       'reference': reference,
       'paidAt': paidAt,
       'expiresAt': expiresAt,
@@ -98,9 +110,14 @@ class ShuttleBookingPayment {
     ShuttlePaymentStatus? status,
     bool? verified,
     bool? completed,
+
+    String? paymentLink,
+    DateTime? paymentLinkCreatedAt,
+
     String? reference,
     DateTime? paidAt,
     DateTime? expiresAt,
+
     ShuttleBookingCrypto? crypto,
     ShuttlePaymentVerification? verification,
     ShuttlePaymentRejection? rejection,
@@ -110,9 +127,14 @@ class ShuttleBookingPayment {
       status: status ?? this.status,
       verified: verified ?? this.verified,
       completed: completed ?? this.completed,
+
+      paymentLink: paymentLink ?? this.paymentLink,
+      paymentLinkCreatedAt: paymentLinkCreatedAt ?? this.paymentLinkCreatedAt,
+
       reference: reference ?? this.reference,
       paidAt: paidAt ?? this.paidAt,
       expiresAt: expiresAt ?? this.expiresAt,
+
       crypto: crypto ?? this.crypto,
       verification: verification ?? this.verification,
       rejection: rejection ?? this.rejection,

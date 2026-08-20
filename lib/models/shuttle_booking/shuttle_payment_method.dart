@@ -1,5 +1,6 @@
 enum ShuttlePaymentMethod {
   payOnDelivery,
+  creditCard,
   crypto;
 
   String get value => name;
@@ -7,7 +8,7 @@ enum ShuttlePaymentMethod {
   static ShuttlePaymentMethod fromString(String? value) {
     return ShuttlePaymentMethod.values.firstWhere(
       (e) => e.name == value,
-      orElse: () => ShuttlePaymentMethod.payOnDelivery,
+      orElse: () => ShuttlePaymentMethod.creditCard,
     );
   }
 }

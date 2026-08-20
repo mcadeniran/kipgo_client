@@ -61,6 +61,21 @@ class BookingStatusBadge extends StatelessWidget {
         textColor = Colors.blueGrey.shade900;
         text = loc.expired;
         break;
+      case 'driverAssigned':
+        color = Colors.deepPurple.shade100;
+        textColor = Colors.deepPurple.shade900;
+        text = loc.driverAssigned;
+        break;
+      case 'driverArriving':
+        color = Colors.teal.shade100;
+        textColor = Colors.teal.shade900;
+        text = loc.driverArriving;
+        break;
+      case 'inProgress':
+        color = Colors.deepOrange.shade100;
+        textColor = Colors.deepOrange.shade900;
+        text = loc.inProgress;
+        break;
       default:
         color = Colors.grey.shade100;
         textColor = Colors.red.shade900;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:kipgo/controllers/locale_provider.dart';
 import 'package:kipgo/controllers/shuttle_booking_provider.dart';
 import 'package:kipgo/controllers/shuttle_fleet_provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
@@ -25,6 +26,7 @@ class ShuttleBookingCard extends StatelessWidget {
     AppLocalizations loc = AppLocalizations.of(context)!;
     final booking = context.watch<ShuttleBookingProvider>();
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+    final locale = Provider.of<LocaleProvider>(context, listen: false).locale;
 
     return Material(
       elevation: 4,
@@ -107,6 +109,7 @@ class ShuttleBookingCard extends StatelessWidget {
               value: booking.draft.departureDate != null
                   ? DateFormat(
                       "EEE, MMM d • h:mm a",
+                      '$locale',
                     ).format(booking.draft.departureDate!)
                   : null,
               placeholder: loc.selectDepartureDate,
@@ -145,9 +148,9 @@ class ShuttleBookingCard extends StatelessWidget {
                       child: BookingSelectionTile(
                         title: loc.returnDate,
                         value: booking.draft.returnDate != null
-                            ? DateFormat.yMMMMd().format(
-                                booking.draft.returnDate!,
-                              )
+                            ? DateFormat.yMMMMd(
+                                '$locale',
+                              ).format(booking.draft.returnDate!)
                             : null,
                         placeholder: loc.selectReturnDate,
                         icon: Icons.event_repeat,

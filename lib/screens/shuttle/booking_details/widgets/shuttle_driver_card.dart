@@ -4,6 +4,12 @@ import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/models/shuttle_booking/shuttle_booking.dart';
 import 'package:kipgo/utils/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+Future<void> _makePhoneCall(BuildContext context, String phoneNumber) async {
+  final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
+  await launchUrl(launchUri);
+}
 
 class ShuttleDriverCard extends StatelessWidget {
   final ShuttleBooking booking;
@@ -79,25 +85,24 @@ class ShuttleDriverCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: FilledButton.icon(
-                    onPressed: () {
-                      // Phase 10
-                    },
+                    onPressed: () =>
+                        _makePhoneCall(context, driver.phoneNumber),
                     icon: const Icon(Icons.call),
                     label: Text(loc.call),
                   ),
                 ),
 
-                const SizedBox(width: 12),
+                // const SizedBox(width: 12),
 
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: () {
-                      // Phase 10
-                    },
-                    icon: const Icon(Icons.chat_bubble_outline),
-                    label: Text(loc.message),
-                  ),
-                ),
+                // Expanded(
+                //   child: OutlinedButton.icon(
+                //     onPressed: () {
+                //       // Phase 10
+                //     },
+                //     icon: const Icon(Icons.chat_bubble_outline),
+                //     label: Text(loc.message),
+                //   ),
+                // ),
               ],
             ),
           ],

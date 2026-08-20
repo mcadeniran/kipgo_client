@@ -93,7 +93,7 @@ class _BookingDateSheetState extends State<BookingDateSheet> {
             leading: const Icon(Icons.calendar_month),
 
             title: Text(loc.chooseAnotherDate),
-
+            subtitle: Text(BookingDateFormatter.format(context, selected)),
             trailing: const Icon(Icons.chevron_right),
 
             onTap: () async {

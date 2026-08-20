@@ -34,7 +34,7 @@ class ShuttleBookingCard extends StatelessWidget {
             border: Border.all(
               color: isDark
                   ? AppColors.border.withValues(alpha: 0.4)
-                  : AppColors.border,
+                  : AppColors.border.withValues(alpha: 0.4),
             ),
           ),
           child: Padding(
@@ -61,13 +61,12 @@ class ShuttleBookingCard extends StatelessWidget {
 
                 _TripInfoSection(booking),
 
-                AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
-                  child: booking.driver != null
-                      ? _DriverSection(booking)
-                      : const SizedBox.shrink(),
-                ),
-
+                // AnimatedSwitcher(
+                //   duration: const Duration(milliseconds: 300),
+                //   child: booking.driver != null
+                //       ? _DriverSection(booking)
+                //       : const SizedBox.shrink(),
+                // ),
                 Divider(
                   height: 30,
                   color: isDark
@@ -155,7 +154,7 @@ class _TripInfoSection extends StatelessWidget {
     AppLocalizations loc = AppLocalizations.of(context)!;
     String formatDate(BuildContext context, DateTime date) {
       final locale = Provider.of<LocaleProvider>(context, listen: false).locale;
-      return DateFormat('MMM d • HH:mm', '$locale').format(date);
+      return DateFormat('MMM d • HH:mm a', '$locale').format(date);
     }
 
     return Wrap(
@@ -179,6 +178,8 @@ class _TripInfoSection extends StatelessWidget {
           label: loc.payment,
           value: booking.payment.method.value == 'payOnDelivery'
               ? loc.cash
+              : booking.payment.method.value == 'creditCard'
+              ? loc.cardPayment
               : loc.crypto,
         ),
 
@@ -196,58 +197,59 @@ class _TripInfoSection extends StatelessWidget {
   }
 }
 
-class _DriverSection extends StatelessWidget {
-  final ShuttleBooking booking;
+// class _DriverSection extends StatelessWidget {
+//   final ShuttleBooking booking;
 
-  const _DriverSection(this.booking);
+//   const _DriverSection(this.booking);
 
-  @override
-  Widget build(BuildContext context) {
-    bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
-    final driver = booking.driver!;
-    final vehicle = booking.vehicle;
+//   @override
+//   Widget build(BuildContext context) {
+//     bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+//     final driver = booking.driver!;
+//     final vehicle = booking.vehicle;
 
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isDark
-              ? AppColors.border.withValues(alpha: 0.4)
-              : AppColors.border,
-        ),
-      ),
-      child: Row(
-        children: [
-          const CircleAvatar(radius: 24, child: Icon(Icons.person)),
+//     return Container(
+//       padding: const EdgeInsets.all(12),
+//       margin: EdgeInsets.symmetric(vertical: 12),
+//       decoration: BoxDecoration(
+//         color: Colors.white,
+//         borderRadius: BorderRadius.circular(16),
+//         border: Border.all(
+//           color: isDark
+//               ? AppColors.border.withValues(alpha: 0.4)
+//               : AppColors.border,
+//         ),
+//       ),
+//       child: Row(
+//         children: [
+//           const CircleAvatar(radius: 24, child: Icon(Icons.person)),
 
-          const SizedBox(width: 14),
+//           const SizedBox(width: 14),
 
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  driver.fullName,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
+//           Expanded(
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 Text(
+//                   driver.fullName,
+//                   style: const TextStyle(
+//                     fontWeight: FontWeight.bold,
+//                     fontSize: 16,
+//                   ),
+//                 ),
 
-                if (vehicle != null)
-                  Text(
-                    vehicle.fullName,
-                    style: TextStyle(color: Colors.grey.shade700),
-                  ),
-              ],
-            ),
-          ),
+//                 if (vehicle != null)
+//                   Text(
+//                     vehicle.fullName,
+//                     style: TextStyle(color: Colors.grey.shade700),
+//                   ),
+//               ],
+//             ),
+//           ),
 
-          const Icon(Icons.chevron_right),
-        ],
-      ),
-    );
-  }
-}
+//           const Icon(Icons.chevron_right),
+//         ],
+//       ),
+//     );
+//   }
+// }

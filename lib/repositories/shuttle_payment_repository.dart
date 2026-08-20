@@ -17,12 +17,28 @@ class ShuttlePaymentRepository {
     required ShuttleDraft draft,
   }) async {
     switch (draft.payment.method) {
+      case ShuttlePaymentMethod.creditCard:
+        return _buildCreditCardPayment();
       case ShuttlePaymentMethod.crypto:
         return _buildCryptoPayment(draft);
 
       case ShuttlePaymentMethod.payOnDelivery:
         return _buildPayOnPickupPayment();
     }
+  }
+
+  Future<ShuttleBookingPayment> _buildCreditCardPayment() async {
+    return ShuttleBookingPayment(
+      method: ShuttlePaymentMethod.creditCard,
+      status: ShuttlePaymentStatus.unpaid,
+      verified: false,
+      completed: false,
+      paymentLink: null,
+      paymentLinkCreatedAt: null,
+      crypto: null,
+      verification: null,
+      rejection: null,
+    );
   }
 
   Future<ShuttleBookingPayment> _buildPayOnPickupPayment() async {
@@ -51,7 +67,7 @@ class ShuttlePaymentRepository {
 
     return ShuttleBookingPayment(
       method: ShuttlePaymentMethod.crypto,
-      status: ShuttlePaymentStatus.pending,
+      status: ShuttlePaymentStatus.unpaid,
       verified: false,
       completed: false,
       expiresAt: DateTime.now().add(const Duration(minutes: 30)),

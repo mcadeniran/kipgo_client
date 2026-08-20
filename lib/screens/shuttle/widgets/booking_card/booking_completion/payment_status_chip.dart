@@ -24,6 +24,12 @@ class PaymentStatusChip extends StatelessWidget {
         text = loc.unpaid;
         break;
 
+      case ShuttlePaymentStatus.awaitingPayment:
+        color = Colors.deepOrange;
+        icon = Icons.schedule;
+        text = loc.awaitingPayment;
+        break;
+
       case ShuttlePaymentStatus.pending:
         color = Colors.orange;
         icon = Icons.hourglass_bottom;

@@ -204,7 +204,7 @@ class _BookingsTab extends StatelessWidget {
 
     return Consumer2<ShuttleBookingsProvider, ProfileProvider>(
       builder: (context, provider, profileProvider, _) {
-        final state = provider.state(group);
+        // final state = provider.state(group);
 
         final profile = profileProvider.profile;
 
@@ -212,11 +212,16 @@ class _BookingsTab extends StatelessWidget {
           return const SizedBox.shrink();
         }
 
-        if (state.loading && state.bookings.isEmpty) {
+        if (provider.loading) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (state.hasError && state.bookings.isEmpty) {
+        // if (state.loading && state.bookings.isEmpty) {
+        //   return const Center(child: CircularProgressIndicator());
+        // }
+
+        if (provider.error != null) {
+          print(provider.error);
           return Center(
             child: Padding(
               padding: const EdgeInsets.all(24),
@@ -228,25 +233,27 @@ class _BookingsTab extends StatelessWidget {
                   const SizedBox(height: 16),
 
                   Text(
-                    state.error ?? loc.somethingWentWrong,
+                    provider.error ?? loc.somethingWentWrong,
                     textAlign: TextAlign.center,
                   ),
 
                   const SizedBox(height: 24),
 
-                  FilledButton(
-                    onPressed: () {
-                      provider.refresh(userId: profile.id, group: group);
-                    },
-                    child: Text(loc.retry),
-                  ),
+                  // FilledButton(
+                  //   onPressed: () {
+                  //     provider.refresh(userId: profile.id, group: group);
+                  //   },
+                  //   child: Text(loc.retry),
+                  // ),
                 ],
               ),
             ),
           );
         }
 
-        if (state.bookings.isEmpty) {
+        final bookings = provider.bookings(group);
+
+        if (bookings.isEmpty) {
           return ShuttleBookingEmptyState(
             title: getEmptyTitle(group),
             subtitle: getEmptyMessage(group),
@@ -255,32 +262,24 @@ class _BookingsTab extends StatelessWidget {
         }
 
         return ShuttleBookingList(
-          bookings: state.bookings,
+          bookings: bookings,
 
-          hasMore: state.hasMore,
+          // onRefresh: () async {
+          //   switch (group) {
+          //     case ShuttleBookingGroup.completed:
+          //     case ShuttleBookingGroup.closed:
+          //       // await provider.refresh(userId: profile.id, group: group);
+          //       break;
 
-          loadingMore: state.loadingMore,
-
-          onRefresh: () async {
-            switch (group) {
-              case ShuttleBookingGroup.completed:
-              case ShuttleBookingGroup.closed:
-                await provider.refresh(userId: profile.id, group: group);
-                break;
-
-              default:
-                return;
-            }
-          },
-
-          onLoadMore: () {
-            provider.loadMore(userId: profile.id, group: group);
-          },
-
+          //     default:
+          //       return;
+          //   }
+          // },
           onBookingTap: (booking) {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => ShuttleBookingDetailsPage(booking: booking),
+                builder: (_) =>
+                    ShuttleBookingDetailsPage(bookingId: booking.id),
               ),
             );
           },

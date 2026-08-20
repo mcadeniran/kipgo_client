@@ -2516,7 +2516,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get yourBookingWillBeCreated =>
-      'Bu adımı tamamladıktan sonra rezervasyonunuz oluşturulacaktır. Kripto ödemeleri onaydan önce doğrulama gerektirirken, Araca Binerken Öde seçeneği rezervasyonunuzu onay bekleyen durumda hemen gönderir.';
+      'Rezervasyonunuz bu adımdan sonra gönderilecektir. İncelenip onaylandıktan sonra seçtiğiniz ödeme yöntemine göre talimatlar alacaksınız. Kart ödemeleri güvenli bir ödeme bağlantısı üzerinden tamamlanırken, kripto para ödemeleri rezervasyonunuzun devam edebilmesi için doğrulama gerektirir.';
 
   @override
   String get bookingCreated => 'Rezervasyon Oluşturuldu';
@@ -2782,4 +2782,76 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get today => 'Bugün';
+
+  @override
+  String get cardPayment => 'Kart ile Ödeme';
+
+  @override
+  String get aSecuredLinkPaymentLink =>
+      'Rezervasyonunuz onaylandıktan sonra size güvenli bir ödeme bağlantısı gönderilecektir.';
+
+  @override
+  String get yourBookingIsAwaitingApproval =>
+      'Rezervasyonunuz onay bekliyor. Ödeme bağlantısı onaydan sonra kullanılabilir olacaktır.';
+
+  @override
+  String get paymentLinkWillAppearHereOnceGenerated =>
+      'Oluşturulduğunda ödeme bağlantısı burada görünecektir.';
+
+  @override
+  String get openPaymentPage => 'Ödeme Sayfasını Aç';
+
+  @override
+  String get iHaveCompletedPayment => 'Ödemeyi Tamamladım';
+
+  @override
+  String get weAreVerifyingYourPayment => 'Ödemeniz doğrulanıyor.';
+
+  @override
+  String get paymentFailedPleaseTryAgain =>
+      'Ödeme başarısız oldu. Lütfen tekrar deneyin.';
+
+  @override
+  String get tryAgain => 'Tekrar Dene';
+
+  @override
+  String get confirmPayment => 'Ödemeyi Onayla';
+
+  @override
+  String get confirmPaymentDescription =>
+      'Lütfen ödeme bağlantısını kullanarak ödemenizi başarıyla tamamladığınızı onaylayın. Rezervasyonunuz devam etmeden önce ekibimiz ödemenizi doğrulayacaktır.';
+
+  @override
+  String get yourPaymentSubmittedSuccessfully =>
+      'Ödemeniz doğrulama için başarıyla gönderildi.';
+
+  @override
+  String get submitting => 'Gönderiliyor...';
+
+  @override
+  String get driverArriving => 'Sürücü Geliyor';
+
+  @override
+  String get inProgress => 'Devam Ediyor';
+
+  @override
+  String get paymentRequested => 'Ödeme Talep Edildi';
+
+  @override
+  String get paymentRejected => 'Ödeme Reddedildi';
+
+  @override
+  String get bookingReserved => 'Rezervasyon Ayrıldı';
+
+  @override
+  String get passengerPickedUp => 'Yolcu Alındı';
+
+  @override
+  String get tripStarted => 'Yolculuk Başladı';
+
+  @override
+  String get tripCompleted => 'Yolculuk Tamamlandı';
+
+  @override
+  String get paymentLinkSent => 'Ödeme Bağlantısı Gönderildi';
 }

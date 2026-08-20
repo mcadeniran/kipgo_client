@@ -180,6 +180,62 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
                       const SizedBox(height: 18),
+                      Divider(
+                        height: 0,
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        thickness: 0.8,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (context) => const AppSelection(),
+                              ),
+                              (Route<dynamic> route) => false,
+                            );
+                          },
+
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Icon(Icons.swipe_vertical_sharp, size: 18),
+                                  const SizedBox(width: 12),
+                                  Text(
+                                    AppLocalizations.of(context)!.switchApp,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium,
+                                  ),
+                                ],
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (context) =>
+                                          const AppSelection(),
+                                    ),
+                                    (Route<dynamic> route) => false,
+                                  );
+                                },
+                                icon: Icon(Icons.chevron_right),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Divider(
+                        height: 0,
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        thickness: 0.8,
+                      ),
+                      const SizedBox(height: 18),
                       Text(
                         AppLocalizations.of(context)!.accountTitle,
                         style: TextStyle(
@@ -306,56 +362,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 ),
                                 ChangeThemeButtonWidget(),
                               ],
-                            ),
-                            Divider(
-                              height: 0,
-                              color: Theme.of(context).scaffoldBackgroundColor,
-                              thickness: 0.8,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute<void>(
-                                    builder: (context) => const AppSelection(),
-                                  ),
-                                  (Route<dynamic> route) => false,
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.swipe_vertical_sharp,
-                                        size: 18,
-                                      ),
-                                      const SizedBox(width: 12),
-                                      Text(
-                                        AppLocalizations.of(context)!.switchApp,
-                                        style: Theme.of(
-                                          context,
-                                        ).textTheme.bodyMedium,
-                                      ),
-                                    ],
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute<void>(
-                                          builder: (context) =>
-                                              const AppSelection(),
-                                        ),
-                                        (Route<dynamic> route) => false,
-                                      );
-                                    },
-                                    icon: Icon(Icons.chevron_right),
-                                  ),
-                                ],
-                              ),
                             ),
                           ],
                         ),

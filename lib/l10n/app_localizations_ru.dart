@@ -2536,7 +2536,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get yourBookingWillBeCreated =>
-      'Ваше бронирование будет создано после завершения этого шага. Криптовалютные платежи требуют проверки перед подтверждением, а при оплате при посадке бронирование сразу отправляется на рассмотрение.';
+      'Ваше бронирование будет отправлено после выполнения этого шага. После проверки и подтверждения вы получите инструкции в зависимости от выбранного способа оплаты. Оплата картой осуществляется через безопасную ссылку для оплаты, а платежи в криптовалюте требуют проверки, прежде чем бронирование сможет быть продолжено.';
 
   @override
   String get bookingCreated => 'Бронирование создано';
@@ -2803,4 +2803,76 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get today => 'Сегодня';
+
+  @override
+  String get cardPayment => 'Оплата картой';
+
+  @override
+  String get aSecuredLinkPaymentLink =>
+      'После подтверждения бронирования вам будет отправлена безопасная ссылка для оплаты.';
+
+  @override
+  String get yourBookingIsAwaitingApproval =>
+      'Ваше бронирование ожидает подтверждения. Ссылка для оплаты станет доступна после подтверждения.';
+
+  @override
+  String get paymentLinkWillAppearHereOnceGenerated =>
+      'Ссылка для оплаты появится здесь после её создания.';
+
+  @override
+  String get openPaymentPage => 'Открыть страницу оплаты';
+
+  @override
+  String get iHaveCompletedPayment => 'Я завершил(а) оплату';
+
+  @override
+  String get weAreVerifyingYourPayment => 'Мы проверяем ваш платёж.';
+
+  @override
+  String get paymentFailedPleaseTryAgain =>
+      'Не удалось выполнить оплату. Пожалуйста, попробуйте ещё раз.';
+
+  @override
+  String get tryAgain => 'Попробовать снова';
+
+  @override
+  String get confirmPayment => 'Подтвердить оплату';
+
+  @override
+  String get confirmPaymentDescription =>
+      'Пожалуйста, подтвердите, что вы успешно завершили оплату по предоставленной ссылке. Наша команда проверит ваш платёж, прежде чем бронирование будет продолжено.';
+
+  @override
+  String get yourPaymentSubmittedSuccessfully =>
+      'Ваш платёж успешно отправлен на проверку.';
+
+  @override
+  String get submitting => 'Отправка...';
+
+  @override
+  String get driverArriving => 'Водитель приближается';
+
+  @override
+  String get inProgress => 'Выполняется';
+
+  @override
+  String get paymentRequested => 'Запрошена оплата';
+
+  @override
+  String get paymentRejected => 'Платёж отклонён';
+
+  @override
+  String get bookingReserved => 'Бронирование зарезервировано';
+
+  @override
+  String get passengerPickedUp => 'Пассажир забран';
+
+  @override
+  String get tripStarted => 'Поездка началась';
+
+  @override
+  String get tripCompleted => 'Поездка завершена';
+
+  @override
+  String get paymentLinkSent => 'Ссылка для оплаты отправлена';
 }
