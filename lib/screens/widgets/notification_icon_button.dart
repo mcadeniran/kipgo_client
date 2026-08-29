@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kipgo/controllers/auth_provider.dart';
 import 'package:kipgo/controllers/inapp_notification_provider.dart';
 import 'package:kipgo/screens/widgets/notification_screen.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +9,15 @@ class NotificationIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profile = context.watch<AuthProvider>().profile;
+
+    if (profile == null) {
+      return IconButton(
+        onPressed: () {},
+        icon: Icon(Icons.notifications_none_outlined),
+      );
+    }
+
     return Consumer<InAppNotificationProvider>(
       builder: (_, provider, _) {
         return IconButton(

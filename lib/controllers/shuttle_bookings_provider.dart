@@ -6,7 +6,6 @@ import 'package:kipgo/models/shuttle_booking/shuttle_payment_status.dart';
 
 import '../models/shuttle_booking/shuttle_booking.dart';
 import '../models/shuttle_booking/shuttle_booking_group.dart';
-import '../models/shuttle_booking/shuttle_bookings_state.dart';
 import '../repositories/shuttle_booking_repository.dart';
 
 class ShuttleBookingsProvider extends ChangeNotifier {

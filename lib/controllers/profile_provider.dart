@@ -116,7 +116,7 @@ class ProfileProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  bool _initialized = false;
+  bool initialized = false;
 
   String? _currentUid;
 
@@ -177,7 +177,7 @@ class ProfileProvider extends ChangeNotifier {
     if (_currentUid == uid) return; // 🔥 prevents duplicate listeners
 
     _currentUid = uid;
-    _initialized = true;
+    initialized = true;
 
     _isLoading = true;
     notifyListeners();
@@ -212,14 +212,22 @@ class ProfileProvider extends ChangeNotifier {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
 
-    _initialized = false; // allow restart
+    initialized = false; // allow restart
     startListening(user.uid);
   }
 
   void clear() {
     _profileSubscription?.cancel();
+    _profileSubscription = null;
+
     _profile = null;
+    _currentUid = null;
+
     _isLoading = false;
+    _hasLoadedOnce = false;
+    initialized = false;
+    hasError = false;
+
     notifyListeners();
   }
 

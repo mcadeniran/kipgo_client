@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/ic.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:kipgo/controllers/auth_provider.dart';
 import 'package:kipgo/controllers/inapp_notification_provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
@@ -29,12 +28,11 @@ class _ShuttleBottomNavigationState extends State<ShuttleBottomNavigation> {
     index = widget.initialIndex;
 
     final auth = context.read<AuthProvider>();
-    final user = auth.profile!;
+    final user = auth.profile;
 
-    Provider.of<InAppNotificationProvider>(
-      context,
-      listen: false,
-    ).listenToNotifications(user.id);
+    if (user != null) {
+      context.read<InAppNotificationProvider>().listenToNotifications(user.id);
+    }
   }
 
   @override
@@ -44,60 +42,60 @@ class _ShuttleBottomNavigationState extends State<ShuttleBottomNavigation> {
 
     final screens = [ShuttleHome(), ShuttleBookingsPage(), SettingsScreen()];
 
-    final destinations = [
-      NavigationDestination(
-        icon: Iconify(
-          Ic.outline_home,
-          color: isDark ? AppColors.lightLayer : AppColors.darkLayer,
-        ),
-        selectedIcon: Iconify(Ic.sharp_home, color: Colors.white),
-        label: loc.home,
-      ),
-      NavigationDestination(
-        icon: Iconify(
-          Ic.outline_calendar_today,
-          color: isDark ? AppColors.lightLayer : AppColors.darkLayer,
-          size: 22,
-        ),
-        selectedIcon: Iconify(
-          Ic.round_calendar_today,
-          color: Colors.white,
-          size: 22,
-        ),
-        label: loc.bookings,
-      ),
-
-      NavigationDestination(
-        icon: Iconify(
-          Ic.round_person_outline,
-          color: isDark ? AppColors.lightLayer : AppColors.darkLayer,
-        ),
-        selectedIcon: Iconify(Ic.round_person, color: Colors.white),
-        label: loc.profile,
-      ),
-    ];
-
     return Scaffold(
       body: IndexedStack(index: index, children: screens),
-      bottomNavigationBar: NavigationBarTheme(
-        data: NavigationBarThemeData(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          indicatorColor: isDark ? AppColors.darkLayer : AppColors.primary,
-          indicatorShape: const CircleBorder(),
-          labelTextStyle: const WidgetStatePropertyAll(
-            TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-          ),
-        ),
-        child: NavigationBar(
+      bottomNavigationBar: SafeArea(
+        minimum: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+        child: Container(
           height: 60,
-          maintainBottomViewPadding: true,
-          selectedIndex: index,
-          onDestinationSelected: (value) {
-            setState(() {
-              index = value;
-            });
-          },
-          destinations: destinations,
+          padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 0),
+          decoration: BoxDecoration(
+            color: isDark ? AppColors.darkAccent : Colors.white,
+            borderRadius: BorderRadius.circular(100),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: isDark ? 0.4 : 0.18),
+                blurRadius: 24,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: GNav(
+            onTabChange: (value) {
+              setState(() {
+                index = value;
+              });
+            },
+            tabBorderRadius: 100,
+            backgroundColor: Colors.transparent,
+            color: isDark ? AppColors.darkLayer : AppColors.primary,
+            activeColor: Colors.white,
+            tabBackgroundColor: isDark
+                ? AppColors.darkLayer
+                : AppColors.primary,
+            padding: const EdgeInsets.all(12),
+            gap: 8,
+            tabs: [
+              GButton(
+                icon: Icons.home_outlined,
+                text: loc.home,
+                haptic: true,
+                borderRadius: BorderRadius.circular(100),
+              ),
+              GButton(
+                icon: Icons.calendar_today_outlined,
+                text: loc.bookings,
+                haptic: true,
+                borderRadius: BorderRadius.circular(100),
+              ),
+              GButton(
+                icon: Icons.person_outlined,
+                text: loc.profile,
+                haptic: true,
+                borderRadius: BorderRadius.circular(100),
+              ),
+            ],
+          ),
         ),
       ),
     );

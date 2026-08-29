@@ -66,7 +66,7 @@ class RideHistory {
                 : (data['time'] != null
                       ? DateTime.parse(data['time'].toString())
                       : DateTime.now())),
-      fare: (data['proposedFare'] ?? 0).toDouble(),
+      fare: _parseDouble(data['proposedFare']),
       isRated: data['isRated'] ?? false,
     );
   }
@@ -105,7 +105,7 @@ class RideHistory {
       status: data['status'] ?? 'pending',
       time: parseDate(data['time']),
       // time: DateTime.fromMillisecondsSinceEpoch(data['time'] ?? 0),
-      fare: (data['proposedFare'] ?? 0).toDouble(),
+      fare: _parseDouble(data['proposedFare']),
       isRated: data['isRated'] ?? false,
     );
   }
@@ -158,4 +158,18 @@ class Address {
   Map<String, dynamic> toMap() {
     return {'latitude': latitude, 'longitude': longitude};
   }
+}
+
+double _parseDouble(dynamic value) {
+  if (value == null) return 0.0;
+
+  if (value is num) {
+    return value.toDouble();
+  }
+
+  if (value is String) {
+    return double.tryParse(value) ?? 0.0;
+  }
+
+  return 0.0;
 }

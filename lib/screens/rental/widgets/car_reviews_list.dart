@@ -40,6 +40,14 @@ class CarReviewsList extends StatelessWidget {
           itemBuilder: (context, index) {
             final rating = ratings[index];
 
+            final avg =
+                (rating.vehicle.cleanliness +
+                    rating.vehicle.comfort +
+                    rating.vehicle.condition +
+                    rating.vehicle.overall +
+                    rating.vehicle.valueForMoney) /
+                5;
+
             return Container(
               padding: EdgeInsets.all(12),
               width: double.maxFinite,
@@ -62,21 +70,23 @@ class CarReviewsList extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             radius: 28,
-                            foregroundImage: NetworkImage(rating.userImage),
+                            foregroundImage: NetworkImage(
+                              rating.createdBy.photoUrl,
+                            ),
                           ),
                           SizedBox(width: 8),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                rating.userName,
+                                rating.createdBy.name,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
                                 ),
                               ),
                               StarRating(
-                                rating: rating.carRating,
+                                rating: avg,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 color: Colors.amber,
                                 size: 18,
@@ -93,9 +103,9 @@ class CarReviewsList extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    rating.review == ''
+                    rating.details.review == ''
                         ? AppLocalizations.of(context)!.noComment
-                        : rating.review,
+                        : rating.details.review,
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       color: Theme.of(
                         context,

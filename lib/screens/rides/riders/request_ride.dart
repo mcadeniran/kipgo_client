@@ -230,12 +230,6 @@ class _RequestRideState extends State<RequestRide> {
     _rebuildMarkers();
   }
 
-  // void _removeUserMarker() {
-  //   if (!mounted) return;
-  //   markersSet.removeWhere((m) => m.markerId.value == _userMarkerId);
-  //   setState(() {});
-  // }
-
   // ───────────────────────────────────────────
   // Locate user position (initial)
   // ───────────────────────────────────────────
@@ -362,11 +356,6 @@ class _RequestRideState extends State<RequestRide> {
   }
 
   Future<void> updateDriversRoadDistance() async {
-    // final pickup = LatLng(
-    //   userCurrentPosition!.latitude,
-    //   userCurrentPosition!.longitude,
-    // );
-
     if (!mounted) return;
 
     final pickupDetails = Provider.of<AppInfo>(
@@ -703,8 +692,6 @@ class _RequestRideState extends State<RequestRide> {
             referenceRideRequest = null;
             // Provider.of<AppInfo>(context, listen: false).setActiveRideId('');
           }
-          // WITHOUT CLEANUP
-          // cleanupRideResources();
 
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -720,9 +707,6 @@ class _RequestRideState extends State<RequestRide> {
             );
 
             _showRideRejectedDialog();
-            // Optionally re-open driver list modal
-            // showDriverListsModel = true;
-            // showBottomDriversListModel();
           }
           return; // stop here since rejected
         }

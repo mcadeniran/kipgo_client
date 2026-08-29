@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:kipgo/models/rating_distribution.dart';
 
 class RentalShop {
   late String id;
@@ -16,11 +17,10 @@ class RentalShop {
   late Featured? featured;
   late Discount? discount;
   late String currency;
-  // late ShopRules rules;
-  late int totalRatings;
-  late double rating;
   late bool isActive;
   late double taxRate;
+  late RentalReview review;
+  late Rules rules;
 
   late String language;
 
@@ -42,13 +42,12 @@ class RentalShop {
     this.featured,
     this.discount,
     required this.isFeatured,
-    required this.rating,
-    required this.totalRatings,
     required this.isActive,
     required this.taxRate,
+    required this.review,
+    required this.rules,
     required this.commissionPercentage,
     required this.language,
-    // required this.rules,
   });
 
   factory RentalShop.fromFirestore(Map<String, dynamic> data, String id) {
@@ -64,9 +63,9 @@ class RentalShop {
       district: data['district'] ?? '',
       name: data['name'] ?? '',
       location: ShopLocation.fromFirestore(data['location']),
-      rating: (data['rating'] ?? 0).toDouble(),
-      totalRatings: data['totalRatings'] ?? 0,
       taxRate: (data['taxRate'] ?? 0).toDouble(),
+      review: RentalReview.fromFirestore(data['review'] ?? {}),
+      rules: Rules.fromMap(data['rules'] ?? {}),
       commissionPercentage: (data['commissionPercentage'] ?? 0).toDouble(),
       currency: data['currency'] ?? 'TRY',
       isFeatured: data['isFeatured'] ?? false,
@@ -79,6 +78,35 @@ class RentalShop {
           : null,
       isActive: data['isActive'] ?? false,
       // rules: ShopRules.fromMap(data['rules']),
+    );
+  }
+}
+
+class Rules {
+  late String cancellation;
+  late String fuelPolicy;
+  late String insurance;
+  late String lateReturn;
+  late String mileageLimit;
+  late String securityDeposit;
+
+  Rules({
+    required this.cancellation,
+    required this.fuelPolicy,
+    required this.insurance,
+    required this.lateReturn,
+    required this.mileageLimit,
+    required this.securityDeposit,
+  });
+
+  factory Rules.fromMap(Map<String, dynamic> data) {
+    return Rules(
+      cancellation: data['cancellation'] ?? '',
+      fuelPolicy: data['fuelPolicy'] ?? '',
+      insurance: data['insurance'] ?? '',
+      lateReturn: data['lateReturn'] ?? '',
+      mileageLimit: data['mileageLimit'] ?? '',
+      securityDeposit: data['securityDeposit'] ?? '',
     );
   }
 }
@@ -159,35 +187,6 @@ class ShopLocation {
   }
 }
 
-class ShopRules {
-  late String cancellation;
-  late String fuelPolicy;
-  late String insurance;
-  late String lateReturn;
-  late String mileageLimit;
-  late String securityDeposit;
-
-  ShopRules({
-    required this.cancellation,
-    required this.fuelPolicy,
-    required this.insurance,
-    required this.lateReturn,
-    required this.mileageLimit,
-    required this.securityDeposit,
-  });
-
-  factory ShopRules.fromMap(Map<String, dynamic> data) {
-    return ShopRules(
-      cancellation: data['cancellation'] ?? '',
-      fuelPolicy: data['fuelPolicy'] ?? '',
-      insurance: data['insurance'] ?? '',
-      lateReturn: data['lateReturn'] ?? '',
-      mileageLimit: data['mileageLimit'] ?? '',
-      securityDeposit: data['securityDeposit'] ?? '',
-    );
-  }
-}
-
 String sanitizeImage(dynamic value) {
   if (value == null) return '';
 
@@ -200,4 +199,62 @@ String sanitizeImage(dynamic value) {
   }
 
   return '';
+}
+
+class RentalReview {
+  late double average;
+  late double communication;
+  late double communicationTotal;
+  late RatingDistribution distribution;
+  late double overall;
+  late double overallTotal;
+  late double pickupExperience;
+  late double pickupExperienceTotal;
+  late double professionalism;
+  late double professionalismTotal;
+  late int recommendationCount;
+  late double recommendationRate;
+  late double returnExperience;
+  late double returnExperienceTotal;
+  late int totalReviews;
+
+  RentalReview({
+    required this.average,
+    required this.communication,
+    required this.communicationTotal,
+    required this.distribution,
+    required this.overall,
+    required this.overallTotal,
+    required this.pickupExperience,
+    required this.pickupExperienceTotal,
+    required this.professionalism,
+    required this.professionalismTotal,
+    required this.recommendationCount,
+    required this.recommendationRate,
+    required this.returnExperience,
+    required this.returnExperienceTotal,
+    required this.totalReviews,
+  });
+
+  factory RentalReview.fromFirestore(Map<String, dynamic> data) {
+    return RentalReview(
+      average: (data['average'] ?? 0).toDouble(),
+      communication: (data['communication'] ?? 0).toDouble(),
+      communicationTotal: (data['communicationTotal'] ?? 0).toDouble(),
+      distribution: RatingDistribution.fromFirestore(
+        data['distribution'] ?? {},
+      ),
+      overall: (data['overall'] ?? 0).toDouble(),
+      overallTotal: (data['overallTotal'] ?? 0).toDouble(),
+      pickupExperience: (data['pickupExperience'] ?? 0).toDouble(),
+      pickupExperienceTotal: (data['pickupExperienceTotal'] ?? 0).toDouble(),
+      professionalism: (data['professionalism'] ?? 0).toDouble(),
+      professionalismTotal: (data['professionalismTotal'] ?? 0).toDouble(),
+      recommendationCount: data['recommendationCount'] ?? 0,
+      recommendationRate: (data['recommendationRate'] ?? 0).toDouble(),
+      returnExperience: (data['returnExperience'] ?? 0).toDouble(),
+      returnExperienceTotal: (data['returnExperienceTotal'] ?? 0).toDouble(),
+      totalReviews: data['totalReviews'] ?? 0,
+    );
+  }
 }

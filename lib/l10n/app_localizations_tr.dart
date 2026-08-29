@@ -2854,4 +2854,937 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get paymentLinkSent => 'Ödeme Bağlantısı Gönderildi';
+
+  @override
+  String get hello => 'Merhaba';
+
+  @override
+  String get whereToNext => 'Sırada nereye?';
+
+  @override
+  String get airportTransferTitle => 'Havalimanı Transferi';
+
+  @override
+  String get bookAirportTransferInAdvance =>
+      'Havalimanı transferinizi önceden rezerve edin ve stressiz seyahat edin';
+
+  @override
+  String get shuttleService => 'Servis Hizmeti';
+
+  @override
+  String get hotels => 'Oteller';
+
+  @override
+  String get staySomewhereExtra => 'Sıra dışı bir yerde konaklayın.';
+
+  @override
+  String get weArePreparingHotels =>
+      'Bir sonraki yolculuğunuz için güzel konaklama seçeneklerinden ve unutulmaz yerlerden oluşan özel bir koleksiyon hazırlıyoruz. Otel rezervasyonları çok yakında Kipgo\'da.';
+
+  @override
+  String get toursAndActivities => 'Turlar ve Aktiviteler';
+
+  @override
+  String get discoverMore =>
+      'Daha fazlasını keşfedin. Daha fazlasını deneyimleyin.';
+
+  @override
+  String get fromUnforgettableAdventures =>
+      'Unutulmaz maceralardan yerel deneyimlere kadar, yapılacak en güzel şeyleri size daha da yaklaştırıyoruz. Turlar ve Aktiviteler çok yakında Kipgo\'da.';
+
+  @override
+  String get handpickedRides =>
+      'Bir sonraki seyahatiniz için özenle seçilmiş araçlar';
+
+  @override
+  String get featuredCap => 'ÖNE ÇIKANLAR';
+
+  @override
+  String get trustedPartnersForYourJourney =>
+      'Yolculuğunuz için güvenilir iş ortakları';
+
+  @override
+  String get verifiedPartner => 'doğrulanmış iş ortağı';
+
+  @override
+  String get popularCars => 'Popüler Araçlar';
+
+  @override
+  String get lovedByKipgoTravellers => 'Kipgo yolcularının favorileri';
+
+  @override
+  String get seeAll => 'Tümünü gör';
+
+  @override
+  String get swipeToExplore => 'Keşfetmek için kaydırın';
+
+  @override
+  String get safeAndSecure => 'Güvenli ve Emniyetli';
+
+  @override
+  String get yourSafety => 'Güvenliğiniz en büyük önceliğimizdir.';
+
+  @override
+  String get bestPriceGuarantee => 'En İyi Fiyat Garantisi';
+
+  @override
+  String get getTheBestValue =>
+      'Paranızın karşılığında en iyi değeri elde edin.';
+
+  @override
+  String get flexibleBooking => 'Esnek Rezervasyon';
+
+  @override
+  String get freeCancellation => 'Seçili seçeneklerde ücretsiz iptal.';
+
+  @override
+  String get trustedByThousands => 'Binlerce Kişinin Güvendiği';
+
+  @override
+  String get joinThousands => 'Mutlu binlerce yolcunun arasına katılın.';
+
+  @override
+  String get signOut => 'Çıkış Yap';
+
+  @override
+  String get areYouSureSignOut => 'Çıkış yapmak istediğinizden emin misiniz?';
+
+  @override
+  String get makeYourKipgoJourneyYours =>
+      'Kipgo yolculuğunuzu kendinize özel hale getirin';
+
+  @override
+  String get signInOrCreateAccount =>
+      'Rezervasyonlarınızı yönetin, tercihlerinizi kaydedin ve daha sorunsuz bir deneyim yaşayın. Giriş yapın veya bir hesap oluşturun.';
+
+  @override
+  String get signInOrRegister => 'Giriş Yap veya Kayıt Ol';
+
+  @override
+  String get alreadyHaveAnAccountTitle => 'Zaten bir hesabınız var mı?';
+
+  @override
+  String get signInToAccessYourAccount => 'Hesabınıza erişmek için giriş yapın';
+
+  @override
+  String get signIn => 'Giriş Yap';
+
+  @override
+  String get travelMadeEasy => 'Seyahat artık çok kolay';
+
+  @override
+  String get customer => 'Müşteri';
+
+  @override
+  String get rentalOwner => 'Kiralama Sahibi';
+
+  @override
+  String get kipgoMember => 'Kipgo Üyesi';
+
+  @override
+  String get findYourPerfectRide => 'Size en uygun aracı bulun.';
+
+  @override
+  String get discoverQualityCars =>
+      'Güvenilir kiralama şirketlerinden kaliteli araçları keşfedin.';
+
+  @override
+  String get verified => 'Doğrulanmış';
+
+  @override
+  String get wideSelection => 'Geniş seçenek';
+
+  @override
+  String get trySearchingForAnotherCar =>
+      'Başka bir araç, marka veya model aramayı deneyin.';
+
+  @override
+  String get refineYourCarSearch => 'Araç aramanızı daraltın';
+
+  @override
+  String numActiveFilters(num count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString aktif filtre',
+      one: '1 aktif filtre',
+      zero: 'Filtre yok',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get manageYourBookings => 'Rezervasyonlarınızı yönetin';
+
+  @override
+  String get saveYourFavouriteEx => 'Favori deneyimlerinizi kaydedin';
+
+  @override
+  String get enjoyAFasterBooking =>
+      'Daha hızlı bir rezervasyon deneyiminin keyfini çıkarın';
+
+  @override
+  String get continueBrowsing => 'Göz atmaya devam edin';
+
+  @override
+  String get welcomeToKipgo => 'Kipgo\'ya Hoş Geldiniz';
+
+  @override
+  String get signInOrCreateAccountToContinue =>
+      'Devam etmek ve Kipgo\'nun sunduğu tüm olanaklardan yararlanmak için giriş yapın veya bir hesap oluşturun.';
+
+  @override
+  String get findTheRightCar => 'Yolculuğunuz için doğru aracı bulun';
+
+  @override
+  String get sortBy => 'Sıralama';
+
+  @override
+  String numOfCarsAvailable(num count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString araç mevcut',
+      one: '1 araç mevcut',
+      zero: '0 araç mevcut',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tryChangingYourSearch =>
+      'Aramanızı veya filtrelerinizi değiştirmeyi deneyin.';
+
+  @override
+  String get popularTag => 'POPÜLER';
+
+  @override
+  String get rentalPartner => 'Kiralama ortağı';
+
+  @override
+  String get guestReviews => 'Misafir değerlendirmeleri';
+
+  @override
+  String carNameReviews(String name) {
+    return '$name Değerlendirmeleri';
+  }
+
+  @override
+  String get seeWhatOtherTravellersCar =>
+      'Diğer yolcuların bu araç hakkında ne düşündüğünü görün';
+
+  @override
+  String get currentlyUnavailable => 'Şu anda kullanılamıyor';
+
+  @override
+  String numOfTotalReviews(num count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString değerlendirme',
+      one: '1 değerlendirme',
+      zero: '0 değerlendirme',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get viewRentalRules => 'Kiralama kurallarını görüntüle';
+
+  @override
+  String get recentReviews => 'Son değerlendirmeler';
+
+  @override
+  String get anonymous => 'Anonim';
+
+  @override
+  String get comfort => 'Konfor';
+
+  @override
+  String get cleanliness => 'Temizlik';
+
+  @override
+  String get condition => 'Durum';
+
+  @override
+  String get valueForMoney => 'Fiyat-performans';
+
+  @override
+  String get communication => 'İletişim';
+
+  @override
+  String get pickupExperience => 'Teslim Alma Deneyimi';
+
+  @override
+  String get professionalism => 'Profesyonellik';
+
+  @override
+  String get returnExperience => 'İade Deneyimi';
+
+  @override
+  String get overallRating => 'Genel Puan';
+
+  @override
+  String get verifiedReviews => 'Doğrulanmış Değerlendirmeler';
+
+  @override
+  String get whatCustomersAreSaying => 'Müşteriler ne diyor?';
+
+  @override
+  String pctOfCustomersCar(String pct) {
+    return 'Müşterilerin %$pct\'i bu aracı tavsiye eder';
+  }
+
+  @override
+  String pctOfCustomersCompany(String pct) {
+    return 'Müşterilerin %$pct\'i bu şirketi tavsiye eder';
+  }
+
+  @override
+  String get customerReviews => 'Müşteri Değerlendirmeleri';
+
+  @override
+  String get mostRecent => 'En Yeni';
+
+  @override
+  String get highestRated => 'En Yüksek Puanlı';
+
+  @override
+  String get lowestRated => 'En Düşük Puanlı';
+
+  @override
+  String get sort => 'Sırala';
+
+  @override
+  String get ratingBreakdown => 'Puan Dağılımı';
+
+  @override
+  String get whatTheyLiked => 'Beğendikleri';
+
+  @override
+  String get couldBeImproved => 'Geliştirilebilecekler';
+
+  @override
+  String get wouldRecommend => 'Tavsiye eder';
+
+  @override
+  String get wouldRentAgain => 'Tekrar kiralar';
+
+  @override
+  String get beTheFirst => 'Deneyiminizi paylaşan ilk müşteri siz olun.';
+
+  @override
+  String get verifiedRentalCompany => 'Doğrulanmış kiralama şirketi';
+
+  @override
+  String get location => 'Konum';
+
+  @override
+  String get aboutTheCompany => 'Şirket hakkında';
+
+  @override
+  String get seeWhatOthersTravellersCompany =>
+      'Diğer yolcuların bu kiralama şirketi hakkında ne düşündüğünü görün';
+
+  @override
+  String get availableCars => 'Mevcut Araçlar';
+
+  @override
+  String get noCarsAvailable => 'Mevcut araç yok';
+
+  @override
+  String get thisRentalCompany =>
+      'Bu kiralama şirketinin şu anda mevcut aracı bulunmuyor.';
+
+  @override
+  String get pleaseSelectPickupLocation => 'Lütfen bir alış noktası seçin';
+
+  @override
+  String get pleaseSelectDestination => 'Lütfen varış noktanızı seçin';
+
+  @override
+  String get pleaseSelectDepartureDate => 'Lütfen kalkış tarihini seçin';
+
+  @override
+  String get pleaseSelectReturnDate => 'Lütfen dönüş tarihini seçin';
+
+  @override
+  String get comingSoonTag => 'ÇOK YAKINDA';
+
+  @override
+  String get somethingWonderfulIsOnTheWay => 'Harika bir şey yolda.';
+
+  @override
+  String get yourRideHistory => 'Yolculuk Geçmişiniz';
+
+  @override
+  String get signInToView =>
+      'Tamamlanan yolculuklarınızı ve seyahat detaylarınızı görmek için giriş yapın.';
+
+  @override
+  String get yourBookings => 'Rezervasyonlarınız';
+
+  @override
+  String get yourBookingsAuthRequired =>
+      'Rezervasyonlarınızı görüntülemek ve yönetmek için giriş yapın.';
+
+  @override
+  String get exploreKipgo => 'Kipgo\'yu Keşfedin';
+
+  @override
+  String get moveSmarterWithKipgo => 'Kipgo ile daha akıllı seyahat edin';
+
+  @override
+  String get reliableRidesWhenever =>
+      'İhtiyacınız olduğunda ve nerede olursanız olun güvenilir yolculuklar.';
+
+  @override
+  String get kipgoTaxi => 'KIPGO TAKSİ';
+
+  @override
+  String get whereAreYouGoing => 'Nereye gidiyorsunuz?';
+
+  @override
+  String get requestAComfortableRide =>
+      'Kipgo ile konforlu bir yolculuk talep edin.';
+
+  @override
+  String get readyToRide => 'Yola çıkmaya hazır mısınız?';
+
+  @override
+  String get signInToRequestARide =>
+      'Yolculuk talep etmek ve seyahatlerinizi yönetmek için giriş yapın.';
+
+  @override
+  String get safe => 'Güvenli';
+
+  @override
+  String get trustedDrivers => 'Güvenilir sürücüler';
+
+  @override
+  String get reliable => 'Güvenilir';
+
+  @override
+  String get onTimeRides => 'Zamanında yolculuklar';
+
+  @override
+  String get simple => 'Kolay';
+
+  @override
+  String get clearPricing => 'Şeffaf fiyatlandırma';
+
+  @override
+  String get whyRideWithKipgo => 'Neden Kipgo ile yolculuk yapmalısınız?';
+
+  @override
+  String get kipgoMakesGettingAroundSimple =>
+      'Kipgo ulaşımınızı kolay, rahat ve güvenilir hale getirir.';
+
+  @override
+  String get activeRide => 'Aktif Yolculuk';
+
+  @override
+  String get passengerTools => 'Yolcu Araçları';
+
+  @override
+  String get bookAndManageRidesAsPassenger =>
+      'Yolcu olarak yolculuklarınızı rezerve edin ve yönetin';
+
+  @override
+  String get requestRideAsPassenger => 'Yolcu olarak yolculuk talep edin';
+
+  @override
+  String get viewRidesCompleted =>
+      'Yolcu olarak tamamladığınız yolculukları görüntüleyin';
+
+  @override
+  String hiUser(String name) {
+    return 'Merhaba $name';
+  }
+
+  @override
+  String get readyForYourNextRide => 'Bir sonraki yolculuğunuza hazır mısınız?';
+
+  @override
+  String get youAreRadyToReceiveRideRequests =>
+      'Yolculuk taleplerini almaya hazırsınız.';
+
+  @override
+  String get goOnlineWhenYouareReady =>
+      'Araç kullanmaya hazır olduğunuzda çevrimiçi olun.';
+
+  @override
+  String get goOffline => 'Çevrimdışı Ol';
+
+  @override
+  String get goOnline => 'Çevrimiçi Ol';
+
+  @override
+  String get yourAccountIsNotReadyYet => 'Hesabınız henüz hazır değil.';
+
+  @override
+  String get yourLocation => 'Konumunuz';
+
+  @override
+  String get rating => 'Puan';
+
+  @override
+  String get yourVehicle => 'Aracınız';
+
+  @override
+  String get noUpcomingRentals => 'Yaklaşan kiralama yok';
+
+  @override
+  String get noActiveRental => 'Aktif kiralama yok';
+
+  @override
+  String get noCompletedRentals => 'Tamamlanmış kiralama yok';
+
+  @override
+  String get noClosedRentals => 'Kapatılmış kiralama yok';
+
+  @override
+  String get yourConfirmedRentals =>
+      'Onaylanan kiralamalarınız planlandığında burada görünecektir.';
+
+  @override
+  String get onceYourRentalPeriodStarts =>
+      'Kiralama süreniz başladığında burada göreceksiniz.';
+
+  @override
+  String get yourRentalHistory =>
+      'İlk kiralama sürenizi tamamladıktan sonra kiralama geçmişiniz burada görünecektir.';
+
+  @override
+  String get yourJourneys => 'Yolculuklarınız';
+
+  @override
+  String get yourTravelHistory => 'Tüm seyahat geçmişiniz tek bir yerde.';
+
+  @override
+  String get trips => 'Yolculuklar';
+
+  @override
+  String get noJourneysYet => 'Henüz yolculuk yok';
+
+  @override
+  String get yourCompletedTripsWIllAppear =>
+      'İlk yolculuğunuzu tamamladığınızda tamamlanan yolculuklarınız burada görünecektir.';
+
+  @override
+  String get bookARide => 'Yolculuk rezerve et';
+
+  @override
+  String get rated => 'Değerlendirildi';
+
+  @override
+  String get failedToSubmitReview => 'Değerlendirme gönderilemedi.';
+
+  @override
+  String get tripRoute => 'Yolculuk rotası';
+
+  @override
+  String get totalFare => 'Toplam ücret';
+
+  @override
+  String get yourDriver => 'Sürücünüz';
+
+  @override
+  String get invalidEmailAddress => 'Lütfen geçerli bir e-posta adresi girin.';
+
+  @override
+  String get accountHasBeenDisabled =>
+      'Bu hesap devre dışı bırakıldı. Yardım için lütfen destek ekibiyle iletişime geçin.';
+
+  @override
+  String get noAccountExists =>
+      'Bu e-posta adresiyle kayıtlı bir hesap bulunamadı.';
+
+  @override
+  String get incorrectPasswordError =>
+      'Girdiğiniz şifre yanlış. Lütfen tekrar deneyin.';
+
+  @override
+  String get anAccountAlreadyExists =>
+      'Bu e-posta adresiyle zaten bir hesap mevcut. Bunun yerine giriş yapmayı deneyin.';
+
+  @override
+  String get thePasswordIsTooWeak =>
+      'Şifreniz çok zayıf. Lütfen daha güçlü bir şifre seçin.';
+
+  @override
+  String get operationNotAllowed =>
+      'Bu giriş yöntemi şu anda kullanılamıyor. Lütfen başka bir yöntem deneyin.';
+
+  @override
+  String get tooManyRequests =>
+      'Çok fazla giriş denemesi yapıldı. Lütfen biraz bekleyip tekrar deneyin.';
+
+  @override
+  String get invalidCredentials =>
+      'E-posta adresi veya şifre yanlış. Bilgilerinizi kontrol edip tekrar deneyin.';
+
+  @override
+  String get networkRequestFailed =>
+      'Sunucuya bağlanılamadı. Lütfen internet bağlantınızı kontrol edip tekrar deneyin.';
+
+  @override
+  String get authenticationErrorOccurred =>
+      'Giriş yapılamadı. Lütfen tekrar deneyin.';
+
+  @override
+  String get myDrivingHistory => 'Sürüş Geçmişim';
+
+  @override
+  String get drives => 'Sürüşler';
+
+  @override
+  String get yourCompletedDrivesWillAppearHere =>
+      'Tamamladığınız sürüşler burada görünecektir.';
+
+  @override
+  String get yourPassengerFeedback =>
+      'Yolcu değerlendirmeleri, sürücü olarak itibarınızı oluşturmanıza yardımcı olur.';
+
+  @override
+  String get passengerFeedbackWillAppearHere =>
+      'Yolculuklarınızı tamamladıktan sonra yolcu değerlendirmeleri burada görünecektir.';
+
+  @override
+  String get leaveReview => 'Değerlendirme yap';
+
+  @override
+  String get howWasTheCar => 'Araç nasıldı?';
+
+  @override
+  String get howWasTheRentalCompany => 'Kiralama şirketi nasıldı?';
+
+  @override
+  String get reviewTitle => 'Değerlendirme başlığı';
+
+  @override
+  String get yourReview => 'Değerlendirmeniz';
+
+  @override
+  String get addPhotos => 'Fotoğraf ekle';
+
+  @override
+  String get wouldRecommendQ => 'Bu kiralamayı tavsiye eder misiniz?';
+
+  @override
+  String get wouldRentAgainQ => 'Bu aracı tekrar kiralar mısınız?';
+
+  @override
+  String get postAnonymously => 'Anonim olarak paylaş';
+
+  @override
+  String get submitReview => 'Değerlendirmeyi gönder';
+
+  @override
+  String get reviewSubmitted => 'Değerlendirme gönderildi';
+
+  @override
+  String get pleaseRateCarAspect => 'Lütfen aracın her yönünü değerlendirin.';
+
+  @override
+  String get pleaseRateCompanyAspect =>
+      'Lütfen kiralama şirketinin her yönünü değerlendirin.';
+
+  @override
+  String get pleaseAddTitleAndReview =>
+      'Lütfen bir başlık ekleyin ve değerlendirmenizi yazın.';
+
+  @override
+  String get pleaseCompleteAllRequiredFields =>
+      'Lütfen tüm gerekli alanları doldurun.';
+
+  @override
+  String get thankYou => 'Teşekkür ederiz!';
+
+  @override
+  String get yourReviewSubmitted => 'Değerlendirmeniz başarıyla gönderildi.';
+
+  @override
+  String get done => 'Tamam';
+
+  @override
+  String stepCount(int count, int total) {
+    return 'Adım $count / $total';
+  }
+
+  @override
+  String get tellUsAboutVehicle =>
+      'Kiralamış olduğunuz araç hakkında bize bilgi verin.';
+
+  @override
+  String get yourOverallExperienceCar => 'Araçla ilgili genel deneyiminiz';
+
+  @override
+  String get howCleanWasTheVehicle => 'Araç ne kadar temizdi?';
+
+  @override
+  String get howComfortable => 'Araç ne kadar konforluydu?';
+
+  @override
+  String get howWellMaintained => 'Araç ne kadar iyi bakımlıydı?';
+
+  @override
+  String get wasTheRentalWorth => 'Kiralama ödediğiniz ücrete değdi mi?';
+
+  @override
+  String get yourFeedbackHelpsImproveRental =>
+      'Geri bildiriminiz kiralama deneyiminin geliştirilmesine yardımcı olur.';
+
+  @override
+  String get yourOverallExperienceCompany =>
+      'Şirketle ilgili genel deneyiminiz';
+
+  @override
+  String get howResponsiveAndHelpful =>
+      'Personel ne kadar ilgili ve yardımcıydı?';
+
+  @override
+  String get howSmoothWasThePickup =>
+      'Aracı teslim alma süreci ne kadar sorunsuzdu?';
+
+  @override
+  String get howProfessional => 'Personel ne kadar profesyoneldi?';
+
+  @override
+  String get howSmoothWasReturning =>
+      'Aracı iade etme süreci ne kadar sorunsuzdu?';
+
+  @override
+  String get shareTheDetailsForFutureRenters =>
+      'Gelecekte kiralama yapacak kişilerin bilmesi gereken detayları paylaşın.';
+
+  @override
+  String get giveShortTitle => 'Değerlendirmenize kısa bir başlık verin';
+
+  @override
+  String get whatDidYouLike => 'Neyi beğendiniz? Neler daha iyi olabilirdi?';
+
+  @override
+  String get whatDidYouLikeQ => 'Neyi beğendiniz?';
+
+  @override
+  String get selectEverything => 'Öne çıkan tüm özellikleri seçin.';
+
+  @override
+  String get clean => 'Temiz';
+
+  @override
+  String get comfortable => 'Konforlu';
+
+  @override
+  String get wellMaintained => 'Bakımlı';
+
+  @override
+  String get smoothDrive => 'Sorunsuz sürüş';
+
+  @override
+  String get fuelEfficient => 'Yakıt tasarruflu';
+
+  @override
+  String get greatValue => 'Fiyat-performans çok iyi';
+
+  @override
+  String get easyPickup => 'Kolay teslim alma';
+
+  @override
+  String get friendlyStaff => 'Güler yüzlü personel';
+
+  @override
+  String get whatCouldBeBetter => 'Neler daha iyi olabilirdi?';
+
+  @override
+  String get optionalHelpFutureRenters =>
+      'İsteğe bağlı — gelecekte kiralama yapacak kişilere yardımcı olun.';
+
+  @override
+  String get pickupTookTooLong => 'Aracı teslim alma çok uzun sürdü';
+
+  @override
+  String get carShowedSomeWear => 'Araçta bazı kullanım izleri vardı';
+
+  @override
+  String get limitedFeatures => 'Özellikler sınırlıydı';
+
+  @override
+  String get expensive => 'Pahalı';
+
+  @override
+  String get difficultReturn => 'Aracı iade etmek zordu';
+
+  @override
+  String get openingHours => 'Çalışma saatleri';
+
+  @override
+  String get oneLastThing => 'Son bir şey';
+
+  @override
+  String get yourAnswersHelp =>
+      'Yanıtlarınız diğer kiracıların daha iyi kararlar vermesine yardımcı olur.';
+
+  @override
+  String get yourRental => 'Kiralamanız';
+
+  @override
+  String get rentalCompany => 'Kiralama şirketi';
+
+  @override
+  String get poor => 'Kötü';
+
+  @override
+  String get fair => 'Orta';
+
+  @override
+  String get good => 'İyi';
+
+  @override
+  String get veryGood => 'Çok iyi';
+
+  @override
+  String get excellent => 'Mükemmel';
+
+  @override
+  String get showFutureRenters =>
+      'Gelecekte kiralama yapacak kişilere deneyiminizin gerçekte nasıl olduğunu gösterin.';
+
+  @override
+  String get add => 'Ekle';
+
+  @override
+  String get yourNameAndProfileWillBeHidden =>
+      'Adınız ve profil fotoğrafınız gösterilmeyecektir.';
+
+  @override
+  String get almostThere => 'Neredeyse tamam!';
+
+  @override
+  String get yourFeedbackCanHelp =>
+      'Geri bildiriminiz başka bir yolcunun güvenle seçim yapmasına yardımcı olabilir.';
+
+  @override
+  String get leaveAReview => 'Değerlendirme yap';
+
+  @override
+  String numDays(int days) {
+    return 'gün';
+  }
+
+  @override
+  String get thankYouForReview => 'Değerlendirmeniz için teşekkür ederiz.';
+
+  @override
+  String numOfSeats(int seats) {
+    return '$seats koltuk';
+  }
+
+  @override
+  String get paymentStatus => 'Ödeme Durumu';
+
+  @override
+  String get addPayment => 'Ödeme Ekle';
+
+  @override
+  String get shareYourRentalExperience => 'Kiralama deneyiminizi paylaşın';
+
+  @override
+  String get thankYouForSharing =>
+      'Kiralama deneyiminizi paylaştığınız için teşekkür ederiz.';
+
+  @override
+  String get loginSubtitle =>
+      'Kipgo yolculuğunuza devam etmek için giriş yapın';
+
+  @override
+  String get loginFormSubtitle =>
+      'Hesabınıza erişmek için bilgilerinizi girin.';
+
+  @override
+  String get signupSubtitle =>
+      'Kipgo hesabınızı oluşturun ve keşfetmeye başlayın.';
+
+  @override
+  String get signupFormSubtitle =>
+      'Hesabınızı oluşturmak için bilgilerinizi girin.';
+
+  @override
+  String get orCap => 'VEYA';
+
+  @override
+  String get forgotPasswordDescription =>
+      'E-posta adresinizi girin, şifrenizi sıfırlamanız için size bir bağlantı gönderelim.';
+
+  @override
+  String get backToLogin => 'Giriş Yap\'a Dön';
+
+  @override
+  String get resetPassword => 'Şifreyi Sıfırla';
+
+  @override
+  String get enterPasswordToContinue => 'Devam etmek için şifrenizi girin.';
+
+  @override
+  String get deletingAccount => 'Hesabınız siliniyor...';
+
+  @override
+  String get passwordRequiredForSecurity =>
+      'Güvenliğiniz için lütfen şifrenizi girin.';
+
+  @override
+  String get securityTitle => 'Hesabınızı koruyun';
+
+  @override
+  String get securityDescription =>
+      'Kipgo hesabınızın güvenliğini korumaya yardımcı olmak için şifrenizi düzenli olarak güncelleyin.';
+
+  @override
+  String get updateYourPassword => 'Şifrenizi güncelleyin';
+
+  @override
+  String get updateDescription =>
+      'Mevcut şifrenizi girin ve yeni bir şifre belirleyin.';
+
+  @override
+  String get currentPasswordLabel => 'Mevcut şifre';
+
+  @override
+  String get newPasswordLabel => 'Yeni şifre';
+
+  @override
+  String get confirmPasswordLabel => 'Yeni şifreyi onaylayın';
+
+  @override
+  String get passwordRequirement =>
+      'Yeni şifreniz en az 8 karakter uzunluğunda olmalıdır.';
+
+  @override
+  String get differentPassword =>
+      'Yeni şifreniz mevcut şifrenizden farklı olmalıdır.';
+
+  @override
+  String get securityFooter => 'Hesap güvenliğiniz bizim için önemlidir';
+
+  @override
+  String get showPassword => 'Şifreyi göster';
+
+  @override
+  String get hidePassword => 'Şifreyi gizle';
 }

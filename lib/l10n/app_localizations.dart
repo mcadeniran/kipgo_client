@@ -5415,6 +5415,1620 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Payment Link Sent'**
   String get paymentLinkSent;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Hello'**
+  String get hello;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Where to next?'**
+  String get whereToNext;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Airport Transfer'**
+  String get airportTransferTitle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Book your airport transfer in advance and travel stress-free'**
+  String get bookAirportTransferInAdvance;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Shuttle Service'**
+  String get shuttleService;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Hotels'**
+  String get hotels;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Stay somewhere extraordinary.'**
+  String get staySomewhereExtra;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'We are preparing a beautiful collection of stays and unforgettable places for your next journey. Hotel bookings are coming soon to Kipgo.'**
+  String get weArePreparingHotels;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Tours & Activities'**
+  String get toursAndActivities;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Discover more. Experience more.'**
+  String get discoverMore;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'From unforgettable adventures to local experiences, we are bringing the best things to do closer to you. Tours & Activities are coming soon to Kipgo.'**
+  String get fromUnforgettableAdventures;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Handpicked rides for your next trip'**
+  String get handpickedRides;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'FEATURED'**
+  String get featuredCap;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Trusted partners for your journey'**
+  String get trustedPartnersForYourJourney;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'verified partner'**
+  String get verifiedPartner;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Popular Cars'**
+  String get popularCars;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Loved by Kipgo travellers'**
+  String get lovedByKipgoTravellers;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get seeAll;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe to explore'**
+  String get swipeToExplore;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Safe & Secure'**
+  String get safeAndSecure;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your safety is our top priority.'**
+  String get yourSafety;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Best Price Guarantee'**
+  String get bestPriceGuarantee;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Get the best value for your money.'**
+  String get getTheBestValue;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Flexible Booking'**
+  String get flexibleBooking;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Free cancellation on selected options.'**
+  String get freeCancellation;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Trusted by Thousands'**
+  String get trustedByThousands;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Join thousands of happy travellers.'**
+  String get joinThousands;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Out'**
+  String get signOut;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to sign out?'**
+  String get areYouSureSignOut;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Make your Kipgo journey yours'**
+  String get makeYourKipgoJourneyYours;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in or create an account to manage bookings, save your preferences and enjoy a smoother experience.'**
+  String get signInOrCreateAccount;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In or Register'**
+  String get signInOrRegister;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account?'**
+  String get alreadyHaveAnAccountTitle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to access your account'**
+  String get signInToAccessYourAccount;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get signIn;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Travel made easy'**
+  String get travelMadeEasy;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Customer'**
+  String get customer;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rental Owner'**
+  String get rentalOwner;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Kipgo Member'**
+  String get kipgoMember;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Find your perfect ride.'**
+  String get findYourPerfectRide;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Discover quality cars from trusted rental companies.'**
+  String get discoverQualityCars;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Verified'**
+  String get verified;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Wide selection'**
+  String get wideSelection;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Try searching for another car, brand or model.'**
+  String get trySearchingForAnotherCar;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Refine your car search'**
+  String get refineYourCarSearch;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No filters} one{1 active filter} other{{count} active filters}}'**
+  String numActiveFilters(num count);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your bookings'**
+  String get manageYourBookings;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Save your favourite experiences'**
+  String get saveYourFavouriteEx;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Enjoy a faster booking experience'**
+  String get enjoyAFasterBooking;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Continue browsing'**
+  String get continueBrowsing;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Kipgo'**
+  String get welcomeToKipgo;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in or create an account to continue and enjoy the full Kipgo experience.'**
+  String get signInOrCreateAccountToContinue;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Find the right car for your journey'**
+  String get findTheRightCar;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Sort By'**
+  String get sortBy;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{0 cars available} one{1 car available} other{{count} cars available}}'**
+  String numOfCarsAvailable(num count);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Try changing your search or filters.'**
+  String get tryChangingYourSearch;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'POPULAR'**
+  String get popularTag;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rental partner'**
+  String get rentalPartner;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Guest reviews'**
+  String get guestReviews;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'{name} Reviews'**
+  String carNameReviews(String name);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'See what other travellers think about this car'**
+  String get seeWhatOtherTravellersCar;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Currently unavailable'**
+  String get currentlyUnavailable;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{0 reviews} one{1 review} other{{count} reviews}}'**
+  String numOfTotalReviews(num count);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'View rental rules'**
+  String get viewRentalRules;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Recent reviews'**
+  String get recentReviews;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Anonymous'**
+  String get anonymous;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Comfort'**
+  String get comfort;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Cleanliness'**
+  String get cleanliness;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Condition'**
+  String get condition;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Value for money'**
+  String get valueForMoney;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Communication'**
+  String get communication;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup Experience'**
+  String get pickupExperience;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Professionalism'**
+  String get professionalism;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Return Experience'**
+  String get returnExperience;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Overall Rating'**
+  String get overallRating;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Verified Reviews'**
+  String get verifiedReviews;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'What customers are saying'**
+  String get whatCustomersAreSaying;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'{pct}% of customers would recommend this car'**
+  String pctOfCustomersCar(String pct);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'{pct}% of customers would recommend this company'**
+  String pctOfCustomersCompany(String pct);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Customer Reviews'**
+  String get customerReviews;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Most Recent'**
+  String get mostRecent;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Highest Rated'**
+  String get highestRated;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Lowest Rated'**
+  String get lowestRated;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get sort;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rating Breakdown'**
+  String get ratingBreakdown;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'What they liked'**
+  String get whatTheyLiked;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Could be improved'**
+  String get couldBeImproved;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Would recommend'**
+  String get wouldRecommend;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Would rent again'**
+  String get wouldRentAgain;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Be the first customer to share your experience.'**
+  String get beTheFirst;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Verified rental company'**
+  String get verifiedRentalCompany;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get location;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'About the company'**
+  String get aboutTheCompany;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'See what other travellers think about this rental company'**
+  String get seeWhatOthersTravellersCompany;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Available Cars'**
+  String get availableCars;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No cars available'**
+  String get noCarsAvailable;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'This rental company currently has no available cars.'**
+  String get thisRentalCompany;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a pickup location'**
+  String get pleaseSelectPickupLocation;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Please select your destination'**
+  String get pleaseSelectDestination;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a departure date'**
+  String get pleaseSelectDepartureDate;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a return date'**
+  String get pleaseSelectReturnDate;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'COMING SOON'**
+  String get comingSoonTag;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Something wonderful is on the way.'**
+  String get somethingWonderfulIsOnTheWay;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your Ride History'**
+  String get yourRideHistory;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to view your completed rides and trip details.'**
+  String get signInToView;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your Bookings'**
+  String get yourBookings;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to view your bookings and manage your reservations.'**
+  String get yourBookingsAuthRequired;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Explore Kipgo'**
+  String get exploreKipgo;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Move smarter with Kipgo'**
+  String get moveSmarterWithKipgo;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Reliable rides, whenever and wherever you need them.'**
+  String get reliableRidesWhenever;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'KIPGO TAXI'**
+  String get kipgoTaxi;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Where are you going?'**
+  String get whereAreYouGoing;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Request a comfortable ride with Kipgo.'**
+  String get requestAComfortableRide;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to ride?'**
+  String get readyToRide;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to request a ride and manage your trips.'**
+  String get signInToRequestARide;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Safe'**
+  String get safe;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Trusted drivers'**
+  String get trustedDrivers;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Reliable'**
+  String get reliable;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'On-time rides'**
+  String get onTimeRides;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Simple'**
+  String get simple;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Clear pricing'**
+  String get clearPricing;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Why ride with Kipgo?'**
+  String get whyRideWithKipgo;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Kipgo makes getting around simple, convenient and reliable.'**
+  String get kipgoMakesGettingAroundSimple;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Active Ride'**
+  String get activeRide;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Passenger tools'**
+  String get passengerTools;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Book and manage rides as passenger'**
+  String get bookAndManageRidesAsPassenger;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Request ride as passenger'**
+  String get requestRideAsPassenger;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'View rides completed as passenger'**
+  String get viewRidesCompleted;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Hi {name}'**
+  String hiUser(String name);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Ready for your next ride?'**
+  String get readyForYourNextRide;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'You are ready to receive ride requests.'**
+  String get youAreRadyToReceiveRideRequests;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Go online when you are ready to drive.'**
+  String get goOnlineWhenYouareReady;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Go Offline'**
+  String get goOffline;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Go Online'**
+  String get goOnline;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is not ready yet.'**
+  String get yourAccountIsNotReadyYet;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your location'**
+  String get yourLocation;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rating'**
+  String get rating;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your Vehicle'**
+  String get yourVehicle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No upcoming rentals'**
+  String get noUpcomingRentals;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No active rental'**
+  String get noActiveRental;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No completed rentals'**
+  String get noCompletedRentals;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No closed rentals'**
+  String get noClosedRentals;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your confirmed rentals will appear here once they\'re scheduled.'**
+  String get yourConfirmedRentals;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Once your rental period starts, you\'ll see it here.'**
+  String get onceYourRentalPeriodStarts;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your rental history will appear here after you complete your first rental period.'**
+  String get yourRentalHistory;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your journeys'**
+  String get yourJourneys;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your travel history, all in one place.'**
+  String get yourTravelHistory;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Trips'**
+  String get trips;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No journeys yet'**
+  String get noJourneysYet;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your completed trips will appear here once you take your first ride.'**
+  String get yourCompletedTripsWIllAppear;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Book a ride'**
+  String get bookARide;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rated'**
+  String get rated;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to submit review.'**
+  String get failedToSubmitReview;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Trip route'**
+  String get tripRoute;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Total fare'**
+  String get totalFare;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your driver'**
+  String get yourDriver;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address.'**
+  String get invalidEmailAddress;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'This account has been disabled. Please contact support for assistance.'**
+  String get accountHasBeenDisabled;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No account was found with this email address.'**
+  String get noAccountExists;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'The password you entered is incorrect. Please try again.'**
+  String get incorrectPasswordError;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'An account already exists with this email address. Please sign in instead.'**
+  String get anAccountAlreadyExists;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your password is too weak. Please choose a stronger password.'**
+  String get thePasswordIsTooWeak;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'This sign-in method is currently unavailable. Please try another method.'**
+  String get operationNotAllowed;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Too many sign-in attempts. Please wait a moment and try again.'**
+  String get tooManyRequests;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'The email address or password is incorrect. Please check your details and try again.'**
+  String get invalidCredentials;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to connect to the server. Please check your internet connection and try again.'**
+  String get networkRequestFailed;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t sign you in. Please try again.'**
+  String get authenticationErrorOccurred;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'My Driving History'**
+  String get myDrivingHistory;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Drives'**
+  String get drives;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your completed drives will appear here.'**
+  String get yourCompletedDrivesWillAppearHere;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your passenger feedback helps build your reputation as a driver.'**
+  String get yourPassengerFeedback;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Passenger feedback will appear here after you complete your rides.'**
+  String get passengerFeedbackWillAppearHere;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Leave a review'**
+  String get leaveReview;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'How was the car?'**
+  String get howWasTheCar;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'How was the rental company?'**
+  String get howWasTheRentalCompany;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Review title'**
+  String get reviewTitle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your review'**
+  String get yourReview;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Add photos'**
+  String get addPhotos;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Would you recommend this rental?'**
+  String get wouldRecommendQ;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Would you rent this car again?'**
+  String get wouldRentAgainQ;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Post anonymously'**
+  String get postAnonymously;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Submit review'**
+  String get submitReview;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Review submitted'**
+  String get reviewSubmitted;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Please rate every aspect of the car.'**
+  String get pleaseRateCarAspect;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Please rate every aspect of the rental company.'**
+  String get pleaseRateCompanyAspect;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Please add a title and write your review.'**
+  String get pleaseAddTitleAndReview;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Please complete all required fields'**
+  String get pleaseCompleteAllRequiredFields;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you!'**
+  String get thankYou;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your review has been submitted successfully.'**
+  String get yourReviewSubmitted;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get done;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Step {count} of {total}'**
+  String stepCount(int count, int total);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us about the vehicle you rented.'**
+  String get tellUsAboutVehicle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your overall experience with the car'**
+  String get yourOverallExperienceCar;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'How clean was the vehicle?'**
+  String get howCleanWasTheVehicle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'How comfortable was the car?'**
+  String get howComfortable;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'How well maintained was the car?'**
+  String get howWellMaintained;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Was the rental worth what you paid?'**
+  String get wasTheRentalWorth;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your feedback helps improve the rental experience.'**
+  String get yourFeedbackHelpsImproveRental;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your overall experience with the company'**
+  String get yourOverallExperienceCompany;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'How responsive and helpful were the staff?'**
+  String get howResponsiveAndHelpful;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'How smooth was the pickup?'**
+  String get howSmoothWasThePickup;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'How professional was the staff?'**
+  String get howProfessional;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'How smooth was returning the vehicle?'**
+  String get howSmoothWasReturning;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Share the details that future renters should know.'**
+  String get shareTheDetailsForFutureRenters;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Give your review a short title'**
+  String get giveShortTitle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'What did you like? What could be better?'**
+  String get whatDidYouLike;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'What did you like?'**
+  String get whatDidYouLikeQ;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Select everything that stood out.'**
+  String get selectEverything;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Clean'**
+  String get clean;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Comfortable'**
+  String get comfortable;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Well maintained'**
+  String get wellMaintained;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Smooth drive'**
+  String get smoothDrive;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Fuel efficient'**
+  String get fuelEfficient;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Great value'**
+  String get greatValue;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Easy pickup'**
+  String get easyPickup;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Friendly staff'**
+  String get friendlyStaff;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'What could be better?'**
+  String get whatCouldBeBetter;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Optional — help future renters prepare.'**
+  String get optionalHelpFutureRenters;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Pickup took too long'**
+  String get pickupTookTooLong;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Car showed some wear'**
+  String get carShowedSomeWear;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Limited features'**
+  String get limitedFeatures;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Expensive'**
+  String get expensive;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Difficult return'**
+  String get difficultReturn;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Opening hours'**
+  String get openingHours;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'One last thing'**
+  String get oneLastThing;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your answers help other renters make better decisions.'**
+  String get yourAnswersHelp;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your rental'**
+  String get yourRental;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Rental company'**
+  String get rentalCompany;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Poor'**
+  String get poor;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Fair'**
+  String get fair;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Good'**
+  String get good;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Very good'**
+  String get veryGood;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Excellent'**
+  String get excellent;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Show future renters what the experience was really like.'**
+  String get showFutureRenters;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your name and profile photo will not be shown.'**
+  String get yourNameAndProfileWillBeHidden;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Almost there!'**
+  String get almostThere;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your feedback can help another traveller choose with confidence.'**
+  String get yourFeedbackCanHelp;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Leave a review'**
+  String get leaveAReview;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =0{days} one{day} other{days}}'**
+  String numDays(int days);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for your review'**
+  String get thankYouForReview;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'{seats, plural, =0{No seats} one{1 seat} other{{seats} seats}}'**
+  String numOfSeats(int seats);
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Status'**
+  String get paymentStatus;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Add Payment'**
+  String get addPayment;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Share your rental experience'**
+  String get shareYourRentalExperience;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for sharing your rental experience.'**
+  String get thankYouForSharing;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to continue your Kipgo journey'**
+  String get loginSubtitle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your details to access your account.'**
+  String get loginFormSubtitle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Create your Kipgo account and start exploring.'**
+  String get signupSubtitle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in your details to create your account.'**
+  String get signupFormSubtitle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'OR'**
+  String get orCap;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email address and we\'ll send you a link to reset your password.'**
+  String get forgotPasswordDescription;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Sign In'**
+  String get backToLogin;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password'**
+  String get resetPassword;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password to continue.'**
+  String get enterPasswordToContinue;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Deleting account...'**
+  String get deletingAccount;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'For your security, please enter your password.'**
+  String get passwordRequiredForSecurity;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Protect your account'**
+  String get securityTitle;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Update your password regularly to help keep your Kipgo account secure.'**
+  String get securityDescription;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Update your password'**
+  String get updateYourPassword;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your current password and choose a new one.'**
+  String get updateDescription;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Current password'**
+  String get currentPasswordLabel;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get newPasswordLabel;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm new password'**
+  String get confirmPasswordLabel;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your new password must contain at least 8 characters.'**
+  String get passwordRequirement;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'New password must be different from your current password.'**
+  String get differentPassword;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your account security matters to us'**
+  String get securityFooter;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Show password'**
+  String get showPassword;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Hide password'**
+  String get hidePassword;
 }
 
 class _AppLocalizationsDelegate

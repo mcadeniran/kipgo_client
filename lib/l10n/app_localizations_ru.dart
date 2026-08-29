@@ -2875,4 +2875,967 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get paymentLinkSent => 'Ссылка для оплаты отправлена';
+
+  @override
+  String get hello => 'Здравствуйте';
+
+  @override
+  String get whereToNext => 'Куда отправимся дальше?';
+
+  @override
+  String get airportTransferTitle => 'Трансфер из аэропорта';
+
+  @override
+  String get bookAirportTransferInAdvance =>
+      'Забронируйте трансфер из аэропорта заранее и путешествуйте без стресса';
+
+  @override
+  String get shuttleService => 'Шаттл-сервис';
+
+  @override
+  String get hotels => 'Отели';
+
+  @override
+  String get staySomewhereExtra => 'Остановитесь в необыкновенном месте.';
+
+  @override
+  String get weArePreparingHotels =>
+      'Мы готовим для вас прекрасную коллекцию вариантов размещения и незабываемых мест для следующего путешествия. Бронирование отелей скоро появится в Kipgo.';
+
+  @override
+  String get toursAndActivities => 'Туры и развлечения';
+
+  @override
+  String get discoverMore => 'Узнавайте больше. Испытывайте больше.';
+
+  @override
+  String get fromUnforgettableAdventures =>
+      'От незабываемых приключений до местных впечатлений — мы приближаем к вам лучшие развлечения и занятия. Туры и развлечения скоро появятся в Kipgo.';
+
+  @override
+  String get handpickedRides =>
+      'Тщательно подобранные автомобили для вашей следующей поездки';
+
+  @override
+  String get featuredCap => 'РЕКОМЕНДУЕМ';
+
+  @override
+  String get trustedPartnersForYourJourney =>
+      'Надёжные партнёры для вашего путешествия';
+
+  @override
+  String get verifiedPartner => 'проверенный партнёр';
+
+  @override
+  String get popularCars => 'Популярные автомобили';
+
+  @override
+  String get lovedByKipgoTravellers =>
+      'Любимые автомобили путешественников Kipgo';
+
+  @override
+  String get seeAll => 'Посмотреть все';
+
+  @override
+  String get swipeToExplore => 'Проведите, чтобы исследовать';
+
+  @override
+  String get safeAndSecure => 'Безопасность и надёжность';
+
+  @override
+  String get yourSafety => 'Ваша безопасность — наш главный приоритет.';
+
+  @override
+  String get bestPriceGuarantee => 'Гарантия лучшей цены';
+
+  @override
+  String get getTheBestValue => 'Получите максимальную выгоду за свои деньги.';
+
+  @override
+  String get flexibleBooking => 'Гибкое бронирование';
+
+  @override
+  String get freeCancellation => 'Бесплатная отмена для выбранных вариантов.';
+
+  @override
+  String get trustedByThousands => 'Нам доверяют тысячи';
+
+  @override
+  String get joinThousands =>
+      'Присоединяйтесь к тысячам довольных путешественников.';
+
+  @override
+  String get signOut => 'Выйти';
+
+  @override
+  String get areYouSureSignOut => 'Вы уверены, что хотите выйти?';
+
+  @override
+  String get makeYourKipgoJourneyYours =>
+      'Сделайте своё путешествие с Kipgo по-настоящему своим';
+
+  @override
+  String get signInOrCreateAccount =>
+      'Войдите или создайте аккаунт, чтобы управлять бронированиями, сохранять свои предпочтения и пользоваться более удобным сервисом.';
+
+  @override
+  String get signInOrRegister => 'Войти или зарегистрироваться';
+
+  @override
+  String get alreadyHaveAnAccountTitle => 'У вас уже есть аккаунт?';
+
+  @override
+  String get signInToAccessYourAccount =>
+      'Войдите, чтобы получить доступ к своему аккаунту';
+
+  @override
+  String get signIn => 'Войти';
+
+  @override
+  String get travelMadeEasy => 'Путешествовать стало проще';
+
+  @override
+  String get customer => 'Клиент';
+
+  @override
+  String get rentalOwner => 'Владелец проката';
+
+  @override
+  String get kipgoMember => 'Участник Kipgo';
+
+  @override
+  String get findYourPerfectRide => 'Найдите идеальный автомобиль.';
+
+  @override
+  String get discoverQualityCars =>
+      'Откройте для себя качественные автомобили от надёжных компаний по аренде.';
+
+  @override
+  String get verified => 'Проверено';
+
+  @override
+  String get wideSelection => 'Большой выбор';
+
+  @override
+  String get trySearchingForAnotherCar =>
+      'Попробуйте поискать другой автомобиль, марку или модель.';
+
+  @override
+  String get refineYourCarSearch => 'Уточните параметры поиска автомобиля';
+
+  @override
+  String numActiveFilters(num count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString активного фильтра',
+      many: '$countString активных фильтров',
+      few: '$countString активных фильтра',
+      one: '1 активный фильтр',
+      zero: 'Нет фильтров',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get manageYourBookings => 'Управляйте своими бронированиями';
+
+  @override
+  String get saveYourFavouriteEx => 'Сохраняйте любимые впечатления';
+
+  @override
+  String get enjoyAFasterBooking =>
+      'Пользуйтесь более быстрым процессом бронирования';
+
+  @override
+  String get continueBrowsing => 'Продолжить просмотр';
+
+  @override
+  String get welcomeToKipgo => 'Добро пожаловать в Kipgo';
+
+  @override
+  String get signInOrCreateAccountToContinue =>
+      'Войдите или создайте аккаунт, чтобы продолжить и пользоваться всеми возможностями Kipgo.';
+
+  @override
+  String get findTheRightCar =>
+      'Найдите подходящий автомобиль для вашей поездки';
+
+  @override
+  String get sortBy => 'Сортировать по';
+
+  @override
+  String numOfCarsAvailable(num count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Доступно $countString автомобиля',
+      many: 'Доступно $countString автомобилей',
+      few: 'Доступно $countString автомобиля',
+      one: 'Доступен 1 автомобиль',
+      zero: 'Нет доступных автомобилей',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tryChangingYourSearch =>
+      'Попробуйте изменить параметры поиска или фильтры.';
+
+  @override
+  String get popularTag => 'ПОПУЛЯРНО';
+
+  @override
+  String get rentalPartner => 'Партнёр по аренде';
+
+  @override
+  String get guestReviews => 'Отзывы гостей';
+
+  @override
+  String carNameReviews(String name) {
+    return 'Отзывы об автомобиле $name';
+  }
+
+  @override
+  String get seeWhatOtherTravellersCar =>
+      'Узнайте, что другие путешественники думают об этом автомобиле';
+
+  @override
+  String get currentlyUnavailable => 'В настоящее время недоступен';
+
+  @override
+  String numOfTotalReviews(num count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString отзыва',
+      many: '$countString отзывов',
+      few: '$countString отзыва',
+      one: '1 отзыв',
+      zero: 'Нет отзывов',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get viewRentalRules => 'Посмотреть правила аренды';
+
+  @override
+  String get recentReviews => 'Последние отзывы';
+
+  @override
+  String get anonymous => 'Аноним';
+
+  @override
+  String get comfort => 'Комфорт';
+
+  @override
+  String get cleanliness => 'Чистота';
+
+  @override
+  String get condition => 'Состояние';
+
+  @override
+  String get valueForMoney => 'Соотношение цены и качества';
+
+  @override
+  String get communication => 'Общение';
+
+  @override
+  String get pickupExperience => 'Опыт получения автомобиля';
+
+  @override
+  String get professionalism => 'Профессионализм';
+
+  @override
+  String get returnExperience => 'Опыт возврата автомобиля';
+
+  @override
+  String get overallRating => 'Общий рейтинг';
+
+  @override
+  String get verifiedReviews => 'Проверенные отзывы';
+
+  @override
+  String get whatCustomersAreSaying => 'Что говорят клиенты';
+
+  @override
+  String pctOfCustomersCar(String pct) {
+    return '$pct% клиентов рекомендуют этот автомобиль';
+  }
+
+  @override
+  String pctOfCustomersCompany(String pct) {
+    return '$pct% клиентов рекомендуют эту компанию';
+  }
+
+  @override
+  String get customerReviews => 'Отзывы клиентов';
+
+  @override
+  String get mostRecent => 'Сначала новые';
+
+  @override
+  String get highestRated => 'Сначала с высоким рейтингом';
+
+  @override
+  String get lowestRated => 'Сначала с низким рейтингом';
+
+  @override
+  String get sort => 'Сортировать';
+
+  @override
+  String get ratingBreakdown => 'Распределение оценок';
+
+  @override
+  String get whatTheyLiked => 'Что им понравилось';
+
+  @override
+  String get couldBeImproved => 'Что можно улучшить';
+
+  @override
+  String get wouldRecommend => 'Рекомендуют';
+
+  @override
+  String get wouldRentAgain => 'Взяли бы в аренду снова';
+
+  @override
+  String get beTheFirst =>
+      'Станьте первым клиентом, который поделится своим опытом.';
+
+  @override
+  String get verifiedRentalCompany =>
+      'Проверенная компания по аренде автомобилей';
+
+  @override
+  String get location => 'Местоположение';
+
+  @override
+  String get aboutTheCompany => 'О компании';
+
+  @override
+  String get seeWhatOthersTravellersCompany =>
+      'Узнайте, что другие путешественники думают об этой компании по аренде автомобилей';
+
+  @override
+  String get availableCars => 'Доступные автомобили';
+
+  @override
+  String get noCarsAvailable => 'Нет доступных автомобилей';
+
+  @override
+  String get thisRentalCompany =>
+      'В настоящее время у этой компании по аренде автомобилей нет доступных автомобилей.';
+
+  @override
+  String get pleaseSelectPickupLocation => 'Пожалуйста, выберите место посадки';
+
+  @override
+  String get pleaseSelectDestination => 'Пожалуйста, выберите пункт назначения';
+
+  @override
+  String get pleaseSelectDepartureDate =>
+      'Пожалуйста, выберите дату отправления';
+
+  @override
+  String get pleaseSelectReturnDate => 'Пожалуйста, выберите дату возвращения';
+
+  @override
+  String get comingSoonTag => 'СКОРО';
+
+  @override
+  String get somethingWonderfulIsOnTheWay => 'Вас ждёт нечто прекрасное.';
+
+  @override
+  String get yourRideHistory => 'История ваших поездок';
+
+  @override
+  String get signInToView =>
+      'Войдите, чтобы просмотреть завершённые поездки и сведения о путешествиях.';
+
+  @override
+  String get yourBookings => 'Ваши бронирования';
+
+  @override
+  String get yourBookingsAuthRequired =>
+      'Войдите, чтобы просматривать свои бронирования и управлять ими.';
+
+  @override
+  String get exploreKipgo => 'Исследуйте Kipgo';
+
+  @override
+  String get moveSmarterWithKipgo => 'Передвигайтесь удобнее с Kipgo';
+
+  @override
+  String get reliableRidesWhenever =>
+      'Надёжные поездки в любое время и в любом месте.';
+
+  @override
+  String get kipgoTaxi => 'KIPGO ТАКСИ';
+
+  @override
+  String get whereAreYouGoing => 'Куда вы направляетесь?';
+
+  @override
+  String get requestAComfortableRide => 'Закажите комфортную поездку с Kipgo.';
+
+  @override
+  String get readyToRide => 'Готовы к поездке?';
+
+  @override
+  String get signInToRequestARide =>
+      'Войдите, чтобы заказать поездку и управлять своими поездками.';
+
+  @override
+  String get safe => 'Безопасно';
+
+  @override
+  String get trustedDrivers => 'Надёжные водители';
+
+  @override
+  String get reliable => 'Надёжно';
+
+  @override
+  String get onTimeRides => 'Поездки точно в срок';
+
+  @override
+  String get simple => 'Просто';
+
+  @override
+  String get clearPricing => 'Прозрачные цены';
+
+  @override
+  String get whyRideWithKipgo => 'Почему стоит ездить с Kipgo?';
+
+  @override
+  String get kipgoMakesGettingAroundSimple =>
+      'Kipgo делает передвижение простым, удобным и надёжным.';
+
+  @override
+  String get activeRide => 'Текущая поездка';
+
+  @override
+  String get passengerTools => 'Инструменты пассажира';
+
+  @override
+  String get bookAndManageRidesAsPassenger =>
+      'Бронируйте и управляйте поездками как пассажир';
+
+  @override
+  String get requestRideAsPassenger => 'Закажите поездку как пассажир';
+
+  @override
+  String get viewRidesCompleted =>
+      'Просматривайте поездки, завершённые в качестве пассажира';
+
+  @override
+  String hiUser(String name) {
+    return 'Здравствуйте, $name';
+  }
+
+  @override
+  String get readyForYourNextRide => 'Готовы к следующей поездке?';
+
+  @override
+  String get youAreRadyToReceiveRideRequests =>
+      'Вы готовы получать запросы на поездки.';
+
+  @override
+  String get goOnlineWhenYouareReady =>
+      'Выйдите на линию, когда будете готовы принимать поездки.';
+
+  @override
+  String get goOffline => 'Выйти из сети';
+
+  @override
+  String get goOnline => 'Выйти на линию';
+
+  @override
+  String get yourAccountIsNotReadyYet => 'Ваш аккаунт ещё не готов.';
+
+  @override
+  String get yourLocation => 'Ваше местоположение';
+
+  @override
+  String get rating => 'Рейтинг';
+
+  @override
+  String get yourVehicle => 'Ваш автомобиль';
+
+  @override
+  String get noUpcomingRentals => 'Нет предстоящих аренд';
+
+  @override
+  String get noActiveRental => 'Нет активной аренды';
+
+  @override
+  String get noCompletedRentals => 'Нет завершённых аренд';
+
+  @override
+  String get noClosedRentals => 'Нет закрытых аренд';
+
+  @override
+  String get yourConfirmedRentals =>
+      'Ваши подтверждённые аренды появятся здесь после их планирования.';
+
+  @override
+  String get onceYourRentalPeriodStarts =>
+      'После начала периода аренды вы увидите её здесь.';
+
+  @override
+  String get yourRentalHistory =>
+      'История ваших аренд появится здесь после завершения вашего первого периода аренды.';
+
+  @override
+  String get yourJourneys => 'Ваши поездки';
+
+  @override
+  String get yourTravelHistory => 'Вся история ваших поездок в одном месте.';
+
+  @override
+  String get trips => 'Поездки';
+
+  @override
+  String get noJourneysYet => 'Поездок пока нет';
+
+  @override
+  String get yourCompletedTripsWIllAppear =>
+      'Ваши завершённые поездки появятся здесь после вашей первой поездки.';
+
+  @override
+  String get bookARide => 'Заказать поездку';
+
+  @override
+  String get rated => 'Оценено';
+
+  @override
+  String get failedToSubmitReview => 'Не удалось отправить отзыв.';
+
+  @override
+  String get tripRoute => 'Маршрут поездки';
+
+  @override
+  String get totalFare => 'Общая стоимость';
+
+  @override
+  String get yourDriver => 'Ваш водитель';
+
+  @override
+  String get invalidEmailAddress =>
+      'Пожалуйста, введите корректный адрес электронной почты.';
+
+  @override
+  String get accountHasBeenDisabled =>
+      'Этот аккаунт был отключён. Пожалуйста, обратитесь в службу поддержки.';
+
+  @override
+  String get noAccountExists =>
+      'Аккаунт с таким адресом электронной почты не найден.';
+
+  @override
+  String get incorrectPasswordError =>
+      'Введён неверный пароль. Пожалуйста, попробуйте ещё раз.';
+
+  @override
+  String get anAccountAlreadyExists =>
+      'Аккаунт с таким адресом электронной почты уже существует. Попробуйте войти в него.';
+
+  @override
+  String get thePasswordIsTooWeak =>
+      'Ваш пароль слишком простой. Пожалуйста, выберите более надёжный пароль.';
+
+  @override
+  String get operationNotAllowed =>
+      'Этот способ входа сейчас недоступен. Пожалуйста, попробуйте другой способ.';
+
+  @override
+  String get tooManyRequests =>
+      'Слишком много попыток входа. Пожалуйста, подождите немного и попробуйте снова.';
+
+  @override
+  String get invalidCredentials =>
+      'Неверный адрес электронной почты или пароль. Проверьте введённые данные и попробуйте снова.';
+
+  @override
+  String get networkRequestFailed =>
+      'Не удалось подключиться к серверу. Проверьте подключение к интернету и попробуйте снова.';
+
+  @override
+  String get authenticationErrorOccurred =>
+      'Не удалось выполнить вход. Пожалуйста, попробуйте ещё раз.';
+
+  @override
+  String get myDrivingHistory => 'История моих поездок';
+
+  @override
+  String get drives => 'Поездки';
+
+  @override
+  String get yourCompletedDrivesWillAppearHere =>
+      'Завершённые вами поездки появятся здесь.';
+
+  @override
+  String get yourPassengerFeedback =>
+      'Отзывы пассажиров помогают формировать вашу репутацию как водителя.';
+
+  @override
+  String get passengerFeedbackWillAppearHere =>
+      'Отзывы пассажиров появятся здесь после завершения ваших поездок.';
+
+  @override
+  String get leaveReview => 'Оставить отзыв';
+
+  @override
+  String get howWasTheCar => 'Как вам автомобиль?';
+
+  @override
+  String get howWasTheRentalCompany =>
+      'Как вам компания по аренде автомобилей?';
+
+  @override
+  String get reviewTitle => 'Заголовок отзыва';
+
+  @override
+  String get yourReview => 'Ваш отзыв';
+
+  @override
+  String get addPhotos => 'Добавить фото';
+
+  @override
+  String get wouldRecommendQ => 'Вы бы порекомендовали эту аренду?';
+
+  @override
+  String get wouldRentAgainQ => 'Вы бы снова арендовали этот автомобиль?';
+
+  @override
+  String get postAnonymously => 'Опубликовать анонимно';
+
+  @override
+  String get submitReview => 'Отправить отзыв';
+
+  @override
+  String get reviewSubmitted => 'Отзыв отправлен';
+
+  @override
+  String get pleaseRateCarAspect =>
+      'Пожалуйста, оцените каждый аспект автомобиля.';
+
+  @override
+  String get pleaseRateCompanyAspect =>
+      'Пожалуйста, оцените каждый аспект компании по аренде автомобилей.';
+
+  @override
+  String get pleaseAddTitleAndReview =>
+      'Пожалуйста, добавьте заголовок и напишите свой отзыв.';
+
+  @override
+  String get pleaseCompleteAllRequiredFields =>
+      'Пожалуйста, заполните все обязательные поля.';
+
+  @override
+  String get thankYou => 'Спасибо!';
+
+  @override
+  String get yourReviewSubmitted => 'Ваш отзыв успешно отправлен.';
+
+  @override
+  String get done => 'Готово';
+
+  @override
+  String stepCount(int count, int total) {
+    return 'Шаг $count из $total';
+  }
+
+  @override
+  String get tellUsAboutVehicle => 'Расскажите нам об арендованном автомобиле.';
+
+  @override
+  String get yourOverallExperienceCar => 'Ваше общее впечатление от автомобиля';
+
+  @override
+  String get howCleanWasTheVehicle => 'Насколько чистым был автомобиль?';
+
+  @override
+  String get howComfortable => 'Насколько комфортным был автомобиль?';
+
+  @override
+  String get howWellMaintained => 'Насколько хорошо автомобиль был обслужен?';
+
+  @override
+  String get wasTheRentalWorth => 'Стоила ли аренда своих денег?';
+
+  @override
+  String get yourFeedbackHelpsImproveRental =>
+      'Ваш отзыв помогает улучшать качество аренды.';
+
+  @override
+  String get yourOverallExperienceCompany =>
+      'Ваше общее впечатление от компании';
+
+  @override
+  String get howResponsiveAndHelpful =>
+      'Насколько отзывчивым и полезным был персонал?';
+
+  @override
+  String get howSmoothWasThePickup =>
+      'Насколько гладко прошла выдача автомобиля?';
+
+  @override
+  String get howProfessional => 'Насколько профессиональным был персонал?';
+
+  @override
+  String get howSmoothWasReturning =>
+      'Насколько гладко прошёл возврат автомобиля?';
+
+  @override
+  String get shareTheDetailsForFutureRenters =>
+      'Поделитесь деталями, которые будут полезны будущим арендаторам.';
+
+  @override
+  String get giveShortTitle => 'Дайте своему отзыву короткий заголовок';
+
+  @override
+  String get whatDidYouLike =>
+      'Что вам понравилось? Что можно было бы улучшить?';
+
+  @override
+  String get whatDidYouLikeQ => 'Что вам понравилось?';
+
+  @override
+  String get selectEverything => 'Выберите всё, что особенно понравилось.';
+
+  @override
+  String get clean => 'Чистый';
+
+  @override
+  String get comfortable => 'Комфортный';
+
+  @override
+  String get wellMaintained => 'Хорошо обслуженный';
+
+  @override
+  String get smoothDrive => 'Плавная поездка';
+
+  @override
+  String get fuelEfficient => 'Экономичный расход топлива';
+
+  @override
+  String get greatValue => 'Отличное соотношение цены и качества';
+
+  @override
+  String get easyPickup => 'Удобное получение';
+
+  @override
+  String get friendlyStaff => 'Приветливый персонал';
+
+  @override
+  String get whatCouldBeBetter => 'Что можно было бы улучшить?';
+
+  @override
+  String get optionalHelpFutureRenters =>
+      'Необязательно — помогите будущим арендаторам подготовиться.';
+
+  @override
+  String get pickupTookTooLong =>
+      'Получение автомобиля заняло слишком много времени';
+
+  @override
+  String get carShowedSomeWear =>
+      'На автомобиле были заметны следы эксплуатации';
+
+  @override
+  String get limitedFeatures => 'Ограниченный набор функций';
+
+  @override
+  String get expensive => 'Дорого';
+
+  @override
+  String get difficultReturn => 'Возврат автомобиля был затруднительным';
+
+  @override
+  String get openingHours => 'Часы работы';
+
+  @override
+  String get oneLastThing => 'И последнее';
+
+  @override
+  String get yourAnswersHelp =>
+      'Ваши ответы помогут другим арендаторам принимать более взвешенные решения.';
+
+  @override
+  String get yourRental => 'Ваша аренда';
+
+  @override
+  String get rentalCompany => 'Компания по аренде автомобилей';
+
+  @override
+  String get poor => 'Плохо';
+
+  @override
+  String get fair => 'Удовлетворительно';
+
+  @override
+  String get good => 'Хорошо';
+
+  @override
+  String get veryGood => 'Очень хорошо';
+
+  @override
+  String get excellent => 'Отлично';
+
+  @override
+  String get showFutureRenters =>
+      'Покажите будущим арендаторам, каким был ваш реальный опыт.';
+
+  @override
+  String get add => 'Добавить';
+
+  @override
+  String get yourNameAndProfileWillBeHidden =>
+      'Ваше имя и фотография профиля не будут отображаться.';
+
+  @override
+  String get almostThere => 'Почти готово!';
+
+  @override
+  String get yourFeedbackCanHelp =>
+      'Ваш отзыв поможет другому путешественнику сделать уверенный выбор.';
+
+  @override
+  String get leaveAReview => 'Оставить отзыв';
+
+  @override
+  String numDays(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'дня',
+      many: 'дней',
+      few: 'дня',
+      one: 'день',
+      zero: 'дней',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get thankYouForReview => 'Спасибо за ваш отзыв.';
+
+  @override
+  String numOfSeats(int seats) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seats,
+      locale: localeName,
+      other: '$seats места',
+      many: '$seats мест',
+      few: '$seats места',
+      one: '1 место',
+      zero: 'Нет мест',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get paymentStatus => 'Статус оплаты';
+
+  @override
+  String get addPayment => 'Добавить оплату';
+
+  @override
+  String get shareYourRentalExperience => 'Поделитесь впечатлениями от аренды';
+
+  @override
+  String get thankYouForSharing =>
+      'Спасибо, что поделились впечатлениями от аренды.';
+
+  @override
+  String get loginSubtitle =>
+      'Войдите, чтобы продолжить своё путешествие с Kipgo';
+
+  @override
+  String get loginFormSubtitle =>
+      'Введите свои данные, чтобы получить доступ к аккаунту.';
+
+  @override
+  String get signupSubtitle => 'Создайте аккаунт Kipgo и начните исследовать.';
+
+  @override
+  String get signupFormSubtitle =>
+      'Введите свои данные, чтобы создать аккаунт.';
+
+  @override
+  String get orCap => 'ИЛИ';
+
+  @override
+  String get forgotPasswordDescription =>
+      'Введите свой адрес электронной почты, и мы отправим вам ссылку для сброса пароля.';
+
+  @override
+  String get backToLogin => 'Вернуться ко входу';
+
+  @override
+  String get resetPassword => 'Сбросить пароль';
+
+  @override
+  String get enterPasswordToContinue => 'Введите пароль, чтобы продолжить.';
+
+  @override
+  String get deletingAccount => 'Удаление аккаунта...';
+
+  @override
+  String get passwordRequiredForSecurity =>
+      'В целях безопасности введите свой пароль.';
+
+  @override
+  String get securityTitle => 'Защитите свой аккаунт';
+
+  @override
+  String get securityDescription =>
+      'Регулярно обновляйте пароль, чтобы обеспечить безопасность вашего аккаунта Kipgo.';
+
+  @override
+  String get updateYourPassword => 'Изменить пароль';
+
+  @override
+  String get updateDescription => 'Введите текущий пароль и установите новый.';
+
+  @override
+  String get currentPasswordLabel => 'Текущий пароль';
+
+  @override
+  String get newPasswordLabel => 'Новый пароль';
+
+  @override
+  String get confirmPasswordLabel => 'Подтвердите новый пароль';
+
+  @override
+  String get passwordRequirement =>
+      'Новый пароль должен содержать не менее 8 символов.';
+
+  @override
+  String get differentPassword => 'Новый пароль должен отличаться от текущего.';
+
+  @override
+  String get securityFooter => 'Безопасность вашего аккаунта важна для нас';
+
+  @override
+  String get showPassword => 'Показать пароль';
+
+  @override
+  String get hidePassword => 'Скрыть пароль';
 }

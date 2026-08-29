@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:kipgo/controllers/theme_provider.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/screens/shuttle/booking_details/shuttle_booking_details_page.dart';
 import 'package:kipgo/screens/shuttle/widgets/shuttle_bookings/empty/shuttle_booking_empty_state.dart';
 import 'package:kipgo/screens/shuttle/widgets/shuttle_bookings/shuttle_booking_list.dart';
-import 'package:kipgo/screens/widgets/language_widget.dart';
+import 'package:kipgo/screens/widgets/app_bar_widget.dart';
+import 'package:kipgo/screens/widgets/require_authentication_page.dart';
 import 'package:kipgo/utils/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -24,7 +23,9 @@ class ShuttleBookingsPage extends StatefulWidget {
 class _ShuttleBookingsPageState extends State<ShuttleBookingsPage>
     with SingleTickerProviderStateMixin {
   late final TabController _tabController;
-  late ShuttleBookingsProvider _bookingsProvider;
+  late final ShuttleBookingsProvider _bookingsProvider;
+
+  String? _initializedUserId;
 
   @override
   void initState() {
@@ -36,10 +37,29 @@ class _ShuttleBookingsPageState extends State<ShuttleBookingsPage>
       length: ShuttleBookingGroup.values.length,
       vsync: this,
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _loadInitialBookings();
+      _initializeForCurrentUser();
     });
+  }
+
+  Future<void> _initializeForCurrentUser() async {
+    if (!mounted) return;
+
+    final profile = context.read<ProfileProvider>().profile;
+
+    if (profile == null) return;
+
+    if (_initializedUserId == profile.id) return;
+
+    _initializedUserId = profile.id;
+
+    await _bookingsProvider.initialize(profile.id);
   }
 
   @override
@@ -49,46 +69,37 @@ class _ShuttleBookingsPageState extends State<ShuttleBookingsPage>
     super.dispose();
   }
 
-  Future<void> _loadInitialBookings() async {
-    final profile = context.read<ProfileProvider>().profile;
-
-    if (profile == null) return;
-
-    final provider = context.read<ShuttleBookingsProvider>();
-
-    await provider.initialize(profile.id);
-  }
-
   @override
   Widget build(BuildContext context) {
-    bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
-    AppLocalizations loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context)!;
+
+    final profile = context.watch<ProfileProvider>().profile;
+
+    if (profile == null) {
+      return RequireAuthenticationPage(
+        title: loc.yourBookings,
+        message: loc.yourBookingsAuthRequired,
+        onAuthenticated: _initializeForCurrentUser,
+      );
+    }
 
     return Consumer<ShuttleBookingsProvider>(
       builder: (_, provider, _) {
         return Scaffold(
-          appBar: AppBar(
-            backgroundColor: AppColors.primary,
-            title: Text(
-              loc.myShuttleBookings,
-              style: GoogleFonts.poppins(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                fontSize: 20,
-              ),
-            ),
-            iconTheme: IconThemeData(color: Colors.white),
-            actions: [LanguageWidget()],
-            actionsPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            elevation: 8,
-            bottom: TabBar(
+          appBar: AppBarWidget(
+            title: loc.myShuttleBookings,
+            bottomWidget: TabBar(
               isScrollable: true,
-              indicatorColor: isDark ? Colors.white : AppColors.lightLayer,
+              tabAlignment: TabAlignment.start,
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              labelPadding: const EdgeInsets.symmetric(horizontal: 14),
+              indicatorPadding: const EdgeInsets.only(bottom: 4),
+              indicatorSize: TabBarIndicatorSize.label,
+              indicatorWeight: 3,
+              indicatorColor: Colors.white,
               dividerColor: Colors.transparent,
               labelColor: Colors.white,
               unselectedLabelColor: Colors.white54,
-              padding: EdgeInsets.all(0),
-              tabAlignment: TabAlignment.start,
               controller: _tabController,
               tabs: [
                 _buildTab(
@@ -115,11 +126,12 @@ class _ShuttleBookingsPageState extends State<ShuttleBookingsPage>
             ),
           ),
           backgroundColor: AppColors.primary,
-
           body: Container(
             width: double.maxFinite,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(20),
+              ),
               color: Theme.of(context).scaffoldBackgroundColor,
             ),
             child: TabBarView(
@@ -204,8 +216,6 @@ class _BookingsTab extends StatelessWidget {
 
     return Consumer2<ShuttleBookingsProvider, ProfileProvider>(
       builder: (context, provider, profileProvider, _) {
-        // final state = provider.state(group);
-
         final profile = profileProvider.profile;
 
         if (profile == null) {
@@ -216,12 +226,7 @@ class _BookingsTab extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
 
-        // if (state.loading && state.bookings.isEmpty) {
-        //   return const Center(child: CircularProgressIndicator());
-        // }
-
         if (provider.error != null) {
-          print(provider.error);
           return Center(
             child: Padding(
               padding: const EdgeInsets.all(24),
@@ -238,13 +243,6 @@ class _BookingsTab extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 24),
-
-                  // FilledButton(
-                  //   onPressed: () {
-                  //     provider.refresh(userId: profile.id, group: group);
-                  //   },
-                  //   child: Text(loc.retry),
-                  // ),
                 ],
               ),
             ),
@@ -263,18 +261,6 @@ class _BookingsTab extends StatelessWidget {
 
         return ShuttleBookingList(
           bookings: bookings,
-
-          // onRefresh: () async {
-          //   switch (group) {
-          //     case ShuttleBookingGroup.completed:
-          //     case ShuttleBookingGroup.closed:
-          //       // await provider.refresh(userId: profile.id, group: group);
-          //       break;
-
-          //     default:
-          //       return;
-          //   }
-          // },
           onBookingTap: (booking) {
             Navigator.of(context).push(
               MaterialPageRoute(

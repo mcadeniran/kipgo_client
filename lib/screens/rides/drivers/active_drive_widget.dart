@@ -360,7 +360,7 @@ class _ActiveDriveWidgetState extends State<ActiveDriveWidget> {
     );
 
     // End trip
-    FirebaseDatabase.instance
+    await FirebaseDatabase.instance
         .ref()
         .child('All Ride Requests')
         .child(widget.ride.id)
@@ -535,7 +535,7 @@ class _ActiveDriveWidgetState extends State<ActiveDriveWidget> {
         );
 
         // End trip
-        FirebaseDatabase.instance
+        await FirebaseDatabase.instance
             .ref()
             .child('All Ride Requests')
             .child(widget.ride.id)
@@ -607,7 +607,7 @@ class _ActiveDriveWidgetState extends State<ActiveDriveWidget> {
 
         if (!mounted) return;
 
-        // 🔔 Step 1: Show a quick toast/snackbar notification
+        //  Step 1: Show a quick toast/snackbar notification
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(AppLocalizations.of(context)!.riderCancelledTrip),
@@ -641,7 +641,7 @@ class _ActiveDriveWidgetState extends State<ActiveDriveWidget> {
         if (ctx == null) {
           return;
         }
-        // 🪧 Step 2: Show a dialog for confirmation
+        //  Step 2: Show a dialog for confirmation
         await showDialog(
           context: ctx,
           barrierDismissible: false,

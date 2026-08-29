@@ -154,6 +154,7 @@ class ShuttleBookingRepository {
       final updatedPayment = booking.payment.copyWith(
         status: ShuttlePaymentStatus.awaitingVerification,
         reference: txid,
+        expiresAt: null,
         crypto: booking.payment.crypto?.copyWith(
           transactionId: txid,
           submittedAt: now,

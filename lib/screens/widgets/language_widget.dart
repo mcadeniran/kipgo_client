@@ -35,40 +35,42 @@ class _LanguageSheet extends StatelessWidget {
     final provider = Provider.of<LocaleProvider>(context);
     final currentLocale = provider.locale;
 
-    return Padding(
-      padding: const EdgeInsets.all(12),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            AppLocalizations.of(context)!.changeLanguage,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          const SizedBox(height: 12),
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              AppLocalizations.of(context)!.changeLanguage,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 12),
 
-          ...L10n.all.map((locale) {
-            final flag = L10n.getFlag(locale.languageCode);
-            final text = locale.languageCode == 'ru'
-                ? AppLocalizations.of(context)!.englishRussian
-                : locale.languageCode == 'tr'
-                ? AppLocalizations.of(context)!.englishTurkish
-                : AppLocalizations.of(context)!.englishEnglish;
+            ...L10n.all.map((locale) {
+              final flag = L10n.getFlag(locale.languageCode);
+              final text = locale.languageCode == 'ru'
+                  ? AppLocalizations.of(context)!.englishRussian
+                  : locale.languageCode == 'tr'
+                  ? AppLocalizations.of(context)!.englishTurkish
+                  : AppLocalizations.of(context)!.englishEnglish;
 
-            final isSelected = locale == currentLocale;
+              final isSelected = locale == currentLocale;
 
-            return ListTile(
-              leading: Text(flag, style: const TextStyle(fontSize: 24)),
-              title: Text(text),
-              trailing: isSelected
-                  ? const Icon(Icons.check, color: Colors.green)
-                  : null,
-              onTap: () {
-                provider.setLocale(locale, context);
-                Navigator.pop(context); // close sheet
-              },
-            );
-          }),
-        ],
+              return ListTile(
+                leading: Text(flag, style: const TextStyle(fontSize: 24)),
+                title: Text(text),
+                trailing: isSelected
+                    ? const Icon(Icons.check, color: Colors.green)
+                    : null,
+                onTap: () {
+                  provider.setLocale(locale, context);
+                  Navigator.pop(context); // close sheet
+                },
+              );
+            }),
+          ],
+        ),
       ),
     );
   }

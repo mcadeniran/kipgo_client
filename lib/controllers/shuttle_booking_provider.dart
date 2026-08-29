@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kipgo/controllers/shuttle_fleet_provider.dart';
+import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/models/shuttle_booking/shuttle_booking.dart';
 import 'package:kipgo/models/shuttle_booking/shuttle_fleet_vehicle.dart';
 import 'package:kipgo/models/shuttle_booking/shuttle_payment_method.dart';
@@ -229,21 +230,23 @@ class ShuttleBookingProvider extends ChangeNotifier {
         passenger.phoneNumber.trim().isNotEmpty;
   }
 
-  String? get validationMessage {
+  String? validationMessage(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
     if (draft.pickup == null) {
-      return "Please select a pickup location";
+      return loc.pleaseSelectPickupLocation;
     }
 
     if (draft.destination == null) {
-      return "Please select your destination";
+      return loc.pleaseSelectDestination;
     }
 
     if (draft.departureDate == null) {
-      return "Please select a departure date";
+      return loc.pleaseSelectDepartureDate;
     }
 
     if (draft.roundTrip && draft.returnDate == null) {
-      return "Please select a return date";
+      return loc.pleaseSelectReturnDate;
     }
 
     return null;

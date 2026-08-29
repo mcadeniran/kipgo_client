@@ -1,4 +1,5 @@
 {
+  "@@locale": "en",
   "language": "English",
   "@language": {
     "description": "The Current Language"
@@ -3683,6 +3684,1138 @@
   },
   "paymentLinkSent": "Payment Link Sent",
   "@paymentLinkSent": {
+    "description": "Info"
+  },
+  "hello": "Hello",
+  "@hello": {
+    "description": "Info"
+  },
+  "whereToNext": "Where to next?",
+  "@whereToNext": {
+    "description": "Info"
+  },
+  "airportTransferTitle": "Airport Transfer",
+  "@airportTransferTitle": {
+    "description": "Info"
+  },
+  "bookAirportTransferInAdvance": "Book your airport transfer in advance and travel stress-free",
+  "@bookAirportTransferInAdvance": {
+    "description": "Info"
+  },
+  "shuttleService": "Shuttle Service",
+  "@shuttleService": {
+    "description": "Info"
+  },
+  "hotels": "Hotels",
+  "@hotels": {
+    "description": "Info"
+  },
+  "staySomewhereExtra": "Stay somewhere extraordinary.",
+  "@staySomewhereExtra": {
+    "description": "Info"
+  },
+  "weArePreparingHotels": "We are preparing a beautiful collection of stays and unforgettable places for your next journey. Hotel bookings are coming soon to Kipgo.",
+  "@weArePreparingHotels": {
+    "description": "Info"
+  },
+  "toursAndActivities": "Tours & Activities",
+  "@toursAndActivities": {
+    "description": "Info"
+  },
+  "discoverMore": "Discover more. Experience more.",
+  "@discoverMore": {
+    "description": "Info"
+  },
+  "fromUnforgettableAdventures": "From unforgettable adventures to local experiences, we are bringing the best things to do closer to you. Tours & Activities are coming soon to Kipgo.",
+  "@fromUnforgettableAdventures": {
+    "description": "Info"
+  },
+  "handpickedRides": "Handpicked rides for your next trip",
+  "@handpickedRides": {
+    "description": "Info"
+  },
+  "featuredCap": "FEATURED",
+  "@featuredCap": {
+    "description": "Info"
+  },
+  "trustedPartnersForYourJourney": "Trusted partners for your journey",
+  "@trustedPartnersForYourJourney": {
+    "description": "Info"
+  },
+  "verifiedPartner": "verified partner",
+  "@verifiedPartner": {
+    "description": "Info"
+  },
+  "popularCars": "Popular Cars",
+  "@popularCars": {
+    "description": "Info"
+  },
+  "lovedByKipgoTravellers": "Loved by Kipgo travellers",
+  "@lovedByKipgoTravellers": {
+    "description": "Info"
+  },
+  "seeAll": "See all",
+  "@seeAll": {
+    "description": "Info"
+  },
+  "swipeToExplore": "Swipe to explore",
+  "@swipeToExplore": {
+    "description": "Info"
+  },
+  "safeAndSecure": "Safe & Secure",
+  "@safeAndSecure": {
+    "description": "Info"
+  },
+  "yourSafety": "Your safety is our top priority.",
+  "@yourSafety": {
+    "description": "Info"
+  },
+  "bestPriceGuarantee": "Best Price Guarantee",
+  "@bestPriceGuarantee": {
+    "description": "Info"
+  },
+  "getTheBestValue": "Get the best value for your money.",
+  "@getTheBestValue": {
+    "description": "Info"
+  },
+  "flexibleBooking": "Flexible Booking",
+  "@flexibleBooking": {
+    "description": "Info"
+  },
+  "freeCancellation": "Free cancellation on selected options.",
+  "@freeCancellation": {
+    "description": "Info"
+  },
+  "trustedByThousands": "Trusted by Thousands",
+  "@trustedByThousands": {
+    "description": "Info"
+  },
+  "joinThousands": "Join thousands of happy travellers.",
+  "@joinThousands": {
+    "description": "Info"
+  },
+  "signOut": "Sign Out",
+  "@signOut": {
+    "description": "Info"
+  },
+  "areYouSureSignOut": "Are you sure you want to sign out?",
+  "@areYouSureSignOut": {
+    "description": "Info"
+  },
+  "makeYourKipgoJourneyYours": "Make your Kipgo journey yours",
+  "@makeYourKipgoJourneyYours": {
+    "description": "Info"
+  },
+  "signInOrCreateAccount": "Sign in or create an account to manage bookings, save your preferences and enjoy a smoother experience.",
+  "@signInOrCreateAccount": {
+    "description": "Info"
+  },
+  "signInOrRegister": "Sign In or Register",
+  "@signInOrRegister": {
+    "description": "Info"
+  },
+  "alreadyHaveAnAccountTitle": "Already have an account?",
+  "@alreadyHaveAnAccountTitle": {
+    "description": "Info"
+  },
+  "signInToAccessYourAccount": "Sign in to access your account",
+  "@signInToAccessYourAccount": {
+    "description": "Info"
+  },
+  "signIn": "Sign In",
+  "@signIn": {
+    "description": "Info"
+  },
+  "travelMadeEasy": "Travel made easy",
+  "@travelMadeEasy": {
+    "description": "Info"
+  },
+  "customer": "Customer",
+  "@customer": {
+    "description": "Info"
+  },
+  "rentalOwner": "Rental Owner",
+  "@rentalOwner": {
+    "description": "Info"
+  },
+  "kipgoMember": "Kipgo Member",
+  "@kipgoMember": {
+    "description": "Info"
+  },
+  "findYourPerfectRide": "Find your perfect ride.",
+  "@findYourPerfectRide": {
+    "description": "Info"
+  },
+  "discoverQualityCars": "Discover quality cars from trusted rental companies.",
+  "@discoverQualityCars": {
+    "description": "Info"
+  },
+  "verified": "Verified",
+  "@verified": {
+    "description": "Info"
+  },
+  "wideSelection": "Wide selection",
+  "@wideSelection": {
+    "description": "Info"
+  },
+  "trySearchingForAnotherCar": "Try searching for another car, brand or model.",
+  "@trySearchingForAnotherCar": {
+    "description": "Info"
+  },
+  "refineYourCarSearch": "Refine your car search",
+  "@refineYourCarSearch": {
+    "description": "Info"
+  },
+  "numActiveFilters": "{count, plural, =0{No filters} one{1 active filter} other{{count} active filters}}",
+  "@numActiveFilters": {
+    "description": "Info",
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "manageYourBookings": "Manage your bookings",
+  "@manageYourBookings": {
+    "description": "Info"
+  },
+  "saveYourFavouriteEx": "Save your favourite experiences",
+  "@saveYourFavouriteEx": {
+    "description": "Info"
+  },
+  "enjoyAFasterBooking": "Enjoy a faster booking experience",
+  "@enjoyAFasterBooking": {
+    "description": "Info"
+  },
+  "continueBrowsing": "Continue browsing",
+  "@continueBrowsing": {
+    "description": "Info"
+  },
+  "welcomeToKipgo": "Welcome to Kipgo",
+  "@welcomeToKipgo": {
+    "description": "Info"
+  },
+  "signInOrCreateAccountToContinue": "Sign in or create an account to continue and enjoy the full Kipgo experience.",
+  "@signInOrCreateAccountToContinue": {
+    "description": "Info"
+  },
+  "findTheRightCar": "Find the right car for your journey",
+  "@findTheRightCar": {
+    "description": "Info"
+  },
+  "sortBy": "Sort By",
+  "@sortBy": {
+    "description": "Info"
+  },
+  "numOfCarsAvailable": "{count, plural, =0{0 cars available} one{1 car available} other{{count} cars available}}",
+  "@numOfCarsAvailable": {
+    "description": "Info",
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "tryChangingYourSearch": "Try changing your search or filters.",
+  "@tryChangingYourSearch": {
+    "description": "Info"
+  },
+  "popularTag": "POPULAR",
+  "@popularTag": {
+    "description": "Info"
+  },
+  "rentalPartner": "Rental partner",
+  "@rentalPartner": {
+    "description": "Info"
+  },
+  "guestReviews": "Guest reviews",
+  "@guestReviews": {
+    "description": "Info"
+  },
+  "carNameReviews": "{name} Reviews",
+  "@carNameReviews": {
+    "description": "Info",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "seeWhatOtherTravellersCar": "See what other travellers think about this car",
+  "@seeWhatOtherTravellersCar": {
+    "description": "Info"
+  },
+  "currentlyUnavailable": "Currently unavailable",
+  "@currentlyUnavailable": {
+    "description": "Info"
+  },
+  "numOfTotalReviews": "{count, plural, =0{0 reviews} one{1 review} other{{count} reviews}}",
+  "@numOfTotalReviews": {
+    "description": "Info",
+    "placeholders": {
+      "count": {
+        "type": "num",
+        "format": "compact"
+      }
+    }
+  },
+  "viewRentalRules": "View rental rules",
+  "@viewRentalRules": {
+    "description": "Info"
+  },
+  "recentReviews": "Recent reviews",
+  "@recentReviews": {
+    "description": "Info"
+  },
+  "anonymous": "Anonymous",
+  "@anonymous": {
+    "description": "Info"
+  },
+  "comfort": "Comfort",
+  "@comfort": {
+    "description": "Info"
+  },
+  "cleanliness": "Cleanliness",
+  "@cleanliness": {
+    "description": "Info"
+  },
+  "condition": "Condition",
+  "@condition": {
+    "description": "Info"
+  },
+  "valueForMoney": "Value for money",
+  "@valueForMoney": {
+    "description": "Info"
+  },
+  "communication": "Communication",
+  "@communication": {
+    "description": "Info"
+  },
+  "pickupExperience": "Pickup Experience",
+  "@pickupExperience": {
+    "description": "Info"
+  },
+  "professionalism": "Professionalism",
+  "@professionalism": {
+    "description": "Info"
+  },
+  "returnExperience": "Return Experience",
+  "@returnExperience": {
+    "description": "Info"
+  },
+  "overallRating": "Overall Rating",
+  "@overallRating": {
+    "description": "Info"
+  },
+  "verifiedReviews": "Verified Reviews",
+  "@verifiedReviews": {
+    "description": "Info"
+  },
+  "whatCustomersAreSaying": "What customers are saying",
+  "@whatCustomersAreSaying": {
+    "description": "Info"
+  },
+  "pctOfCustomersCar": "{pct}% of customers would recommend this car",
+  "@pctOfCustomersCar": {
+    "description": "Info",
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "pctOfCustomersCompany": "{pct}% of customers would recommend this company",
+  "@pctOfCustomersCompany": {
+    "description": "Info",
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "customerReviews": "Customer Reviews",
+  "@customerReviews": {
+    "description": "Info"
+  },
+  "mostRecent": "Most Recent",
+  "@mostRecent": {
+    "description": "Info"
+  },
+  "highestRated": "Highest Rated",
+  "@highestRated": {
+    "description": "Info"
+  },
+  "lowestRated": "Lowest Rated",
+  "@lowestRated": {
+    "description": "Info"
+  },
+  "sort": "Sort",
+  "@sort": {
+    "description": "Info"
+  },
+  "ratingBreakdown": "Rating Breakdown",
+  "@ratingBreakdown": {
+    "description": "Info"
+  },
+  "whatTheyLiked": "What they liked",
+  "@whatTheyLiked": {
+    "description": "Info"
+  },
+  "couldBeImproved": "Could be improved",
+  "@couldBeImproved": {
+    "description": "Info"
+  },
+  "wouldRecommend": "Would recommend",
+  "@wouldRecommend": {
+    "description": "Info"
+  },
+  "wouldRentAgain": "Would rent again",
+  "@wouldRentAgain": {
+    "description": "Info"
+  },
+  "beTheFirst": "Be the first customer to share your experience.",
+  "@beTheFirst": {
+    "description": "Info"
+  },
+  "verifiedRentalCompany": "Verified rental company",
+  "@verifiedRentalCompany": {
+    "description": "Info"
+  },
+  "location": "Location",
+  "@location": {
+    "description": "Info"
+  },
+  "aboutTheCompany": "About the company",
+  "@aboutTheCompany": {
+    "description": "Info"
+  },
+  "seeWhatOthersTravellersCompany": "See what other travellers think about this rental company",
+  "@seeWhatOthersTravellersCompany": {
+    "description": "Info"
+  },
+  "availableCars": "Available Cars",
+  "@availableCars": {
+    "description": "Info"
+  },
+  "noCarsAvailable": "No cars available",
+  "@noCarsAvailable": {
+    "description": "Info"
+  },
+  "thisRentalCompany": "This rental company currently has no available cars.",
+  "@thisRentalCompany": {
+    "description": "Info"
+  },
+  "pleaseSelectPickupLocation": "Please select a pickup location",
+  "@pleaseSelectPickupLocation": {
+    "description": "Info"
+  },
+  "pleaseSelectDestination": "Please select your destination",
+  "@pleaseSelectDestination": {
+    "description": "Info"
+  },
+  "pleaseSelectDepartureDate": "Please select a departure date",
+  "@pleaseSelectDepartureDate": {
+    "description": "Info"
+  },
+  "pleaseSelectReturnDate": "Please select a return date",
+  "@pleaseSelectReturnDate": {
+    "description": "Info"
+  },
+  "comingSoonTag": "COMING SOON",
+  "@comingSoonTag": {
+    "description": "Info"
+  },
+  "somethingWonderfulIsOnTheWay": "Something wonderful is on the way.",
+  "@somethingWonderfulIsOnTheWay": {
+    "description": "Info"
+  },
+  "yourRideHistory": "Your Ride History",
+  "@yourRideHistory": {
+    "description": "Info"
+  },
+  "signInToView": "Sign in to view your completed rides and trip details.",
+  "@signInToView": {
+    "description": "Info"
+  },
+  "yourBookings": "Your Bookings",
+  "@yourBookings": {
+    "description": "Info"
+  },
+  "yourBookingsAuthRequired": "Sign in to view your bookings and manage your reservations.",
+  "@yourBookingsAuthRequired": {
+    "description": "Info"
+  },
+  "exploreKipgo": "Explore Kipgo",
+  "@exploreKipgo": {
+    "description": "Info"
+  },
+  "moveSmarterWithKipgo": "Move smarter with Kipgo",
+  "@moveSmarterWithKipgo": {
+    "description": "Info"
+  },
+  "reliableRidesWhenever": "Reliable rides, whenever and wherever you need them.",
+  "@reliableRidesWhenever": {
+    "description": "Info"
+  },
+  "kipgoTaxi": "KIPGO TAXI",
+  "@kipgoTaxi": {
+    "description": "Info"
+  },
+  "whereAreYouGoing": "Where are you going?",
+  "@whereAreYouGoing": {
+    "description": "Info"
+  },
+  "requestAComfortableRide": "Request a comfortable ride with Kipgo.",
+  "@requestAComfortableRide": {
+    "description": "Info"
+  },
+  "readyToRide": "Ready to ride?",
+  "@readyToRide": {
+    "description": "Info"
+  },
+  "signInToRequestARide": "Sign in to request a ride and manage your trips.",
+  "@signInToRequestARide": {
+    "description": "Info"
+  },
+  "safe": "Safe",
+  "@safe": {
+    "description": "Info"
+  },
+  "trustedDrivers": "Trusted drivers",
+  "@trustedDrivers": {
+    "description": "Info"
+  },
+  "reliable": "Reliable",
+  "@reliable": {
+    "description": "Info"
+  },
+  "onTimeRides": "On-time rides",
+  "@onTimeRides": {
+    "description": "Info"
+  },
+  "simple": "Simple",
+  "@simple": {
+    "description": "Info"
+  },
+  "clearPricing": "Clear pricing",
+  "@clearPricing": {
+    "description": "Info"
+  },
+  "whyRideWithKipgo": "Why ride with Kipgo?",
+  "@whyRideWithKipgo": {
+    "description": "Info"
+  },
+  "kipgoMakesGettingAroundSimple": "Kipgo makes getting around simple, convenient and reliable.",
+  "@kipgoMakesGettingAroundSimple": {
+    "description": "Info"
+  },
+  "activeRide": "Active Ride",
+  "@activeRide": {
+    "description": "Info"
+  },
+  "passengerTools": "Passenger tools",
+  "@passengerTools": {
+    "description": "Info"
+  },
+  "bookAndManageRidesAsPassenger": "Book and manage rides as passenger",
+  "@bookAndManageRidesAsPassenger": {
+    "description": "Info"
+  },
+  "requestRideAsPassenger": "Request ride as passenger",
+  "@requestRideAsPassenger": {
+    "description": "Info"
+  },
+  "viewRidesCompleted": "View rides completed as passenger",
+  "@viewRidesCompleted": {
+    "description": "Info"
+  },
+  "hiUser": "Hi {name}",
+  "@hiUser": {
+    "description": "Info",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "readyForYourNextRide": "Ready for your next ride?",
+  "@readyForYourNextRide": {
+    "description": "Info"
+  },
+  "youAreRadyToReceiveRideRequests": "You are ready to receive ride requests.",
+  "@youAreRadyToReceiveRideRequests": {
+    "description": "Info"
+  },
+  "goOnlineWhenYouareReady": "Go online when you are ready to drive.",
+  "@goOnlineWhenYouareReady": {
+    "description": "Info"
+  },
+  "goOffline": "Go Offline",
+  "@goOffline": {
+    "description": "Info"
+  },
+  "goOnline": "Go Online",
+  "@goOnline": {
+    "description": "Info"
+  },
+  "yourAccountIsNotReadyYet": "Your account is not ready yet.",
+  "@yourAccountIsNotReadyYet": {
+    "description": "Info"
+  },
+  "yourLocation": "Your location",
+  "@yourLocation": {
+    "description": "Info"
+  },
+  "rating": "Rating",
+  "@rating": {
+    "description": "Info"
+  },
+  "yourVehicle": "Your Vehicle",
+  "@yourVehicle": {
+    "description": "Info"
+  },
+  "noUpcomingRentals": "No upcoming rentals",
+  "@noUpcomingRentals": {
+    "description": "Info"
+  },
+  "noActiveRental": "No active rental",
+  "@noActiveRental": {
+    "description": "Info"
+  },
+  "noCompletedRentals": "No completed rentals",
+  "@noCompletedRentals": {
+    "description": "Info"
+  },
+  "noClosedRentals": "No closed rentals",
+  "@noClosedRentals": {
+    "description": "Info"
+  },
+  "yourConfirmedRentals": "Your confirmed rentals will appear here once they're scheduled.",
+  "@yourConfirmedRentals": {
+    "description": "Info"
+  },
+  "onceYourRentalPeriodStarts": "Once your rental period starts, you'll see it here.",
+  "@onceYourRentalPeriodStarts": {
+    "description": "Info"
+  },
+  "yourRentalHistory": "Your rental history will appear here after you complete your first rental period.",
+  "@yourRentalHistory": {
+    "description": "Info"
+  },
+  "yourJourneys": "Your journeys",
+  "@yourJourneys": {
+    "description": "Info"
+  },
+  "yourTravelHistory": "Your travel history, all in one place.",
+  "@yourTravelHistory": {
+    "description": "Info"
+  },
+  "trips": "Trips",
+  "@trips": {
+    "description": "Info"
+  },
+  "noJourneysYet": "No journeys yet",
+  "@noJourneysYet": {
+    "description": "Info"
+  },
+  "yourCompletedTripsWIllAppear": "Your completed trips will appear here once you take your first ride.",
+  "@yourCompletedTripsWIllAppear": {
+    "description": "Info"
+  },
+  "bookARide": "Book a ride",
+  "@bookARide": {
+    "description": "Info"
+  },
+  "rated": "Rated",
+  "@rated": {
+    "description": "Info"
+  },
+  "failedToSubmitReview": "Failed to submit review.",
+  "@failedToSubmitReview": {
+    "description": "Info"
+  },
+  "tripRoute": "Trip route",
+  "@tripRoute": {
+    "description": "Info"
+  },
+  "totalFare": "Total fare",
+  "@totalFare": {
+    "description": "Info"
+  },
+  "yourDriver": "Your driver",
+  "@yourDriver": {
+    "description": "Info"
+  },
+  "invalidEmailAddress": "Please enter a valid email address.",
+  "@invalidEmailAddress": {
+    "description": "Info"
+  },
+  "accountHasBeenDisabled": "This account has been disabled. Please contact support for assistance.",
+  "@accountHasBeenDisabled": {
+    "description": "Info"
+  },
+  "noAccountExists": "No account was found with this email address.",
+  "@noAccountExists": {
+    "description": "Info"
+  },
+  "incorrectPasswordError": "The password you entered is incorrect. Please try again.",
+  "@incorrectPasswordError": {
+    "description": "Info"
+  },
+  "anAccountAlreadyExists": "An account already exists with this email address. Please sign in instead.",
+  "@anAccountAlreadyExists": {
+    "description": "Info"
+  },
+  "thePasswordIsTooWeak": "Your password is too weak. Please choose a stronger password.",
+  "@thePasswordIsTooWeak": {
+    "description": "Info"
+  },
+  "operationNotAllowed": "This sign-in method is currently unavailable. Please try another method.",
+  "@operationNotAllowed": {
+    "description": "Info"
+  },
+  "tooManyRequests": "Too many sign-in attempts. Please wait a moment and try again.",
+  "@tooManyRequests": {
+    "description": "Info"
+  },
+  "invalidCredentials": "The email address or password is incorrect. Please check your details and try again.",
+  "@invalidCredentials": {
+    "description": "Info"
+  },
+  "networkRequestFailed": "Unable to connect to the server. Please check your internet connection and try again.",
+  "@networkRequestFailed": {
+    "description": "Info"
+  },
+  "authenticationErrorOccurred": "We couldn't sign you in. Please try again.",
+  "@authenticationErrorOccurred": {
+    "description": "Info"
+  },
+  "myDrivingHistory": "My Driving History",
+  "@myDrivingHistory": {
+    "description": "Info"
+  },
+  "drives": "Drives",
+  "@drives": {
+    "description": "Info"
+  },
+  "yourCompletedDrivesWillAppearHere": "Your completed drives will appear here.",
+  "@yourCompletedDrivesWillAppearHere": {
+    "description": "Info"
+  },
+  "yourPassengerFeedback": "Your passenger feedback helps build your reputation as a driver.",
+  "@yourPassengerFeedback": {
+    "description": "Info"
+  },
+  "passengerFeedbackWillAppearHere": "Passenger feedback will appear here after you complete your rides.",
+  "@passengerFeedbackWillAppearHere": {
+    "description": "Info"
+  },
+  "leaveReview": "Leave a review",
+  "@leaveReview": {
+    "description": "Info"
+  },
+  "howWasTheCar": "How was the car?",
+  "@howWasTheCar": {
+    "description": "Info"
+  },
+  "howWasTheRentalCompany": "How was the rental company?",
+  "@howWasTheRentalCompany": {
+    "description": "Info"
+  },
+  "reviewTitle": "Review title",
+  "@reviewTitle": {
+    "description": "Info"
+  },
+  "yourReview": "Your review",
+  "@yourReview": {
+    "description": "Info"
+  },
+  "addPhotos": "Add photos",
+  "@addPhotos": {
+    "description": "Info"
+  },
+  "wouldRecommendQ": "Would you recommend this rental?",
+  "@wouldRecommendQ": {
+    "description": "Info"
+  },
+  "wouldRentAgainQ": "Would you rent this car again?",
+  "@wouldRentAgainQ": {
+    "description": "Info"
+  },
+  "postAnonymously": "Post anonymously",
+  "@postAnonymously": {
+    "description": "Info"
+  },
+  "submitReview": "Submit review",
+  "@submitReview": {
+    "description": "Info"
+  },
+  "reviewSubmitted": "Review submitted",
+  "@reviewSubmitted": {
+    "description": "Info"
+  },
+  "pleaseRateCarAspect": "Please rate every aspect of the car.",
+  "@pleaseRateCarAspect": {
+    "description": "Info"
+  },
+  "pleaseRateCompanyAspect": "Please rate every aspect of the rental company.",
+  "@pleaseRateCompanyAspect": {
+    "description": "Info"
+  },
+  "pleaseAddTitleAndReview": "Please add a title and write your review.",
+  "@pleaseAddTitleAndReview": {
+    "description": "Info"
+  },
+  "pleaseCompleteAllRequiredFields": "Please complete all required fields",
+  "@pleaseCompleteAllRequiredFields": {
+    "description": "Info"
+  },
+  "thankYou": "Thank you!",
+  "@thankYou": {
+    "description": "Info"
+  },
+  "yourReviewSubmitted": "Your review has been submitted successfully.",
+  "@yourReviewSubmitted": {
+    "description": "Info"
+  },
+  "done": "Done",
+  "@done": {
+    "description": "Info"
+  },
+  "stepCount": "Step {count} of {total}",
+  "@stepCount": {
+    "description": "Info",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "tellUsAboutVehicle": "Tell us about the vehicle you rented.",
+  "@tellUsAboutVehicle": {
+    "description": "Info"
+  },
+  "yourOverallExperienceCar": "Your overall experience with the car",
+  "@yourOverallExperienceCar": {
+    "description": "Info"
+  },
+  "howCleanWasTheVehicle": "How clean was the vehicle?",
+  "@howCleanWasTheVehicle": {
+    "description": "Info"
+  },
+  "howComfortable": "How comfortable was the car?",
+  "@howComfortable": {
+    "description": "Info"
+  },
+  "howWellMaintained": "How well maintained was the car?",
+  "@howWellMaintained": {
+    "description": "Info"
+  },
+  "wasTheRentalWorth": "Was the rental worth what you paid?",
+  "@wasTheRentalWorth": {
+    "description": "Info"
+  },
+  "yourFeedbackHelpsImproveRental": "Your feedback helps improve the rental experience.",
+  "@yourFeedbackHelpsImproveRental": {
+    "description": "Info"
+  },
+  "yourOverallExperienceCompany": "Your overall experience with the company",
+  "@yourOverallExperienceCompany": {
+    "description": "Info"
+  },
+  "howResponsiveAndHelpful": "How responsive and helpful were the staff?",
+  "@howResponsiveAndHelpful": {
+    "description": "Info"
+  },
+  "howSmoothWasThePickup": "How smooth was the pickup?",
+  "@howSmoothWasThePickup": {
+    "description": "Info"
+  },
+  "howProfessional": "How professional was the staff?",
+  "@howProfessional": {
+    "description": "Info"
+  },
+  "howSmoothWasReturning": "How smooth was returning the vehicle?",
+  "@howSmoothWasReturning": {
+    "description": "Info"
+  },
+  "shareTheDetailsForFutureRenters": "Share the details that future renters should know.",
+  "@shareTheDetailsForFutureRenters": {
+    "description": "Info"
+  },
+  "giveShortTitle": "Give your review a short title",
+  "@giveShortTitle": {
+    "description": "Info"
+  },
+  "whatDidYouLike": "What did you like? What could be better?",
+  "@whatDidYouLike": {
+    "description": "Info"
+  },
+  "whatDidYouLikeQ": "What did you like?",
+  "@whatDidYouLikeQ": {
+    "description": "Info"
+  },
+  "selectEverything": "Select everything that stood out.",
+  "@selectEverything": {
+    "description": "Info"
+  },
+  "clean": "Clean",
+  "@clean": {
+    "description": "Info"
+  },
+  "comfortable": "Comfortable",
+  "@comfortable": {
+    "description": "Info"
+  },
+  "wellMaintained": "Well maintained",
+  "@wellMaintained": {
+    "description": "Info"
+  },
+  "smoothDrive": "Smooth drive",
+  "@smoothDrive": {
+    "description": "Info"
+  },
+  "fuelEfficient": "Fuel efficient",
+  "@fuelEfficient": {
+    "description": "Info"
+  },
+  "greatValue": "Great value",
+  "@greatValue": {
+    "description": "Info"
+  },
+  "easyPickup": "Easy pickup",
+  "@easyPickup": {
+    "description": "Info"
+  },
+  "friendlyStaff": "Friendly staff",
+  "@friendlyStaff": {
+    "description": "Info"
+  },
+  "whatCouldBeBetter": "What could be better?",
+  "@whatCouldBeBetter": {
+    "description": "Info"
+  },
+  "optionalHelpFutureRenters": "Optional — help future renters prepare.",
+  "@optionalHelpFutureRenters": {
+    "description": "Info"
+  },
+  "pickupTookTooLong": "Pickup took too long",
+  "@pickupTookTooLong": {
+    "description": "Info"
+  },
+  "carShowedSomeWear": "Car showed some wear",
+  "@carShowedSomeWear": {
+    "description": "Info"
+  },
+  "limitedFeatures": "Limited features",
+  "@limitedFeatures": {
+    "description": "Info"
+  },
+  "expensive": "Expensive",
+  "@expensive": {
+    "description": "Info"
+  },
+  "difficultReturn": "Difficult return",
+  "@difficultReturn": {
+    "description": "Info"
+  },
+  "openingHours": "Opening hours",
+  "@openingHours": {
+    "description": "Info"
+  },
+  "oneLastThing": "One last thing",
+  "@oneLastThing": {
+    "description": "Info"
+  },
+  "yourAnswersHelp": "Your answers help other renters make better decisions.",
+  "@yourAnswersHelp": {
+    "description": "Info"
+  },
+  "yourRental": "Your rental",
+  "@yourRental": {
+    "description": "Info"
+  },
+  "rentalCompany": "Rental company",
+  "@rentalCompany": {
+    "description": "Info"
+  },
+  "poor": "Poor",
+  "@poor": {
+    "description": "Info"
+  },
+  "fair": "Fair",
+  "@fair": {
+    "description": "Info"
+  },
+  "good": "Good",
+  "@good": {
+    "description": "Info"
+  },
+  "veryGood": "Very good",
+  "@veryGood": {
+    "description": "Info"
+  },
+  "excellent": "Excellent",
+  "@excellent": {
+    "description": "Info"
+  },
+  "showFutureRenters": "Show future renters what the experience was really like.",
+  "@showFutureRenters": {
+    "description": "Info"
+  },
+  "add": "Add",
+  "@add": {
+    "description": "Info"
+  },
+  "yourNameAndProfileWillBeHidden": "Your name and profile photo will not be shown.",
+  "@yourNameAndProfileWillBeHidden": {
+    "description": "Info"
+  },
+  "almostThere": "Almost there!",
+  "@almostThere": {
+    "description": "Info"
+  },
+  "yourFeedbackCanHelp": "Your feedback can help another traveller choose with confidence.",
+  "@yourFeedbackCanHelp": {
+    "description": "Info"
+  },
+  "leaveAReview": "Leave a review",
+  "@leaveAReview": {
+    "description": "Info"
+  },
+  "numDays": "{days, plural, =0{days} one{day} other{days}}",
+  "@numDays": {
+    "description": "Info",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "thankYouForReview": "Thank you for your review",
+  "@thankYouForReview": {
+    "description": "Info"
+  },
+  "numOfSeats": "{seats, plural, =0{No seats} one{1 seat} other{{seats} seats}}",
+  "@numOfSeats": {
+    "description": "Info",
+    "placeholders": {
+      "seats": {
+        "type": "int"
+      }
+    }
+  },
+  "paymentStatus": "Payment Status",
+  "@paymentStatus": {
+    "description": "Info"
+  },
+  "addPayment": "Add Payment",
+  "@addPayment": {
+    "description": "Info"
+  },
+  "shareYourRentalExperience": "Share your rental experience",
+  "@shareYourRentalExperience": {
+    "description": "Info"
+  },
+  "thankYouForSharing": "Thank you for sharing your rental experience.",
+  "@thankYouForSharing": {
+    "description": "Info"
+  },
+  "loginSubtitle": "Sign in to continue your Kipgo journey",
+  "@loginSubtitle": {
+    "description": "Info"
+  },
+  "loginFormSubtitle": "Enter your details to access your account.",
+  "@loginFormSubtitle": {
+    "description": "Info"
+  },
+  "signupSubtitle": "Create your Kipgo account and start exploring.",
+  "@signupSubtitle": {
+    "description": "Info"
+  },
+  "signupFormSubtitle": "Fill in your details to create your account.",
+  "@signupFormSubtitle": {
+    "description": "Info"
+  },
+  "orCap": "OR",
+  "@orCap": {
+    "description": "Info"
+  },
+  "forgotPasswordDescription": "Enter your email address and we'll send you a link to reset your password.",
+  "@forgotPasswordDescription": {
+    "description": "Info"
+  },
+  "backToLogin": "Back to Sign In",
+  "@backToLogin": {
+    "description": "Info"
+  },
+  "resetPassword": "Reset Password",
+  "@resetPassword": {
+    "description": "Info"
+  },
+  "enterPasswordToContinue": "Enter your password to continue.",
+  "@enterPasswordToContinue": {
+    "description": "Info"
+  },
+  "deletingAccount": "Deleting account...",
+  "@deletingAccount": {
+    "description": "Info"
+  },
+  "passwordRequiredForSecurity": "For your security, please enter your password.",
+  "@passwordRequiredForSecurity": {
+    "description": "Info"
+  },
+  "securityTitle": "Protect your account",
+  "@securityTitle": {
+    "description": "Info"
+  },
+  "securityDescription": "Update your password regularly to help keep your Kipgo account secure.",
+  "@securityDescription": {
+    "description": "Info"
+  },
+  "updateYourPassword": "Update your password",
+  "@updateYourPassword": {
+    "description": "Info"
+  },
+  "updateDescription": "Enter your current password and choose a new one.",
+  "@updateDescription": {
+    "description": "Info"
+  },
+  "currentPasswordLabel": "Current password",
+  "@currentPasswordLabel": {
+    "description": "Info"
+  },
+  "newPasswordLabel": "New password",
+  "@newPasswordLabel": {
+    "description": "Info"
+  },
+  "confirmPasswordLabel": "Confirm new password",
+  "@confirmPasswordLabel": {
+    "description": "Info"
+  },
+  "passwordRequirement": "Your new password must contain at least 8 characters.",
+  "@passwordRequirement": {
+    "description": "Info"
+  },
+  "differentPassword": "New password must be different from your current password.",
+  "@differentPassword": {
+    "description": "Info"
+  },
+  "securityFooter": "Your account security matters to us",
+  "@securityFooter": {
+    "description": "Info"
+  },
+  "showPassword": "Show password",
+  "@showPassword": {
+    "description": "Info"
+  },
+  "hidePassword": "Hide password",
+  "@hidePassword": {
     "description": "Info"
   }
 }

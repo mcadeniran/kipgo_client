@@ -12,10 +12,31 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   bool showSignup = false;
 
+  void _authenticationSuccessful() {
+    if (!mounted) return;
+
+    // Return TRUE to RequireAuthenticationPage.
+    Navigator.of(context).pop(true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return showSignup
-        ? SignupScreen(onBackToLogin: () => setState(() => showSignup = false))
-        : LoginScreen(onSignupPressed: () => setState(() => showSignup = true));
+        ? SignupScreen(
+            onBackToLogin: () {
+              setState(() {
+                showSignup = false;
+              });
+            },
+            onAuthenticated: _authenticationSuccessful,
+          )
+        : LoginScreen(
+            onSignupPressed: () {
+              setState(() {
+                showSignup = true;
+              });
+            },
+            onAuthenticated: _authenticationSuccessful,
+          );
   }
 }

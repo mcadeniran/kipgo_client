@@ -4,6 +4,7 @@ import 'package:kipgo/controllers/locale_provider.dart';
 import 'package:kipgo/controllers/shuttle_booking_provider.dart';
 import 'package:kipgo/controllers/shuttle_fleet_provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
+import 'package:kipgo/helpers/require_authentication.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/models/shuttle_location.dart';
 import 'package:kipgo/screens/shuttle/widgets/booking_card/booking_car_title.dart';
@@ -196,12 +197,22 @@ class ShuttleBookingCard extends StatelessWidget {
                   ? null
                   : booking.draft.canContinue
                   ? () async {
+                      // 1. Require authentication first.
+                      final authenticated = await requireAuthentication(
+                        context,
+                      );
+
+                      if (!authenticated || !context.mounted) return;
+
+                      // 2. Prepare the vehicle selection only after
+                      // authentication succeeds.
                       await booking.prepareVehicleSelection(
                         context.read<ShuttleFleetProvider>(),
                       );
 
                       if (!context.mounted) return;
 
+                      // 3. Continue to the next screen.
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -212,7 +223,7 @@ class ShuttleBookingCard extends StatelessWidget {
                   : () => ReusableToast.error(
                       context,
                       loc.error,
-                      booking.validationMessage ?? loc.unknownError,
+                      booking.validationMessage(context) ?? loc.unknownError,
                     ),
             ),
           ],

@@ -1,5 +1,5 @@
 name: kipgo
-description: 'A new Flutter project.'
+description: 'Tranvel & Transportation Services in Northern Cyprus'
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -17,7 +17,8 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
 # version: 1.0.0+30
-version: 2.0.15+1
+# version: 2.0.15+1
+version: 3.0.0+1
 
 environment:
   sdk: ^3.8.1
@@ -71,6 +72,7 @@ dependencies:
   geolocator: null
   google_fonts: null
   google_maps_flutter: null
+  google_nav_bar: ^5.0.7
   google_places_flutter: null
   googleapis: null
   googleapis_auth: null
@@ -118,7 +120,9 @@ flutter_launcher_icons:
 flutter_native_splash:
   color: '#010080'
   image: assets/images/splash2.png
+  android: true
   ios: true
+  fullscreen: true
 
   android_12:
     color: '#010080'

@@ -1,14 +1,14 @@
 import 'dart:async';
+import 'dart:math' as math;
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kipgo/controllers/rental_shop_provider.dart';
 import 'package:kipgo/models/car_with_shop_model.dart';
-// import 'package:kipgo/models/rental_shop.dart';
-import 'package:kipgo/utils/location_utils.dart';
 import '../models/car_model.dart';
 import '../repositories/car_repository.dart';
 
-enum SortOption { priceLowToHigh, priceHighToLow, nearest, newest }
+enum SortOption { priceLowToHigh, priceHighToLow, newest }
 
 class CarProvider extends ChangeNotifier {
   final CarRepository _repository = CarRepository();
@@ -37,14 +37,28 @@ class CarProvider extends ChangeNotifier {
   int? seats;
   String? fuel;
   String? transmission;
-  double? userLat;
-  double? userLng;
-  double? radiusKm;
+  // double? userLat;
+  // double? userLng;
+  // double? radiusKm;
   String? searchQuery;
   String? currentShopId;
 
+  List<CarWithShop> _popularCars = [];
+  bool _loadingPopularCars = false;
+
+  List<CarWithShop> get popularCars => _popularCars;
+
+  bool get loadingPopularCars => _loadingPopularCars;
+
+  bool _popularCarsLoaded = false;
+
   void setShopProvider(RentalShopProvider provider) {
     shopProvider = provider;
+
+    if (_allCars.isNotEmpty && !_popularCarsLoaded) {
+      _popularCarsLoaded = true;
+      loadPopularCars();
+    }
   }
 
   @override
@@ -71,6 +85,11 @@ class CarProvider extends ChangeNotifier {
 
       loading = false;
       notifyListeners();
+
+      if (shopProvider != null && !_popularCarsLoaded) {
+        _popularCarsLoaded = true;
+        loadPopularCars();
+      }
     });
   }
 
@@ -116,7 +135,7 @@ class CarProvider extends ChangeNotifier {
   double get averageRating {
     if (myCars.isEmpty) return 0;
 
-    final total = myCars.fold(0.0, (sum, c) => sum + c.rating);
+    final total = myCars.fold(0.0, (sum, c) => sum + c.review.average);
     return total / myCars.length;
   }
 
@@ -147,6 +166,225 @@ class CarProvider extends ChangeNotifier {
           return CarWithShop(car: car, shop: shop);
         })
         .toList();
+  }
+
+  Future<Map<String, int>> _getCompletedBookingCounts() async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('bookings')
+        .where('status', isEqualTo: 'completed')
+        .get();
+
+    final counts = <String, int>{};
+
+    for (final doc in snapshot.docs) {
+      final data = doc.data();
+
+      final carId = data['carId'] as String?;
+
+      if (carId == null || carId.isEmpty) {
+        continue;
+      }
+
+      counts[carId] = (counts[carId] ?? 0) + 1;
+    }
+
+    return counts;
+  }
+
+  Future<void> loadPopularCars() async {
+    if (shopProvider == null) {
+      _popularCars = [];
+      return;
+    }
+
+    if (_allCars.isEmpty) {
+      _popularCars = [];
+      return;
+    }
+
+    _loadingPopularCars = true;
+    notifyListeners();
+
+    try {
+      final bookingCounts = await _getCompletedBookingCounts();
+
+      _popularCars = _buildPopularCars(bookingCounts);
+    } catch (e) {
+      debugPrint('Error loading popular cars: $e');
+
+      // If Firestore fails, don't break the home page.
+      // Fall back to the original first 5 cars.
+      _popularCars = _getFallbackPopularCars();
+    } finally {
+      _loadingPopularCars = false;
+      notifyListeners();
+    }
+  }
+
+  List<CarWithShop> _getFallbackPopularCars() {
+    if (shopProvider == null) {
+      return [];
+    }
+
+    final shopMap = {
+      for (final shop in shopProvider!.rentalShops) shop.id: shop,
+    };
+
+    return _allCars
+        .map((car) {
+          final shop = shopMap[car.shopId];
+
+          if (shop == null || !shop.isActive) {
+            return null;
+          }
+
+          return CarWithShop(car: car, shop: shop);
+        })
+        .whereType<CarWithShop>()
+        .take(5)
+        .toList();
+  }
+
+  double _calculatePopularityScore({
+    required CarModel car,
+    required int completedBookings,
+    required int maxCompletedBookings,
+  }) {
+    // ------------------------------------------------------------
+    // 1. COMPLETED BOOKINGS — 65%
+    // ------------------------------------------------------------
+
+    double bookingScore = 0;
+
+    if (maxCompletedBookings > 0 && completedBookings > 0) {
+      bookingScore =
+          math.log(completedBookings + 1) / math.log(maxCompletedBookings + 1);
+    }
+
+    // ------------------------------------------------------------
+    // 2. REVIEW QUALITY — 20%
+    // ------------------------------------------------------------
+
+    double reviewScore = 0;
+
+    if (car.review.totalReviews > 0) {
+      final ratingScore = (car.review.average / 5).clamp(0.0, 1.0);
+
+      final reviewConfidence = 1 - math.exp(-car.review.totalReviews / 10);
+
+      reviewScore = ratingScore * reviewConfidence;
+    }
+
+    // ------------------------------------------------------------
+    // 3. RECOMMENDATION RATE — 15%
+    // ------------------------------------------------------------
+
+    double recommendationScore = 0;
+
+    if (car.review.totalReviews > 0) {
+      recommendationScore = (car.review.recommendationRate / 100).clamp(
+        0.0,
+        1.0,
+      );
+    }
+
+    // ------------------------------------------------------------
+    // FINAL SCORE
+    // ------------------------------------------------------------
+
+    return (bookingScore * 0.65) +
+        (reviewScore * 0.20) +
+        (recommendationScore * 0.15);
+  }
+
+  List<CarWithShop> _buildPopularCars(Map<String, int> bookingCounts) {
+    if (shopProvider == null) {
+      return [];
+    }
+
+    final shopMap = {
+      for (final shop in shopProvider!.rentalShops) shop.id: shop,
+    };
+
+    final availableCars = _allCars
+        .map((car) {
+          final shop = shopMap[car.shopId];
+
+          if (shop == null || !shop.isActive) {
+            return null;
+          }
+
+          return CarWithShop(car: car, shop: shop);
+        })
+        .whereType<CarWithShop>()
+        .toList();
+
+    if (availableCars.isEmpty) {
+      return [];
+    }
+
+    // ------------------------------------------------------------
+    // No completed bookings yet.
+    //
+    // The rental module is still new, so use the original
+    // ordering as the fallback.
+    // ------------------------------------------------------------
+
+    final hasAnyCompletedBookings = availableCars.any(
+      (item) => (bookingCounts[item.car.id] ?? 0) > 0,
+    );
+
+    if (!hasAnyCompletedBookings) {
+      return availableCars.take(5).toList();
+    }
+
+    // ------------------------------------------------------------
+    // Find the highest booking count.
+    // ------------------------------------------------------------
+
+    final maxCompletedBookings = availableCars.fold<int>(0, (max, item) {
+      final count = bookingCounts[item.car.id] ?? 0;
+
+      return math.max(max, count);
+    });
+
+    // ------------------------------------------------------------
+    // Attach score + original index.
+    //
+    // Original index gives us a deterministic tie breaker.
+    // ------------------------------------------------------------
+
+    final indexedCars = availableCars.asMap().entries.map((entry) {
+      final car = entry.value.car;
+
+      final completedBookings = bookingCounts[car.id] ?? 0;
+
+      return (
+        index: entry.key,
+        item: entry.value,
+        score: _calculatePopularityScore(
+          car: car,
+          completedBookings: completedBookings,
+          maxCompletedBookings: maxCompletedBookings,
+        ),
+      );
+    }).toList();
+
+    // ------------------------------------------------------------
+    // Highest popularity first.
+    // ------------------------------------------------------------
+
+    indexedCars.sort((a, b) {
+      final scoreComparison = b.score.compareTo(a.score);
+
+      if (scoreComparison != 0) {
+        return scoreComparison;
+      }
+
+      return a.index.compareTo(b.index);
+    });
+
+    return indexedCars.take(5).map((entry) => entry.item).toList();
   }
 
   // =========================
@@ -180,8 +418,8 @@ class CarProvider extends ChangeNotifier {
     String? category,
     String? city,
     String? shopId,
-    double? minPrice,
-    double? maxPrice,
+    // double? minPrice,
+    // double? maxPrice,
     int? seats,
     String? fuel,
     String? transmission,
@@ -215,13 +453,13 @@ class CarProvider extends ChangeNotifier {
       filtered = filtered.where((c) => c.shopId == shopId).toList();
     }
 
-    if (minPrice != null) {
-      filtered = filtered.where((c) => c.pricePerDay >= minPrice).toList();
-    }
+    // if (minPrice != null) {
+    //   filtered = filtered.where((c) => c.pricePerDay >= minPrice).toList();
+    // }
 
-    if (maxPrice != null) {
-      filtered = filtered.where((c) => c.pricePerDay <= maxPrice).toList();
-    }
+    // if (maxPrice != null) {
+    //   filtered = filtered.where((c) => c.pricePerDay <= maxPrice).toList();
+    // }
 
     if (seats != null) {
       filtered = filtered.where((c) => c.seats >= seats).toList();
@@ -235,18 +473,18 @@ class CarProvider extends ChangeNotifier {
       filtered = filtered.where((c) => c.transmission == transmission).toList();
     }
 
-    if (userLat != null && userLng != null && radiusKm != null) {
-      filtered = filtered.where((car) {
-        final distance = calculateDistance(
-          userLat!,
-          userLng!,
-          car.location.lat,
-          car.location.lng,
-        );
+    // if (userLat != null && userLng != null && radiusKm != null) {
+    //   filtered = filtered.where((car) {
+    //     final distance = calculateDistance(
+    //       userLat!,
+    //       userLng!,
+    //       car.location.lat,
+    //       car.location.lng,
+    //     );
 
-        return distance <= radiusKm!;
-      }).toList();
-    }
+    //     return distance <= radiusKm!;
+    //   }).toList();
+    // }
 
     if (searchQuery != null && searchQuery!.isNotEmpty) {
       final query = searchQuery!.toLowerCase().trim();
@@ -269,27 +507,27 @@ class CarProvider extends ChangeNotifier {
           filtered.sort((a, b) => b.pricePerDay.compareTo(a.pricePerDay));
           break;
 
-        case SortOption.nearest:
-          if (userLat != null && userLng != null) {
-            filtered.sort((a, b) {
-              final d1 = calculateDistance(
-                userLat!,
-                userLng!,
-                a.location.lat,
-                a.location.lng,
-              );
+        // case SortOption.nearest:
+        //   if (userLat != null && userLng != null) {
+        //     filtered.sort((a, b) {
+        //       final d1 = calculateDistance(
+        //         userLat!,
+        //         userLng!,
+        //         a.location.lat,
+        //         a.location.lng,
+        //       );
 
-              final d2 = calculateDistance(
-                userLat!,
-                userLng!,
-                b.location.lat,
-                b.location.lng,
-              );
+        //       final d2 = calculateDistance(
+        //         userLat!,
+        //         userLng!,
+        //         b.location.lat,
+        //         b.location.lng,
+        //       );
 
-              return d1.compareTo(d2);
-            });
-          }
-          break;
+        //       return d1.compareTo(d2);
+        //     });
+        //   }
+        //   break;
 
         case SortOption.newest:
           filtered.sort((a, b) => b.year.compareTo(a.year));
@@ -328,7 +566,7 @@ class CarProvider extends ChangeNotifier {
     seats = null;
     fuel = null;
     transmission = null;
-    radiusKm = null;
+    // radiusKm = null;
 
     // cars = _allCars;
     applyFilters();

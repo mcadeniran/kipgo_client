@@ -149,10 +149,12 @@ class AppMethods {
     context,
   ) async {
     String destinationAddress = userDropOffAddress;
+
     String username = Provider.of<ProfileProvider>(
       context,
       listen: false,
     ).profile!.username;
+
     String pickupAddress = Provider.of<AppInfo>(
       context,
       listen: false,

@@ -123,14 +123,14 @@ class CarCard extends StatelessWidget {
                           Row(
                             children: [
                               StarRating(
-                                rating: car.car.rating,
+                                rating: car.car.review.average,
                                 size: 14,
                                 color: Colors.amber,
                                 mainAxisAlignment: MainAxisAlignment.start,
                               ),
                               SizedBox(width: 5),
                               Text(
-                                "(${car.car.totalRatings})",
+                                "(${car.car.review.totalReviews})",
                                 style: Theme.of(context).textTheme.bodySmall!
                                     .copyWith(color: Colors.blueGrey),
                               ),

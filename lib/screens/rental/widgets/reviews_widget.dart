@@ -56,6 +56,13 @@ class ReviewsWidget extends StatelessWidget {
                     : provider.ratings.length,
                 itemBuilder: (context, index) {
                   final rating = provider.ratings[index];
+                  final avg =
+                      (rating.vehicle.cleanliness +
+                          rating.vehicle.comfort +
+                          rating.vehicle.condition +
+                          rating.vehicle.overall +
+                          rating.vehicle.valueForMoney) /
+                      5;
 
                   return Container(
                     padding: EdgeInsets.all(4),
@@ -79,7 +86,7 @@ class ReviewsWidget extends StatelessWidget {
                                 CircleAvatar(
                                   radius: 18,
                                   foregroundImage: NetworkImage(
-                                    rating.userImage,
+                                    rating.createdBy.photoUrl,
                                   ),
                                 ),
                                 SizedBox(width: 5),
@@ -87,7 +94,7 @@ class ReviewsWidget extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      rating.userName,
+                                      rating.createdBy.name,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14,
@@ -97,7 +104,8 @@ class ReviewsWidget extends StatelessWidget {
                                     Row(
                                       children: [
                                         Text(
-                                          rating.carRating.toString(),
+                                          avg.toString(),
+                                          // rating.carRating.toString(),
                                           style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                             fontSize: 12,
@@ -127,9 +135,9 @@ class ReviewsWidget extends StatelessWidget {
                         SizedBox(height: 8),
                         Expanded(
                           child: Text(
-                            rating.review == ''
+                            rating.details.review == ''
                                 ? AppLocalizations.of(context)!.noComment
-                                : rating.review,
+                                : rating.details.review,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 3,
                             style: Theme.of(context).textTheme.bodySmall!

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/screens/rental/home/widgets/cars_category_page.dart';
 import 'package:kipgo/utils/car_properties_translations.dart';
-import 'package:provider/provider.dart';
-import 'package:kipgo/controllers/theme_provider.dart';
 import 'package:kipgo/utils/colors.dart';
 
 class CarCategories extends StatefulWidget {
@@ -19,32 +17,38 @@ class _CarCategoriesState extends State<CarCategories> {
   final ScrollController _scrollController = ScrollController();
 
   final List<Map<String, dynamic>> categories = [
-    {"title": "All", "icon": Icons.apps},
-    {"title": "Economy", "icon": Icons.attach_money},
-    {"title": "Sedan", "icon": Icons.directions_car},
-    {"title": "SUV", "icon": Icons.sports_motorsports},
-    {"title": "Luxury", "icon": Icons.star},
-    {"title": "Sports", "icon": Icons.flash_on},
-    {"title": "Pickup", "icon": Icons.local_shipping},
-    {"title": "Van", "icon": Icons.airport_shuttle},
+    {"title": "All", "icon": Icons.apps_rounded},
+    {"title": "Economy", "icon": Icons.savings_rounded},
+    {"title": "Sedan", "icon": Icons.directions_car_rounded},
+    {"title": "SUV", "icon": Icons.directions_car_filled_rounded},
+    {"title": "Luxury", "icon": Icons.auto_awesome_rounded},
+    {"title": "Sports", "icon": Icons.flash_on_rounded},
+    {"title": "Pickup", "icon": Icons.local_shipping_rounded},
+    {"title": "Van", "icon": Icons.airport_shuttle_rounded},
   ];
 
   int selectedIndex = 0;
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          AppLocalizations.of(context)!.browseByCategory,
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        const SizedBox(height: 16),
+        _buildSectionHeader(),
+
+        const SizedBox(height: 14),
+
         SizedBox(
-          height: 110,
+          height: 104,
           child: ListView.builder(
             controller: _scrollController,
             scrollDirection: Axis.horizontal,
@@ -52,6 +56,7 @@ class _CarCategoriesState extends State<CarCategories> {
             itemCount: categories.length,
             itemBuilder: (context, index) {
               final category = categories[index];
+
               final bool isSelected = selectedIndex == index;
 
               return GestureDetector(
@@ -62,11 +67,8 @@ class _CarCategoriesState extends State<CarCategories> {
 
                   final selectedCategory = category["title"];
 
-                  if (widget.onCategorySelected != null) {
-                    widget.onCategorySelected!(selectedCategory);
-                  }
+                  widget.onCategorySelected?.call(selectedCategory);
 
-                  // Navigate to category page
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -76,49 +78,56 @@ class _CarCategoriesState extends State<CarCategories> {
                   );
                 },
                 child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 250),
-                  curve: Curves.easeOut,
-                  margin: const EdgeInsets.only(right: 14),
-                  width: 90,
+                  duration: const Duration(milliseconds: 220),
+                  curve: Curves.easeOutCubic,
+                  width: 84,
+                  margin: const EdgeInsets.only(right: 12),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 7,
+                    vertical: 9,
+                  ),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(22),
+                    borderRadius: BorderRadius.circular(20),
                     color: isSelected
                         ? AppColors.primary
                         : isDark
-                        ? AppColors.darkLayer
-                        // ? AppColors.darkAccent
+                        ? AppColors.darkLayer.withValues(alpha: .75)
                         : Colors.white,
+                    border: Border.all(
+                      color: isSelected
+                          ? Colors.transparent
+                          : AppColors.primary.withValues(alpha: .06),
+                    ),
                     boxShadow: [
-                      if (isSelected)
-                        BoxShadow(
-                          color: AppColors.primary.withValues(alpha: .35),
-                          blurRadius: 20,
-                          offset: const Offset(0, 10),
-                        )
-                      else
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: .04),
-                          blurRadius: 10,
-                          offset: const Offset(0, 5),
+                      BoxShadow(
+                        color: Colors.black.withValues(
+                          alpha: isSelected
+                              ? .10
+                              : isDark
+                              ? .08
+                              : .035,
                         ),
+                        blurRadius: isSelected ? 16 : 10,
+                        offset: const Offset(0, 5),
+                      ),
                     ],
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       AnimatedContainer(
-                        duration: const Duration(milliseconds: 250),
-                        height: 46,
-                        width: 46,
+                        duration: const Duration(milliseconds: 220),
+                        height: 42,
+                        width: 42,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: isSelected
-                              ? Colors.white
-                              : AppColors.primary.withValues(alpha: .08),
+                              ? Colors.white.withValues(alpha: .95)
+                              : AppColors.primary.withValues(alpha: .07),
                         ),
                         child: Icon(
                           category["icon"],
-                          size: 22,
+                          size: 20,
                           color: isSelected
                               ? AppColors.primary
                               : isDark
@@ -126,13 +135,24 @@ class _CarCategoriesState extends State<CarCategories> {
                               : AppColors.primary,
                         ),
                       ),
-                      const SizedBox(height: 10),
+
+                      const SizedBox(height: 8),
+
                       Text(
                         carPropertiesTranslations(context, category["title"]),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: isSelected ? Colors.white : null,
+                          fontSize: 11.5,
+                          fontWeight: isSelected
+                              ? FontWeight.w700
+                              : FontWeight.w600,
+                          color: isSelected
+                              ? Colors.white
+                              : isDark
+                              ? Colors.white.withValues(alpha: .88)
+                              : Colors.black87,
                         ),
                       ),
                     ],
@@ -140,6 +160,32 @@ class _CarCategoriesState extends State<CarCategories> {
                 ),
               );
             },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSectionHeader() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                AppLocalizations.of(context)!.browseByCategory,
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800),
+              ),
+              const SizedBox(height: 3),
+              Text(
+                AppLocalizations.of(context)!.findTheRightCar,
+                style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+              ),
+            ],
           ),
         ),
       ],

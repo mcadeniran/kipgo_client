@@ -12,7 +12,8 @@ class ShuttleHeroHeader extends StatelessWidget {
     AppLocalizations loc = AppLocalizations.of(context)!;
     final auth = context.read<AuthProvider>();
 
-    final user = auth.profile!;
+    final user = auth.profile;
+    final name = user?.username ?? '';
 
     String greeting() {
       final hour = DateTime.now().hour;
@@ -29,8 +30,8 @@ class ShuttleHeroHeader extends StatelessWidget {
     }
 
     return Container(
-      height: 300,
-      padding: const EdgeInsets.fromLTRB(24, 20, 24, 30),
+      height: 310,
+      padding: const EdgeInsets.fromLTRB(24, 30, 24, 30),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [AppColors.primary, AppColors.darkLayer],
@@ -46,21 +47,29 @@ class ShuttleHeroHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.arrow_back_ios_new, color: Colors.white),
+                ),
                 Text(
                   greeting(),
                   style: const TextStyle(color: Colors.white70, fontSize: 15),
                 ),
 
-                const SizedBox(height: 10),
+                if (name != '') ...[
+                  const SizedBox(height: 10),
 
-                Text(
-                  user.username,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
+                  Text(
+                    name,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
+                ],
 
                 const SizedBox(height: 12),
 

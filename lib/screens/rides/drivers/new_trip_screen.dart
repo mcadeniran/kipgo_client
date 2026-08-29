@@ -10,17 +10,14 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kipgo/controllers/driver_status_provider.dart';
 import 'package:kipgo/helpers/location_settings_helper.dart';
-// import 'package:kipgo/pushNotification/push_notification_system.dart';
 import 'package:kipgo/screens/widgets/ride_location_card_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
 import 'package:kipgo/controllers/profile_provider.dart';
 import 'package:kipgo/helpers/helpers.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
-// import 'package:kipgo/models/profile.dart';
 import 'package:kipgo/models/user_ride_request_information.dart';
 import 'package:kipgo/screens/homes/driver_home.dart';
-// import 'package:kipgo/screens/rides/drivers/available_rides_screen.dart';
 import 'package:kipgo/screens/widgets/progress_dialog.dart';
 import 'package:kipgo/utils/colors.dart';
 import 'package:kipgo/utils/methods.dart';
@@ -69,30 +66,20 @@ class _NewTripScreenState extends State<NewTripScreen>
   DatabaseReference? rideStatusRef;
   StreamSubscription<DatabaseEvent>? rideStatusSubscription;
 
-  // DateTime _lastFirebaseUpload = DateTime.fromMillisecondsSinceEpoch(0);
-
   final double _rerouteThresholdMeters = 60.0;
   LatLng? _lastReroutePosition;
 
   // Optimization / smoothing state
   LatLng? _lastDriverLatLng;
-  double _lastRotation = 0.0;
-  // DateTime _lastDirectionCall = DateTime.now().subtract(
-  //   const Duration(seconds: 10),
-  // );
+  final double _lastRotation = 0.0;
 
   final bool _cameraFollow = true;
 
   String? _mapStyle;
 
-  // final DateTime _lastCameraUpdate = DateTime.now();
-
   bool _hasActiveRoute = false;
-  // LatLng? _routeStart;
   LatLng? _routeEnd;
 
-  // LatLng? _lastDriverLatLng;
-  // LatLng? _snappedDriverLatLng;
   Timer? _lerpTimer;
 
   static const int _lerpSteps = 12;
@@ -103,10 +90,6 @@ class _NewTripScreenState extends State<NewTripScreen>
   List<LatLng> _activeRoutePoints = [];
 
   Future<void> _loadArrowIcon() async {
-    // arrowIcon = await BitmapDescriptor.fromAssetImage(
-    //   const ImageConfiguration(size: Size(24, 24)),
-    //   'assets/images/arrow.png', // simple white arrow PNG
-    // );
     try {
       ImageConfiguration imageConfiguration = ImageConfiguration(
         size: Size(20, 20),
@@ -120,27 +103,6 @@ class _NewTripScreenState extends State<NewTripScreen>
       debugPrint('Failed to load arrow icon: $e');
     }
   }
-
-  // Future<void> _createDriverIconMarker() async {
-  //   if (iconAnimateMarker != null) return;
-  //   try {
-  //     ImageConfiguration imageConfiguration = ImageConfiguration(
-  //       size: Size(35, 35),
-  //     );
-
-  //     BitmapDescriptor.asset(
-  //       imageConfiguration,
-  //       'assets/images/car.png',
-  //     ).then((value) => iconAnimateMarker = value);
-  //   } catch (e) {
-  //     // fallback to default marker if asset fails
-  //     iconAnimateMarker = BitmapDescriptor.defaultMarkerWithHue(
-  //       BitmapDescriptor.hueAzure,
-  //     );
-  //     debugPrint('Failed to load car icon: $e');
-  //   }
-  //   setState(() {});
-  // }
 
   LatLng _snapToPolyline(LatLng pos) {
     double minDist = double.infinity;
@@ -284,11 +246,6 @@ class _NewTripScreenState extends State<NewTripScreen>
   Future<void> _createDriverIconMarker() async {
     if (iconAnimateMarker != null) return;
     try {
-      // final config = const ImageConfiguration(size: Size(24, 24));
-      // iconAnimateMarker = await BitmapDescriptor.fromAssetImage(
-      //   config,
-      //   'assets/images/car.png',
-      // );
       ImageConfiguration imageConfiguration = ImageConfiguration(
         size: Size(35, 35),
       );
@@ -414,20 +371,8 @@ class _NewTripScreenState extends State<NewTripScreen>
     bool force = false,
     bool showLoading = true,
   }) async {
-    // if (!force &&
-    //     _hasActiveRoute &&
-    //     _routeStart == origin &&
-    //     _routeEnd == destination) {
-    //   return;
-    // }
-
-    // _routeStart = origin;
     _routeEnd = destination;
     _hasActiveRoute = true;
-
-    // throttle calls
-    // if (DateTime.now().difference(_lastDirectionCall).inSeconds < 6) return;
-    // _lastDirectionCall = DateTime.now();
 
     if (!mounted) return;
     if (showLoading) {
@@ -496,14 +441,6 @@ class _NewTripScreenState extends State<NewTripScreen>
       (c) => c.circleId.value == 'origin' || c.circleId.value == 'destination',
     );
     circlesSet.addAll([
-      // Circle(
-      //   circleId: const CircleId('origin'),
-      //   center: origin,
-      //   radius: 12,
-      //   fillColor: Colors.transparent,
-      //   strokeWidth: 3,
-      //   strokeColor: Colors.white,
-      // ),
       Circle(
         circleId: const CircleId('destination'),
         center: destination,
@@ -513,14 +450,6 @@ class _NewTripScreenState extends State<NewTripScreen>
         strokeColor: Colors.white,
       ),
     ]);
-
-    // adjust camera to bounds
-    // try {
-    //   final bounds = _computeBounds(origin, destination);
-    //   await newTripGoogleMapController?.animateCamera(
-    //     CameraUpdate.newLatLngBounds(bounds, 80),
-    //   );
-    // } catch (_) {}
 
     setState(() {});
   }
@@ -537,18 +466,6 @@ class _NewTripScreenState extends State<NewTripScreen>
     return LatLngBounds(southwest: southWest, northeast: northEast);
   }
 
-  // Future<void> _updateEtaAndSetState(LatLng from, LatLng to) async {
-  //   final details = await AppMethods.obtainOriginToDestinationDirectionDetails(
-  //     from,
-  //     to,
-  //   );
-  //   if (details != null && mounted) {
-  //     setState(() {
-  //       durationFromOriginToDestination = details.durationText ?? '';
-  //     });
-  //   }
-  // }
-
   // -------------------------
   // DRIVER LOCATION STREAM & HANDLING
   // -------------------------
@@ -556,47 +473,6 @@ class _NewTripScreenState extends State<NewTripScreen>
     // avoid multiple subscriptions
     streamSubscriptionDriverLivePosition?.cancel();
 
-    // streamSubscriptionDriverLivePosition =
-    //     Geolocator.getPositionStream(
-    //       locationSettings: getLocationSetting(),
-    //     ).listen((pos) {
-    //       if (!mounted) return;
-    //       final newLatLng = LatLng(pos.latitude, pos.longitude);
-    //       onlineDriverCurrentPosition = pos;
-
-    //       final raw = LatLng(pos.latitude, pos.longitude);
-
-    //       final snapped = _activeRoutePoints.isNotEmpty
-    //           ? _snapToPolyline(raw)
-    //           : raw;
-
-    //       _animateDriverSmoothly(snapped);
-    //       // _smartAutoZoomAndFollow(snapped);
-
-    //       // set or animate marker
-    //       // _animateOrUpdateDriverMarker(newLatLng);
-
-    //       // follow camera
-    //       // if (_cameraFollow) _smartAutoZoomAndFollow(newLatLng);
-
-    //       // if (_cameraFollow && _canUpdateCamera()) {
-    //       //   _lastCameraUpdate = DateTime.now();
-    //       //   _smartAutoZoomAndFollow(newLatLng);
-    //       // }
-
-    //       if (_cameraFollow) {
-    //         _smartAutoZoomAndFollow(newLatLng);
-    //       }
-
-    //       // throttled polyline reroute
-    //       // _maybeReroutePolylineOptimized(newLatLng);
-    //       _maybeReroutePolylineOptimized(snapped);
-    //       // throttled ETA update
-    //       // _updateEtaThrottled(newLatLng);
-
-    //       // debounced upload to Firebase to avoid flooding
-    //       _uploadDriverLocationThrottled(pos);
-    //     });
     streamSubscriptionDriverLivePosition =
         Geolocator.getPositionStream(
           locationSettings: getLocationSetting(),
@@ -619,30 +495,6 @@ class _NewTripScreenState extends State<NewTripScreen>
         });
   }
 
-  // void _animateOrUpdateDriverMarker(LatLng newLatLng) {
-  //   final LatLng old = _lastDriverLatLng ?? newLatLng;
-
-  //   // compute bearing
-  //   final bearing = _computeBearing(old, newLatLng);
-  //   _lastRotation = bearing;
-  //   _lastDriverLatLng = newLatLng;
-
-  //   final marker = Marker(
-  //     markerId: const MarkerId('driver'),
-  //     position: newLatLng,
-  //     rotation: bearing,
-  //     anchor: const Offset(0.5, 0.7),
-  //     flat: false,
-  //     icon: iconAnimateMarker ?? BitmapDescriptor.defaultMarker,
-  //     zIndexInt: 10,
-  //   );
-
-  //   // replace driver marker
-  //   markersSet.removeWhere((m) => m.markerId.value == 'driver');
-  //   markersSet.add(marker);
-  //   setState(() {});
-  // }
-
   double _computeBearing(LatLng start, LatLng end) {
     // Haversine bearing
     final lat1 = _degToRad(start.latitude);
@@ -660,28 +512,7 @@ class _NewTripScreenState extends State<NewTripScreen>
   double _degToRad(double deg) => deg * pi / 180;
   double _radToDeg(double rad) => rad * 180 / pi;
 
-  // void _uploadDriverLocationDebounced(Position pos) {
-  //   _firebaseUploadDebounce?.cancel();
-  //   _firebaseUploadDebounce = Timer(const Duration(milliseconds: 400), () {
-  //     final rideId = widget.userRideRequestDetails?.rideRequestId;
-  //     if (rideId == null) return;
-  //     FirebaseDatabase.instance
-  //         .ref()
-  //         .child('All Ride Requests')
-  //         .child(rideId)
-  //         .child('driverLocation')
-  //         .update({'latitude': pos.latitude, 'longitude': pos.longitude});
-  //   });
-  // }
-
   void _uploadDriverLocationThrottled(Position pos) {
-    // final now = DateTime.now();
-
-    // 🔒 Throttle: once per second
-    // if (now.difference(_lastFirebaseUpload).inSeconds < 1) return;
-
-    // _lastFirebaseUpload = now;
-
     final rideId = widget.userRideRequestDetails?.rideRequestId;
     if (rideId == null) return;
 
@@ -696,14 +527,6 @@ class _NewTripScreenState extends State<NewTripScreen>
           'updatedAt': ServerValue.timestamp,
         });
   }
-
-  // void _updateEtaThrottled(LatLng driverPos) {
-  //   final dest = rideRequestStatus == 'accepted'
-  //       ? widget.userRideRequestDetails!.originLatLng!
-  //       : widget.userRideRequestDetails!.destinationLatLng!;
-  //   // throttle already handled in _drawPolylineFromOriginToDestination via _lastDirectionCall
-  //   _updateEtaAndSetState(driverPos, dest);
-  // }
 
   void _smartAutoZoomAndFollow(LatLng driver) {
     if (newTripGoogleMapController == null) return;
@@ -721,10 +544,6 @@ class _NewTripScreenState extends State<NewTripScreen>
     );
   }
 
-  // bool _canUpdateCamera() {
-  //   return DateTime.now().difference(_lastCameraUpdate).inMilliseconds > 400;
-  // }
-
   Future<void> _zoomToRouteBounds(LatLng a, LatLng b) async {
     if (newTripGoogleMapController == null) return;
 
@@ -732,7 +551,6 @@ class _NewTripScreenState extends State<NewTripScreen>
     await newTripGoogleMapController!.animateCamera(
       CameraUpdate.newLatLngBounds(bounds, 100),
     );
-    // await newTripGoogleMapController!.animateCamera(CameraUpdate.newLatLng(a));
   }
 
   // -------------------------
@@ -981,13 +799,6 @@ class _NewTripScreenState extends State<NewTripScreen>
     // draw initial polyline to pickup
     final pickup = widget.userRideRequestDetails?.originLatLng;
     if (driverCurrentPosition != null && pickup != null) {
-      // _drawPolylineFromOriginToDestination(
-      //   LatLng(
-      //     driverCurrentPosition!.latitude,
-      //     driverCurrentPosition!.longitude,
-      //   ),
-      //   pickup,
-      // );
       final driverLatLng = LatLng(
         driverCurrentPosition!.latitude,
         driverCurrentPosition!.longitude,

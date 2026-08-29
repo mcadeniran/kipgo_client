@@ -2,15 +2,19 @@ import 'dart:ui';
 
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:kipgo/controllers/car_rating_provider.dart';
-import 'package:kipgo/controllers/rental_shop_provider.dart';
+import 'package:kipgo/helpers/require_authentication.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/models/booking_model.dart';
-import 'package:kipgo/models/car_model.dart';
+import 'package:kipgo/models/car_model.dart' hide Rules;
 import 'package:kipgo/models/car_with_shop_model.dart';
+import 'package:kipgo/models/rental_shop.dart';
 import 'package:kipgo/screens/rental/car_booking/car_booking_page.dart';
+import 'package:kipgo/screens/rental/widgets/rating_summary_card.dart';
+import 'package:kipgo/screens/rental/widgets/recent_reviews_section.dart';
 import 'package:kipgo/screens/rental/widgets/rental_company_detail_page.dart';
-import 'package:kipgo/screens/rental/widgets/reviews_widget.dart';
+import 'package:kipgo/screens/rental/widgets/reviews_page.dart';
 import 'package:kipgo/screens/widgets/format_currency.dart';
 import 'package:kipgo/utils/car_properties_translations.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +32,7 @@ class CarDetailsPage extends StatefulWidget {
 class _CarDetailsPageState extends State<CarDetailsPage> {
   double currentPage = 0;
   List<BookingModel> bookings = [];
+  bool isReviewLoading = true;
 
   @override
   void initState() {
@@ -44,478 +49,454 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
   @override
   Widget build(BuildContext context) {
     final bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+
+    final car = widget.car.car;
+
+    final theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
-    final paddingTop = MediaQuery.of(context).padding.top;
-    // final CarModel car = widget.car.car;
+
+    AppLocalizations loc = AppLocalizations.of(context)!;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      extendBody: false,
-      bottomNavigationBar: BottomAppBar(
-        height: 60,
-        elevation: 1,
-        color: Theme.of(context).scaffoldBackgroundColor,
-        notchMargin: 6,
-        padding: EdgeInsets.zero,
-        shape:
-            const CircularNotchedRectangle(), // optional (for FAB support later)
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              /// 🔥 PRICE SECTION
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)!.from,
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: Theme.of(
-                            context,
-                          ).textTheme.bodySmall!.color!.withValues(alpha: 0.6),
-                        ),
-                      ),
-                      SizedBox(width: 4),
-                      if (widget.car.hasDiscount)
-                        Text(
-                          formatCurrency(
-                            amount: widget.car.basePrice,
-                            currencyCode:
-                                widget.car.car.currency ??
-                                widget.car.shop.currency,
-                            context: context,
-                            decimalDigits: 0,
-                          ),
-                          style: Theme.of(context).textTheme.bodySmall!
-                              .copyWith(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .color!
-                                    .withValues(alpha: 0.6),
-                                decoration: TextDecoration.lineThrough,
-                              ),
-                        ),
-                    ],
-                  ),
-                  const SizedBox(height: 2),
-                  widget.car.hasDiscount
-                      ? Text(
-                          AppLocalizations.of(context)!.amountPerDay(
-                            formatCurrency(
-                              amount: widget.car.finalPrice,
-                              context: context,
-                              currencyCode:
-                                  widget.car.car.currency ??
-                                  widget.car.shop.currency,
-                            ),
-                          ),
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.red,
-                          ),
-                        )
-                      : RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: AppLocalizations.of(context)!
-                                    .amountPerDay(
-                                      formatCurrency(
-                                        amount: widget.car.finalPrice,
-                                        context: context,
-                                        currencyCode:
-                                            widget.car.car.currency ??
-                                            widget.car.shop.currency,
-                                      ),
-                                    ),
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: isDark ? Colors.white : Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                ],
-              ),
+      backgroundColor: isDark ? AppColors.darkAccent : AppColors.lightAccent,
 
-              /// 🔥 CTA BUTTON
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 28,
-                    vertical: 14,
+      bottomNavigationBar: _PremiumBookingBar(
+        car: widget.car,
+        isDark: isDark,
+        onBook: car.availableUnits == 0
+            ? null
+            : () async {
+                final authenticated = await requireAuthentication(context);
+
+                if (!authenticated || !context.mounted) return;
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => CarBookingPage(car: widget.car),
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  elevation: 0,
-                ),
-                onPressed: widget.car.car.availableUnits == 0
-                    ? null
-                    : () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => CarBookingPage(car: widget.car),
-                          ),
-                        );
-                      },
-                child: Text(
-                  widget.car.car.availableUnits == 0
-                      ? AppLocalizations.of(context)!.notAvailable
-                      : AppLocalizations.of(context)!.bookNow,
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
-          ),
-        ),
+                );
+              },
       ),
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: Stack(
-          children: [
-            //  🔥 TOP IMAGE SECTION
-            SizedBox(
-              height: size.height * 0.35,
-              width: double.infinity,
-              child: PageView(
-                onPageChanged: (value) => setState(() {
-                  currentPage = value.toDouble();
-                }),
-                children: widget.car.car.images.map((img) {
-                  return Image.network(
-                    img.url,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    gaplessPlayback: true,
-                    loadingBuilder: (context, child, progress) {
-                      if (progress == null) return child;
 
-                      return Image.asset(
-                        "assets/images/image_spinner.gif",
-                        fit: BoxFit.cover,
-                      );
-                    },
-                    errorBuilder: (_, _, _) => Image.asset(
-                      "assets/images/placeholder.jpeg",
-                      fit: BoxFit.cover,
-                    ),
-                  );
-                }).toList(),
+      body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
+          // ============================================================
+          // HERO
+          // ============================================================
+          SliverAppBar(
+            expandedHeight: size.height * 0.38,
+            collapsedHeight: 64,
+            pinned: true,
+            stretch: true,
+            elevation: 0,
+            backgroundColor: AppColors.primary,
+            automaticallyImplyLeading: false,
+
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: _GlassIconButton(
+                icon: Icons.arrow_back_ios_new_outlined,
+                onTap: () => Navigator.pop(context),
               ),
             ),
 
-            /// 🔙 BACK BUTTON
-            Positioned(
-              top: paddingTop + 10,
-              left: 16,
-              child: CircleAvatar(
-                backgroundColor: Colors.black.withValues(alpha: .4),
-                child: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white),
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ),
-            ),
+            // actions: [
+            //   Padding(
+            //     padding: const EdgeInsets.only(right: 12),
+            //     child: _GlassIconButton(
+            //       icon: Icons.favorite_border_rounded,
+            //       onTap: () {
+            //
+            //       },
+            //     ),
+            //   ),
+            // ],
+            flexibleSpace: LayoutBuilder(
+              builder: (context, constraints) {
+                final double maxHeight = size.height * 0.38;
+                final double minHeight = 64;
+                final double currentHeight = constraints.maxHeight;
 
-            Positioned(
-              top: size.height * 0.29,
-              left: 0,
-              right: 0,
-              child: DotsIndicator(
-                dotsCount: widget.car.car.images.length,
-                position: currentPage,
-                animate: true,
-                decorator: DotsDecorator(
-                  color: Colors.white,
-                  activeColor: AppColors.tertiary,
-                  activeSize: Size(11, 11),
-                  size: Size(10, 10),
-                ),
-              ),
-            ),
+                final double progress =
+                    ((currentHeight - minHeight) / (maxHeight - minHeight))
+                        .clamp(0.0, 1.0);
 
-            /// 🔥 BOTTOM DETAILS SECTION
-            Positioned(
-              top: size.height * 0.32, // overlap
-              left: 0,
-              right: 0,
-              bottom: 0, // fill remaining screen
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
-                decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkAccent : AppColors.lightAccent,
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(30),
+                final bool collapsed = progress < 0.25;
+
+                return FlexibleSpaceBar(
+                  collapseMode: CollapseMode.parallax,
+
+                  titlePadding: const EdgeInsets.only(
+                    left: 60,
+                    right: 60,
+                    bottom: 14,
                   ),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 10,
-                      offset: Offset(0, -4),
+
+                  title: AnimatedOpacity(
+                    duration: const Duration(milliseconds: 150),
+                    opacity: collapsed ? 1 : 0,
+                    child: Text(
+                      '${widget.car.car.brand} ${widget.car.car.model}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ],
-                ),
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  ),
+
+                  background: Stack(
+                    fit: StackFit.expand,
                     children: [
-                      Text(
-                        "${widget.car.car.brand} ${widget.car.car.model} ${widget.car.car.year}",
-                        style: Theme.of(context).textTheme.headlineSmall!
-                            .copyWith(fontWeight: FontWeight.bold),
+                      // =========================================================
+                      // IMAGE GALLERY
+                      // =========================================================
+                      PageView.builder(
+                        key: const PageStorageKey('car-image-gallery'),
+                        physics: const PageScrollPhysics(),
+                        itemCount: widget.car.car.images.length,
+
+                        onPageChanged: (index) {
+                          if (!mounted) return;
+
+                          setState(() {
+                            currentPage = index.toDouble();
+                          });
+                        },
+
+                        itemBuilder: (context, index) {
+                          final image = widget.car.car.images[index];
+
+                          return Image.network(
+                            image.url,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            gaplessPlayback: true,
+
+                            loadingBuilder: (context, child, progress) {
+                              if (progress == null) {
+                                return child;
+                              }
+
+                              return Image.asset(
+                                'assets/images/image_spinner.gif',
+                                fit: BoxFit.cover,
+                              );
+                            },
+
+                            errorBuilder: (_, _, _) {
+                              return Image.asset(
+                                'assets/images/placeholder.jpeg',
+                                fit: BoxFit.cover,
+                              );
+                            },
+                          );
+                        },
                       ),
-                      const SizedBox(height: 4),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(Icons.star, color: Colors.amber, size: 14),
-                              SizedBox(width: 4),
-                              Text(
-                                "${widget.car.car.rating} (${widget.car.car.totalRatings == 1 ? AppLocalizations.of(context)!.singleReview(widget.car.car.totalRatings) : AppLocalizations.of(context)!.multiReviews(widget.car.car.totalRatings)})",
-                              ),
-                              // widget.car.car.rating == null
-                              //     ? Text('Not rated')
-                              //     : Text(
-                              //         "${widget.car.car.rating!.average} (${widget.car.car.rating!.totalReviews == 1 ? AppLocalizations.of(context)!.singleReview(widget.car.car.rating!.totalReviews) : AppLocalizations.of(context)!.multiReviews(widget.car.car.rating!.totalReviews)})",
-                              //       ),
-                            ],
-                          ),
-                          if (widget.car.hasDiscount)
-                            Container(
-                              padding: EdgeInsets.all(2),
-                              decoration: ShapeDecoration(
-                                color: Colors.red.withValues(alpha: .8),
-                                shape: BeveledRectangleBorder(
-                                  side: BorderSide(color: Colors.red, width: 1),
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(8),
-                                    bottomLeft: Radius.circular(8),
-                                  ),
-                                ),
-                              ),
-                              child: Text(
-                                widget.car.shop.discount!.type == 'fixed'
-                                    ? "-${formatCurrency(amount: widget.car.shop.discount!.value, currencyCode: widget.car.car.currency ?? widget.car.shop.currency, context: context)}"
-                                    : widget.car.discountLabel,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.white,
-                                ),
-                              ),
+
+                      // =========================================================
+                      // PREMIUM IMAGE GRADIENT
+                      // =========================================================
+                      IgnorePointer(
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              stops: const [0.0, 0.45, 1.0],
+                              colors: [
+                                Colors.black.withValues(alpha: .35),
+                                Colors.transparent,
+                                Colors.black.withValues(alpha: .65),
+                              ],
                             ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: isDark
-                              ? AppColors.darkLayer
-                              : AppColors.lightLayer.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(8),
+                          ),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            InkWell(
-                              onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => RentalCompanyDetailPage(
-                                    companyId: widget.car.car.shopId,
-                                  ),
+                      ),
+
+                      // =========================================================
+                      // IMAGE COUNTER
+                      // =========================================================
+                      if (widget.car.car.images.length > 1)
+                        Positioned(
+                          right: 16,
+                          bottom: 18,
+                          child: IgnorePointer(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 6,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.black.withValues(alpha: .45),
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: Colors.white.withValues(alpha: .2),
                                 ),
                               ),
                               child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  CircleAvatar(
-                                    radius: 27,
-                                    backgroundColor: AppColors.primary,
-                                    child: CircleAvatar(
-                                      radius: 25,
-                                      backgroundColor: AppColors.primary,
-                                      backgroundImage: NetworkImage(
-                                        widget.car.car.shop.logo,
-                                      ),
-                                    ),
+                                  const Icon(
+                                    Icons.photo_library_outlined,
+                                    color: Colors.white,
+                                    size: 14,
                                   ),
-                                  SizedBox(width: 8),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        widget.car.car.shop.name,
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      SizedBox(width: 5),
-                                      Consumer<RentalShopProvider>(
-                                        builder: (context, provider, _) {
-                                          final shop = provider.getShopById(
-                                            widget.car.car.shopId,
-                                          );
-
-                                          return Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                Icons.star,
-                                                color: Colors.amber,
-                                                size: 18,
-                                              ),
-                                              SizedBox(width: 2),
-                                              Text(
-                                                shop!.rating.toString(),
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                              SizedBox(width: 2),
-                                              Icon(Icons.circle, size: 8),
-                                              SizedBox(width: 2),
-                                              Text(
-                                                shop.totalRatings == 1
-                                                    ? AppLocalizations.of(
-                                                        context,
-                                                      )!.singleReview(
-                                                        shop.totalRatings,
-                                                      )
-                                                    : AppLocalizations.of(
-                                                        context,
-                                                      )!.multiReviews(
-                                                        shop.totalRatings,
-                                                      ),
-                                                style: TextStyle(fontSize: 12),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      ),
-                                    ],
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    '${currentPage.toInt() + 1}/${widget.car.car.images.length}',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
-                            TextButton.icon(
-                              onPressed: () => _showRentalRules(
-                                context,
-                                isDark,
-                                widget.car.car.shop.rules,
-                              ),
-                              label: Text(
-                                AppLocalizations.of(context)!.rentalRules,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12,
+                          ),
+                        ),
+
+                      // =========================================================
+                      // DOT INDICATOR
+                      // =========================================================
+                      if (widget.car.car.images.length > 1)
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: 20,
+                          child: IgnorePointer(
+                            child: DotsIndicator(
+                              dotsCount: widget.car.car.images.length,
+                              position: currentPage,
+                              animate: true,
+                              decorator: DotsDecorator(
+                                color: Colors.white.withValues(alpha: .45),
+                                activeColor: Colors.white,
+                                activeSize: const Size(20, 6),
+                                size: const Size(6, 6),
+                                spacing: const EdgeInsets.symmetric(
+                                  horizontal: 3,
+                                ),
+                                activeShape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              icon: Icon(Icons.chevron_right_outlined),
-                              iconAlignment: IconAlignment.end,
                             ),
-                          ],
+                          ),
+                        ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+
+          // ============================================================
+          // MAIN CONTENT
+          // ============================================================
+          SliverToBoxAdapter(
+            child: Transform.translate(
+              offset: const Offset(0, -22),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: isDark ? AppColors.darkAccent : AppColors.lightAccent,
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(32),
+                  ),
+                ),
+
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 26, 12, 30),
+
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+
+                    children: [
+                      // ==================================================
+                      // VEHICLE HEADER
+                      // ==================================================
+                      _VehicleHeader(car: widget.car, isDark: isDark),
+
+                      const SizedBox(height: 20),
+
+                      // ==================================================
+                      // QUICK SPECS
+                      // ==================================================
+                      _PremiumSectionTitle(
+                        title: loc.vehicleDetails,
+                        icon: Icons.directions_car_filled_rounded,
+                        isDark: isDark,
+                      ),
+
+                      const SizedBox(height: 12),
+
+                      _PremiumSpecsCard(car: car, isDark: isDark),
+
+                      const SizedBox(height: 24),
+
+                      // ==================================================
+                      // RENTAL COMPANY
+                      // ==================================================
+                      _PremiumSectionTitle(
+                        title: loc.rentalPartner,
+                        icon: Icons.business_rounded,
+                        isDark: isDark,
+                      ),
+
+                      const SizedBox(height: 12),
+
+                      _RentalPartnerCard(
+                        car: widget.car,
+                        isDark: isDark,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => RentalCompanyDetailPage(
+                                companyId: car.shopId,
+                              ),
+                            ),
+                          );
+                        },
+                        onRules: () => _showRentalRules(
+                          context,
+                          isDark,
+                          widget.car.shop.rules,
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          _SpecItem(
-                            icon: Icons.settings,
-                            label: carPropertiesTranslations(
-                              context,
-                              widget.car.car.transmission,
-                            ),
-                          ),
-                          _SpecItem(
-                            icon: Icons.local_gas_station,
-                            label: carPropertiesTranslations(
-                              context,
-                              widget.car.car.fuel,
-                            ),
-                          ),
-                          _SpecItem(
-                            icon: Icons.event_seat,
-                            // label: "${car.seats} Seats",
-                            label: AppLocalizations.of(
-                              context,
-                            )!.seats(widget.car.car.seats),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
 
-                      Text(
-                        AppLocalizations.of(context)!.features,
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
+                      const SizedBox(height: 24),
 
-                      const SizedBox(height: 8),
+                      // ==================================================
+                      // FEATURES
+                      // ==================================================
+                      if (car.features.isNotEmpty) ...[
+                        _PremiumSectionTitle(
+                          title: AppLocalizations.of(context)!.features,
+                          icon: Icons.auto_awesome_rounded,
+                          isDark: isDark,
+                        ),
 
-                      Wrap(
-                        spacing: 10,
-                        runSpacing: 10,
-                        children: widget.car.car.features
-                            .map(
-                              (feature) => Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 14,
-                                  vertical: 8,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: isDark
-                                      ? AppColors.darkLayer
-                                      : AppColors.lightLayer.withValues(
-                                          alpha: 0.15,
-                                        ),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Text(
-                                  feature,
-                                  style: const TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                        const SizedBox(height: 12),
+
+                        _PremiumFeaturesCard(
+                          features: car.features,
+                          isDark: isDark,
+                        ),
+
+                        const SizedBox(height: 26),
+                      ],
+
+                      // ==================================================
+                      // REVIEWS
+                      // ==================================================
+                      Consumer<CarRatingProvider>(
+                        builder: (context, ratingProvider, child) {
+                          if (ratingProvider.loading) {
+                            return const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 40),
+                              child: Center(child: CircularProgressIndicator()),
+                            );
+                          }
+
+                          final reviews = ratingProvider.ratings;
+
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _PremiumSectionTitle(
+                                title: loc.guestReviews,
+                                icon: Icons.star_rounded,
+                                isDark: isDark,
+                                trailing: reviews.isNotEmpty
+                                    ? TextButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) => ReviewsPage(
+                                                title: loc.carNameReviews(
+                                                  '${car.brand} ${car.model}',
+                                                ),
+                                                reviews: reviews,
+                                                type: RatingSummaryType.car,
+                                                isCompanyReview: false,
+                                                carReview: car.review,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: Text(loc.seeAll),
+                                      )
+                                    : null,
+                              ),
+
+                              const SizedBox(height: 4),
+
+                              Text(
+                                loc.seeWhatOtherTravellersCar,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: theme.textTheme.bodySmall?.color
+                                      ?.withValues(alpha: .60),
                                 ),
                               ),
-                            )
-                            .toList(),
-                      ),
-                      const SizedBox(height: 20),
-                      ReviewsWidget(carId: widget.car.car.id),
-                      const SizedBox(height: 20),
 
-                      // SizedBox(height: size.height * 0.05), // padding at bottom
+                              const SizedBox(height: 14),
+
+                              RatingSummaryCard(
+                                type: RatingSummaryType.car,
+                                average: car.review.average,
+                                totalReviews: car.review.totalReviews,
+                                distribution: car.review.distribution,
+                                comfort: car.review.comfort,
+                                cleanliness: car.review.cleanliness,
+                                condition: car.review.condition,
+                                valueForMoney: car.review.valueForMoney,
+                              ),
+
+                              if (reviews.isNotEmpty) ...[
+                                const SizedBox(height: 20),
+
+                                RecentReviewsSection(
+                                  reviews: reviews.length > 2
+                                      ? reviews.sublist(0, 2)
+                                      : reviews,
+                                  onSeeAll: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => ReviewsPage(
+                                          title: loc.carNameReviews(
+                                            '${car.brand} ${car.model}',
+                                          ),
+                                          reviews: reviews,
+                                          type: RatingSummaryType.car,
+                                          isCompanyReview: false,
+                                          carReview: car.review,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ],
+                          );
+                        },
+                      ),
+
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -653,17 +634,736 @@ class _CarDetailsPageState extends State<CarDetailsPage> {
   }
 }
 
-/// 🔹 Small Spec Widget
-class _SpecItem extends StatelessWidget {
+class _GlassIconButton extends StatelessWidget {
   final IconData icon;
-  final String label;
+  final VoidCallback onTap;
 
-  const _SpecItem({required this.icon, required this.label});
+  const _GlassIconButton({required this.icon, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.black.withValues(alpha: .35),
+      shape: const CircleBorder(),
+      child: InkWell(
+        onTap: onTap,
+        customBorder: const CircleBorder(),
+        child: SizedBox(
+          width: 42,
+          height: 42,
+          child: Icon(icon, color: Colors.white, size: 18),
+        ),
+      ),
+    );
+  }
+}
+
+class _VehicleHeader extends StatelessWidget {
+  final CarWithShop car;
+  final bool isDark;
+
+  const _VehicleHeader({required this.car, required this.isDark});
+
+  @override
+  Widget build(BuildContext context) {
+    final vehicle = car.car;
+    final review = vehicle.review;
+    AppLocalizations loc = AppLocalizations.of(context)!;
+
+    final reviewText = loc.numOfTotalReviews(review.totalReviews);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${vehicle.brand} ${vehicle.model}',
+                    style: GoogleFonts.poppins(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w800,
+                      height: 1.1,
+                    ),
+                  ),
+
+                  const SizedBox(height: 5),
+
+                  Text(
+                    '${vehicle.year} • ${carPropertiesTranslations(context, vehicle.carType)}',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(
+                        context,
+                      ).textTheme.bodyMedium?.color?.withValues(alpha: .60),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            if (car.hasDiscount) _DiscountBadge(label: car.discountLabel),
+          ],
+        ),
+
+        const SizedBox(height: 14),
+
+        Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+              decoration: BoxDecoration(
+                color: Colors.amber.withValues(alpha: .12),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.star_rounded, color: Colors.amber, size: 18),
+                  const SizedBox(width: 4),
+                  Text(
+                    review.average.toStringAsFixed(1),
+                    style: const TextStyle(fontWeight: FontWeight.w800),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(width: 8),
+
+            Text(
+              reviewText,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _PremiumSpecsCard extends StatelessWidget {
+  final CarModel car;
+  final bool isDark;
+
+  const _PremiumSpecsCard({required this.car, required this.isDark});
+
+  @override
+  Widget build(BuildContext context) {
+    AppLocalizations loc = AppLocalizations.of(context)!;
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: isDark ? Colors.white.withValues(alpha: .05) : Colors.white,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(
+          color: isDark
+              ? Colors.white.withValues(alpha: .07)
+              : AppColors.border.withValues(alpha: .45),
+        ),
+        boxShadow: [
+          if (!isDark)
+            BoxShadow(
+              color: Colors.black.withValues(alpha: .035),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
+            ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: _SpecTile(
+              icon: Icons.settings_rounded,
+              title: loc.transmission,
+              value: carPropertiesTranslations(context, car.transmission),
+              isDark: isDark,
+            ),
+          ),
+
+          _VerticalDivider(isDark: isDark),
+
+          Expanded(
+            child: _SpecTile(
+              icon: Icons.local_gas_station_rounded,
+              title: loc.fuel,
+              value: carPropertiesTranslations(context, car.fuel),
+              isDark: isDark,
+            ),
+          ),
+
+          _VerticalDivider(isDark: isDark),
+
+          Expanded(
+            child: _SpecTile(
+              icon: Icons.event_seat_rounded,
+              title: loc.seatsLabel,
+              value: '${car.seats}',
+              isDark: isDark,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SpecTile extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String value;
+  final bool isDark;
+
+  const _SpecTile({
+    required this.icon,
+    required this.title,
+    required this.value,
+    required this.isDark,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [Icon(icon, size: 26), const SizedBox(height: 6), Text(label)],
+      children: [
+        Container(
+          width: 42,
+          height: 42,
+          decoration: BoxDecoration(
+            color: isDark
+                ? AppColors.lightLayer.withValues(alpha: 0.08)
+                : AppColors.primary.withValues(alpha: .08),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            icon,
+            size: 20,
+            color: isDark ? AppColors.lightLayer : AppColors.primary,
+          ),
+        ),
+
+        const SizedBox(height: 8),
+
+        Text(
+          value,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
+        ),
+
+        const SizedBox(height: 3),
+
+        Text(
+          title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 10,
+            color: Theme.of(
+              context,
+            ).textTheme.bodySmall?.color?.withValues(alpha: .55),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _VerticalDivider extends StatelessWidget {
+  final bool isDark;
+
+  const _VerticalDivider({required this.isDark});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 1,
+      height: 55,
+      margin: const EdgeInsets.symmetric(horizontal: 5),
+      color: isDark
+          ? Colors.white.withValues(alpha: .08)
+          : AppColors.border.withValues(alpha: .5),
+    );
+  }
+}
+
+class _RentalPartnerCard extends StatelessWidget {
+  final CarWithShop car;
+  final bool isDark;
+  final VoidCallback onTap;
+  final VoidCallback onRules;
+
+  const _RentalPartnerCard({
+    required this.car,
+    required this.isDark,
+    required this.onTap,
+    required this.onRules,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final shop = car.shop;
+
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: isDark ? Colors.white.withValues(alpha: .05) : Colors.white,
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(
+          color: isDark
+              ? Colors.white.withValues(alpha: .07)
+              : AppColors.border.withValues(alpha: .45),
+        ),
+      ),
+      child: Column(
+        children: [
+          InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(16),
+            child: Row(
+              children: [
+                Container(
+                  width: 52,
+                  height: 52,
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    color: isDark
+                        ? AppColors.lightLayer.withValues(alpha: 0.08)
+                        : AppColors.primary,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(14),
+                    child: Image.network(
+                      shop.logo,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, _, _) {
+                        return Image.asset(
+                          'assets/images/avatar.png',
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
+                  ),
+                ),
+
+                const SizedBox(width: 12),
+
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        shop.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+
+                      const SizedBox(height: 5),
+
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.star_rounded,
+                            color: Colors.amber,
+                            size: 16,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            shop.review.average.toStringAsFixed(1),
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                Container(
+                  width: 38,
+                  height: 38,
+                  decoration: BoxDecoration(
+                    color: isDark
+                        ? AppColors.lightLayer.withValues(alpha: 0.08)
+                        : AppColors.primary.withValues(alpha: .08),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 14,
+                    color: isDark ? AppColors.lightLayer : AppColors.primary,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 14),
+
+          Divider(
+            height: 1,
+            color: isDark
+                ? Colors.white.withValues(alpha: .08)
+                : AppColors.border.withValues(alpha: .5),
+          ),
+
+          const SizedBox(height: 10),
+
+          InkWell(
+            onTap: onRules,
+            borderRadius: BorderRadius.circular(12),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              child: Row(
+                children: [
+                  Container(
+                    width: 34,
+                    height: 34,
+                    decoration: BoxDecoration(
+                      color: AppColors.secondary.withValues(alpha: .10),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.description_outlined,
+                      size: 17,
+                      color: AppColors.secondary,
+                    ),
+                  ),
+
+                  const SizedBox(width: 10),
+
+                  Expanded(
+                    child: Text(
+                      AppLocalizations.of(context)!.viewRentalRules,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+
+                  const Icon(Icons.chevron_right_rounded, size: 20),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PremiumFeaturesCard extends StatelessWidget {
+  final List<String> features;
+  final bool isDark;
+
+  const _PremiumFeaturesCard({required this.features, required this.isDark});
+
+  IconData _featureIcon(String feature) {
+    final value = feature.toLowerCase();
+
+    if (value.contains('air')) {
+      return Icons.ac_unit_rounded;
+    }
+
+    if (value.contains('gps') || value.contains('navigation')) {
+      return Icons.navigation_rounded;
+    }
+
+    if (value.contains('wifi')) {
+      return Icons.wifi_rounded;
+    }
+
+    if (value.contains('camera')) {
+      return Icons.camera_alt_outlined;
+    }
+
+    if (value.contains('bluetooth')) {
+      return Icons.bluetooth_rounded;
+    }
+
+    if (value.contains('leather')) {
+      return Icons.event_seat_rounded;
+    }
+
+    if (value.contains('usb')) {
+      return Icons.usb_rounded;
+    }
+
+    return Icons.check_circle_outline_rounded;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 9,
+      runSpacing: 9,
+      children: features.map((feature) {
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          decoration: BoxDecoration(
+            color: isDark ? Colors.white.withValues(alpha: .05) : Colors.white,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(
+              color: isDark
+                  ? Colors.white.withValues(alpha: .07)
+                  : AppColors.border.withValues(alpha: .45),
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                _featureIcon(feature),
+                size: 16,
+                color: isDark ? AppColors.lightLayer : AppColors.primary,
+              ),
+
+              const SizedBox(width: 7),
+
+              Text(
+                feature,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        );
+      }).toList(),
+    );
+  }
+}
+
+class _PremiumSectionTitle extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final Widget? trailing;
+  final bool isDark;
+
+  const _PremiumSectionTitle({
+    required this.title,
+    required this.icon,
+    required this.isDark,
+    this.trailing,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          width: 34,
+          height: 34,
+          decoration: BoxDecoration(
+            color: isDark
+                ? AppColors.lightLayer.withValues(alpha: 0.08)
+                : AppColors.primary.withValues(alpha: .08),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(
+            icon,
+            size: 18,
+            color: isDark ? AppColors.lightLayer : AppColors.primary,
+          ),
+        ),
+
+        const SizedBox(width: 10),
+
+        Expanded(
+          child: Text(
+            title,
+            style: GoogleFonts.poppins(
+              fontSize: 17,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ),
+
+        if (trailing != null) trailing!,
+      ],
+    );
+  }
+}
+
+class _DiscountBadge extends StatelessWidget {
+  final String label;
+
+  const _DiscountBadge({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 7),
+      decoration: BoxDecoration(
+        color: Colors.red.withValues(alpha: .90),
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.red.withValues(alpha: .25),
+            blurRadius: 12,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Text(
+        label,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 11,
+          fontWeight: FontWeight.w800,
+        ),
+      ),
+    );
+  }
+}
+
+class _PremiumBookingBar extends StatelessWidget {
+  final CarWithShop car;
+  final bool isDark;
+  final VoidCallback? onBook;
+
+  const _PremiumBookingBar({
+    required this.car,
+    required this.isDark,
+    required this.onBook,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final currency = car.car.currency ?? car.shop.currency;
+
+    return SafeArea(
+      top: false,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(14, 10, 14, 10),
+        decoration: BoxDecoration(
+          color: isDark ? AppColors.darkAccent : Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: .10),
+              blurRadius: 24,
+              offset: const Offset(0, -8),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!.from,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.color?.withValues(alpha: .55),
+                    ),
+                  ),
+
+                  const SizedBox(height: 2),
+
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      if (car.hasDiscount) ...[
+                        Text(
+                          formatCurrency(
+                            amount: car.basePrice,
+                            currencyCode: currency,
+                            context: context,
+                            decimalDigits: 0,
+                          ),
+                          style: TextStyle(
+                            fontSize: 11,
+                            decoration: TextDecoration.lineThrough,
+                            color: Theme.of(context).textTheme.bodySmall?.color
+                                ?.withValues(alpha: .45),
+                          ),
+                        ),
+                        const SizedBox(width: 5),
+                      ],
+
+                      Flexible(
+                        child: Text(
+                          AppLocalizations.of(context)!.amountPerDay(
+                            formatCurrency(
+                              amount: car.finalPrice,
+                              currencyCode: currency,
+                              context: context,
+                            ),
+                          ),
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w800,
+                            color: car.hasDiscount
+                                ? Colors.red
+                                : (isDark ? Colors.white : AppColors.primary),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(width: 12),
+
+            SizedBox(
+              height: 52,
+              child: ElevatedButton(
+                onPressed: onBook,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                  disabledBackgroundColor: Colors.grey.shade400,
+                  elevation: 0,
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(17),
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      car.car.availableUnits == 0
+                          ? AppLocalizations.of(context)!.notAvailable
+                          : AppLocalizations.of(context)!.bookNow,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+
+                    if (car.car.availableUnits > 0) ...[
+                      const SizedBox(width: 8),
+                      const Icon(Icons.arrow_forward_rounded, size: 18),
+                    ],
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

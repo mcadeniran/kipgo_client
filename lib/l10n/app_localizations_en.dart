@@ -2848,4 +2848,939 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get paymentLinkSent => 'Payment Link Sent';
+
+  @override
+  String get hello => 'Hello';
+
+  @override
+  String get whereToNext => 'Where to next?';
+
+  @override
+  String get airportTransferTitle => 'Airport Transfer';
+
+  @override
+  String get bookAirportTransferInAdvance =>
+      'Book your airport transfer in advance and travel stress-free';
+
+  @override
+  String get shuttleService => 'Shuttle Service';
+
+  @override
+  String get hotels => 'Hotels';
+
+  @override
+  String get staySomewhereExtra => 'Stay somewhere extraordinary.';
+
+  @override
+  String get weArePreparingHotels =>
+      'We are preparing a beautiful collection of stays and unforgettable places for your next journey. Hotel bookings are coming soon to Kipgo.';
+
+  @override
+  String get toursAndActivities => 'Tours & Activities';
+
+  @override
+  String get discoverMore => 'Discover more. Experience more.';
+
+  @override
+  String get fromUnforgettableAdventures =>
+      'From unforgettable adventures to local experiences, we are bringing the best things to do closer to you. Tours & Activities are coming soon to Kipgo.';
+
+  @override
+  String get handpickedRides => 'Handpicked rides for your next trip';
+
+  @override
+  String get featuredCap => 'FEATURED';
+
+  @override
+  String get trustedPartnersForYourJourney =>
+      'Trusted partners for your journey';
+
+  @override
+  String get verifiedPartner => 'verified partner';
+
+  @override
+  String get popularCars => 'Popular Cars';
+
+  @override
+  String get lovedByKipgoTravellers => 'Loved by Kipgo travellers';
+
+  @override
+  String get seeAll => 'See all';
+
+  @override
+  String get swipeToExplore => 'Swipe to explore';
+
+  @override
+  String get safeAndSecure => 'Safe & Secure';
+
+  @override
+  String get yourSafety => 'Your safety is our top priority.';
+
+  @override
+  String get bestPriceGuarantee => 'Best Price Guarantee';
+
+  @override
+  String get getTheBestValue => 'Get the best value for your money.';
+
+  @override
+  String get flexibleBooking => 'Flexible Booking';
+
+  @override
+  String get freeCancellation => 'Free cancellation on selected options.';
+
+  @override
+  String get trustedByThousands => 'Trusted by Thousands';
+
+  @override
+  String get joinThousands => 'Join thousands of happy travellers.';
+
+  @override
+  String get signOut => 'Sign Out';
+
+  @override
+  String get areYouSureSignOut => 'Are you sure you want to sign out?';
+
+  @override
+  String get makeYourKipgoJourneyYours => 'Make your Kipgo journey yours';
+
+  @override
+  String get signInOrCreateAccount =>
+      'Sign in or create an account to manage bookings, save your preferences and enjoy a smoother experience.';
+
+  @override
+  String get signInOrRegister => 'Sign In or Register';
+
+  @override
+  String get alreadyHaveAnAccountTitle => 'Already have an account?';
+
+  @override
+  String get signInToAccessYourAccount => 'Sign in to access your account';
+
+  @override
+  String get signIn => 'Sign In';
+
+  @override
+  String get travelMadeEasy => 'Travel made easy';
+
+  @override
+  String get customer => 'Customer';
+
+  @override
+  String get rentalOwner => 'Rental Owner';
+
+  @override
+  String get kipgoMember => 'Kipgo Member';
+
+  @override
+  String get findYourPerfectRide => 'Find your perfect ride.';
+
+  @override
+  String get discoverQualityCars =>
+      'Discover quality cars from trusted rental companies.';
+
+  @override
+  String get verified => 'Verified';
+
+  @override
+  String get wideSelection => 'Wide selection';
+
+  @override
+  String get trySearchingForAnotherCar =>
+      'Try searching for another car, brand or model.';
+
+  @override
+  String get refineYourCarSearch => 'Refine your car search';
+
+  @override
+  String numActiveFilters(num count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString active filters',
+      one: '1 active filter',
+      zero: 'No filters',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get manageYourBookings => 'Manage your bookings';
+
+  @override
+  String get saveYourFavouriteEx => 'Save your favourite experiences';
+
+  @override
+  String get enjoyAFasterBooking => 'Enjoy a faster booking experience';
+
+  @override
+  String get continueBrowsing => 'Continue browsing';
+
+  @override
+  String get welcomeToKipgo => 'Welcome to Kipgo';
+
+  @override
+  String get signInOrCreateAccountToContinue =>
+      'Sign in or create an account to continue and enjoy the full Kipgo experience.';
+
+  @override
+  String get findTheRightCar => 'Find the right car for your journey';
+
+  @override
+  String get sortBy => 'Sort By';
+
+  @override
+  String numOfCarsAvailable(num count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString cars available',
+      one: '1 car available',
+      zero: '0 cars available',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get tryChangingYourSearch => 'Try changing your search or filters.';
+
+  @override
+  String get popularTag => 'POPULAR';
+
+  @override
+  String get rentalPartner => 'Rental partner';
+
+  @override
+  String get guestReviews => 'Guest reviews';
+
+  @override
+  String carNameReviews(String name) {
+    return '$name Reviews';
+  }
+
+  @override
+  String get seeWhatOtherTravellersCar =>
+      'See what other travellers think about this car';
+
+  @override
+  String get currentlyUnavailable => 'Currently unavailable';
+
+  @override
+  String numOfTotalReviews(num count) {
+    final intl.NumberFormat countNumberFormat = intl.NumberFormat.compact(
+      locale: localeName,
+    );
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString reviews',
+      one: '1 review',
+      zero: '0 reviews',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get viewRentalRules => 'View rental rules';
+
+  @override
+  String get recentReviews => 'Recent reviews';
+
+  @override
+  String get anonymous => 'Anonymous';
+
+  @override
+  String get comfort => 'Comfort';
+
+  @override
+  String get cleanliness => 'Cleanliness';
+
+  @override
+  String get condition => 'Condition';
+
+  @override
+  String get valueForMoney => 'Value for money';
+
+  @override
+  String get communication => 'Communication';
+
+  @override
+  String get pickupExperience => 'Pickup Experience';
+
+  @override
+  String get professionalism => 'Professionalism';
+
+  @override
+  String get returnExperience => 'Return Experience';
+
+  @override
+  String get overallRating => 'Overall Rating';
+
+  @override
+  String get verifiedReviews => 'Verified Reviews';
+
+  @override
+  String get whatCustomersAreSaying => 'What customers are saying';
+
+  @override
+  String pctOfCustomersCar(String pct) {
+    return '$pct% of customers would recommend this car';
+  }
+
+  @override
+  String pctOfCustomersCompany(String pct) {
+    return '$pct% of customers would recommend this company';
+  }
+
+  @override
+  String get customerReviews => 'Customer Reviews';
+
+  @override
+  String get mostRecent => 'Most Recent';
+
+  @override
+  String get highestRated => 'Highest Rated';
+
+  @override
+  String get lowestRated => 'Lowest Rated';
+
+  @override
+  String get sort => 'Sort';
+
+  @override
+  String get ratingBreakdown => 'Rating Breakdown';
+
+  @override
+  String get whatTheyLiked => 'What they liked';
+
+  @override
+  String get couldBeImproved => 'Could be improved';
+
+  @override
+  String get wouldRecommend => 'Would recommend';
+
+  @override
+  String get wouldRentAgain => 'Would rent again';
+
+  @override
+  String get beTheFirst => 'Be the first customer to share your experience.';
+
+  @override
+  String get verifiedRentalCompany => 'Verified rental company';
+
+  @override
+  String get location => 'Location';
+
+  @override
+  String get aboutTheCompany => 'About the company';
+
+  @override
+  String get seeWhatOthersTravellersCompany =>
+      'See what other travellers think about this rental company';
+
+  @override
+  String get availableCars => 'Available Cars';
+
+  @override
+  String get noCarsAvailable => 'No cars available';
+
+  @override
+  String get thisRentalCompany =>
+      'This rental company currently has no available cars.';
+
+  @override
+  String get pleaseSelectPickupLocation => 'Please select a pickup location';
+
+  @override
+  String get pleaseSelectDestination => 'Please select your destination';
+
+  @override
+  String get pleaseSelectDepartureDate => 'Please select a departure date';
+
+  @override
+  String get pleaseSelectReturnDate => 'Please select a return date';
+
+  @override
+  String get comingSoonTag => 'COMING SOON';
+
+  @override
+  String get somethingWonderfulIsOnTheWay =>
+      'Something wonderful is on the way.';
+
+  @override
+  String get yourRideHistory => 'Your Ride History';
+
+  @override
+  String get signInToView =>
+      'Sign in to view your completed rides and trip details.';
+
+  @override
+  String get yourBookings => 'Your Bookings';
+
+  @override
+  String get yourBookingsAuthRequired =>
+      'Sign in to view your bookings and manage your reservations.';
+
+  @override
+  String get exploreKipgo => 'Explore Kipgo';
+
+  @override
+  String get moveSmarterWithKipgo => 'Move smarter with Kipgo';
+
+  @override
+  String get reliableRidesWhenever =>
+      'Reliable rides, whenever and wherever you need them.';
+
+  @override
+  String get kipgoTaxi => 'KIPGO TAXI';
+
+  @override
+  String get whereAreYouGoing => 'Where are you going?';
+
+  @override
+  String get requestAComfortableRide =>
+      'Request a comfortable ride with Kipgo.';
+
+  @override
+  String get readyToRide => 'Ready to ride?';
+
+  @override
+  String get signInToRequestARide =>
+      'Sign in to request a ride and manage your trips.';
+
+  @override
+  String get safe => 'Safe';
+
+  @override
+  String get trustedDrivers => 'Trusted drivers';
+
+  @override
+  String get reliable => 'Reliable';
+
+  @override
+  String get onTimeRides => 'On-time rides';
+
+  @override
+  String get simple => 'Simple';
+
+  @override
+  String get clearPricing => 'Clear pricing';
+
+  @override
+  String get whyRideWithKipgo => 'Why ride with Kipgo?';
+
+  @override
+  String get kipgoMakesGettingAroundSimple =>
+      'Kipgo makes getting around simple, convenient and reliable.';
+
+  @override
+  String get activeRide => 'Active Ride';
+
+  @override
+  String get passengerTools => 'Passenger tools';
+
+  @override
+  String get bookAndManageRidesAsPassenger =>
+      'Book and manage rides as passenger';
+
+  @override
+  String get requestRideAsPassenger => 'Request ride as passenger';
+
+  @override
+  String get viewRidesCompleted => 'View rides completed as passenger';
+
+  @override
+  String hiUser(String name) {
+    return 'Hi $name';
+  }
+
+  @override
+  String get readyForYourNextRide => 'Ready for your next ride?';
+
+  @override
+  String get youAreRadyToReceiveRideRequests =>
+      'You are ready to receive ride requests.';
+
+  @override
+  String get goOnlineWhenYouareReady =>
+      'Go online when you are ready to drive.';
+
+  @override
+  String get goOffline => 'Go Offline';
+
+  @override
+  String get goOnline => 'Go Online';
+
+  @override
+  String get yourAccountIsNotReadyYet => 'Your account is not ready yet.';
+
+  @override
+  String get yourLocation => 'Your location';
+
+  @override
+  String get rating => 'Rating';
+
+  @override
+  String get yourVehicle => 'Your Vehicle';
+
+  @override
+  String get noUpcomingRentals => 'No upcoming rentals';
+
+  @override
+  String get noActiveRental => 'No active rental';
+
+  @override
+  String get noCompletedRentals => 'No completed rentals';
+
+  @override
+  String get noClosedRentals => 'No closed rentals';
+
+  @override
+  String get yourConfirmedRentals =>
+      'Your confirmed rentals will appear here once they\'re scheduled.';
+
+  @override
+  String get onceYourRentalPeriodStarts =>
+      'Once your rental period starts, you\'ll see it here.';
+
+  @override
+  String get yourRentalHistory =>
+      'Your rental history will appear here after you complete your first rental period.';
+
+  @override
+  String get yourJourneys => 'Your journeys';
+
+  @override
+  String get yourTravelHistory => 'Your travel history, all in one place.';
+
+  @override
+  String get trips => 'Trips';
+
+  @override
+  String get noJourneysYet => 'No journeys yet';
+
+  @override
+  String get yourCompletedTripsWIllAppear =>
+      'Your completed trips will appear here once you take your first ride.';
+
+  @override
+  String get bookARide => 'Book a ride';
+
+  @override
+  String get rated => 'Rated';
+
+  @override
+  String get failedToSubmitReview => 'Failed to submit review.';
+
+  @override
+  String get tripRoute => 'Trip route';
+
+  @override
+  String get totalFare => 'Total fare';
+
+  @override
+  String get yourDriver => 'Your driver';
+
+  @override
+  String get invalidEmailAddress => 'Please enter a valid email address.';
+
+  @override
+  String get accountHasBeenDisabled =>
+      'This account has been disabled. Please contact support for assistance.';
+
+  @override
+  String get noAccountExists => 'No account was found with this email address.';
+
+  @override
+  String get incorrectPasswordError =>
+      'The password you entered is incorrect. Please try again.';
+
+  @override
+  String get anAccountAlreadyExists =>
+      'An account already exists with this email address. Please sign in instead.';
+
+  @override
+  String get thePasswordIsTooWeak =>
+      'Your password is too weak. Please choose a stronger password.';
+
+  @override
+  String get operationNotAllowed =>
+      'This sign-in method is currently unavailable. Please try another method.';
+
+  @override
+  String get tooManyRequests =>
+      'Too many sign-in attempts. Please wait a moment and try again.';
+
+  @override
+  String get invalidCredentials =>
+      'The email address or password is incorrect. Please check your details and try again.';
+
+  @override
+  String get networkRequestFailed =>
+      'Unable to connect to the server. Please check your internet connection and try again.';
+
+  @override
+  String get authenticationErrorOccurred =>
+      'We couldn\'t sign you in. Please try again.';
+
+  @override
+  String get myDrivingHistory => 'My Driving History';
+
+  @override
+  String get drives => 'Drives';
+
+  @override
+  String get yourCompletedDrivesWillAppearHere =>
+      'Your completed drives will appear here.';
+
+  @override
+  String get yourPassengerFeedback =>
+      'Your passenger feedback helps build your reputation as a driver.';
+
+  @override
+  String get passengerFeedbackWillAppearHere =>
+      'Passenger feedback will appear here after you complete your rides.';
+
+  @override
+  String get leaveReview => 'Leave a review';
+
+  @override
+  String get howWasTheCar => 'How was the car?';
+
+  @override
+  String get howWasTheRentalCompany => 'How was the rental company?';
+
+  @override
+  String get reviewTitle => 'Review title';
+
+  @override
+  String get yourReview => 'Your review';
+
+  @override
+  String get addPhotos => 'Add photos';
+
+  @override
+  String get wouldRecommendQ => 'Would you recommend this rental?';
+
+  @override
+  String get wouldRentAgainQ => 'Would you rent this car again?';
+
+  @override
+  String get postAnonymously => 'Post anonymously';
+
+  @override
+  String get submitReview => 'Submit review';
+
+  @override
+  String get reviewSubmitted => 'Review submitted';
+
+  @override
+  String get pleaseRateCarAspect => 'Please rate every aspect of the car.';
+
+  @override
+  String get pleaseRateCompanyAspect =>
+      'Please rate every aspect of the rental company.';
+
+  @override
+  String get pleaseAddTitleAndReview =>
+      'Please add a title and write your review.';
+
+  @override
+  String get pleaseCompleteAllRequiredFields =>
+      'Please complete all required fields';
+
+  @override
+  String get thankYou => 'Thank you!';
+
+  @override
+  String get yourReviewSubmitted =>
+      'Your review has been submitted successfully.';
+
+  @override
+  String get done => 'Done';
+
+  @override
+  String stepCount(int count, int total) {
+    return 'Step $count of $total';
+  }
+
+  @override
+  String get tellUsAboutVehicle => 'Tell us about the vehicle you rented.';
+
+  @override
+  String get yourOverallExperienceCar => 'Your overall experience with the car';
+
+  @override
+  String get howCleanWasTheVehicle => 'How clean was the vehicle?';
+
+  @override
+  String get howComfortable => 'How comfortable was the car?';
+
+  @override
+  String get howWellMaintained => 'How well maintained was the car?';
+
+  @override
+  String get wasTheRentalWorth => 'Was the rental worth what you paid?';
+
+  @override
+  String get yourFeedbackHelpsImproveRental =>
+      'Your feedback helps improve the rental experience.';
+
+  @override
+  String get yourOverallExperienceCompany =>
+      'Your overall experience with the company';
+
+  @override
+  String get howResponsiveAndHelpful =>
+      'How responsive and helpful were the staff?';
+
+  @override
+  String get howSmoothWasThePickup => 'How smooth was the pickup?';
+
+  @override
+  String get howProfessional => 'How professional was the staff?';
+
+  @override
+  String get howSmoothWasReturning => 'How smooth was returning the vehicle?';
+
+  @override
+  String get shareTheDetailsForFutureRenters =>
+      'Share the details that future renters should know.';
+
+  @override
+  String get giveShortTitle => 'Give your review a short title';
+
+  @override
+  String get whatDidYouLike => 'What did you like? What could be better?';
+
+  @override
+  String get whatDidYouLikeQ => 'What did you like?';
+
+  @override
+  String get selectEverything => 'Select everything that stood out.';
+
+  @override
+  String get clean => 'Clean';
+
+  @override
+  String get comfortable => 'Comfortable';
+
+  @override
+  String get wellMaintained => 'Well maintained';
+
+  @override
+  String get smoothDrive => 'Smooth drive';
+
+  @override
+  String get fuelEfficient => 'Fuel efficient';
+
+  @override
+  String get greatValue => 'Great value';
+
+  @override
+  String get easyPickup => 'Easy pickup';
+
+  @override
+  String get friendlyStaff => 'Friendly staff';
+
+  @override
+  String get whatCouldBeBetter => 'What could be better?';
+
+  @override
+  String get optionalHelpFutureRenters =>
+      'Optional — help future renters prepare.';
+
+  @override
+  String get pickupTookTooLong => 'Pickup took too long';
+
+  @override
+  String get carShowedSomeWear => 'Car showed some wear';
+
+  @override
+  String get limitedFeatures => 'Limited features';
+
+  @override
+  String get expensive => 'Expensive';
+
+  @override
+  String get difficultReturn => 'Difficult return';
+
+  @override
+  String get openingHours => 'Opening hours';
+
+  @override
+  String get oneLastThing => 'One last thing';
+
+  @override
+  String get yourAnswersHelp =>
+      'Your answers help other renters make better decisions.';
+
+  @override
+  String get yourRental => 'Your rental';
+
+  @override
+  String get rentalCompany => 'Rental company';
+
+  @override
+  String get poor => 'Poor';
+
+  @override
+  String get fair => 'Fair';
+
+  @override
+  String get good => 'Good';
+
+  @override
+  String get veryGood => 'Very good';
+
+  @override
+  String get excellent => 'Excellent';
+
+  @override
+  String get showFutureRenters =>
+      'Show future renters what the experience was really like.';
+
+  @override
+  String get add => 'Add';
+
+  @override
+  String get yourNameAndProfileWillBeHidden =>
+      'Your name and profile photo will not be shown.';
+
+  @override
+  String get almostThere => 'Almost there!';
+
+  @override
+  String get yourFeedbackCanHelp =>
+      'Your feedback can help another traveller choose with confidence.';
+
+  @override
+  String get leaveAReview => 'Leave a review';
+
+  @override
+  String numDays(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'days',
+      one: 'day',
+      zero: 'days',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get thankYouForReview => 'Thank you for your review';
+
+  @override
+  String numOfSeats(int seats) {
+    String _temp0 = intl.Intl.pluralLogic(
+      seats,
+      locale: localeName,
+      other: '$seats seats',
+      one: '1 seat',
+      zero: 'No seats',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get paymentStatus => 'Payment Status';
+
+  @override
+  String get addPayment => 'Add Payment';
+
+  @override
+  String get shareYourRentalExperience => 'Share your rental experience';
+
+  @override
+  String get thankYouForSharing =>
+      'Thank you for sharing your rental experience.';
+
+  @override
+  String get loginSubtitle => 'Sign in to continue your Kipgo journey';
+
+  @override
+  String get loginFormSubtitle => 'Enter your details to access your account.';
+
+  @override
+  String get signupSubtitle => 'Create your Kipgo account and start exploring.';
+
+  @override
+  String get signupFormSubtitle =>
+      'Fill in your details to create your account.';
+
+  @override
+  String get orCap => 'OR';
+
+  @override
+  String get forgotPasswordDescription =>
+      'Enter your email address and we\'ll send you a link to reset your password.';
+
+  @override
+  String get backToLogin => 'Back to Sign In';
+
+  @override
+  String get resetPassword => 'Reset Password';
+
+  @override
+  String get enterPasswordToContinue => 'Enter your password to continue.';
+
+  @override
+  String get deletingAccount => 'Deleting account...';
+
+  @override
+  String get passwordRequiredForSecurity =>
+      'For your security, please enter your password.';
+
+  @override
+  String get securityTitle => 'Protect your account';
+
+  @override
+  String get securityDescription =>
+      'Update your password regularly to help keep your Kipgo account secure.';
+
+  @override
+  String get updateYourPassword => 'Update your password';
+
+  @override
+  String get updateDescription =>
+      'Enter your current password and choose a new one.';
+
+  @override
+  String get currentPasswordLabel => 'Current password';
+
+  @override
+  String get newPasswordLabel => 'New password';
+
+  @override
+  String get confirmPasswordLabel => 'Confirm new password';
+
+  @override
+  String get passwordRequirement =>
+      'Your new password must contain at least 8 characters.';
+
+  @override
+  String get differentPassword =>
+      'New password must be different from your current password.';
+
+  @override
+  String get securityFooter => 'Your account security matters to us';
+
+  @override
+  String get showPassword => 'Show password';
+
+  @override
+  String get hidePassword => 'Hide password';
 }

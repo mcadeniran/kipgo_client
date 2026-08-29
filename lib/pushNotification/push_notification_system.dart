@@ -95,7 +95,7 @@ class PushNotificationSystem {
     required bool fromUserTap,
   }) {
     final notificationType = remoteMessage.data['type'];
-    final service = remoteMessage.data['service'] ?? 'rental';
+    // final service = remoteMessage.data['service'] ?? 'rental';
 
     if (notificationType == 'rideRequest') {
       final rideRequestId = remoteMessage.data['rideRequestId'];
@@ -135,13 +135,13 @@ class PushNotificationSystem {
     }
   }
 
-  bool _isRentalService(Map<String, dynamic> data) {
-    return (data['service'] ?? 'rental') == 'rental';
-  }
+  // bool _isRentalService(Map<String, dynamic> data) {
+  //   return (data['service'] ?? 'rental') == 'rental';
+  // }
 
-  bool _isShuttleService(Map<String, dynamic> data) {
-    return (data['service'] ?? 'rental') == 'shuttle';
-  }
+  // bool _isShuttleService(Map<String, dynamic> data) {
+  //   return (data['service'] ?? 'rental') == 'shuttle';
+  // }
 
   bool _isBusinessNotification(String? type) {
     return const [

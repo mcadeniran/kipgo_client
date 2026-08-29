@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iconify_flutter/iconify_flutter.dart';
-import 'package:iconify_flutter/icons/ic.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:kipgo/controllers/auth_provider.dart';
 import 'package:kipgo/controllers/inapp_notification_provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
@@ -14,6 +13,7 @@ import 'package:provider/provider.dart';
 
 class RentalBottomNavigation extends StatefulWidget {
   final int initialIndex;
+
   const RentalBottomNavigation({super.key, this.initialIndex = 0});
 
   @override
@@ -26,99 +26,102 @@ class _RentalBottomNavigationState extends State<RentalBottomNavigation> {
   @override
   void initState() {
     super.initState();
+
     index = widget.initialIndex;
 
     final auth = context.read<AuthProvider>();
-    final user = auth.profile!;
+    final user = auth.profile;
 
-    Provider.of<InAppNotificationProvider>(
-      context,
-      listen: false,
-    ).listenToNotifications(user.id);
+    if (user != null) {
+      context.read<InAppNotificationProvider>().listenToNotifications(user.id);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = Provider.of<ThemeProvider>(context).isDarkMode;
-    AppLocalizations loc = AppLocalizations.of(context)!;
+    final isDark = context.watch<ThemeProvider>().isDarkMode;
+    final loc = AppLocalizations.of(context)!;
 
-    final user = context.read<AuthProvider>().profile!;
-    final isAdmin = user.isAdmin;
+    final auth = context.watch<AuthProvider>();
+    final user = auth.profile;
+
+    // ------------------------------------------------------------
+    // Admin is only possible for authenticated users
+    // ------------------------------------------------------------
+    final isAdmin = user?.isAdmin == true;
 
     final screens = [
-      RentalHome(),
-      BookingsHistory(),
-      if (isAdmin) AdminScreen(),
-      SettingsScreen(),
+      const RentalHome(),
+      // if (!isGuest)
+      const BookingsHistory(),
+      if (isAdmin) const AdminScreen(),
+      const SettingsScreen(),
     ];
 
-    final destinations = [
-      NavigationDestination(
-        icon: Iconify(
-          Ic.outline_home,
-          color: isDark ? AppColors.lightLayer : AppColors.darkLayer,
-        ),
-        selectedIcon: Iconify(Ic.sharp_home, color: Colors.white),
-        label: loc.home,
-      ),
-      NavigationDestination(
-        icon: Iconify(
-          Ic.outline_calendar_today,
-          color: isDark ? AppColors.lightLayer : AppColors.darkLayer,
-          size: 22,
-        ),
-        selectedIcon: Iconify(
-          Ic.round_calendar_today,
-          color: Colors.white,
-          size: 22,
-        ),
-        label: loc.bookings,
-      ),
-
-      if (isAdmin)
-        NavigationDestination(
-          icon: Iconify(
-            Ic.round_admin_panel_settings,
-            color: isDark ? AppColors.lightLayer : AppColors.darkLayer,
-          ),
-          selectedIcon: Iconify(
-            Ic.round_admin_panel_settings,
-            color: Colors.white,
-          ),
-          label: loc.admin,
-        ),
-
-      NavigationDestination(
-        icon: Iconify(
-          Ic.round_person_outline,
-          color: isDark ? AppColors.lightLayer : AppColors.darkLayer,
-        ),
-        selectedIcon: Iconify(Ic.round_person, color: Colors.white),
-        label: loc.profile,
-      ),
-    ];
+    // Keep index valid if the available tabs change.
+    final safeIndex = index >= screens.length ? 0 : index;
 
     return Scaffold(
-      body: IndexedStack(index: index, children: screens),
-      bottomNavigationBar: NavigationBarTheme(
-        data: NavigationBarThemeData(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          indicatorColor: isDark ? AppColors.darkLayer : AppColors.primary,
-          indicatorShape: const CircleBorder(),
-          labelTextStyle: const WidgetStatePropertyAll(
-            TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-          ),
-        ),
-        child: NavigationBar(
+      body: IndexedStack(index: safeIndex, children: screens),
+      bottomNavigationBar: SafeArea(
+        minimum: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+        child: Container(
           height: 60,
-          maintainBottomViewPadding: true,
-          selectedIndex: index,
-          onDestinationSelected: (value) {
-            setState(() {
-              index = value;
-            });
-          },
-          destinations: destinations,
+          padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 0),
+          decoration: BoxDecoration(
+            color: isDark ? AppColors.darkAccent : Colors.white,
+            borderRadius: BorderRadius.circular(100),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: isDark ? 0.4 : 0.18),
+                blurRadius: 24,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: GNav(
+            onTabChange: (value) {
+              setState(() {
+                index = value;
+              });
+            },
+            tabBorderRadius: 100,
+            // mainAxisAlignment: MainAxisAlignment.spaceAround,
+            backgroundColor: Colors.transparent,
+            color: isDark ? AppColors.darkLayer : AppColors.primary,
+            activeColor: Colors.white,
+            tabBackgroundColor: isDark
+                ? AppColors.darkLayer
+                : AppColors.primary,
+            padding: const EdgeInsets.all(12),
+            gap: 8,
+            tabs: [
+              GButton(icon: Icons.home_outlined, text: loc.home, haptic: true),
+
+              // if (!isGuest)
+              GButton(
+                icon: Icons.calendar_today_outlined,
+                text: loc.bookings,
+                haptic: true,
+                borderRadius: BorderRadius.circular(100),
+              ),
+
+              if (isAdmin)
+                GButton(
+                  icon: Icons.admin_panel_settings_outlined,
+                  text: loc.admin,
+                  haptic: true,
+                  borderRadius: BorderRadius.circular(100),
+                ),
+
+              GButton(
+                icon: Icons.person_outlined,
+                text: loc.profile,
+                haptic: true,
+                borderRadius: BorderRadius.circular(100),
+              ),
+            ],
+          ),
         ),
       ),
     );
