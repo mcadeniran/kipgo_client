@@ -4817,5 +4817,166 @@
   "hidePassword": "Hide password",
   "@hidePassword": {
     "description": "Info"
+  },
+  "newLabel": "NEW",
+  "@newLabel": {
+    "description": "Info"
+  },
+  "pickupCap": "PICKUP",
+  "@pickupCap": {
+    "description": "Infp"
+  },
+  "destinationCap": "DESTINATION",
+  "@destinationCap": {
+    "description": "Infp"
+  },
+  "distanceCap": "DISTANCE",
+  "@distanceCap": {
+    "description": "Infp"
+  },
+  "eta": "ETA",
+  "@eta": {
+    "description": "Infp"
+  },
+  "mins": "{time} mins",
+  "@mins": {
+    "description": "Info",
+    "placeholders": {
+      "time": {
+        "type": "int"
+      }
+    }
+  },
+  "tripCap": "TRIP",
+  "@tripCap": {
+    "description": "Infp"
+  },
+  "durationCap": "DURATION",
+  "@durationCap": {
+    "description": "Infp"
+  },
+  "notVerified": "Not verified",
+  "@notVerified": {
+    "description": "Info"
+  },
+  "personalInfo": "Personal Information",
+  "@personalInfo": {
+    "description": "Info"
+  },
+  "keepYourProfileDetails": "Keep your profile details up to date.",
+  "@keepYourProfileDetails": {
+    "description": "Info"
+  },
+  "forAccountVerification": "Used for account verification and contact.",
+  "@forAccountVerification": {
+    "description": "Info"
+  },
+  "verificationNumber": "Verification number",
+  "@verificationNumber": {
+    "description": "Info"
+  },
+  "enterCode": "ENTER CODE",
+  "@enterCode": {
+    "description": "Info"
+  },
+  "sixDigitCode": "6-digit verification code",
+  "@sixDigitCode": {
+    "description": "Info"
+  },
+  "yourVerificationCodeIsSecure": "Your verification code is secure",
+  "@yourVerificationCodeIsSecure": {
+    "description": "Info"
+  },
+  "currentProfilePicture": "Current profile picture",
+  "@currentProfilePicture": {
+    "description": "Info"
+  },
+  "noProfilePictureSelected": "No profile picture selected",
+  "@noProfilePictureSelected": {
+    "description": "Info"
+  },
+  "tapCameraButton": "Tap the camera button to choose a new photo",
+  "@tapCameraButton": {
+    "description": "Info"
+  },
+  "useClearPhoto": "Use a clear photo where your face is easily recognizable.",
+  "@useClearPhoto": {
+    "description": "Info"
+  },
+  "uploadingProfilePicture": "Uploading profile picture",
+  "@uploadingProfilePicture": {
+    "description": "Info"
+  },
+  "pleaseWaitWhileUpload": "Please wait while your photo is uploaded",
+  "@pleaseWaitWhileUpload": {
+    "description": "Info"
+  },
+  "becomeADriver": "Become a Driver",
+  "@becomeADriver": {
+    "description": "Info"
+  },
+  "driveWithKipgo": "Drive with Kipgo",
+  "@driveWithKipgo": {
+    "description": "Info"
+  },
+  "driveWithKipgoDescription": "Turn your journeys into opportunities. Become a Kipgo driver and provide taxi services to passengers across Northern Cyprus.",
+  "@driveWithKipgoDescription": {
+    "description": "Info"
+  },
+  "beforeYouContinue": "Before you continue",
+  "@beforeYouContinue": {
+    "description": "Info"
+  },
+  "registeredTaxiDriver": "Registered Taxi Driver or Owner",
+  "@registeredTaxiDriver": {
+    "description": "Info"
+  },
+  "registeredTaxiDriverDescription": "You must be a legally registered taxi driver or taxi owner and be authorized to provide taxi services.",
+  "@registeredTaxiDriverDescription": {
+    "description": "Info"
+  },
+  "northernCyprusRequirement": "Turkish Republic of Northern Cyprus",
+  "@northernCyprusRequirement": {
+    "description": "Info"
+  },
+  "northernCyprusRequirementDescription": "Kipgo driver services are intended for registered taxi drivers and owners operating in the Turkish Republic of Northern Cyprus.",
+  "@northernCyprusRequirementDescription": {
+    "description": "Info"
+  },
+  "legalCompliance": "Legal Compliance",
+  "@legalCompliance": {
+    "description": "Info"
+  },
+  "legalComplianceDescription": "You are responsible for maintaining all required taxi, vehicle, insurance and operating documents.",
+  "@legalComplianceDescription": {
+    "description": "Info"
+  },
+  "driverEligibilityNotice": "Please only switch to a driver account if you are a registered taxi driver or taxi owner in the Turkish Republic of Northern Cyprus. Providing false information may result in account restrictions or removal from the platform.",
+  "@driverEligibilityNotice": {
+    "description": "Info"
+  },
+  "iConfirmDriverEligibility": "I confirm that I am a registered taxi driver or taxi owner in the Turkish Republic of Northern Cyprus and meet the requirements to provide taxi services.",
+  "@iConfirmDriverEligibility": {
+    "description": "Info"
+  },
+  "switchToDriverAccount": "Switch to Driver Account",
+  "@switchToDriverAccount": {
+    "description": "Info"
+  },
+  "driverAccountActivated": "Driver Account Activated",
+  "@driverAccountActivated": {
+    "description": "Info"
+  },
+  "driverAccountActivatedDescription": "Your account has been switched to a driver account. You can now access Kipgo's driver features.",
+  "@driverAccountActivatedDescription": {
+    "description": "Info"
+  },
+  "unableToChangeAccountRole": "We couldn't change your account role. Please try again.",
+  "@unableToChangeAccountRole": {
+    "description": "Info"
+  },
+  "continueText": "Continue",
+  "@continueText": {
+    "description": "Info"
   }
 }

@@ -3783,4 +3783,134 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get hidePassword => 'Hide password';
+
+  @override
+  String get newLabel => 'NEW';
+
+  @override
+  String get pickupCap => 'PICKUP';
+
+  @override
+  String get destinationCap => 'DESTINATION';
+
+  @override
+  String get distanceCap => 'DISTANCE';
+
+  @override
+  String get eta => 'ETA';
+
+  @override
+  String mins(int time) {
+    return '$time mins';
+  }
+
+  @override
+  String get tripCap => 'TRIP';
+
+  @override
+  String get durationCap => 'DURATION';
+
+  @override
+  String get notVerified => 'Not verified';
+
+  @override
+  String get personalInfo => 'Personal Information';
+
+  @override
+  String get keepYourProfileDetails => 'Keep your profile details up to date.';
+
+  @override
+  String get forAccountVerification =>
+      'Used for account verification and contact.';
+
+  @override
+  String get verificationNumber => 'Verification number';
+
+  @override
+  String get enterCode => 'ENTER CODE';
+
+  @override
+  String get sixDigitCode => '6-digit verification code';
+
+  @override
+  String get yourVerificationCodeIsSecure => 'Your verification code is secure';
+
+  @override
+  String get currentProfilePicture => 'Current profile picture';
+
+  @override
+  String get noProfilePictureSelected => 'No profile picture selected';
+
+  @override
+  String get tapCameraButton => 'Tap the camera button to choose a new photo';
+
+  @override
+  String get useClearPhoto =>
+      'Use a clear photo where your face is easily recognizable.';
+
+  @override
+  String get uploadingProfilePicture => 'Uploading profile picture';
+
+  @override
+  String get pleaseWaitWhileUpload =>
+      'Please wait while your photo is uploaded';
+
+  @override
+  String get becomeADriver => 'Become a Driver';
+
+  @override
+  String get driveWithKipgo => 'Drive with Kipgo';
+
+  @override
+  String get driveWithKipgoDescription =>
+      'Turn your journeys into opportunities. Become a Kipgo driver and provide taxi services to passengers across Northern Cyprus.';
+
+  @override
+  String get beforeYouContinue => 'Before you continue';
+
+  @override
+  String get registeredTaxiDriver => 'Registered Taxi Driver or Owner';
+
+  @override
+  String get registeredTaxiDriverDescription =>
+      'You must be a legally registered taxi driver or taxi owner and be authorized to provide taxi services.';
+
+  @override
+  String get northernCyprusRequirement => 'Turkish Republic of Northern Cyprus';
+
+  @override
+  String get northernCyprusRequirementDescription =>
+      'Kipgo driver services are intended for registered taxi drivers and owners operating in the Turkish Republic of Northern Cyprus.';
+
+  @override
+  String get legalCompliance => 'Legal Compliance';
+
+  @override
+  String get legalComplianceDescription =>
+      'You are responsible for maintaining all required taxi, vehicle, insurance and operating documents.';
+
+  @override
+  String get driverEligibilityNotice =>
+      'Please only switch to a driver account if you are a registered taxi driver or taxi owner in the Turkish Republic of Northern Cyprus. Providing false information may result in account restrictions or removal from the platform.';
+
+  @override
+  String get iConfirmDriverEligibility =>
+      'I confirm that I am a registered taxi driver or taxi owner in the Turkish Republic of Northern Cyprus and meet the requirements to provide taxi services.';
+
+  @override
+  String get switchToDriverAccount => 'Switch to Driver Account';
+
+  @override
+  String get driverAccountActivated => 'Driver Account Activated';
+
+  @override
+  String get driverAccountActivatedDescription =>
+      'Your account has been switched to a driver account. You can now access Kipgo\'s driver features.';
+
+  @override
+  String get unableToChangeAccountRole =>
+      'We couldn\'t change your account role. Please try again.';
+
+  @override
+  String get continueText => 'Continue';
 }

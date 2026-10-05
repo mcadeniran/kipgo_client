@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kipgo/screens/rides/riders/request_ride.dart';
 import 'package:kipgo/screens/rides/riders/ride_card.dart';
 import 'package:provider/provider.dart';
 import 'package:kipgo/controllers/profile_provider.dart';
@@ -283,7 +284,11 @@ class _RideHistoryScreenState extends State<RideHistoryScreen> {
 
             ElevatedButton.icon(
               onPressed: () {
-                Navigator.pop(context);
+                // Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RequestRide()),
+                );
               },
               icon: const Icon(Icons.local_taxi_outlined),
               label: Text(loc.bookARide),

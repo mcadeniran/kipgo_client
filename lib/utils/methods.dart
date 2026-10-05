@@ -6,7 +6,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:kipgo/controllers/profile_provider.dart';
-import 'package:kipgo/helpers/helpers.dart';
 import 'package:kipgo/infoHandler/app_info.dart';
 import 'package:kipgo/models/direction.dart';
 import 'package:kipgo/models/direction_details_info.dart';
@@ -142,43 +141,104 @@ class AppMethods {
   //   Geofire.removeLocation(userId);
   // }
 
+  // static Future<void> sendNotificationToDriverNow(
+  //   String deviceRegistrationToken,
+  //   String userRideRequestId,
+  //   String driverId,
+  //   context,
+  // ) async {
+  //   // String destinationAddress = userDropOffAddress;
+
+  //   String username = Provider.of<ProfileProvider>(
+  //     context,
+  //     listen: false,
+  //   ).profile!.username;
+
+  //   String pickupAddress = Provider.of<AppInfo>(
+  //     context,
+  //     listen: false,
+  //   ).userPickUpLocation!.locationName!;
+
+  //   String destinationAddress = Provider.of<AppInfo>(
+  //     context,
+  //     listen: false,
+  //   ).userDropOffLocation!.locationName!;
+
+  //   final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
+  //     'sendNotificationToDriver',
+  //   );
+
+  //   final response = await callable.call({
+  //     "token": deviceRegistrationToken,
+  //     "rideRequestId": userRideRequestId,
+  //     "username": username,
+  //     "pickupAddress": pickupAddress,
+  //     "dropoffAddress": destinationAddress,
+  //     "driverId": driverId,
+  //   });
+
+  //   // print("Response from notification:  $response");
+
+  //   if (response.data["success"] == true) {
+  //   } else {
+  //     // print("Failed to send notification");
+  //   }
+  // }
+
   static Future<void> sendNotificationToDriverNow(
     String deviceRegistrationToken,
     String userRideRequestId,
     String driverId,
     context,
   ) async {
-    String destinationAddress = userDropOffAddress;
+    try {
+      final profile = Provider.of<ProfileProvider>(
+        context,
+        listen: false,
+      ).profile!;
 
-    String username = Provider.of<ProfileProvider>(
-      context,
-      listen: false,
-    ).profile!.username;
+      final appInfo = Provider.of<AppInfo>(context, listen: false);
 
-    String pickupAddress = Provider.of<AppInfo>(
-      context,
-      listen: false,
-    ).userPickUpLocation!.locationName!;
+      final pickupAddress = appInfo.userPickUpLocation?.locationName ?? '';
 
-    final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
-      'sendNotificationToDriver',
-    );
+      final destinationAddress =
+          appInfo.userDropOffLocation?.locationName ?? '';
 
-    final response = await callable.call({
-      "token": deviceRegistrationToken,
-      "rideRequestId": userRideRequestId,
-      "username": username,
-      "pickupAddress": pickupAddress,
-      "dropoffAddress": destinationAddress,
-      "driverId": driverId,
-    });
+      final callable = FirebaseFunctions.instance.httpsCallable(
+        'sendNotificationToDriver',
+      );
 
-    // print("Response from notification:  $response");
+      // debugPrint('🚨 BEFORE FCM');
+      // debugPrint('🆔 Ride ID: $userRideRequestId');
+      // debugPrint('👤 Driver ID: $driverId');
+      // debugPrint('📱 Token: $deviceRegistrationToken');
 
-    if (response.data["success"] == true) {
-      // print("Notification sent successfully");
-    } else {
-      // print("Failed to send notification");
+      final response = await callable.call({
+        'token': deviceRegistrationToken,
+        'rideRequestId': userRideRequestId,
+        'username': profile.username,
+        'pickupAddress': pickupAddress,
+        'dropoffAddress': destinationAddress,
+        'driverId': driverId,
+      });
+
+      // debugPrint('📨 FCM RESPONSE: ${response.data}');
+
+      if (response.data['success'] == true) {
+        debugPrint('✅ DRIVER NOTIFICATION SENT');
+        // debugPrint('📨 Message ID: ${response.data['messageId']}');
+      } else {
+        // debugPrint('⚠️ DRIVER NOTIFICATION FAILED');
+        // debugPrint('📦 Response: ${response.data}');
+      }
+    } on FirebaseFunctionsException catch (e) {
+      debugPrint('❌ FIREBASE FUNCTION ERROR');
+      debugPrint('Code: ${e.code}');
+      debugPrint('Message: ${e.message}');
+      debugPrint('Details: ${e.details}');
+    } catch (e, stackTrace) {
+      debugPrint('❌ UNEXPECTED FCM ERROR: $e');
+      debugPrint('$stackTrace');
     }
   }
 

@@ -7029,6 +7029,240 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hide password'**
   String get hidePassword;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'NEW'**
+  String get newLabel;
+
+  /// Infp
+  ///
+  /// In en, this message translates to:
+  /// **'PICKUP'**
+  String get pickupCap;
+
+  /// Infp
+  ///
+  /// In en, this message translates to:
+  /// **'DESTINATION'**
+  String get destinationCap;
+
+  /// Infp
+  ///
+  /// In en, this message translates to:
+  /// **'DISTANCE'**
+  String get distanceCap;
+
+  /// Infp
+  ///
+  /// In en, this message translates to:
+  /// **'ETA'**
+  String get eta;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'{time} mins'**
+  String mins(int time);
+
+  /// Infp
+  ///
+  /// In en, this message translates to:
+  /// **'TRIP'**
+  String get tripCap;
+
+  /// Infp
+  ///
+  /// In en, this message translates to:
+  /// **'DURATION'**
+  String get durationCap;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Not verified'**
+  String get notVerified;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Information'**
+  String get personalInfo;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Keep your profile details up to date.'**
+  String get keepYourProfileDetails;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Used for account verification and contact.'**
+  String get forAccountVerification;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Verification number'**
+  String get verificationNumber;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'ENTER CODE'**
+  String get enterCode;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'6-digit verification code'**
+  String get sixDigitCode;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your verification code is secure'**
+  String get yourVerificationCodeIsSecure;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Current profile picture'**
+  String get currentProfilePicture;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'No profile picture selected'**
+  String get noProfilePictureSelected;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the camera button to choose a new photo'**
+  String get tapCameraButton;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Use a clear photo where your face is easily recognizable.'**
+  String get useClearPhoto;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading profile picture'**
+  String get uploadingProfilePicture;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait while your photo is uploaded'**
+  String get pleaseWaitWhileUpload;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Become a Driver'**
+  String get becomeADriver;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Drive with Kipgo'**
+  String get driveWithKipgo;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Turn your journeys into opportunities. Become a Kipgo driver and provide taxi services to passengers across Northern Cyprus.'**
+  String get driveWithKipgoDescription;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Before you continue'**
+  String get beforeYouContinue;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Registered Taxi Driver or Owner'**
+  String get registeredTaxiDriver;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'You must be a legally registered taxi driver or taxi owner and be authorized to provide taxi services.'**
+  String get registeredTaxiDriverDescription;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Turkish Republic of Northern Cyprus'**
+  String get northernCyprusRequirement;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Kipgo driver services are intended for registered taxi drivers and owners operating in the Turkish Republic of Northern Cyprus.'**
+  String get northernCyprusRequirementDescription;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Legal Compliance'**
+  String get legalCompliance;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'You are responsible for maintaining all required taxi, vehicle, insurance and operating documents.'**
+  String get legalComplianceDescription;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Please only switch to a driver account if you are a registered taxi driver or taxi owner in the Turkish Republic of Northern Cyprus. Providing false information may result in account restrictions or removal from the platform.'**
+  String get driverEligibilityNotice;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'I confirm that I am a registered taxi driver or taxi owner in the Turkish Republic of Northern Cyprus and meet the requirements to provide taxi services.'**
+  String get iConfirmDriverEligibility;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to Driver Account'**
+  String get switchToDriverAccount;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Driver Account Activated'**
+  String get driverAccountActivated;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has been switched to a driver account. You can now access Kipgo\'s driver features.'**
+  String get driverAccountActivatedDescription;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t change your account role. Please try again.'**
+  String get unableToChangeAccountRole;
+
+  /// Info
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueText;
 }
 
 class _AppLocalizationsDelegate

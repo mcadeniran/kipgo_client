@@ -96,43 +96,78 @@ class AppInfo extends ChangeNotifier {
                     listen: false,
                   ).profile;
 
+                  if (userP == null) {
+                    throw Exception('User profile not found');
+                  }
+
                   final review = Review(
                     rating: rating,
                     details: reviews,
                     rideId: rideId,
-                    reviewerId: userP!.id,
+                    reviewerId: userP.id,
                     reviewerName: userP.username,
                     reviewerPhotoUrl: userP.personal.photoUrl,
                     createdAt: DateTime.now(),
                   );
 
-                  // Save review to driver profile
-                  final driverId = data['driverId'];
-                  final docRef = FirebaseFirestore.instance
-                      .collection("profiles")
-                      .doc(driverId);
+                  try {
+                    // ---------------------------------------------------------
+                    // 1. SAVE REVIEW TO DRIVER PROFILE
+                    // ---------------------------------------------------------
 
-                  await docRef.update({
-                    "personal.reviews": FieldValue.arrayUnion([review.toMap()]),
-                  });
+                    final driverId = data['driverId']?.toString();
 
-                  // Mark as rated
-                  final rideRef = FirebaseDatabase.instance
-                      .ref()
-                      .child("All Ride Requests")
-                      .child(rideId);
+                    if (driverId == null || driverId.isEmpty) {
+                      throw Exception('Driver ID not found for ride $rideId');
+                    }
 
-                  // setRideRatingVisible(false);
-                  ctx.read<AppReviewProvider>().setRideRatingVisible(false);
+                    final driverRef = FirebaseFirestore.instance
+                        .collection('profiles')
+                        .doc(driverId);
 
-                  await rideRef.update({"isRated": true});
+                    await driverRef.update({
+                      'personal.reviews': FieldValue.arrayUnion([
+                        review.toMap(),
+                      ]),
+                    });
 
-                  // ✅ Stop listener & clear active ride
-                  stopActiveRideListener();
+                    debugPrint('✅ Driver review saved: $driverId');
 
-                  // _checkAndShowAppRating();
-                  ctx.read<AppReviewProvider>().checkAndTriggerReview();
+                    // ---------------------------------------------------------
+                    // 2. WAIT FOR CLOUD FUNCTION + MARK RIDE AS RATED
+                    // ---------------------------------------------------------
+
+                    await _markRideAsRated(rideId);
+
+                    // ---------------------------------------------------------
+                    // 3. HIDE RATING UI
+                    // ---------------------------------------------------------
+
+                    if (ctx.mounted) {
+                      ctx.read<AppReviewProvider>().setRideRatingVisible(false);
+                    }
+
+                    // ---------------------------------------------------------
+                    // 4. STOP ACTIVE RIDE LISTENER
+                    // ---------------------------------------------------------
+
+                    await stopActiveRideListener();
+
+                    // ---------------------------------------------------------
+                    // 5. CHECK APP REVIEW
+                    // ---------------------------------------------------------
+
+                    if (ctx.mounted) {
+                      ctx.read<AppReviewProvider>().checkAndTriggerReview();
+                    }
+                  } catch (e, stackTrace) {
+                    debugPrint('❌ Failed to submit ride rating: $e');
+                    debugPrintStack(stackTrace: stackTrace);
+
+                    rethrow;
+                  }
                 },
+
                 onCancel: () {
                   // setRideRatingVisible(false);
                   ctx.read<AppReviewProvider>().setRideRatingVisible(false);
@@ -149,6 +184,35 @@ class AppInfo extends ChangeNotifier {
 
       notifyListeners();
     });
+  }
+
+  Future<void> _markRideAsRated(String rideId) async {
+    final rideHistoryRef = FirebaseFirestore.instance
+        .collection('taxiRideHistory')
+        .doc(rideId);
+
+    const maxAttempts = 10;
+    const delay = Duration(milliseconds: 500);
+
+    for (int attempt = 0; attempt < maxAttempts; attempt++) {
+      final snapshot = await rideHistoryRef.get();
+
+      if (snapshot.exists) {
+        await rideHistoryRef.update({'isRated': true});
+
+        debugPrint('✅ Ride marked as rated in Firestore: $rideId');
+        return;
+      }
+
+      debugPrint(
+        '⏳ rideHistory/$rideId not available yet '
+        '(attempt ${attempt + 1}/$maxAttempts)',
+      );
+
+      await Future.delayed(delay);
+    }
+
+    throw Exception('Ride history document was not created in time.');
   }
 
   /// If rideId isn't known (app restarted), find any active ride for this user

@@ -1,3 +1,4 @@
+// import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:geolocator/geolocator.dart';
@@ -235,6 +236,24 @@ class _CustomerHomeState extends State<CustomerHome> {
 
                 const SizedBox(height: 20),
 
+                // ElevatedButton(
+                //   onPressed: () async {
+                //     final functions = FirebaseFunctions.instanceFor(
+                //       region: 'europe-west1',
+                //     );
+
+                //     final callable = functions.httpsCallable(
+                //       'migrateOldTaxiRides',
+                //     );
+
+                //     // final result = await callable.call();
+
+                //     final result = await callable.call({'dryRun': true});
+
+                //     print(result.data);
+                //   },
+                //   child: Text('RUN SCRIPT'),
+                // ),
                 // --------------------------------------------------
                 // FOOTER MESSAGE
                 // --------------------------------------------------
@@ -512,117 +531,117 @@ class _CustomerHomeState extends State<CustomerHome> {
   // POPULAR DESTINATIONS CARD
   // ==============================================================
 
-  Widget _buildPopularDestinations(BuildContext context, bool isDark) {
-    final destinations = [
-      (
-        title: 'Airport',
-        subtitle: 'Ercan International',
-        icon: Icons.flight_takeoff_rounded,
-      ),
-      (
-        title: 'Kyrenia',
-        subtitle: 'City centre',
-        icon: Icons.location_city_outlined,
-      ),
-      (
-        title: 'Nicosia',
-        subtitle: 'Capital city',
-        icon: Icons.apartment_rounded,
-      ),
-    ];
+  // Widget _buildPopularDestinations(BuildContext context, bool isDark) {
+  //   final destinations = [
+  //     (
+  //       title: 'Airport',
+  //       subtitle: 'Ercan International',
+  //       icon: Icons.flight_takeoff_rounded,
+  //     ),
+  //     (
+  //       title: 'Kyrenia',
+  //       subtitle: 'City centre',
+  //       icon: Icons.location_city_outlined,
+  //     ),
+  //     (
+  //       title: 'Nicosia',
+  //       subtitle: 'Capital city',
+  //       icon: Icons.apartment_rounded,
+  //     ),
+  //   ];
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildSectionTitle(context, 'Popular destinations'),
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       _buildSectionTitle(context, 'Popular destinations'),
 
-        const SizedBox(height: 12),
+  //       const SizedBox(height: 12),
 
-        SizedBox(
-          height: 125,
+  //       SizedBox(
+  //         height: 125,
 
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
+  //         child: ListView.separated(
+  //           scrollDirection: Axis.horizontal,
 
-            physics: const BouncingScrollPhysics(),
+  //           physics: const BouncingScrollPhysics(),
 
-            itemCount: destinations.length,
+  //           itemCount: destinations.length,
 
-            separatorBuilder: (_, __) => const SizedBox(width: 12),
+  //           separatorBuilder: (_, __) => const SizedBox(width: 12),
 
-            itemBuilder: (context, index) {
-              final destination = destinations[index];
+  //           itemBuilder: (context, index) {
+  //             final destination = destinations[index];
 
-              return Container(
-                width: 150,
+  //             return Container(
+  //               width: 150,
 
-                padding: const EdgeInsets.all(16),
+  //               padding: const EdgeInsets.all(16),
 
-                decoration: BoxDecoration(
-                  color: isDark ? AppColors.darkAccent : Colors.white,
+  //               decoration: BoxDecoration(
+  //                 color: isDark ? AppColors.darkAccent : Colors.white,
 
-                  borderRadius: BorderRadius.circular(20),
+  //                 borderRadius: BorderRadius.circular(20),
 
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: .04),
-                      blurRadius: 16,
-                      offset: const Offset(0, 6),
-                    ),
-                  ],
-                ),
+  //                 boxShadow: [
+  //                   BoxShadow(
+  //                     color: Colors.black.withValues(alpha: .04),
+  //                     blurRadius: 16,
+  //                     offset: const Offset(0, 6),
+  //                   ),
+  //                 ],
+  //               ),
 
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+  //               child: Column(
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
 
-                  children: [
-                    Container(
-                      width: 40,
-                      height: 40,
+  //                 children: [
+  //                   Container(
+  //                     width: 40,
+  //                     height: 40,
 
-                      decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: .08),
+  //                     decoration: BoxDecoration(
+  //                       color: AppColors.primary.withValues(alpha: .08),
 
-                        borderRadius: BorderRadius.circular(12),
-                      ),
+  //                       borderRadius: BorderRadius.circular(12),
+  //                     ),
 
-                      child: Icon(
-                        destination.icon,
-                        color: isDark ? AppColors.darkLayer : AppColors.primary,
-                      ),
-                    ),
+  //                     child: Icon(
+  //                       destination.icon,
+  //                       color: isDark ? AppColors.darkLayer : AppColors.primary,
+  //                     ),
+  //                   ),
 
-                    const Spacer(),
+  //                   const Spacer(),
 
-                    Text(
-                      destination.title,
-                      style: GoogleFonts.poppins(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
+  //                   Text(
+  //                     destination.title,
+  //                     style: GoogleFonts.poppins(
+  //                       fontSize: 13,
+  //                       fontWeight: FontWeight.w700,
+  //                     ),
+  //                   ),
 
-                    const SizedBox(height: 2),
+  //                   const SizedBox(height: 2),
 
-                    Text(
-                      destination.subtitle,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+  //                   Text(
+  //                     destination.subtitle,
+  //                     maxLines: 1,
+  //                     overflow: TextOverflow.ellipsis,
 
-                      style: GoogleFonts.poppins(
-                        fontSize: 10,
-                        color: Colors.blueGrey,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
+  //                     style: GoogleFonts.poppins(
+  //                       fontSize: 10,
+  //                       color: Colors.blueGrey,
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             );
+  //           },
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   // ==============================================================
   // GUEST CARD

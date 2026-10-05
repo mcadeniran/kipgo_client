@@ -6,7 +6,6 @@ import 'package:kipgo/controllers/driver_ride_provider.dart';
 import 'package:kipgo/controllers/driver_status_provider.dart';
 import 'package:kipgo/infoHandler/app_info.dart';
 import 'package:kipgo/models/profile.dart';
-import 'package:kipgo/screens/driver_rating_page.dart';
 import 'package:kipgo/screens/edit_profile.dart';
 import 'package:kipgo/screens/rides/active_ride_widget.dart';
 import 'package:kipgo/screens/rides/drivers/active_drive_widget.dart';
@@ -20,7 +19,6 @@ import 'package:kipgo/controllers/theme_provider.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/pushNotification/push_notification_system.dart';
 import 'package:kipgo/utils/colors.dart';
-import '../rides/drivers/my_drives_screen.dart';
 
 class DriverHome extends StatefulWidget {
   const DriverHome({super.key});

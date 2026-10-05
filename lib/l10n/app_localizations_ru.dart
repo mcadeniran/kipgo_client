@@ -3838,4 +3838,137 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get hidePassword => 'Скрыть пароль';
+
+  @override
+  String get newLabel => 'НОВЫЙ';
+
+  @override
+  String get pickupCap => 'ПОСАДКА';
+
+  @override
+  String get destinationCap => 'НАЗНАЧЕНИЕ';
+
+  @override
+  String get distanceCap => 'РАССТОЯНИЕ';
+
+  @override
+  String get eta => 'ВРЕМЯ ПРИБЫТИЯ';
+
+  @override
+  String mins(int time) {
+    return '$time мин.';
+  }
+
+  @override
+  String get tripCap => 'ПОЕЗДКА';
+
+  @override
+  String get durationCap => 'ПРОДОЛЖИТЕЛЬНОСТЬ';
+
+  @override
+  String get notVerified => 'Не подтверждено';
+
+  @override
+  String get personalInfo => 'Личная информация';
+
+  @override
+  String get keepYourProfileDetails =>
+      'Поддерживайте данные своего профиля в актуальном состоянии.';
+
+  @override
+  String get forAccountVerification =>
+      'Используется для подтверждения аккаунта и связи с вами.';
+
+  @override
+  String get verificationNumber => 'Номер для подтверждения';
+
+  @override
+  String get enterCode => 'ВВЕДИТЕ КОД';
+
+  @override
+  String get sixDigitCode => '6-значный код подтверждения';
+
+  @override
+  String get yourVerificationCodeIsSecure => 'Ваш код подтверждения защищён';
+
+  @override
+  String get currentProfilePicture => 'Текущее фото профиля';
+
+  @override
+  String get noProfilePictureSelected => 'Фото профиля не выбрано';
+
+  @override
+  String get tapCameraButton =>
+      'Нажмите кнопку камеры, чтобы выбрать новое фото';
+
+  @override
+  String get useClearPhoto =>
+      'Используйте чёткое фото, на котором ваше лицо легко распознать.';
+
+  @override
+  String get uploadingProfilePicture => 'Загрузка фото профиля...';
+
+  @override
+  String get pleaseWaitWhileUpload =>
+      'Пожалуйста, подождите, пока ваше фото загружается.';
+
+  @override
+  String get becomeADriver => 'Стать водителем';
+
+  @override
+  String get driveWithKipgo => 'Работайте водителем с Kipgo';
+
+  @override
+  String get driveWithKipgoDescription =>
+      'Превратите свои поездки в возможности. Станьте водителем Kipgo и предоставляйте услуги такси пассажирам по всему Северному Кипру.';
+
+  @override
+  String get beforeYouContinue => 'Перед продолжением';
+
+  @override
+  String get registeredTaxiDriver =>
+      'Зарегистрированный водитель такси или владелец';
+
+  @override
+  String get registeredTaxiDriverDescription =>
+      'Вы должны быть официально зарегистрированным водителем такси или владельцем такси и иметь право предоставлять услуги такси.';
+
+  @override
+  String get northernCyprusRequirement => 'Турецкая Республика Северного Кипра';
+
+  @override
+  String get northernCyprusRequirementDescription =>
+      'Услуги для водителей Kipgo предназначены для зарегистрированных водителей такси и владельцев, работающих в Турецкой Республике Северного Кипра.';
+
+  @override
+  String get legalCompliance => 'Соблюдение законодательства';
+
+  @override
+  String get legalComplianceDescription =>
+      'Вы несёте ответственность за наличие и актуальность всех необходимых документов на такси, транспортное средство, страховку и деятельность.';
+
+  @override
+  String get driverEligibilityNotice =>
+      'Переходите на аккаунт водителя только в том случае, если вы являетесь зарегистрированным водителем такси или владельцем такси в Турецкой Республике Северного Кипра. Предоставление недостоверной информации может привести к ограничению или удалению аккаунта.';
+
+  @override
+  String get iConfirmDriverEligibility =>
+      'Я подтверждаю, что являюсь зарегистрированным водителем такси или владельцем такси в Турецкой Республике Северного Кипра и соответствую требованиям для предоставления услуг такси.';
+
+  @override
+  String get switchToDriverAccount => 'Перейти на аккаунт водителя';
+
+  @override
+  String get driverAccountActivated => 'Аккаунт водителя активирован';
+
+  @override
+  String get driverAccountActivatedDescription =>
+      'Ваш аккаунт переведён в режим водителя. Теперь вам доступны функции Kipgo для водителей.';
+
+  @override
+  String get unableToChangeAccountRole =>
+      'Не удалось изменить роль аккаунта. Пожалуйста, попробуйте ещё раз.';
+
+  @override
+  String get continueText => 'Продолжить';
 }

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -332,19 +331,22 @@ class RideCard extends StatelessWidget {
   }
 
   void _showRatingDialog(BuildContext context) {
-    AppLocalizations loc = AppLocalizations.of(context)!;
+    final loc = AppLocalizations.of(context)!;
+
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (_) => RatingDialog(
-        onSubmit: (rating, reviews) async {
+        onSubmit: (rating, reviewText) async {
           final userP = context.read<ProfileProvider>().profile;
 
-          if (userP == null) return;
+          if (userP == null) {
+            throw Exception('User profile not found');
+          }
 
           final review = Review(
             rating: rating,
-            details: reviews,
+            details: reviewText,
             rideId: ride.id,
             reviewerId: userP.id,
             reviewerName: userP.username,
@@ -353,29 +355,46 @@ class RideCard extends StatelessWidget {
           );
 
           try {
-            final docRef = FirebaseFirestore.instance
-                .collection("profiles")
+            // ---------------------------------------------------------
+            // 1. UPDATE DRIVER PROFILE WITH THE REVIEW
+            // ---------------------------------------------------------
+
+            final driverRef = FirebaseFirestore.instance
+                .collection('profiles')
                 .doc(ride.driverId);
 
-            await docRef.update({
-              "personal.reviews": FieldValue.arrayUnion([review.toMap()]),
+            await driverRef.update({
+              'personal.reviews': FieldValue.arrayUnion([review.toMap()]),
             });
 
-            final rideRef = FirebaseDatabase.instance
-                .ref()
-                .child("All Ride Requests")
-                .child(ride.id);
+            debugPrint('✅ Driver review successfully added: ${ride.driverId}');
 
-            await rideRef.update({"isRated": true});
-          } catch (e) {
+            // ---------------------------------------------------------
+            // 2. MARK THE RIDE AS RATED IN FIRESTORE
+            // ---------------------------------------------------------
+
+            final rideRef = FirebaseFirestore.instance
+                .collection('taxiRideHistory')
+                .doc(ride.id);
+
+            await rideRef.update({'isRated': true});
+
+            debugPrint('✅ Ride marked as rated: ${ride.id}');
+          } catch (e, stackTrace) {
+            debugPrint('❌ Failed to submit ride review: $e');
+
+            debugPrintStack(stackTrace: stackTrace);
+
             if (context.mounted) {
               ReusableToast.error(
                 context,
                 loc.failedToSubmitReview,
                 e.toString(),
               );
-              debugPrint("Failed to submit review: $e");
             }
+
+            // Keep the dialog open if either Firestore operation fails.
+            rethrow;
           }
         },
       ),

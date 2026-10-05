@@ -106,16 +106,16 @@ class _CarsCategoryPageState extends State<CarsCategoryPage> {
     );
   }
 
-  void _clearSearch() {
-    searchController.clear();
+  // void _clearSearch() {
+  //   searchController.clear();
 
-    final provider = Provider.of<CarProvider>(context, listen: false);
+  //   final provider = Provider.of<CarProvider>(context, listen: false);
 
-    provider.searchQuery = null;
-    provider.applyFilters();
+  //   provider.searchQuery = null;
+  //   provider.applyFilters();
 
-    setState(() {});
-  }
+  //   setState(() {});
+  // }
 
   void _openSortSheet(bool isDark) {
     showModalBottomSheet(

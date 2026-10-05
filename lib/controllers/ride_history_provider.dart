@@ -1,70 +1,111 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
 import '../models/ride_history.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
+
 class RideHistoryProvider with ChangeNotifier {
-  final DatabaseReference _ridesRef = FirebaseDatabase.instance.ref(
-    "All Ride Requests",
-  );
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   List<RideHistory> _userRides = [];
+
   List<RideHistory> get userRides => _userRides;
 
   bool _isLoading = false;
+
   bool get isLoading => _isLoading;
 
-  /// Fetch rides for a specific userId
-  Future<void> fetchUserRides(String userId) async {
+  Stream<QuerySnapshot<Map<String, dynamic>>>? _ridesStream;
+
+  StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _subscription;
+
+  void fetchUserRides(String userId) {
+    // Cancel any previous listener.
+    _subscription?.cancel();
+
     _isLoading = true;
     notifyListeners();
 
-    _ridesRef.orderByChild("userId").equalTo(userId).onValue.listen((event) {
-      final data = event.snapshot.value as Map<dynamic, dynamic>?;
+    _ridesStream = _firestore
+        .collection('taxiRideHistory')
+        .where('userId', isEqualTo: userId)
+        .orderBy('time', descending: true)
+        .snapshots();
 
-      if (data != null) {
-        _userRides = data.entries.map((entry) {
-          final rideData = Map<String, dynamic>.from(entry.value);
-          return RideHistory.fromRealtime(rideData, entry.key);
+    _subscription = _ridesStream!.listen(
+      (snapshot) {
+        _userRides = snapshot.docs.map((doc) {
+          return RideHistory.fromFirestore(doc.data(), doc.id);
         }).toList();
 
-        _userRides.sort((a, b) => b.time.compareTo(a.time));
-      } else {
-        _userRides = [];
-      }
+        _isLoading = false;
+        notifyListeners();
+      },
+      onError: (error) {
+        debugPrint('❌ Error fetching taxi ride history: $error');
 
-      _isLoading = false;
-      notifyListeners();
-    });
+        _userRides = [];
+        _isLoading = false;
+        notifyListeners();
+      },
+    );
   }
 
+  /// Delete a ride from Firestore history.
+  ///
+  /// This does NOT touch the Realtime Database because completed
+  /// rides are now permanently stored in Firestore.
   Future<void> deleteRide(String rideId) async {
-    // Find the ride before removal (so we can rollback if needed)
-    final rideToDelete = _userRides.firstWhere(
-      (ride) => ride.id == rideId,
-      orElse: () => throw Exception("Ride not found"),
-    );
+    final rideIndex = _userRides.indexWhere((ride) => ride.id == rideId);
 
-    // Optimistically remove from local list
-    _userRides.removeWhere((ride) => ride.id == rideId);
+    if (rideIndex == -1) {
+      throw Exception('Ride not found');
+    }
+
+    final rideToDelete = _userRides[rideIndex];
+
+    // Optimistically remove from local list.
+    _userRides.removeAt(rideIndex);
     notifyListeners();
 
     try {
-      // Try deleting from Firebase
-      await _ridesRef.child(rideId).remove();
+      await _firestore.collection('taxiRideHistory').doc(rideId).delete();
     } catch (e) {
-      // Rollback (put the ride back if deletion fails)
-      _userRides.add(rideToDelete);
+      // Rollback if Firestore deletion fails.
+      _userRides.insert(rideIndex, rideToDelete);
 
-      // Re-sort to maintain order
       _userRides.sort((a, b) => b.time.compareTo(a.time));
+
       notifyListeners();
 
-      throw Exception("Error deleting ride: $e");
+      debugPrint('❌ Error deleting taxi ride history: $e');
+
+      throw Exception('Error deleting ride: $e');
     }
   }
 
+  /// Restore a ride locally.
+  ///
+  /// Usually not needed when using Firestore snapshots because
+  /// the listener will automatically update the list, but kept
+  /// for compatibility with existing UI code.
   void restoreRide(RideHistory ride, int index) {
-    _userRides.insert(index, ride);
+    if (index < 0 || index > _userRides.length) {
+      _userRides.add(ride);
+    } else {
+      _userRides.insert(index, ride);
+    }
+
+    _userRides.sort((a, b) => b.time.compareTo(a.time));
+
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _subscription?.cancel();
+    super.dispose();
   }
 }

@@ -10,6 +10,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kipgo/controllers/driver_status_provider.dart';
 import 'package:kipgo/helpers/location_settings_helper.dart';
+import 'package:kipgo/screens/homes/driver_taxi_bottom_navigation.dart';
 import 'package:kipgo/screens/widgets/ride_location_card_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
@@ -17,7 +18,6 @@ import 'package:kipgo/controllers/profile_provider.dart';
 import 'package:kipgo/helpers/helpers.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/models/user_ride_request_information.dart';
-import 'package:kipgo/screens/homes/driver_home.dart';
 import 'package:kipgo/screens/widgets/progress_dialog.dart';
 import 'package:kipgo/utils/colors.dart';
 import 'package:kipgo/utils/methods.dart';
@@ -85,20 +85,18 @@ class _NewTripScreenState extends State<NewTripScreen>
   static const int _lerpSteps = 12;
   static const Duration _lerpTick = Duration(milliseconds: 16);
 
-  late BitmapDescriptor arrowIcon;
+  BitmapDescriptor? arrowIcon;
 
   List<LatLng> _activeRoutePoints = [];
 
   Future<void> _loadArrowIcon() async {
     try {
-      ImageConfiguration imageConfiguration = ImageConfiguration(
-        size: Size(20, 20),
-      );
+      const imageConfiguration = ImageConfiguration(size: Size(10, 10));
 
-      BitmapDescriptor.asset(
+      arrowIcon = await BitmapDescriptor.asset(
         imageConfiguration,
         'assets/images/arrow.png',
-      ).then((value) => arrowIcon = value);
+      );
     } catch (e) {
       debugPrint('Failed to load arrow icon: $e');
     }
@@ -155,16 +153,39 @@ class _NewTripScreenState extends State<NewTripScreen>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    streamSubscriptionDriverLivePosition?.cancel();
-    rideStatusSubscription?.cancel();
-    newTripGoogleMapController?.dispose();
-    _lerpTimer?.cancel();
-    // _firebaseUploadDebounce?.cancel();
+
+    cleanupResources();
+
     WakelockPlus.disable();
+
     super.dispose();
   }
 
+  // void _addArrowMarkers(List<LatLng> route) {
+  //   markersSet.removeWhere((m) => m.markerId.value.startsWith('arrow_'));
+
+  //   for (int i = 0; i < route.length - 1; i += 3) {
+  //     final from = route[i];
+  //     final to = route[i + 1];
+  //     final bearing = _computeBearing(from, to);
+
+  //     markersSet.add(
+  //       Marker(
+  //         markerId: MarkerId('arrow_$i'),
+  //         position: from,
+  //         rotation: bearing,
+  //         flat: true,
+  //         anchor: const Offset(0.5, 0.5),
+  //         icon: arrowIcon,
+  //         zIndexInt: 5,
+  //       ),
+  //     );
+  //   }
+  // }
+
   void _addArrowMarkers(List<LatLng> route) {
+    if (arrowIcon == null) return;
+
     markersSet.removeWhere((m) => m.markerId.value.startsWith('arrow_'));
 
     for (int i = 0; i < route.length - 1; i += 3) {
@@ -179,7 +200,7 @@ class _NewTripScreenState extends State<NewTripScreen>
           rotation: bearing,
           flat: true,
           anchor: const Offset(0.5, 0.5),
-          icon: arrowIcon,
+          icon: arrowIcon!,
           zIndexInt: 5,
         ),
       );
@@ -236,32 +257,35 @@ class _NewTripScreenState extends State<NewTripScreen>
         ),
       );
 
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
       setState(() {});
     });
   }
 
-  // -------------------------
-  // MAP & ICON LOADING
-  // -------------------------
   Future<void> _createDriverIconMarker() async {
     if (iconAnimateMarker != null) return;
-    try {
-      ImageConfiguration imageConfiguration = ImageConfiguration(
-        size: Size(35, 35),
-      );
 
-      BitmapDescriptor.asset(
+    try {
+      const imageConfiguration = ImageConfiguration(size: Size(35, 35));
+
+      iconAnimateMarker = await BitmapDescriptor.asset(
         imageConfiguration,
         'assets/images/car.png',
-      ).then((value) => iconAnimateMarker = value);
+      );
     } catch (e) {
-      // fallback to default marker if asset fails
       iconAnimateMarker = BitmapDescriptor.defaultMarkerWithHue(
         BitmapDescriptor.hueAzure,
       );
+
       debugPrint('Failed to load car icon: $e');
     }
-    setState(() {});
+
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   Future<void> _loadMapStyle() async {
@@ -317,16 +341,22 @@ class _NewTripScreenState extends State<NewTripScreen>
 
     if (!mounted) return;
     cleanupResources();
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (_) => const DriverHome()),
-      (r) => false,
-    );
+
+    _exitNewTripScreen();
   }
 
   void cleanupResources() {
     streamSubscriptionDriverLivePosition?.cancel();
+    streamSubscriptionDriverLivePosition = null;
+
+    rideStatusSubscription?.cancel();
+    rideStatusSubscription = null;
+
+    _lerpTimer?.cancel();
+    _lerpTimer = null;
+
     newTripGoogleMapController?.dispose();
+    newTripGoogleMapController = null;
   }
 
   double _distanceInMeters(LatLng a, LatLng b) {
@@ -643,140 +673,565 @@ class _NewTripScreenState extends State<NewTripScreen>
         .remove();
 
     if (!mounted) return;
-    Navigator.pop(context);
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (_) => const DriverHome()),
-      (r) => false,
+
+    Navigator.pop(context); // Close ProgressDialog
+
+    if (!mounted) return;
+
+    Navigator.of(context).pop(); // Remove NewTripScreen
+  }
+
+  bool _isExitingTrip = false;
+
+  void _exitNewTripScreen() {
+    if (_isExitingTrip || !mounted) return;
+
+    _isExitingTrip = true;
+
+    Navigator.of(context).pop();
+  }
+
+  Widget _buildMapTopOverlay(bool isDark) {
+    return Positioned(
+      top: MediaQuery.of(context).padding.top + 14,
+      left: 16,
+      right: 16,
+      child: Row(
+        children: [
+          _buildMapGlassButton(
+            isDark: isDark,
+            icon: Icons.arrow_back_ios_new_rounded,
+            onTap: () {
+              // Intentionally left disabled during an active trip.
+              // The trip should be completed/cancelled through the ride flow.
+            },
+            enabled: false,
+          ),
+          const Spacer(),
+          _buildStatusPill(isDark),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMapGlassButton({
+    required bool isDark,
+    required IconData icon,
+    required VoidCallback onTap,
+    bool enabled = true,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: enabled ? onTap : null,
+        borderRadius: BorderRadius.circular(15),
+        child: Container(
+          width: 46,
+          height: 46,
+          decoration: BoxDecoration(
+            color: isDark
+                ? AppColors.darkAccent.withValues(alpha: 0.88)
+                : Colors.white.withValues(alpha: 0.94),
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.14),
+                blurRadius: 18,
+                offset: const Offset(0, 5),
+              ),
+            ],
+          ),
+          child: Icon(
+            icon,
+            size: 19,
+            color: isDark ? Colors.white : AppColors.darkAccent,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStatusPill(bool isDark) {
+    final bool isOnTrip = rideRequestStatus == 'ontrip';
+    final bool isArrived = rideRequestStatus == 'arrived';
+
+    final String label = isOnTrip
+        ? AppLocalizations.of(context)!.onTrip
+        : isArrived
+        ? AppLocalizations.of(context)!.waitingForRider
+        : "Driver Enroute";
+
+    final IconData icon = isOnTrip
+        ? Icons.navigation_rounded
+        : isArrived
+        ? Icons.person_pin_circle_rounded
+        : Icons.directions_car_filled_rounded;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(
+        color: isDark
+            ? AppColors.darkAccent.withValues(alpha: 0.92)
+            : Colors.white.withValues(alpha: 0.96),
+        borderRadius: BorderRadius.circular(18),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.14),
+            blurRadius: 18,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 8,
+            height: 8,
+            decoration: const BoxDecoration(
+              color: Colors.green,
+              shape: BoxShape.circle,
+            ),
+          ),
+          const SizedBox(width: 8),
+          Icon(icon, size: 17, color: AppColors.primary),
+          const SizedBox(width: 7),
+          Text(
+            label,
+            style: Theme.of(
+              context,
+            ).textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w800),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTripBottomPanel(bool isDark) {
+    final ride = widget.userRideRequestDetails!;
+
+    final String statusText = rideRequestStatus == 'arrived'
+        ? AppLocalizations.of(context)!.waitingForRider
+        : rideRequestStatus == 'accepted'
+        ? "$durationFromOriginToDestination "
+              "${AppLocalizations.of(context)!.toPickup}"
+        : "$durationFromOriginToDestination "
+              "${AppLocalizations.of(context)!.toDropoff}";
+
+    final bool isArrived = rideRequestStatus == 'arrived';
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.18),
+            blurRadius: 30,
+            offset: const Offset(0, -8),
+          ),
+        ],
+      ),
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(18, 10, 18, 12),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Handle
+              Container(
+                width: 42,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: isDark ? Colors.white24 : Colors.black12,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+
+              const SizedBox(height: 14),
+
+              // Status / ETA
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 13,
+                ),
+                decoration: BoxDecoration(
+                  color: isDark ? AppColors.darkAccent : AppColors.lightAccent,
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(
+                    color: isDark
+                        ? Colors.white.withValues(alpha: 0.06)
+                        : AppColors.border.withValues(alpha: 0.45),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 42,
+                      height: 42,
+                      decoration: BoxDecoration(
+                        color: AppColors.primary.withValues(
+                          alpha: isDark ? 0.24 : 0.08,
+                        ),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        isArrived
+                            ? Icons.location_on_rounded
+                            : Icons.navigation_rounded,
+                        color: AppColors.primary,
+                        size: 21,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            isArrived
+                                ? AppLocalizations.of(context)!.waitingForRider
+                                : durationFromOriginToDestination.isEmpty
+                                ? "Calculating"
+                                : durationFromOriginToDestination,
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(fontWeight: FontWeight.w900),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            isArrived
+                                ? "At Pickup"
+                                : rideRequestStatus == 'accepted'
+                                ? AppLocalizations.of(context)!.toPickup
+                                : AppLocalizations.of(context)!.toDropoff,
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  color: Theme.of(context).colorScheme.onSurface
+                                      .withValues(alpha: 0.58),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 12),
+
+              // Route card
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  color: isDark
+                      ? AppColors.darkAccent
+                      : Theme.of(context).cardColor,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: isDark
+                        ? Colors.white.withValues(alpha: 0.05)
+                        : AppColors.border.withValues(alpha: 0.4),
+                  ),
+                ),
+                child: RideLocationCard(
+                  currentLocation: ride.originAddress!,
+                  destinationAddress: ride.destinationAddress!,
+                ),
+              ),
+
+              const SizedBox(height: 12),
+
+              // Actions
+              Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: 54,
+                      child: ElevatedButton.icon(
+                        onPressed: onPrimaryButtonPressed,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          shadowColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(17),
+                          ),
+                        ),
+                        icon: Icon(
+                          isArrived
+                              ? Icons.play_arrow_rounded
+                              : Icons.directions_car_filled_rounded,
+                          size: 22,
+                        ),
+                        label: Text(
+                          buttonTitle,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(width: 10),
+
+                  SizedBox(
+                    width: 54,
+                    height: 54,
+                    child: Material(
+                      color: isDark
+                          ? AppColors.darkAccent
+                          : AppColors.lightAccent,
+                      borderRadius: BorderRadius.circular(17),
+                      child: InkWell(
+                        onTap: () =>
+                            _makePhoneCall(context, ride.userPhone ?? ''),
+                        borderRadius: BorderRadius.circular(17),
+                        child: Icon(
+                          Icons.phone_rounded,
+                          color: AppColors.primary,
+                          size: 22,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 4),
+
+              // Rider name
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.person_outline_rounded,
+                    size: 15,
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.45),
+                  ),
+                  const SizedBox(width: 5),
+                  Text(
+                    ride.username ?? '',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.55),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
   // -------------------------
   // MAP UI
   // -------------------------
+
   @override
   Widget build(BuildContext context) {
     final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
     final ride = widget.userRideRequestDetails;
-    if (ride == null) return const SizedBox.shrink();
 
-    final driverPhone = ride.userPhone ?? '';
+    if (ride == null) {
+      return const SizedBox.shrink();
+    }
 
     return Scaffold(
-      body: Column(
+      extendBody: true,
+      body: Stack(
         children: [
-          Expanded(
+          // ============================================================
+          // MAP
+          // ============================================================
+          Positioned.fill(
             child: GoogleMap(
-              padding: EdgeInsets.only(bottom: 100),
+              padding: const EdgeInsets.only(bottom: 110),
               mapType: MapType.normal,
               myLocationEnabled: false,
               initialCameraPosition: _kGooglePlex,
               markers: markersSet,
               circles: circlesSet,
               polylines: polylinesSet,
+
               onMapCreated: (controller) {
                 if (!_controllerGoogleMap.isCompleted) {
                   _controllerGoogleMap.complete(controller);
                 }
+
                 newTripGoogleMapController = controller;
+
                 if (isDark && _mapStyle != null) {
                   newTripGoogleMapController!.setMapStyle(_mapStyle);
                 }
 
-                // once map ready:
                 mapOnReadyActions();
               },
+
               zoomControlsEnabled: false,
               myLocationButtonEnabled: false,
+              compassEnabled: false,
+              mapToolbarEnabled: false,
               tiltGesturesEnabled: true,
               rotateGesturesEnabled: true,
             ),
           ),
 
-          // Bottom panel (kept your original UI)
-          Container(
-            padding: EdgeInsets.fromLTRB(
-              12,
-              12,
-              12,
-              MediaQuery.of(context).padding.bottom + 6,
-            ),
-            color: Theme.of(context).scaffoldBackgroundColor,
-            child: Column(
-              children: [
-                RideLocationCard(
-                  currentLocation:
-                      widget.userRideRequestDetails!.originAddress!,
-                  destinationAddress:
-                      widget.userRideRequestDetails!.destinationAddress!,
-                ),
-                const SizedBox(height: 10),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: isDark
-                        ? AppColors.darkAccent
-                        : AppColors.lightAccent,
-                  ),
-                  child: Column(
-                    children: [
-                      Text(
-                        rideRequestStatus == 'arrived'
-                            ? AppLocalizations.of(context)!.waitingForRider
-                            : rideRequestStatus == 'accepted'
-                            ? "$durationFromOriginToDestination ${AppLocalizations.of(context)!.toPickup}"
-                            : "$durationFromOriginToDestination ${AppLocalizations.of(context)!.toDropoff}",
-                        style: Theme.of(context).textTheme.labelMedium,
-                      ),
-                      const SizedBox(height: 5),
-                      Divider(color: AppColors.border, thickness: 0.5),
-                      const SizedBox(height: 5),
-                      ElevatedButton.icon(
-                        onPressed: onPrimaryButtonPressed,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.all(16),
-                          minimumSize: const Size.fromHeight(50),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        icon: const Icon(Icons.directions_car, size: 25),
-                        label: Text(buttonTitle),
-                      ),
-                      const SizedBox(height: 8),
-                      ElevatedButton(
-                        onPressed: () => _makePhoneCall(context, driverPhone),
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: AppColors.primary,
-                          backgroundColor: Colors.white,
-                          padding: const EdgeInsets.all(8),
-                          minimumSize: const Size.fromHeight(50),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(Icons.call, size: 28),
-                            const SizedBox(width: 12),
-                            Text(widget.userRideRequestDetails!.username!),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+          // ============================================================
+          // MAP TOP OVERLAY
+          // ============================================================
+          _buildMapTopOverlay(isDark),
+
+          // ============================================================
+          // BOTTOM RIDE CONTROL PANEL
+          // ============================================================
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: _buildTripBottomPanel(isDark),
           ),
         ],
       ),
     );
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   final isDark = Provider.of<ThemeProvider>(context).isDarkMode;
+  //   final ride = widget.userRideRequestDetails;
+  //   if (ride == null) return const SizedBox.shrink();
+
+  //   final driverPhone = ride.userPhone ?? '';
+
+  //   return Scaffold(
+  //     body: Column(
+  //       children: [
+  //         Expanded(
+  //           child: GoogleMap(
+  //             padding: EdgeInsets.only(bottom: 100),
+  //             mapType: MapType.normal,
+  //             myLocationEnabled: false,
+  //             initialCameraPosition: _kGooglePlex,
+  //             markers: markersSet,
+  //             circles: circlesSet,
+  //             polylines: polylinesSet,
+  //             onMapCreated: (controller) {
+  //               if (!_controllerGoogleMap.isCompleted) {
+  //                 _controllerGoogleMap.complete(controller);
+  //               }
+  //               newTripGoogleMapController = controller;
+  //               if (isDark && _mapStyle != null) {
+  //                 newTripGoogleMapController!.setMapStyle(_mapStyle);
+  //               }
+
+  //               // once map ready:
+  //               mapOnReadyActions();
+  //             },
+  //             zoomControlsEnabled: false,
+  //             myLocationButtonEnabled: false,
+  //             tiltGesturesEnabled: true,
+  //             rotateGesturesEnabled: true,
+  //           ),
+  //         ),
+
+  //         // Bottom panel (kept your original UI)
+  //         Container(
+  //           padding: EdgeInsets.fromLTRB(
+  //             12,
+  //             12,
+  //             12,
+  //             MediaQuery.of(context).padding.bottom + 6,
+  //           ),
+  //           color: Theme.of(context).scaffoldBackgroundColor,
+  //           child: Column(
+  //             children: [
+  //               RideLocationCard(
+  //                 currentLocation:
+  //                     widget.userRideRequestDetails!.originAddress!,
+  //                 destinationAddress:
+  //                     widget.userRideRequestDetails!.destinationAddress!,
+  //               ),
+  //               const SizedBox(height: 10),
+  //               Container(
+  //                 padding: const EdgeInsets.all(8),
+  //                 decoration: BoxDecoration(
+  //                   borderRadius: BorderRadius.circular(12),
+  //                   color: isDark
+  //                       ? AppColors.darkAccent
+  //                       : AppColors.lightAccent,
+  //                 ),
+  //                 child: Column(
+  //                   children: [
+  //                     Text(
+  //                       rideRequestStatus == 'arrived'
+  //                           ? AppLocalizations.of(context)!.waitingForRider
+  //                           : rideRequestStatus == 'accepted'
+  //                           ? "$durationFromOriginToDestination ${AppLocalizations.of(context)!.toPickup}"
+  //                           : "$durationFromOriginToDestination ${AppLocalizations.of(context)!.toDropoff}",
+  //                       style: Theme.of(context).textTheme.labelMedium,
+  //                     ),
+  //                     const SizedBox(height: 5),
+  //                     Divider(color: AppColors.border, thickness: 0.5),
+  //                     const SizedBox(height: 5),
+  //                     ElevatedButton.icon(
+  //                       onPressed: onPrimaryButtonPressed,
+  //                       style: ElevatedButton.styleFrom(
+  //                         backgroundColor: AppColors.primary,
+  //                         foregroundColor: Colors.white,
+  //                         padding: const EdgeInsets.all(16),
+  //                         minimumSize: const Size.fromHeight(50),
+  //                         shape: RoundedRectangleBorder(
+  //                           borderRadius: BorderRadius.circular(12),
+  //                         ),
+  //                       ),
+  //                       icon: const Icon(Icons.directions_car, size: 25),
+  //                       label: Text(buttonTitle),
+  //                     ),
+  //                     const SizedBox(height: 8),
+  //                     ElevatedButton(
+  //                       onPressed: () => _makePhoneCall(context, driverPhone),
+  //                       style: ElevatedButton.styleFrom(
+  //                         foregroundColor: AppColors.primary,
+  //                         backgroundColor: Colors.white,
+  //                         padding: const EdgeInsets.all(8),
+  //                         minimumSize: const Size.fromHeight(50),
+  //                         shape: RoundedRectangleBorder(
+  //                           borderRadius: BorderRadius.circular(12),
+  //                         ),
+  //                       ),
+  //                       child: Row(
+  //                         mainAxisAlignment: MainAxisAlignment.center,
+  //                         children: [
+  //                           const Icon(Icons.call, size: 28),
+  //                           const SizedBox(width: 12),
+  //                           Text(widget.userRideRequestDetails!.username!),
+  //                         ],
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   // Called when map created
   void mapOnReadyActions() {

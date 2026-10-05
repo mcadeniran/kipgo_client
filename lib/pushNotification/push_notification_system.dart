@@ -13,7 +13,7 @@ import 'package:kipgo/pushNotification/notification_dialog_box.dart';
 import 'package:kipgo/screens/admin/rentals/admin_bookings/admin_crypto_payment_details_page.dart';
 import 'package:kipgo/screens/rental/bookings/widgets/booking_details_page.dart';
 import 'package:kipgo/screens/rental_owner/rental_booking_details/rental_booking_details_page.dart';
-import 'package:kipgo/screens/rides/drivers/new_trip_screen.dart';
+// import 'package:kipgo/screens/rides/drivers/new_trip_screen.dart';
 import 'package:kipgo/screens/settings/vehicle_details_screen.dart';
 import 'package:kipgo/screens/shuttle/booking_details/shuttle_booking_details_page.dart';
 import 'package:kipgo/screens/widgets/reusable_toast.dart';
@@ -43,12 +43,12 @@ class PushNotificationSystem {
 
   Future<void> initializeCloudMessaging(BuildContext context) async {
     if (_isInitialized) {
-      debugPrint("⚠️ PushNotificationSystem already initialized — skipping");
+      debugPrint("PushNotificationSystem already initialized — skipping");
       return;
     }
 
     _isInitialized = true;
-    debugPrint("🚀 Initializing PushNotificationSystem...");
+    debugPrint("Initializing PushNotificationSystem...");
 
     FirebaseMessaging.onMessage.drain();
     FirebaseMessaging.onMessageOpenedApp.drain();
@@ -99,11 +99,14 @@ class PushNotificationSystem {
 
     if (notificationType == 'rideRequest') {
       final rideRequestId = remoteMessage.data['rideRequestId'];
+
       if (rideRequestId != null) {
         readUserRideRequestInformation(rideRequestId);
       } else {
-        debugPrint("⚠️ Missing rideRequestId in notification data.");
+        debugPrint(' Missing rideRequestId in notification data.');
       }
+
+      return;
     } else if (notificationType == 'accountStatus') {
       final title = remoteMessage.data['title'] ?? "Notice";
       final body = remoteMessage.data['body'] ?? "";
@@ -126,7 +129,9 @@ class PushNotificationSystem {
       debugPrint('UNKNOWN NOTIFICATION TYPE RECEIVED');
     }
 
-    if (!fromUserTap && !_isBusinessNotification(notificationType)) {
+    if (!fromUserTap &&
+        notificationType != 'rideRequest' &&
+        !_isBusinessNotification(notificationType)) {
       NotificationService().showNotification(
         title: remoteMessage.notification?.title ?? remoteMessage.data['title'],
 
@@ -302,39 +307,110 @@ class PushNotificationSystem {
       }
 
       if (driverId == "waiting" || driverId == uid) {
-        final snapData = await FirebaseDatabase.instance
-            .ref("All Ride Requests/$userRideRequestId")
-            .get();
+        final snapData = await _waitForCompleteRideRequest(userRideRequestId);
 
-        if (snapData.value != null && ctx.mounted) {
-          final rideData = Map<String, dynamic>.from(snapData.value as Map);
-          final userRideRequestDetails =
-              UserRideRequestInformation.fromRealtime(
-                snapData.key!,
-                rideData,
-                driverId,
-              );
+        if (snapData == null) {
+          debugPrint(
+            "❌ Could not obtain complete ride request "
+            "$userRideRequestId",
+          );
 
-          // ✅ Only show if no dialog already active
-          if (!_isDialogShowing) {
-            // 🔔 Start ringing sound
-            RingtoneService().playRideRequestTone();
+          _isProcessingRide = false;
+          return;
+        }
 
-            _isDialogShowing = true;
-            showRideRequestBottomSheet(
-              context: ctx,
-              ride: userRideRequestDetails,
-              onDialogClosed: () {
-                RingtoneService().stop();
-                _isDialogShowing = false;
-                _isProcessingRide = false;
-              },
-              priceKey: priceKey,
-              priceController: priceController,
-            );
-          } else {
-            _isProcessingRide = false;
-          }
+        final rawValue = snapData.value;
+
+        if (rawValue is! Map) {
+          debugPrint(
+            "❌ Ride request $userRideRequestId has invalid data: $rawValue",
+          );
+
+          _isProcessingRide = false;
+          return;
+        }
+
+        final rideData = Map<String, dynamic>.from(rawValue);
+
+        debugPrint("════════════════════════════════");
+        debugPrint("🚕 DRIVER RIDE REQUEST");
+        debugPrint("🆔 Ride ID: $userRideRequestId");
+        debugPrint("🔑 Keys: ${rideData.keys.toList()}");
+        debugPrint("👤 userId: ${rideData['userId']}");
+        debugPrint("👤 username: ${rideData['username']}");
+        debugPrint("📍 origin: ${rideData['origin']}");
+        debugPrint("📍 destination: ${rideData['destination']}");
+        debugPrint("🚗 driverId: ${rideData['driverId']}");
+        debugPrint("════════════════════════════════");
+
+        final requiredFields = [
+          'origin',
+          'destination',
+          'originAddress',
+          'destinationAddress',
+          'userId',
+          'username',
+          'userPhone',
+          'tripEstimates',
+        ];
+
+        final missingFields = requiredFields
+            .where((field) => rideData[field] == null)
+            .toList();
+
+        if (missingFields.isNotEmpty) {
+          debugPrint(
+            "⚠️ Ride request is incomplete. "
+            "Missing: $missingFields",
+          );
+
+          _isProcessingRide = false;
+          return;
+        }
+
+        final origin = rideData['origin'];
+
+        final destination = rideData['destination'];
+
+        if (origin is! Map ||
+            destination is! Map ||
+            origin['latitude'] == null ||
+            origin['longitude'] == null ||
+            destination['latitude'] == null ||
+            destination['longitude'] == null) {
+          debugPrint("❌ Ride request has invalid origin/destination data.");
+
+          _isProcessingRide = false;
+          return;
+        }
+
+        final userRideRequestDetails = UserRideRequestInformation.fromRealtime(
+          userRideRequestId,
+          rideData,
+          driverId,
+        );
+
+        if (!ctx.mounted) {
+          _isProcessingRide = false;
+          return;
+        }
+
+        if (!_isDialogShowing) {
+          RingtoneService().playRideRequestTone();
+
+          _isDialogShowing = true;
+
+          showRideRequestBottomSheet(
+            context: ctx,
+            ride: userRideRequestDetails,
+            onDialogClosed: () {
+              RingtoneService().stop();
+              _isDialogShowing = false;
+              _isProcessingRide = false;
+            },
+            priceKey: priceKey,
+            priceController: priceController,
+          );
         } else {
           _isProcessingRide = false;
         }
@@ -375,17 +451,105 @@ class PushNotificationSystem {
                 onAcceptRide!();
               }
 
-              Navigator.of(ctx).pushReplacement(
-                MaterialPageRoute(
-                  builder: (_) => NewTripScreen(userRideRequestDetails: ride),
-                ),
-              );
+              // Navigator.of(ctx).push(
+              //   MaterialPageRoute(
+              //     builder: (_) => NewTripScreen(userRideRequestDetails: ride),
+              //   ),
+              // );
             },
             child: Text(AppLocalizations.of(ctx)!.ok),
           ),
         ],
       ),
     );
+  }
+
+  Future<DataSnapshot?> _waitForCompleteRideRequest(
+    String rideRequestId, {
+    int maxAttempts = 10,
+    Duration retryDelay = const Duration(milliseconds: 300),
+  }) async {
+    final rideRef = FirebaseDatabase.instance.ref(
+      "All Ride Requests/$rideRequestId",
+    );
+
+    const requiredFields = [
+      'origin',
+      'destination',
+      'originAddress',
+      'destinationAddress',
+      'userId',
+      'username',
+      'userPhone',
+      'tripEstimates',
+    ];
+
+    for (int attempt = 1; attempt <= maxAttempts; attempt++) {
+      try {
+        final snapshot = await rideRef.get();
+
+        debugPrint("════════════════════════════════");
+        debugPrint("🔎 RTDB RIDE DEBUG");
+        debugPrint("📍 PATH: All Ride Requests/$rideRequestId");
+        debugPrint("✅ EXISTS: ${snapshot.exists}");
+        debugPrint("📦 VALUE: ${snapshot.value}");
+        debugPrint("════════════════════════════════");
+
+        if (!snapshot.exists || snapshot.value == null) {
+          debugPrint(
+            "⏳ Ride $rideRequestId not available yet "
+            "(attempt $attempt/$maxAttempts)",
+          );
+
+          await Future.delayed(retryDelay);
+          continue;
+        }
+
+        if (snapshot.value is! Map) {
+          debugPrint(
+            "⚠️ Ride $rideRequestId returned invalid data "
+            "(attempt $attempt/$maxAttempts)",
+          );
+
+          await Future.delayed(retryDelay);
+          continue;
+        }
+
+        final data = Map<String, dynamic>.from(snapshot.value as Map);
+
+        final missingFields = requiredFields
+            .where((field) => data[field] == null)
+            .toList();
+
+        if (missingFields.isEmpty) {
+          debugPrint("✅ Complete ride request received on attempt $attempt");
+
+          return snapshot;
+        }
+
+        debugPrint(
+          "⏳ Ride request incomplete "
+          "(attempt $attempt/$maxAttempts). "
+          "Missing: $missingFields",
+        );
+
+        await Future.delayed(retryDelay);
+      } catch (e) {
+        debugPrint(
+          "⚠️ Error reading ride request "
+          "(attempt $attempt/$maxAttempts): $e",
+        );
+
+        await Future.delayed(retryDelay);
+      }
+    }
+
+    debugPrint(
+      "❌ Ride request $rideRequestId remained incomplete "
+      "after $maxAttempts attempts.",
+    );
+
+    return null;
   }
 
   void showFareRejectedDialog() {

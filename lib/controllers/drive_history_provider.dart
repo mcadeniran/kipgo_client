@@ -1,14 +1,10 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
 import '../models/ride_history.dart';
 
 class DriveHistoryProvider with ChangeNotifier {
-  final DatabaseReference _ridesRef = FirebaseDatabase.instance.ref(
-    'All Ride Requests',
-  );
-
   List<RideHistory> _driverRides = [];
 
   List<RideHistory> get driverRides => _driverRides;
@@ -19,7 +15,9 @@ class DriveHistoryProvider with ChangeNotifier {
   String? _error;
   String? get error => _error;
 
-  StreamSubscription<DatabaseEvent>? _ridesSubscription;
+  StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _ridesSubscription;
+
+  Stream<QuerySnapshot<Map<String, dynamic>>>? _ridesStream;
 
   Future<void> fetchDriverRides(String driverId) async {
     // Cancel any previous listener.
@@ -29,84 +27,90 @@ class DriveHistoryProvider with ChangeNotifier {
     _error = null;
     notifyListeners();
 
-    final query = _ridesRef.orderByChild('driverId').equalTo(driverId);
+    // final query = _ridesRef.orderByChild('driverId').equalTo(driverId);
+    _ridesStream = FirebaseFirestore.instance
+        .collection('taxiRideHistory')
+        .where('driverId', isEqualTo: driverId)
+        .orderBy('time', descending: true)
+        .snapshots();
 
-    _ridesSubscription = query.onValue.listen(
-      (event) {
-        try {
-          final value = event.snapshot.value;
+    _ridesSubscription = _ridesStream!.listen((snapshot) {
+      _driverRides = snapshot.docs.map((doc) {
+        return RideHistory.fromFirestore(doc.data(), doc.id);
+      }).toList();
 
-          // debugPrint('========================================');
-          // debugPrint('DRIVER RIDE HISTORY');
-          // debugPrint('Driver ID: $driverId');
-          // debugPrint('Snapshot exists: ${event.snapshot.exists}');
-          // debugPrint('Snapshot value type: ${value.runtimeType}');
-          // debugPrint('Snapshot value: $value');
-          // debugPrint('========================================');
+      _isLoading = false;
+      notifyListeners();
+    });
 
-          if (value == null) {
-            _driverRides = [];
-          } else if (value is Map) {
-            final rides = <RideHistory>[];
+    // _ridesSubscription = query.onValue.listen(
+    //   (event) {
+    //     try {
+    //       final value = event.snapshot.value;
 
-            value.forEach((key, rawRide) {
-              if (rawRide is! Map) {
-                debugPrint(
-                  'Skipping ride $key because value is '
-                  '${rawRide.runtimeType}, not a Map.',
-                );
-                return;
-              }
+    //       if (value == null) {
+    //         _driverRides = [];
+    //       } else if (value is Map) {
+    //         final rides = <RideHistory>[];
 
-              try {
-                final rideData = Map<String, dynamic>.from(rawRide);
+    //         value.forEach((key, rawRide) {
+    //           if (rawRide is! Map) {
+    //             debugPrint(
+    //               'Skipping ride $key because value is '
+    //               '${rawRide.runtimeType}, not a Map.',
+    //             );
+    //             return;
+    //           }
 
-                // debugPrint(
-                //   'Matched ride: $key | '
-                //   'driverId=${rideData['driverId']} | '
-                //   'status=${rideData['status']} | '
-                //   'proposedFare=${rideData['proposedFare']}',
-                // );
+    //           try {
+    //             final rideData = Map<String, dynamic>.from(rawRide);
 
-                rides.add(RideHistory.fromRealtime(rideData, key.toString()));
-              } catch (e, stackTrace) {
-                debugPrint('Failed to parse ride $key: $e');
-                debugPrintStack(stackTrace: stackTrace);
-              }
-            });
+    //             // debugPrint(
+    //             //   'Matched ride: $key | '
+    //             //   'driverId=${rideData['driverId']} | '
+    //             //   'status=${rideData['status']} | '
+    //             //   'proposedFare=${rideData['proposedFare']}',
+    //             // );
 
-            rides.sort((a, b) => b.time.compareTo(a.time));
+    //             rides.add(RideHistory.fromRealtime(rideData, key.toString()));
+    //           } catch (e, stackTrace) {
+    //             debugPrint('Failed to parse ride $key: $e');
+    //             debugPrintStack(stackTrace: stackTrace);
+    //           }
+    //         });
 
-            _driverRides = rides;
-          } else {
-            debugPrint(
-              'Unexpected Realtime Database structure: '
-              '${value.runtimeType}',
-            );
+    //         rides.sort((a, b) => b.time.compareTo(a.time));
 
-            _driverRides = [];
-          }
+    //         _driverRides = rides;
+    //       } else {
+    //         debugPrint(
+    //           'Unexpected Realtime Database structure: '
+    //           '${value.runtimeType}',
+    //         );
 
-          _isLoading = false;
-          notifyListeners();
-        } catch (e, stackTrace) {
-          debugPrint('Error processing driver rides: $e');
-          debugPrintStack(stackTrace: stackTrace);
+    //         _driverRides = [];
+    //       }
 
-          _error = e.toString();
-          _isLoading = false;
-          notifyListeners();
-        }
-      },
-      onError: (Object error, StackTrace stackTrace) {
-        debugPrint('Realtime Database listener error: $error');
-        debugPrintStack(stackTrace: stackTrace);
+    //       _isLoading = false;
+    //       notifyListeners();
+    //     } catch (e, stackTrace) {
+    //       debugPrint('Error processing driver rides: $e');
+    //       debugPrintStack(stackTrace: stackTrace);
 
-        _error = error.toString();
-        _isLoading = false;
-        notifyListeners();
-      },
-    );
+    //       _error = e.toString();
+    //       _isLoading = false;
+    //       notifyListeners();
+    //     }
+    //   },
+    //   onError: (Object error, StackTrace stackTrace) {
+    //     debugPrint('Realtime Database listener error: $error');
+    //     debugPrintStack(stackTrace: stackTrace);
+
+    //     _error = error.toString();
+    //     _isLoading = false;
+    //     notifyListeners();
+    //   },
+    // );
   }
 
   @override

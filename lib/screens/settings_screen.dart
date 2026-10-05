@@ -7,6 +7,7 @@ import 'package:kipgo/controllers/auth_provider.dart';
 import 'package:kipgo/models/profile.dart';
 import 'package:kipgo/screens/auth/auth_screen.dart';
 import 'package:kipgo/screens/auth/main_app_bottom_navigation.dart';
+import 'package:kipgo/screens/settings/become_driver_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
@@ -252,8 +253,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       },
                     ),
 
-                    Divider(height: 1, color: dividerColor),
+                    // ============================================================
+                    // BECOME A DRIVER — USER ONLY
+                    // ============================================================
+                    if (profile.role == 'rider') ...[
+                      Divider(height: 1, color: dividerColor),
 
+                      _buildSettingItem(
+                        context,
+                        icon: Icons.local_taxi_outlined,
+                        title: loc.becomeADriver,
+                        iconColor: AppColors.secondary,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const BecomeDriverScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+
+                    Divider(height: 1, color: dividerColor),
                     _buildSettingItem(
                       context,
                       icon: Icons.delete_outline_rounded,

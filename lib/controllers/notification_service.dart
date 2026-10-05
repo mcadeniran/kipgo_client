@@ -148,7 +148,7 @@ class NotificationService {
     if (!_isInitiated) return; // Ensure plugin is injected first
 
     const initSettingsAndroid = AndroidInitializationSettings(
-      "@mipmap/ic_launcher",
+      "ic_stat_kipgo_notification",
     );
 
     const initSettingsIos = DarwinInitializationSettings(
@@ -185,6 +185,7 @@ class NotificationService {
         priority: Priority.high,
         playSound: true,
         sound: RawResourceAndroidNotificationSound('notification'),
+        icon: 'ic_stat_kipgo_notification',
       ),
       iOS: DarwinNotificationDetails(
         presentSound: true,

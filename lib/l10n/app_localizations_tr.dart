@@ -3787,4 +3787,136 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get hidePassword => 'Şifreyi gizle';
+
+  @override
+  String get newLabel => 'YENİ';
+
+  @override
+  String get pickupCap => 'ALIM';
+
+  @override
+  String get destinationCap => 'VARIŞ';
+
+  @override
+  String get distanceCap => 'MESAFE';
+
+  @override
+  String get eta => 'TAHMİNİ SÜRE';
+
+  @override
+  String mins(int time) {
+    return '$time dk';
+  }
+
+  @override
+  String get tripCap => 'YOLCULUK';
+
+  @override
+  String get durationCap => 'SÜRE';
+
+  @override
+  String get notVerified => 'Doğrulanmadı';
+
+  @override
+  String get personalInfo => 'Kişisel Bilgiler';
+
+  @override
+  String get keepYourProfileDetails => 'Profil bilgilerinizi güncel tutun.';
+
+  @override
+  String get forAccountVerification =>
+      'Hesap doğrulama ve iletişim için kullanılır.';
+
+  @override
+  String get verificationNumber => 'Doğrulama Numarası';
+
+  @override
+  String get enterCode => 'KODU GİRİN';
+
+  @override
+  String get sixDigitCode => '6 haneli doğrulama kodu';
+
+  @override
+  String get yourVerificationCodeIsSecure => 'Doğrulama kodunuz güvendedir';
+
+  @override
+  String get currentProfilePicture => 'Mevcut profil fotoğrafı';
+
+  @override
+  String get noProfilePictureSelected => 'Profil fotoğrafı seçilmedi';
+
+  @override
+  String get tapCameraButton =>
+      'Yeni bir fotoğraf seçmek için kamera düğmesine dokunun';
+
+  @override
+  String get useClearPhoto =>
+      'Yüzünüzün kolayca tanınabildiği net bir fotoğraf kullanın.';
+
+  @override
+  String get uploadingProfilePicture => 'Profil fotoğrafı yükleniyor...';
+
+  @override
+  String get pleaseWaitWhileUpload =>
+      'Fotoğrafınız yüklenirken lütfen bekleyin.';
+
+  @override
+  String get becomeADriver => 'Sürücü Ol';
+
+  @override
+  String get driveWithKipgo => 'Kipgo ile Sürüş Yapın';
+
+  @override
+  String get driveWithKipgoDescription =>
+      'Yolculuklarınızı fırsata dönüştürün. Kipgo sürücüsü olarak Kuzey Kıbrıs genelinde yolculara taksi hizmeti sunabilirsiniz.';
+
+  @override
+  String get beforeYouContinue => 'Devam etmeden önce';
+
+  @override
+  String get registeredTaxiDriver =>
+      'Kayıtlı Taksi Sürücüsü veya İşletme Sahibi';
+
+  @override
+  String get registeredTaxiDriverDescription =>
+      'Yasal olarak kayıtlı bir taksi sürücüsü veya taksi sahibi olmanız ve taksi hizmeti sunmaya yetkili olmanız gerekir.';
+
+  @override
+  String get northernCyprusRequirement => 'Kuzey Kıbrıs Türk Cumhuriyeti';
+
+  @override
+  String get northernCyprusRequirementDescription =>
+      'Kipgo sürücü hizmetleri, Kuzey Kıbrıs Türk Cumhuriyeti\'nde faaliyet gösteren kayıtlı taksi sürücüleri ve sahipleri içindir.';
+
+  @override
+  String get legalCompliance => 'Yasal Gereklilikler';
+
+  @override
+  String get legalComplianceDescription =>
+      'Gerekli taksi, araç, sigorta ve işletme belgelerini güncel tutmaktan siz sorumlusunuz.';
+
+  @override
+  String get driverEligibilityNotice =>
+      'Lütfen yalnızca Kuzey Kıbrıs Türk Cumhuriyeti\'nde kayıtlı bir taksi sürücüsü veya taksi sahibiyseniz sürücü hesabına geçin. Yanlış bilgi verilmesi hesabınızın kısıtlanmasına veya platformdan kaldırılmasına neden olabilir.';
+
+  @override
+  String get iConfirmDriverEligibility =>
+      'Kuzey Kıbrıs Türk Cumhuriyeti\'nde kayıtlı bir taksi sürücüsü veya taksi sahibi olduğumu ve taksi hizmeti sunmak için gerekli şartları karşıladığımı onaylıyorum.';
+
+  @override
+  String get switchToDriverAccount => 'Sürücü Hesabına Geç';
+
+  @override
+  String get driverAccountActivated => 'Sürücü Hesabı Etkinleştirildi';
+
+  @override
+  String get driverAccountActivatedDescription =>
+      'Hesabınız sürücü hesabına geçirildi. Artık Kipgo\'nun sürücü özelliklerine erişebilirsiniz.';
+
+  @override
+  String get unableToChangeAccountRole =>
+      'Hesap rolünüz değiştirilemedi. Lütfen tekrar deneyin.';
+
+  @override
+  String get continueText => 'Devam Et';
 }
