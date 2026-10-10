@@ -107,7 +107,7 @@ class PopularCarCard extends StatelessWidget {
                       fit: BoxFit.cover,
                     );
                   },
-                  errorBuilder: (_, __, ___) {
+                  errorBuilder: (_, _, _) {
                     return Image.asset(
                       'assets/images/placeholder.jpeg',
                       fit: BoxFit.cover,

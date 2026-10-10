@@ -7263,6 +7263,282 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Continue'**
   String get continueText;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'ADMIN'**
+  String get adminBadge;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Operations'**
+  String get operations;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Users'**
+  String get users;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Chats'**
+  String get chats;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get more;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Kipgo Control Center'**
+  String get kipgoControlCenter;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Administration'**
+  String get administration;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get overview;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Today at a Glance'**
+  String get todayAtAGlance;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Everything in one place.'**
+  String get manageKipgoFromOnePlace;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Monitor operations, activity and support from your control centre.'**
+  String get monitorOperationsAndSupport;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s Rides'**
+  String get todaysRides;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Rental Bookings'**
+  String get rentalBookings;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Shuttle Bookings'**
+  String get shuttleBookings;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Total Users'**
+  String get totalUsers;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Online Drivers'**
+  String get onlineDrivers;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Unanswered Support'**
+  String get unansweredSupport;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Completed Rides'**
+  String get completedRides;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Completed Rental Bookings'**
+  String get completedRentalBookings;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Completed Shuttle Trips'**
+  String get completedShuttleTrips;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Total Activity Today'**
+  String get totalTodayActivity;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Manage rides and drivers'**
+  String get manageRidesAndDrivers;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Manage rental bookings'**
+  String get manageRentalBookings;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Manage shuttle operations'**
+  String get manageShuttleOperations;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Hotel operations coming soon'**
+  String get hotelOperationsComingSoon;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t load the dashboard data.'**
+  String get failedToLoadDashboard;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Control Centre'**
+  String get controlCentre;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s Bookings'**
+  String get todayBookings;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Payment requires attention'**
+  String get paymentAttention;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get refresh;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'No data available'**
+  String get noData;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'You are not authorized to access this area'**
+  String get notAuthorized;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'SOON'**
+  String get soon;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Operations Control Room'**
+  String get operationsControlRoom;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Monitor Kipgo services and operational activity from one place.'**
+  String get monitorKipgo;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Rides'**
+  String get rides;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'All Drivers'**
+  String get allDrivers;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Search conversations'**
+  String get searchConversations;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'conversations'**
+  String get conversations;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'No conversations found'**
+  String get noConversationsFound;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load support conversations.'**
+  String get failedToLoadChats;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to load messages.'**
+  String get failedToLoadMessages;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to send message.'**
+  String get failedToSendMessage;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'Type a message...'**
+  String get typeMessage;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'No active chats'**
+  String get noActiveChats;
+
+  /// INFO
+  ///
+  /// In en, this message translates to:
+  /// **'No messages yet'**
+  String get noMessagesYet;
 }
 
 class _AppLocalizationsDelegate

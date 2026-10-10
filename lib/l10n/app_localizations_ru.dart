@@ -3971,4 +3971,145 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get continueText => 'Продолжить';
+
+  @override
+  String get adminBadge => 'АДМИН';
+
+  @override
+  String get operations => 'Операции';
+
+  @override
+  String get users => 'Пользователи';
+
+  @override
+  String get chats => 'Чаты';
+
+  @override
+  String get more => 'Ещё';
+
+  @override
+  String get kipgoControlCenter => 'Центр управления Kipgo';
+
+  @override
+  String get administration => 'Администрирование';
+
+  @override
+  String get overview => 'Обзор';
+
+  @override
+  String get todayAtAGlance => 'Обзор за сегодня';
+
+  @override
+  String get manageKipgoFromOnePlace => 'Всё в одном месте.';
+
+  @override
+  String get monitorOperationsAndSupport =>
+      'Контролируйте операции, активность и поддержку из единого центра управления.';
+
+  @override
+  String get todaysRides => 'Поездки сегодня';
+
+  @override
+  String get rentalBookings => 'Бронирования аренды';
+
+  @override
+  String get shuttleBookings => 'Бронирования трансфера';
+
+  @override
+  String get totalUsers => 'Всего пользователей';
+
+  @override
+  String get onlineDrivers => 'Водители онлайн';
+
+  @override
+  String get unansweredSupport => 'Непросмотренная поддержка';
+
+  @override
+  String get completedRides => 'Завершённые поездки';
+
+  @override
+  String get completedRentalBookings => 'Завершённые бронирования аренды';
+
+  @override
+  String get completedShuttleTrips => 'Завершённые поездки трансфера';
+
+  @override
+  String get totalTodayActivity => 'Всего активности сегодня';
+
+  @override
+  String get manageRidesAndDrivers => 'Управление поездками и водителями';
+
+  @override
+  String get manageRentalBookings => 'Управление бронированиями аренды';
+
+  @override
+  String get manageShuttleOperations => 'Управление операциями трансфера';
+
+  @override
+  String get hotelOperationsComingSoon => 'Операции с отелями скоро появятся';
+
+  @override
+  String get failedToLoadDashboard =>
+      'Не удалось загрузить данные панели управления.';
+
+  @override
+  String get controlCentre => 'Центр управления';
+
+  @override
+  String get todayBookings => 'Бронирования сегодня';
+
+  @override
+  String get paymentAttention => 'Требуется внимание к оплате';
+
+  @override
+  String get refresh => 'Обновить';
+
+  @override
+  String get noData => 'Данные отсутствуют';
+
+  @override
+  String get notAuthorized => 'У вас нет доступа к этому разделу';
+
+  @override
+  String get soon => 'СКОРО';
+
+  @override
+  String get operationsControlRoom => 'Центр управления операциями';
+
+  @override
+  String get monitorKipgo =>
+      'Контролируйте сервисы Kipgo и операционную деятельность в одном месте.';
+
+  @override
+  String get rides => 'Поездки';
+
+  @override
+  String get allDrivers => 'Все водители';
+
+  @override
+  String get searchConversations => 'Поиск по чатам';
+
+  @override
+  String get conversations => 'чатов';
+
+  @override
+  String get noConversationsFound => 'Чаты не найдены';
+
+  @override
+  String get failedToLoadChats => 'Не удалось загрузить чаты поддержки.';
+
+  @override
+  String get failedToLoadMessages => 'Не удалось загрузить сообщения.';
+
+  @override
+  String get failedToSendMessage => 'Не удалось отправить сообщение.';
+
+  @override
+  String get typeMessage => 'Введите сообщение...';
+
+  @override
+  String get noActiveChats => 'Нет активных чатов';
+
+  @override
+  String get noMessagesYet => 'Сообщений пока нет';
 }

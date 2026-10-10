@@ -10,8 +10,9 @@ class NotificationIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profile = context.watch<AuthProvider>().profile;
+    final rental = context.watch<AuthProvider>().rentalShop;
 
-    if (profile == null) {
+    if (profile == null && rental == null) {
       return IconButton(
         onPressed: () {},
         icon: Icon(Icons.notifications_none_outlined),

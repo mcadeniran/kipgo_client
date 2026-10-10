@@ -74,24 +74,6 @@ class BookingProvider extends ChangeNotifier {
     return ['rejected', 'cancelled', 'expired'].contains(b.status);
   }).toList();
 
-  // List<BookingModel> get pending =>
-  //     bookings.where((b) => b.status == 'pending').toList();
-
-  // List<BookingModel> get paymentSubmitted =>
-  //     bookings.where((b) => b.status == 'payment_submitted').toList();
-
-  // List<BookingModel> get approved =>
-  //     bookings.where((b) => b.status == 'approved').toList();
-
-  // List<BookingModel> get rejected =>
-  //     bookings.where((b) => b.status == 'rejected').toList();
-
-  // List<BookingModel> get reserved =>
-  //     bookings.where((b) => b.status == 'reserved').toList();
-
-  // List<BookingModel> get expired =>
-  //     bookings.where((b) => b.status == 'expired').toList();
-
   List<BookingModel> get cancelled =>
       bookings.where((b) => b.status == 'cancelled').toList();
 

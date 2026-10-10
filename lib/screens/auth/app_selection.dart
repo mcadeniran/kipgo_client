@@ -88,6 +88,7 @@ class AppSelection extends StatelessWidget {
                   title: service.title,
                   icon: service.icon,
                   onTap: service.onTap,
+                  isAdmin: service.isAdmin,
                 );
               },
             ),

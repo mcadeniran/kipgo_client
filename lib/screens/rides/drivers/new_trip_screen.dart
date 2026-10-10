@@ -10,7 +10,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kipgo/controllers/driver_status_provider.dart';
 import 'package:kipgo/helpers/location_settings_helper.dart';
-import 'package:kipgo/screens/homes/driver_taxi_bottom_navigation.dart';
+// import 'package:kipgo/screens/homes/driver_taxi_bottom_navigation.dart';
 import 'package:kipgo/screens/widgets/ride_location_card_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:kipgo/controllers/theme_provider.dart';
@@ -810,13 +810,13 @@ class _NewTripScreenState extends State<NewTripScreen>
   Widget _buildTripBottomPanel(bool isDark) {
     final ride = widget.userRideRequestDetails!;
 
-    final String statusText = rideRequestStatus == 'arrived'
-        ? AppLocalizations.of(context)!.waitingForRider
-        : rideRequestStatus == 'accepted'
-        ? "$durationFromOriginToDestination "
-              "${AppLocalizations.of(context)!.toPickup}"
-        : "$durationFromOriginToDestination "
-              "${AppLocalizations.of(context)!.toDropoff}";
+    // final String statusText = rideRequestStatus == 'arrived'
+    //     ? AppLocalizations.of(context)!.waitingForRider
+    //     : rideRequestStatus == 'accepted'
+    //     ? "$durationFromOriginToDestination "
+    //           "${AppLocalizations.of(context)!.toPickup}"
+    //     : "$durationFromOriginToDestination "
+    //           "${AppLocalizations.of(context)!.toDropoff}";
 
     final bool isArrived = rideRequestStatus == 'arrived';
 

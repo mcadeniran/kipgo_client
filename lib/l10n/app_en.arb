@@ -4978,5 +4978,189 @@
   "continueText": "Continue",
   "@continueText": {
     "description": "Info"
+  },
+  "adminBadge": "ADMIN",
+  "@adminBadge": {
+    "description": "INFO"
+  },
+  "operations": "Operations",
+  "@operations": {
+    "description": "INFO"
+  },
+  "users": "Users",
+  "@users": {
+    "description": "INFO"
+  },
+  "chats": "Chats",
+  "@chats": {
+    "description": "INFO"
+  },
+  "more": "More",
+  "@more": {
+    "description": "INFO"
+  },
+  "kipgoControlCenter": "Kipgo Control Center",
+  "@kipgoControlCenter": {
+    "description": "INFO"
+  },
+  "administration": "Administration",
+  "@administration": {
+    "description": "INFO"
+  },
+  "overview": "Overview",
+  "@overview": {
+    "description": "INFO"
+  },
+  "todayAtAGlance": "Today at a Glance",
+  "@todayAtAGlance": {
+    "description": "INFO"
+  },
+  "manageKipgoFromOnePlace": "Everything in one place.",
+  "@manageKipgoFromOnePlace": {
+    "description": "INFO"
+  },
+  "monitorOperationsAndSupport": "Monitor operations, activity and support from your control centre.",
+  "@monitorOperationsAndSupport": {
+    "description": "INFO"
+  },
+  "todaysRides": "Today's Rides",
+  "@todaysRides": {
+    "description": "INFO"
+  },
+  "rentalBookings": "Rental Bookings",
+  "@rentalBookings": {
+    "description": "INFO"
+  },
+  "shuttleBookings": "Shuttle Bookings",
+  "@shuttleBookings": {
+    "description": "INFO"
+  },
+  "totalUsers": "Total Users",
+  "@totalUsers": {
+    "description": "INFO"
+  },
+  "onlineDrivers": "Online Drivers",
+  "@onlineDrivers": {
+    "description": "INFO"
+  },
+  "unansweredSupport": "Unanswered Support",
+  "@unansweredSupport": {
+    "description": "INFO"
+  },
+  "completedRides": "Completed Rides",
+  "@completedRides": {
+    "description": "INFO"
+  },
+  "completedRentalBookings": "Completed Rental Bookings",
+  "@completedRentalBookings": {
+    "description": "INFO"
+  },
+  "completedShuttleTrips": "Completed Shuttle Trips",
+  "@completedShuttleTrips": {
+    "description": "INFO"
+  },
+  "totalTodayActivity": "Total Activity Today",
+  "@totalTodayActivity": {
+    "description": "INFO"
+  },
+  "manageRidesAndDrivers": "Manage rides and drivers",
+  "@manageRidesAndDrivers": {
+    "description": "INFO"
+  },
+  "manageRentalBookings": "Manage rental bookings",
+  "@manageRentalBookings": {
+    "description": "INFO"
+  },
+  "manageShuttleOperations": "Manage shuttle operations",
+  "@manageShuttleOperations": {
+    "description": "INFO"
+  },
+  "hotelOperationsComingSoon": "Hotel operations coming soon",
+  "@hotelOperationsComingSoon": {
+    "description": "INFO"
+  },
+  "failedToLoadDashboard": "We couldn't load the dashboard data.",
+  "@failedToLoadDashboard": {
+    "description": "INFO"
+  },
+  "controlCentre": "Control Centre",
+  "@controlCentre": {
+    "description": "INFO"
+  },
+  "todayBookings": "Today's Bookings",
+  "@todayBookings": {
+    "description": "INFO"
+  },
+  "paymentAttention": "Payment requires attention",
+  "@paymentAttention": {
+    "description": "INFO"
+  },
+  "refresh": "Refresh",
+  "@refresh": {
+    "description": "INFO"
+  },
+  "noData": "No data available",
+  "@noData": {
+    "description": "INFO"
+  },
+  "notAuthorized": "You are not authorized to access this area",
+  "@notAuthorized": {
+    "description": "INFO"
+  },
+  "soon": "SOON",
+  "@soon": {
+    "description": "INFO"
+  },
+  "operationsControlRoom": "Operations Control Room",
+  "@operationsControlRoom": {
+    "description": "INFO"
+  },
+  "monitorKipgo": "Monitor Kipgo services and operational activity from one place.",
+  "@monitorKipgo": {
+    "description": "INFO"
+  },
+  "rides": "Rides",
+  "@rides": {
+    "description": "INFO"
+  },
+  "allDrivers": "All Drivers",
+  "@allDrivers": {
+    "description": "INFO"
+  },
+  "searchConversations": "Search conversations",
+  "@searchConversations": {
+    "description": "INFO"
+  },
+  "conversations": "conversations",
+  "@conversations": {
+    "description": "INFO"
+  },
+  "noConversationsFound": "No conversations found",
+  "@noConversationsFound": {
+    "description": "INFO"
+  },
+  "failedToLoadChats": "Unable to load support conversations.",
+  "@failedToLoadChats": {
+    "description": "INFO"
+  },
+  "failedToLoadMessages": "Unable to load messages.",
+  "@failedToLoadMessages": {
+    "description": "INFO"
+  },
+  "failedToSendMessage": "Unable to send message.",
+  "@failedToSendMessage": {
+    "description": "INFO"
+  },
+  "typeMessage": "Type a message...",
+  "@typeMessage": {
+    "description": "INFO"
+  },
+  "noActiveChats": "No active chats",
+  "@noActiveChats": {
+    "description": "INFO"
+  },
+  "noMessagesYet": "No messages yet",
+  "@noMessagesYet": {
+    "description": "INFO"
   }
 }

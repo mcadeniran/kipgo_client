@@ -3919,4 +3919,144 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get continueText => 'Devam Et';
+
+  @override
+  String get adminBadge => 'YÖNETİM';
+
+  @override
+  String get operations => 'Operasyonlar';
+
+  @override
+  String get users => 'Kullanıcılar';
+
+  @override
+  String get chats => 'Sohbetler';
+
+  @override
+  String get more => 'Daha Fazla';
+
+  @override
+  String get kipgoControlCenter => 'Kipgo Kontrol Merkezi';
+
+  @override
+  String get administration => 'Yönetim';
+
+  @override
+  String get overview => 'Genel Bakış';
+
+  @override
+  String get todayAtAGlance => 'Bugüne Genel Bakış';
+
+  @override
+  String get manageKipgoFromOnePlace => 'Her şey tek bir yerde.';
+
+  @override
+  String get monitorOperationsAndSupport =>
+      'Operasyonları, aktiviteleri ve desteği yönetim merkezinizden takip edin.';
+
+  @override
+  String get todaysRides => 'Bugünkü Yolculuklar';
+
+  @override
+  String get rentalBookings => 'Kiralama Rezervasyonları';
+
+  @override
+  String get shuttleBookings => 'Servis Rezervasyonları';
+
+  @override
+  String get totalUsers => 'Toplam Kullanıcı';
+
+  @override
+  String get onlineDrivers => 'Çevrimiçi Sürücüler';
+
+  @override
+  String get unansweredSupport => 'Yanıtlanmamış Destek';
+
+  @override
+  String get completedRides => 'Tamamlanan Yolculuklar';
+
+  @override
+  String get completedRentalBookings => 'Tamamlanan Kiralama Rezervasyonları';
+
+  @override
+  String get completedShuttleTrips => 'Tamamlanan Servis Yolculukları';
+
+  @override
+  String get totalTodayActivity => 'Bugünkü Toplam Aktivite';
+
+  @override
+  String get manageRidesAndDrivers => 'Yolculukları ve sürücüleri yönetin';
+
+  @override
+  String get manageRentalBookings => 'Kiralama rezervasyonlarını yönetin';
+
+  @override
+  String get manageShuttleOperations => 'Servis operasyonlarını yönetin';
+
+  @override
+  String get hotelOperationsComingSoon => 'Otel operasyonları yakında';
+
+  @override
+  String get failedToLoadDashboard => 'Yönetim paneli verileri yüklenemedi.';
+
+  @override
+  String get controlCentre => 'Kontrol Merkezi';
+
+  @override
+  String get todayBookings => 'Bugünkü Rezervasyonlar';
+
+  @override
+  String get paymentAttention => 'Ödeme işlemi dikkat gerektiriyor';
+
+  @override
+  String get refresh => 'Yenile';
+
+  @override
+  String get noData => 'Veri bulunamadı';
+
+  @override
+  String get notAuthorized => 'Bu alana erişim yetkiniz yok';
+
+  @override
+  String get soon => 'ÇOK YAKINDA';
+
+  @override
+  String get operationsControlRoom => 'Operasyon Kontrol Merkezi';
+
+  @override
+  String get monitorKipgo =>
+      'Kipgo hizmetlerini ve operasyonel faaliyetleri tek bir yerden izleyin.';
+
+  @override
+  String get rides => 'Yolculuklar';
+
+  @override
+  String get allDrivers => 'Tüm Sürücüler';
+
+  @override
+  String get searchConversations => 'Konuşmalarda ara';
+
+  @override
+  String get conversations => 'konuşma';
+
+  @override
+  String get noConversationsFound => 'Konuşma bulunamadı';
+
+  @override
+  String get failedToLoadChats => 'Destek konuşmaları yüklenemedi.';
+
+  @override
+  String get failedToLoadMessages => 'Mesajlar yüklenemedi.';
+
+  @override
+  String get failedToSendMessage => 'Mesaj gönderilemedi.';
+
+  @override
+  String get typeMessage => 'Mesaj yazın...';
+
+  @override
+  String get noActiveChats => 'Aktif sohbet yok';
+
+  @override
+  String get noMessagesYet => 'Henüz mesaj yok';
 }

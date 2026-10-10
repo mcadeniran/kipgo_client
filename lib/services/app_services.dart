@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/icons/carbon.dart';
+import 'package:iconify_flutter/icons/material_symbols.dart';
 import 'package:kipgo/controllers/auth_provider.dart';
 import 'package:kipgo/l10n/app_localizations.dart';
 import 'package:kipgo/models/app_service_model.dart';
+import 'package:kipgo/screens/admin/admin_bottom_navigation.dart';
 import 'package:kipgo/screens/homes/customer_taxi_bottom_navigation.dart';
 import 'package:kipgo/screens/homes/driver_taxi_bottom_navigation.dart';
 import 'package:kipgo/screens/rental/rental_bottom_navigation.dart';
@@ -15,7 +17,9 @@ class AppServices {
     required BuildContext context,
     required AppLocalizations loc,
   }) {
-    return [
+    final auth = Provider.of<AuthProvider>(context, listen: false);
+
+    final services = <AppServiceModel>[
       AppServiceModel(
         title: loc.carRental,
         icon: Carbon.car_front,
@@ -42,8 +46,6 @@ class AppServices {
         title: loc.taxi,
         icon: Carbon.taxi,
         onTap: () {
-          final auth = Provider.of<AuthProvider>(context, listen: false);
-
           if (auth.role == 'driver') {
             Navigator.push(
               context,
@@ -59,7 +61,6 @@ class AppServices {
               ),
             );
           }
-          // Navigate to Taxi
         },
       ),
 
@@ -99,5 +100,24 @@ class AppServices {
         },
       ),
     ];
+
+    // Admin-only application
+    if (auth.profile?.isAdmin == true) {
+      services.add(
+        AppServiceModel(
+          title: loc.admin,
+          icon: MaterialSymbols.admin_panel_settings_outline_rounded,
+          isAdmin: true,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const AdminBottomNavigation()),
+            );
+          },
+        ),
+      );
+    }
+
+    return services;
   }
 }

@@ -3913,4 +3913,144 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get continueText => 'Continue';
+
+  @override
+  String get adminBadge => 'ADMIN';
+
+  @override
+  String get operations => 'Operations';
+
+  @override
+  String get users => 'Users';
+
+  @override
+  String get chats => 'Chats';
+
+  @override
+  String get more => 'More';
+
+  @override
+  String get kipgoControlCenter => 'Kipgo Control Center';
+
+  @override
+  String get administration => 'Administration';
+
+  @override
+  String get overview => 'Overview';
+
+  @override
+  String get todayAtAGlance => 'Today at a Glance';
+
+  @override
+  String get manageKipgoFromOnePlace => 'Everything in one place.';
+
+  @override
+  String get monitorOperationsAndSupport =>
+      'Monitor operations, activity and support from your control centre.';
+
+  @override
+  String get todaysRides => 'Today\'s Rides';
+
+  @override
+  String get rentalBookings => 'Rental Bookings';
+
+  @override
+  String get shuttleBookings => 'Shuttle Bookings';
+
+  @override
+  String get totalUsers => 'Total Users';
+
+  @override
+  String get onlineDrivers => 'Online Drivers';
+
+  @override
+  String get unansweredSupport => 'Unanswered Support';
+
+  @override
+  String get completedRides => 'Completed Rides';
+
+  @override
+  String get completedRentalBookings => 'Completed Rental Bookings';
+
+  @override
+  String get completedShuttleTrips => 'Completed Shuttle Trips';
+
+  @override
+  String get totalTodayActivity => 'Total Activity Today';
+
+  @override
+  String get manageRidesAndDrivers => 'Manage rides and drivers';
+
+  @override
+  String get manageRentalBookings => 'Manage rental bookings';
+
+  @override
+  String get manageShuttleOperations => 'Manage shuttle operations';
+
+  @override
+  String get hotelOperationsComingSoon => 'Hotel operations coming soon';
+
+  @override
+  String get failedToLoadDashboard => 'We couldn\'t load the dashboard data.';
+
+  @override
+  String get controlCentre => 'Control Centre';
+
+  @override
+  String get todayBookings => 'Today\'s Bookings';
+
+  @override
+  String get paymentAttention => 'Payment requires attention';
+
+  @override
+  String get refresh => 'Refresh';
+
+  @override
+  String get noData => 'No data available';
+
+  @override
+  String get notAuthorized => 'You are not authorized to access this area';
+
+  @override
+  String get soon => 'SOON';
+
+  @override
+  String get operationsControlRoom => 'Operations Control Room';
+
+  @override
+  String get monitorKipgo =>
+      'Monitor Kipgo services and operational activity from one place.';
+
+  @override
+  String get rides => 'Rides';
+
+  @override
+  String get allDrivers => 'All Drivers';
+
+  @override
+  String get searchConversations => 'Search conversations';
+
+  @override
+  String get conversations => 'conversations';
+
+  @override
+  String get noConversationsFound => 'No conversations found';
+
+  @override
+  String get failedToLoadChats => 'Unable to load support conversations.';
+
+  @override
+  String get failedToLoadMessages => 'Unable to load messages.';
+
+  @override
+  String get failedToSendMessage => 'Unable to send message.';
+
+  @override
+  String get typeMessage => 'Type a message...';
+
+  @override
+  String get noActiveChats => 'No active chats';
+
+  @override
+  String get noMessagesYet => 'No messages yet';
 }

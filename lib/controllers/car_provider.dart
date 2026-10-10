@@ -127,15 +127,14 @@ class CarProvider extends ChangeNotifier {
 
   int get totalCars => myCars.length;
 
-  int get totalUnits => myCars.fold(0, (sum, car) => sum + car.totalUnits);
+  int get totalUnits => myCars.fold(0, (s, car) => s + car.totalUnits);
 
-  int get availableUnits =>
-      myCars.fold(0, (sum, car) => sum + car.availableUnits);
+  int get availableUnits => myCars.fold(0, (s, car) => s + car.availableUnits);
 
   double get averageRating {
     if (myCars.isEmpty) return 0;
 
-    final total = myCars.fold(0.0, (sum, c) => sum + c.review.average);
+    final total = myCars.fold(0.0, (s, c) => s + c.review.average);
     return total / myCars.length;
   }
 
